@@ -1,15 +1,27 @@
 import u from 'unist-builder';
+import {
+  defaultOptions,
+  linkPlainRe,
+  ParseOptions,
+  itemRe,
+  fullItemRe,
+  paragraphSeparateRe,
+  restriction,
+  listEndRe,
+  greaterElements,
+} from './parser/utils';
 import { Reader } from './reader';
 import {
   Headline,
-  Item,
   List,
-  Root,
+  OrgData,
   Section,
   Paragraph,
   ElementType,
   ObjectType,
   Link,
+  GreaterElementType,
+  ListStructureItem,
 } from './types';
 
 /*
@@ -22,140 +34,16 @@ import {
       (pp (cddr document)))))
  */
 
-export interface ParseOptions {
-  todoKeywords: string[];
-  linkTypes: string[];
-}
-
-const defaultOptions: ParseOptions = {
-  todoKeywords: ['TODO', 'DONE'],
-  linkTypes: [
-    'eww',
-    'rmail',
-    'mhe',
-    'irc',
-    'info',
-    'gnus',
-    'docview',
-    'bbdb',
-    'w3m',
-    'printindex',
-    'index',
-    'bibentry',
-    'Autocites',
-    'autocites',
-    'supercites',
-    'Textcites',
-    'textcites',
-    'Smartcites',
-    'smartcites',
-    'footcitetexts',
-    'footcites',
-    'Parencites',
-    'parencites',
-    'Cites',
-    'cites',
-    'fnotecite',
-    'Pnotecite',
-    'pnotecite',
-    'Notecite',
-    'notecite',
-    'footfullcite',
-    'fullcite',
-    'citeurl',
-    'citedate*',
-    'citedate',
-    'citetitle*',
-    'citetitle',
-    'Citeauthor*',
-    'Autocite*',
-    'autocite*',
-    'Autocite',
-    'autocite',
-    'supercite',
-    'parencite*',
-    'cite*',
-    'Smartcite',
-    'smartcite',
-    'Textcite',
-    'textcite',
-    'footcitetext',
-    'footcite',
-    'Parencite',
-    'parencite',
-    'Cite',
-    'Citeauthor',
-    'Citealp',
-    'Citealt',
-    'Citep',
-    'Citet',
-    'citeyearpar',
-    'citeyear*',
-    'citeyear',
-    'citeauthor*',
-    'citeauthor',
-    'citetext',
-    'citenum',
-    'citealp*',
-    'citealp',
-    'citealt*',
-    'citealt',
-    'citep*',
-    'citep',
-    'citet*',
-    'citet',
-    'nocite',
-    'cite',
-    'Cref',
-    'cref',
-    'autoref',
-    'eqref',
-    'nameref',
-    'pageref',
-    'ref',
-    'label',
-    'list-of-tables',
-    'list-of-figures',
-    'addbibresource',
-    'bibliographystyle',
-    'printbibliography',
-    'nobibliography',
-    'bibliography',
-    'Acp',
-    'acp',
-    'Ac',
-    'ac',
-    'acrfull',
-    'acrlong',
-    'acrshort',
-    'glslink',
-    'glsdesc',
-    'glssymbol',
-    'Glspl',
-    'Gls',
-    'glspl',
-    'gls',
-    'bibtex',
-    'roam',
-    'notmuch-tree',
-    'notmuch-search',
-    'notmuch',
-    'attachment',
-    'id',
-    'file+sys',
-    'file+emacs',
-    'shell',
-    'news',
-    'mailto',
-    'https',
-    'http',
-    'ftp',
-    'help',
-    'file',
-    'elisp',
-    'do',
-  ],
-};
+type ParseMode =
+  | 'first-section'
+  | 'item'
+  | 'node-property'
+  | 'planning'
+  | 'property-drawer'
+  | 'section'
+  | 'table-row'
+  | 'top-comment'
+  | null;
 
 export function parse(text: string, options?: Partial<ParseOptions>) {
   return new Parser(text, options).parse();
@@ -170,55 +58,61 @@ class Parser {
     this.options = { ...defaultOptions, ...options };
   }
 
-  public parse(): Root {
+  public parse(): OrgData {
     this.parseEmptyLines();
-
-    const children = [];
-
-    const section = this.parseSection();
-    if (section) {
-      children.push(section);
-    }
-
-    for (
-      let headline = this.parseHeadline(1);
-      headline;
-      headline = this.parseHeadline(1)
-    ) {
-      children.push(headline);
-    }
-
-    return u('root', {}, children);
+    const children = this.parseElements('first-section');
+    return u(
+      'org-data',
+      { contentsBegin: 0, contentsEnd: this.r.endOffset() },
+      children as any
+    );
   }
 
-  private parseHeadline(level: number): Headline | null {
-    const stars = this.r.match(new RegExp(`^(\\*{${level},}) `));
-    if (!stars) {
-      return null;
+  private parseElements(mode: ParseMode, structure?: ListStructureItem[]) {
+    const elements = [];
+    let prevOffset = -1;
+    while (!this.r.eof()) {
+      const offset = this.r.offset();
+      if (offset === prevOffset) {
+        console.log(
+          'elements:',
+          elements,
+          'rest:',
+          JSON.stringify(this.r.rest())
+        );
+        throw new Error('no progress (elements)');
+      }
+      prevOffset = offset;
+
+      const element = this.parseElement(mode, structure);
+      const type = element.type;
+      const cbeg = element.contentsBegin as number | undefined;
+      const cend = element.contentsEnd as number | undefined;
+
+      if (cbeg === undefined || cend === undefined) {
+        // do nothing
+      } else if (greaterElements.has(type)) {
+        this.r.narrow(cbeg, cend);
+        element.children = this.parseElements(
+          this.nextMode(mode, type, true),
+          structure ?? element?.structure
+        );
+        this.r.widen();
+      } else {
+        this.r.narrow(cbeg, cend);
+        element.children = this.parseObjects(restriction(element.type));
+        this.r.widen();
+      }
+
+      elements.push(element);
+
+      mode = this.nextMode(mode, type, false);
     }
-    this.r.advance(stars);
-    const actualLevel = stars[1].length;
 
-    // TODO: keyword
-    // TODO: priority
-
-    const titleStart = this.r.offset();
-    const titleEnd = titleStart + this.r.match(/^.*/)![0].length;
-    this.r.narrow(titleStart, titleEnd);
-    const title = this.parseObjects();
-    this.r.widen();
-    this.r.resetOffset(titleEnd);
-
-    // TODO: tags
-
-    this.r.advance('\n');
-
-    const children = this.parseHeadlineChildren(level);
-
-    return u('headline', { level: actualLevel, title }, children);
+    return elements;
   }
 
-  private parseObjects(): ObjectType[] {
+  private parseObjects(restriction: Set<string>): ObjectType[] {
     const objects: ObjectType[] = [];
 
     const emphasisRegexpComponents = {
@@ -251,7 +145,7 @@ class Parser {
         ].join(''),
 
         // Plain link
-        this.linkPlainRe(),
+        linkPlainRe(),
       ].join('|')
     );
 
@@ -275,13 +169,15 @@ class Parser {
         objects.push(u('text', { value: text }));
       }
 
-      const o = this.parseObject();
+      // TODO: handle parseObject returning null. (Process text before
+      // object after object is found.)
+      const o = this.parseObject(restriction);
       if (o) {
         objects.push(o);
       }
     }
 
-    const text = this.r.text();
+    const text = this.r.rest();
     this.r.advance(text.length);
     if (text.trim().length) {
       objects.push(u('text', { value: text }));
@@ -290,26 +186,114 @@ class Parser {
     return objects;
   }
 
-  private parseObject(): ObjectType | null {
+  private parseElement(
+    mode: ParseMode,
+    structure?: ListStructureItem[]
+  ): GreaterElementType | ElementType {
+    if (mode === 'item') return this.parseItem(structure!);
+    if (this.atHeading()) return this.parseHeadline();
+    if (mode === 'section') return this.parseSection();
+    if (mode === 'first-section') {
+      const nextHeading = this.r.match(/^\*+[ \t]/m);
+      this.r.narrow(
+        this.r.offset(),
+        nextHeading ? this.r.offset() + nextHeading.index : this.r.endOffset()
+      );
+      const result = this.parseSection();
+      this.r.widen(true);
+      return result;
+    }
+
+    // TODO: affiliated keywords
+
+    if (this.r.match(itemRe())) {
+      if (structure === undefined) {
+        const offset = this.r.offset();
+        structure = this.parseListStructure();
+        this.r.resetOffset(offset);
+      }
+      return this.parseList(structure);
+    }
+
+    return this.parseParagraph();
+  }
+
+  private parseObject(restriction: Set<string>): ObjectType | null {
     const c = this.r.peek(2);
     switch (c[0]) {
       case '[':
         if (c[1] === '[') {
           // normal link
-          return this.parseLink();
+          if (restriction.has('link')) {
+            return this.parseLink();
+          }
         }
         break;
       default:
-        // probably link
-        return this.parseLink();
+        // probably a plain link
+        if (restriction.has('link')) {
+          return this.parseLink();
+        }
     }
     return null;
+  }
+
+  private parseHeadline(): Headline {
+    const stars = this.r.match(new RegExp(`^(\\*+)[ \\t]+`))!;
+    this.r.advance(stars);
+    const level = stars[1].length;
+
+    // TODO: keyword
+    // TODO: priority
+
+    const titleMatch = this.r.match(/^.*/)!;
+    const titleStart = this.r.offset();
+    const titleEnd = titleStart + titleMatch[0].length;
+    const rawValue = this.r.substring(titleStart, titleEnd);
+    this.r.advance(titleMatch);
+
+    this.r.narrow(titleStart, titleEnd);
+    const title = this.parseObjects(restriction('headline'));
+    this.r.widen();
+
+    // TODO: tags
+
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    const contentsBegin = this.r.offset();
+
+    const endOfSubtree = this.r.match(
+      new RegExp(`^\\*{1,${level}}[ \\t]`, 'm')
+    );
+    const contentsEnd = endOfSubtree
+      ? contentsBegin + endOfSubtree.index
+      : this.r.endOffset();
+    this.r.resetOffset(contentsEnd);
+
+    return u(
+      'headline',
+      {
+        level,
+        rawValue,
+        title,
+        contentsBegin,
+        contentsEnd,
+      },
+      []
+    );
+  }
+
+  private parseSection(): Section {
+    const begin = this.r.offset();
+    const m = this.r.match(/^\*+[ \\t]/m);
+    const end = m ? begin + m.index : this.r.endOffset();
+    this.r.resetOffset(end);
+    return u('section', { contentsBegin: begin, contentsEnd: end }, []);
   }
 
   private parseLink(): Link | null {
     const initialOffset = this.r.offset();
 
-    const linkPlainRe = new RegExp(this.linkPlainRe());
     const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>.+?)\])?\]/;
 
     const c = this.r.peek(1);
@@ -321,16 +305,11 @@ class Parser {
         if (m) {
           let children: ObjectType[] = [];
           if (m.groups!.text) {
-            const offset = this.r.offset();
-
             const contentStart = initialOffset + 2 + m.groups!.link.length + 2;
             const contentEnd = contentStart + m.groups!.text.length;
-            this.r.resetOffset(contentStart);
             this.r.narrow(contentStart, contentEnd);
-            children = this.parseObjects();
+            children = this.parseObjects('link');
             this.r.widen();
-
-            this.r.resetOffset(offset);
           }
 
           const linkType = m.groups!.link.match(/(.+?):/);
@@ -359,183 +338,168 @@ class Parser {
     return null;
   }
 
-  private parseHeadlineChildren(level: number): (Section | Headline)[] {
-    const children = [];
-    const section = this.parseSection();
-    if (section) {
-      children.push(section);
+  private nextMode(mode: ParseMode, type: string, parent: boolean): ParseMode {
+    if (parent) {
+      if (type === 'headline') return 'section';
+      if (mode === 'first-section' && type === 'section') return 'top-comment';
+      if (type === 'inlinetask') return 'planning';
+      if (type === 'plain-list') return 'item';
+      if (type === 'property-drawer') return 'node-property';
+      if (type === 'section') return 'planning';
+      if (type === 'table') return 'table-row';
+    } else {
+      if (mode === 'item') return 'item';
+      if (mode === 'node-property') return 'node-property';
+      if (mode === 'planning' && type === 'planning') return 'property-drawer';
+      if (mode === 'table-row') return 'table-row';
+      if (mode === 'top-comment' && type === 'comment')
+        return 'property-drawer';
     }
-
-    for (
-      let headline = this.parseHeadline(level + 1);
-      headline;
-      headline = this.parseHeadline(level + 1)
-    ) {
-      children.push(headline);
-    }
-
-    return children;
-  }
-
-  private parseSection(): Section | null {
-    const children = this.parseElements();
-    return children.length ? u('section', children) : null;
-  }
-
-  private parseElements(): ElementType[] {
-    return Parser.parseMulti(this.parseElement.bind(this));
-  }
-
-  private parseElement(): ElementType | null {
-    // The paragraph is the unit of measurement. An element defines
-    // syntactical parts that are at the same level as a paragraph,
-    // i.e. which cannot contain or be included in a paragraph.
-    if (this.r.match(/^\*+ /)) {
-      // matches headline
-      return null;
-    }
-    // TODO: detect other greater elements?
-
-    const element = this.parseNonParagraphElement();
-    if (element) {
-      return element;
-    }
-
-    const paragraph = this.parseParagraph();
-    if (paragraph) {
-      return paragraph;
-    }
-
     return null;
   }
 
-  private parseNonParagraphElement(): Exclude<ElementType, Paragraph> | null {
-    const list = this.parseList(0);
-    if (list) {
-      return list;
-    }
+  private parseParagraph(): Paragraph {
+    const contentsBegin = this.r.offset();
+    const next = this.r.match(paragraphSeparateRe());
+    const contentsEnd = next ? contentsBegin + next.index : this.r.endOffset();
+    this.r.resetOffset(contentsEnd);
+    this.parseEmptyLines();
 
-    return null;
+    return u('paragraph', { contentsBegin, contentsEnd }, []);
   }
 
-  private parseParagraph(): Paragraph | null {
-    const initialOffset = this.r.offset();
+  private parseList(structure: ListStructureItem[]): List {
+    const contentsBegin = this.r.offset();
 
-    while (!this.r.eof() && !this.r.match(/^\*+ /)) {
-      const offset = this.r.offset();
-      const empties = this.parseEmptyLines();
-      if (empties.length >= 1) {
-        // backtrace
-        this.r.resetOffset(offset);
+    const item = structure.find((x) => x.begin === contentsBegin)!;
+    if (!item) {
+      throw new Error(
+        `parseList: cannot find item. contentsBegin: ${contentsBegin}, structure: ${JSON.stringify(
+          structure,
+          null,
+          2
+        )}`
+      );
+    }
+    const indent = item.indent;
+    let pos = item.end;
+    while (true) {
+      const next = structure.find(
+        (x) => x.begin === pos && x.indent === indent
+      );
+      if (!next) break;
+      pos = next.end;
+    }
+    const contentsEnd = pos;
+
+    this.r.resetOffset(contentsEnd);
+
+    return u(
+      'plain-list',
+      { indent, contentsBegin, contentsEnd, structure },
+      []
+    );
+  }
+
+  private parseItem(structure: ListStructureItem[]) {
+    const offset = this.r.offset();
+    const m = this.r.match(fullItemRe());
+    this.r.advance(m);
+    if (!m) {
+      throw new Error('parseItem: fullItemRe failed');
+    }
+    const bullet = m.groups!.bullet;
+    const checkbox =
+      m.groups!.checkbox === '[ ]'
+        ? 'off'
+        : m.groups!.checkbox?.toLowerCase() === '[x]'
+        ? 'on'
+        : m.groups!.checkbox === '[-]'
+        ? 'trans'
+        : null;
+    const item = structure.find((x) => x.begin === offset)!;
+    const contentsBegin = this.r.offset();
+    const contentsEnd = item.end;
+    this.r.resetOffset(contentsEnd);
+    return u(
+      'item',
+      { indent: item.indent, bullet, checkbox, contentsBegin, contentsEnd },
+      []
+    );
+  }
+
+  private parseListStructure(): ListStructureItem[] {
+    const items: ListStructureItem[] = [];
+    const struct: ListStructureItem[] = [];
+    while (true) {
+      if (this.r.eof() || this.r.match(listEndRe())?.index === 0) {
         break;
       }
 
-      const element = this.parseNonParagraphElement();
-      if (element) {
-        // Found other element
-        this.r.resetOffset(offset);
-        break;
+      const m = this.r.match(itemRe());
+      if (m) {
+        const indent = m.groups!.indent.length;
+        // end previous siblings
+        while (items.length && items[items.length - 1].indent >= indent) {
+          const item = items.pop()!;
+          item.end = this.r.offset();
+          struct.push(item);
+        }
+
+        const fullM = this.r.match(fullItemRe());
+        if (!fullM) {
+          throw new Error(`fullItemRe didn't match: ${this.r.rest()}`);
+        }
+        const { bullet, counter, checkbox, tag } = fullM.groups as Record<
+          string,
+          string
+        >;
+
+        const item = {
+          begin: this.r.offset(),
+          indent,
+          bullet,
+          counter: counter ?? null,
+          checkbox: checkbox ?? null,
+          tag: tag ?? null,
+          // will be overwritten later
+          end: this.r.offset(),
+        };
+        items.push(item);
+
+        this.r.advance(this.r.line());
+      } else if (this.r.match(/^[ \t]*$/)) {
+        // skip empty lines
+        this.r.advance(this.r.line());
+      } else {
+        // At some text line. Check if it ends any previous item.
+        const indent = this.r.match(/^[ \t]*/)![0].length;
+
+        while (items.length && items[items.length - 1].indent >= indent) {
+          const item = items.pop()!;
+          item.end = this.r.offset();
+          struct.push(item);
+        }
+        if (!items.length) {
+          // closed full list
+          break;
+        }
+
+        // TODO: skip blocks
+
+        this.r.advance(this.r.line());
       }
-
-      this.r.advance(this.r.line());
     }
-
-    const endOffset = this.r.offset();
-    if (initialOffset === endOffset) {
-      return null;
-    }
-
-    this.r.resetOffset(initialOffset);
-    this.r.narrow(initialOffset, endOffset);
-    const children = this.parseObjects();
-    this.r.widen();
-    this.r.resetOffset(endOffset);
 
     this.parseEmptyLines();
 
-    return u('paragraph', children);
-  }
-
-  // TODO: greater blocks
-  // TODO: drawers
-  // TODO: dynamic blocks
-
-  private parseList(indent: number): List | null {
-    const children = [];
-
-    for (
-      let item = this.parseItem(indent);
-      item;
-      item = this.parseItem(children[0].indent)
-    ) {
-      children.push(item);
-    }
-
-    if (children.length) {
-      this.parseEmptyLines();
-      return u('plain-list', { indent: children[0].indent }, children);
-    } else {
-      return null;
-    }
-  }
-
-  private parseItem(indent: number): Item | null {
-    const bullet = this.r.match(
-      new RegExp(
-        `^( {${indent},})(\\*|-|\\+|\\d+\\.|\\d+\\)|\\w\\.|\\w\\))( |\\n)`
-      )
-    );
-    if (!bullet) {
-      return null;
-    }
-    this.r.advance(bullet);
-
-    const actualIndent = bullet[1].length;
-
-    // TODO: counter-set
-    // TODO: check-box
-    // TODO: tag
-
-    const children = this.parseItemChildren(actualIndent);
-
-    return u('item', { indent: actualIndent }, children);
-  }
-
-  private parseItemChildren(indent: number): ElementType[] {
-    // find boundary
-    const startOffset = this.r.offset();
-    this.r.advance(this.r.line()); // first line is always part of item
-
-    // SPEC: An item ends before the next item, the first line less or
-    // equally indented than its starting line, or two consecutive
-    // empty lines.
-    while (true) {
-      const offset = this.r.offset();
-      let empties = this.parseEmptyLines();
-      if (empties.length >= 2) {
-        // backtrace
-        this.r.resetOffset(offset);
-        break;
-      }
-
-      const line = this.r.line();
-      if (!line.match(new RegExp(`^ {${indent + 1},}`))) {
-        break;
-      }
-      this.r.advance(line.length);
-    }
-    const boundary = this.r.offset();
-
-    // parse within boundary
-    this.r.resetOffset(startOffset);
-    this.r.narrow(startOffset, boundary);
-    const children = this.parseElements();
-
-    // restore boundary
-    this.r.widen();
-    this.r.resetOffset(boundary);
-
-    return children;
+    // list end: close all items
+    const end = this.r.offset();
+    items.forEach((item) => {
+      item.end = end;
+    });
+    struct.push(...items);
+    return struct.sort((a, b) => a.begin - b.begin);
   }
 
   private parseEmptyLines(): string[] {
@@ -557,15 +521,7 @@ class Parser {
     return result;
   }
 
-  private linkPlainRe(): string {
-    return `${this.linkTypesRe()}:([^\\]\\[ \t\\n()<>]+(?:\\([\\w0-9_]+\\)|([^\\W \t\\n]|/)))`;
-  }
-
-  private linkTypesRe(): string {
-    return (
-      '(' +
-      this.options.linkTypes.map((t) => t.replace(/\*/g, '\\*')).join('|') +
-      ')'
-    );
+  private atHeading(): boolean {
+    return this.r.match(/^\*+ /) !== null;
   }
 }

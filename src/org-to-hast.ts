@@ -1,9 +1,9 @@
 import h from 'hastscript';
-import { OrgNode, Root } from './types';
+import { OrgNode, OrgData } from './types';
 
 type Hast = any;
 
-export function orgToHast(org: Root): Hast {
+export function orgToHast(org: OrgData): Hast {
   return toHast(org);
 }
 
@@ -11,7 +11,7 @@ function toHast(node: any): Hast {
   const org = node as OrgNode;
 
   switch (org.type) {
-    case 'root':
+    case 'org-data':
       return h('div', org.children.map(toHast));
     case 'headline':
       return [

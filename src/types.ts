@@ -6,19 +6,23 @@ import { Parent, Node, Literal } from 'unist';
 // is a part that could be included in an element. Greater elements
 // are all parts that can contain an element.
 export interface GreaterElement extends Parent {
+  contentsBegin: number;
+  contentsEnd: number;
   children: Array<GreaterElementType | ElementType>;
 }
 export interface Element extends Parent {
+  contentsBegin: number;
+  contentsEnd: number;
   children: Array<ObjectType>;
 }
 export interface Object extends Node {}
 
-export type GreaterElementType = Root | Headline | Section | List | Item;
+export type GreaterElementType = OrgData | Headline | Section | List | Item;
 export type ElementType = Paragraph | List;
 export type ObjectType = Text | Link;
 
 export type OrgNode =
-  | Root
+  | OrgData
   | Headline
   | Section
   | Paragraph
@@ -27,8 +31,8 @@ export type OrgNode =
   | Text
   | Link;
 
-export interface Root extends GreaterElement {
-  type: 'root';
+export interface OrgData extends GreaterElement {
+  type: 'org-data';
   children: Array<Section | Headline>;
 }
 
@@ -51,7 +55,18 @@ export interface List extends GreaterElement {
   type: 'plain-list';
   indent: number;
   children: Item[];
+  structure: ListStructureItem[];
 }
+
+export type ListStructureItem = {
+  begin: number;
+  indent: number;
+  bullet: string;
+  counter: string | null;
+  checkbox: string | null;
+  tag: string | null;
+  end: number;
+};
 
 export interface Item extends GreaterElement {
   type: 'item';

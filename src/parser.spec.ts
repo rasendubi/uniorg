@@ -25,6 +25,12 @@ const itParses = (name: string, input: string) => {
     expect(result).toMatchSnapshot();
   });
 };
+itParses.only = (name: string, input: string) => {
+  it.only(`parses ${name}`, () => {
+    const result = parse(input);
+    expect(result).toMatchSnapshot();
+  });
+};
 itParses.skip = (name: string, input: string) => {
   it.skip(`parses ${name}`, () => {
     const result = parse(input);

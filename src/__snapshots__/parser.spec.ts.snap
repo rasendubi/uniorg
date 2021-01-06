@@ -1,44 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`org/parser parses empty document 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 0
 children: []
 `;
 
 exports[`org/parser parses empty lines before first paragraph 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 4
 children:
   - type: "section"
+    contentsBegin: 2
+    contentsEnd: 4
     children:
       - type: "paragraph"
+        contentsBegin: 2
+        contentsEnd: 4
         children:
           - type: "text"
             value: "hi"
 `;
 
 exports[`org/parser parses initial section 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 10
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 6
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 6
         children:
           - type: "text"
             value: "hello\\n"
   - type: "headline"
     level: 1
+    rawValue: "hi"
     title:
       - type: "text"
         value: "hi"
+    contentsBegin: 10
+    contentsEnd: 10
     children: []
 `;
 
 exports[`org/parser parses link 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 18
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 18
         children:
           - type: "link"
             linkType: "http"
@@ -47,11 +70,17 @@ children:
 `;
 
 exports[`org/parser parses link after text 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 24
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 24
         children:
           - type: "text"
             value: "some text "
@@ -64,11 +93,17 @@ children:
 `;
 
 exports[`org/parser parses link mixed with text 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 29
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 29
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 29
         children:
           - type: "text"
             value: "hello "
@@ -81,11 +116,17 @@ children:
 `;
 
 exports[`org/parser parses link with no text 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 8
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 8
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 8
         children:
           - type: "link"
             linkType: "fuzzy"
@@ -94,124 +135,230 @@ children:
 `;
 
 exports[`org/parser parses list after paragraph 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 6
         children:
           - type: "text"
             value: "hello\\n"
       - type: "plain-list"
         indent: 0
+        contentsBegin: 6
+        contentsEnd: 12
+        structure:
+          - begin: 6
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 12
         children:
           - type: "item"
             indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 8
+            contentsEnd: 12
             children:
               - type: "paragraph"
+                contentsBegin: 8
+                contentsEnd: 12
                 children:
                   - type: "text"
                     value: "list"
 `;
 
 exports[`org/parser parses multiple headlines 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 22
 children:
   - type: "headline"
     level: 1
+    rawValue: "Hello"
     title:
       - type: "text"
         value: "Hello"
+    contentsBegin: 8
+    contentsEnd: 8
     children: []
   - type: "headline"
     level: 1
+    rawValue: "World"
     title:
       - type: "text"
         value: "World"
+    contentsBegin: 16
+    contentsEnd: 16
     children: []
   - type: "headline"
     level: 1
+    rawValue: "blah"
     title:
       - type: "text"
         value: "blah"
+    contentsBegin: 22
+    contentsEnd: 22
     children: []
 `;
 
 exports[`org/parser parses nested headlines 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 36
 children:
   - type: "headline"
     level: 1
+    rawValue: "hi"
     title:
       - type: "text"
         value: "hi"
+    contentsBegin: 5
+    contentsEnd: 22
     children:
       - type: "headline"
         level: 2
+        rawValue: "there"
         title:
           - type: "text"
             value: "there"
+        contentsBegin: 14
+        contentsEnd: 22
         children:
           - type: "headline"
             level: 3
+            rawValue: "how"
             title:
               - type: "text"
                 value: "how"
+            contentsBegin: 22
+            contentsEnd: 22
             children: []
   - type: "headline"
     level: 1
+    rawValue: "are"
     title:
       - type: "text"
         value: "are"
+    contentsBegin: 28
+    contentsEnd: 36
     children:
       - type: "headline"
         level: 3
+        rawValue: "you"
         title:
           - type: "text"
             value: "you"
+        contentsBegin: 36
+        contentsEnd: 36
         children: []
 `;
 
 exports[`org/parser parses nested lists 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 27
     children:
       - type: "plain-list"
         indent: 0
+        contentsBegin: 0
+        contentsEnd: 27
+        structure:
+          &a1
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 27
+          - begin: 8
+            indent: 2
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 19
+          - begin: 19
+            indent: 2
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 27
         children:
           - type: "item"
             indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 2
+            contentsEnd: 27
             children:
               - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 8
                 children:
                   - type: "text"
                     value: "there\\n"
               - type: "plain-list"
                 indent: 2
+                contentsBegin: 8
+                contentsEnd: 27
+                structure: *a1
                 children:
                   - type: "item"
                     indent: 2
+                    bullet: "- "
+                    checkbox: null
+                    contentsBegin: 12
+                    contentsEnd: 19
                     children:
                       - type: "paragraph"
+                        contentsBegin: 12
+                        contentsEnd: 19
                         children:
                           - type: "text"
                             value: "nested\\n"
                   - type: "item"
                     indent: 2
+                    bullet: "- "
+                    checkbox: null
+                    contentsBegin: 23
+                    contentsEnd: 27
                     children:
                       - type: "paragraph"
+                        contentsBegin: 23
+                        contentsEnd: 27
                         children:
                           - type: "text"
                             value: "list"
 `;
 
 exports[`org/parser parses regular link 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 14
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 14
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 14
         children:
           - type: "link"
             linkType: "fuzzy"
@@ -222,11 +369,17 @@ children:
 `;
 
 exports[`org/parser parses regular link with longer link slash 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 18
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 18
         children:
           - type: "link"
             linkType: "fuzzy"
@@ -237,77 +390,150 @@ children:
 `;
 
 exports[`org/parser parses single headline 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
 children:
   - type: "headline"
     level: 1
+    rawValue: "Hello"
     title:
       - type: "text"
         value: "Hello"
+    contentsBegin: 7
+    contentsEnd: 7
     children: []
 `;
 
 exports[`org/parser parses single-item list 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 4
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 4
     children:
       - type: "plain-list"
         indent: 0
+        contentsBegin: 0
+        contentsEnd: 4
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 4
         children:
           - type: "item"
             indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 2
+            contentsEnd: 4
             children:
               - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 4
                 children:
                   - type: "text"
                     value: "hi"
 `;
 
 exports[`org/parser parses single-line section 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 2
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 2
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 2
         children:
           - type: "text"
             value: "hi"
 `;
 
 exports[`org/parser parses two empty lines breaking list 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 18
     children:
       - type: "plain-list"
         indent: 0
+        contentsBegin: 0
+        contentsEnd: 10
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 10
         children:
           - type: "item"
             indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 2
+            contentsEnd: 10
             children:
               - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 8
                 children:
                   - type: "text"
                     value: "list1\\n"
       - type: "plain-list"
         indent: 0
+        contentsBegin: 10
+        contentsEnd: 18
+        structure:
+          - begin: 10
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 18
         children:
           - type: "item"
             indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 12
+            contentsEnd: 18
             children:
               - type: "paragraph"
+                contentsBegin: 12
+                contentsEnd: 18
                 children:
                   - type: "text"
                     value: "list 2"
 `;
 
 exports[`org/parser parses two links in one line 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 34
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 34
     children:
       - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 34
         children:
           - type: "link"
             linkType: "fuzzy"
@@ -326,24 +552,57 @@ children:
 `;
 
 exports[`org/parser parses two-item list 1`] = `
-type: "root"
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
 children:
   - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
     children:
       - type: "plain-list"
         indent: 0
+        contentsBegin: 0
+        contentsEnd: 12
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 5
+          - begin: 5
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 12
         children:
           - type: "item"
             indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 2
+            contentsEnd: 5
             children:
               - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 5
                 children:
                   - type: "text"
                     value: "hi\\n"
           - type: "item"
             indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 7
+            contentsEnd: 12
             children:
               - type: "paragraph"
+                contentsBegin: 7
+                contentsEnd: 12
                 children:
                   - type: "text"
                     value: "there"
