@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`org/org-to-hast blockquote 1`] = `
+<div>
+<blockquote>
+  <p>hello, world!</p>
+</blockquote>
+</div>
+`;
+
 exports[`org/org-to-hast empty 1`] = `<div></div>`;
 
 exports[`org/org-to-hast headline 1`] = `
@@ -17,6 +25,8 @@ exports[`org/org-to-hast headline with sections 1`] = `
 <p>another section</p>
 </div>
 `;
+
+exports[`org/org-to-hast keywords 1`] = `<div></div>`;
 
 exports[`org/org-to-hast link 1`] = `
 <div>
@@ -73,5 +83,13 @@ exports[`org/org-to-hast nested list 1`] = `
 exports[`org/org-to-hast paragraph 1`] = `
 <div>
 <p>hello</p>
+</div>
+`;
+
+exports[`org/org-to-hast special block 1`] = `
+<div>
+<div>
+  <p>hello</p>
+</div>
 </div>
 `;

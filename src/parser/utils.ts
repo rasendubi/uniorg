@@ -155,6 +155,10 @@ export function paragraphSeparateRe(): RegExp {
       [
         // Headlines, inlinetasks.
         '\\*+ ',
+        // Comments, keyword-like or block-like constructs.
+        // Blocks and keywords with dual values need to be
+        // double-checked.
+        '#(?: |$|\\+(?:begin_\\S+|\\S+(?:\\[.*\\])?:[ \\t]*))',
         '[ \\t]*(?:' +
           [
             // Empty lines.
@@ -166,7 +170,7 @@ export function paragraphSeparateRe(): RegExp {
       ].join('|'),
       ')',
     ].join(''),
-    'm'
+    'mi'
   );
 }
 

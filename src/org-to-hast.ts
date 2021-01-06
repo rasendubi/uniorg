@@ -8,31 +8,38 @@ export function orgToHast(org: OrgData): Hast {
 }
 
 function toHast(node: any): Hast {
+  if (Array.isArray(node)) {
+    return node.map(toHast).filter((x) => x !== null && x !== undefined);
+  }
+
   const org = node as OrgNode;
 
   switch (org.type) {
     case 'org-data':
-      return h('div', org.children.map(toHast));
+      return h('div', toHast(org.children));
     case 'headline':
-      return [
-        h(`h${org.level}`, org.title.map(toHast)),
-        ...org.children.map(toHast),
-      ];
+      return [h(`h${org.level}`, toHast(org.title)), ...toHast(org.children)];
     case 'section':
-      return org.children.map(toHast);
+      return toHast(org.children);
     case 'plain-list':
-      return h('ul', org.children.map(toHast));
+      return h('ul', toHast(org.children));
     case 'item':
-      return h('li', org.children.map(toHast));
+      return h('li', toHast(org.children));
+    case 'quote-block':
+      return h('blockquote', toHast(org.children));
+    case 'special-block':
+      return h('div', toHast(org.children));
+    case 'keyword':
+      return null;
     case 'paragraph':
-      return h('p', org.children.map(toHast));
+      return h('p', toHast(org.children));
     case 'text':
       return org.value;
     case 'link':
       return h(
         'a',
         { href: org.rawLink },
-        org.children.length ? org.children.map(toHast) : org.rawLink
+        org.children.length ? toHast(org.children) : org.rawLink
       );
   }
 }

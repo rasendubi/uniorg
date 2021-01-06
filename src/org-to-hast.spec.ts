@@ -77,4 +77,20 @@ another section`
   hastTest('link', `https://example.com`);
 
   hastTest('link mixed with text', `hello http://example.com blah`);
+
+  hastTest(
+    'special block',
+    `#+begin_blah
+hello
+#+end_blah`
+  );
+
+  hastTest(
+    'blockquote',
+    `#+begin_quote
+hello, world!
+#+end_quote`
+  );
+
+  hastTest('keywords', `#+TITLE: blah`);
 });

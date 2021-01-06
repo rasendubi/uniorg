@@ -22,6 +22,8 @@ import {
   Link,
   GreaterElementType,
   ListStructureItem,
+  QuoteBlock,
+  SpecialBlock,
 } from './types';
 
 /*
@@ -68,6 +70,8 @@ class Parser {
     );
   }
 
+  // General parsing structure
+
   private parseElements(mode: ParseMode, structure?: ListStructureItem[]) {
     const elements = [];
     let prevOffset = -1;
@@ -94,7 +98,7 @@ class Parser {
       } else if (greaterElements.has(type)) {
         this.r.narrow(cbeg, cend);
         element.children = this.parseElements(
-          this.nextMode(mode, type, true),
+          Parser.nextMode(mode, type, true),
           structure ?? element?.structure
         );
         this.r.widen();
@@ -106,10 +110,34 @@ class Parser {
 
       elements.push(element);
 
-      mode = this.nextMode(mode, type, false);
+      mode = Parser.nextMode(mode, type, false);
     }
 
     return elements;
+  }
+
+  private static nextMode(
+    mode: ParseMode,
+    type: string,
+    parent: boolean
+  ): ParseMode {
+    if (parent) {
+      if (type === 'headline') return 'section';
+      if (mode === 'first-section' && type === 'section') return 'top-comment';
+      if (type === 'inlinetask') return 'planning';
+      if (type === 'plain-list') return 'item';
+      if (type === 'property-drawer') return 'node-property';
+      if (type === 'section') return 'planning';
+      if (type === 'table') return 'table-row';
+    } else {
+      if (mode === 'item') return 'item';
+      if (mode === 'node-property') return 'node-property';
+      if (mode === 'planning' && type === 'planning') return 'property-drawer';
+      if (mode === 'table-row') return 'table-row';
+      if (mode === 'top-comment' && type === 'comment')
+        return 'property-drawer';
+    }
+    return null;
   }
 
   private parseObjects(restriction: Set<string>): ObjectType[] {
@@ -206,6 +234,36 @@ class Parser {
 
     // TODO: affiliated keywords
 
+    // Inline Comments, Blocks, Babel Calls, Dynamic Blocks and
+    // Keywords.
+    {
+      const offset = this.r.offset();
+      if (this.r.advance(this.r.match(/^[ \t]*#\+/))) {
+        const blockM = this.r.match(/^begin_(\S+)/i);
+        if (blockM) {
+          this.r.resetOffset(offset);
+          const blockType = blockM[1].toLowerCase();
+          switch (blockType) {
+            case 'quote':
+              return this.parseQuoteBlock();
+            default:
+              return this.parseSpecialBlock();
+          }
+        }
+
+        if (this.r.match(/\S+:/)) {
+          this.r.resetOffset(offset);
+          return this.parseKeyword();
+        }
+
+        // fallback: parse as paragraph
+        console.log('fallback parse as paragraph');
+        this.r.resetOffset(offset);
+        return this.parseParagraph();
+      }
+    }
+
+    // List.
     if (this.r.match(itemRe())) {
       if (structure === undefined) {
         const offset = this.r.offset();
@@ -237,6 +295,8 @@ class Parser {
     }
     return null;
   }
+
+  // Elements parsers
 
   private parseHeadline(): Headline {
     const stars = this.r.match(new RegExp(`^(\\*+)[ \\t]+`))!;
@@ -291,77 +351,63 @@ class Parser {
     return u('section', { contentsBegin: begin, contentsEnd: end }, []);
   }
 
-  private parseLink(): Link | null {
-    const initialOffset = this.r.offset();
-
-    const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>.+?)\])?\]/;
-
-    const c = this.r.peek(1);
-    switch (c) {
-      case '[': {
-        // normal link [[http://example.com][text]]
-        const m = this.r.match(linkBracketRe);
-        this.r.advance(m);
-        if (m) {
-          let children: ObjectType[] = [];
-          if (m.groups!.text) {
-            const contentStart = initialOffset + 2 + m.groups!.link.length + 2;
-            const contentEnd = contentStart + m.groups!.text.length;
-            this.r.narrow(contentStart, contentEnd);
-            children = this.parseObjects('link');
-            this.r.widen();
-          }
-
-          const linkType = m.groups!.link.match(/(.+?):/);
-
-          return u(
-            'link',
-            {
-              linkType: linkType ? linkType[1] : 'fuzzy',
-              rawLink: m.groups!.link,
-            },
-            children
-          );
-        }
-        break;
-      }
-
-      default: {
-        // plain link
-        const m = this.r.match(/^(\S+):\S+/);
-        this.r.advance(m);
-        if (m) {
-          return u('link', { linkType: m[1], rawLink: m[0] }, []);
-        }
-      }
+  private parseQuoteBlock(): QuoteBlock | Paragraph {
+    const endM = this.r.match(/^[ \t]*#\+end_quote[ \t]*$/im);
+    if (!endM) {
+      // Incomplete block: parse it as a paragraph.
+      return this.parseParagraph();
     }
-    return null;
+
+    const begin = this.r.offset();
+    const contentsBegin = begin + this.r.line().length;
+    const contentsEnd = begin + endM.index;
+    this.r.resetOffset(contentsEnd);
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    const _end = this.r.offset();
+
+    return u('quote-block', { contentsBegin, contentsEnd }, []);
   }
 
-  private nextMode(mode: ParseMode, type: string, parent: boolean): ParseMode {
-    if (parent) {
-      if (type === 'headline') return 'section';
-      if (mode === 'first-section' && type === 'section') return 'top-comment';
-      if (type === 'inlinetask') return 'planning';
-      if (type === 'plain-list') return 'item';
-      if (type === 'property-drawer') return 'node-property';
-      if (type === 'section') return 'planning';
-      if (type === 'table') return 'table-row';
-    } else {
-      if (mode === 'item') return 'item';
-      if (mode === 'node-property') return 'node-property';
-      if (mode === 'planning' && type === 'planning') return 'property-drawer';
-      if (mode === 'table-row') return 'table-row';
-      if (mode === 'top-comment' && type === 'comment')
-        return 'property-drawer';
+  private parseSpecialBlock(): SpecialBlock | Paragraph {
+    const blockType = this.r.match(/[ \t]*#\+begin_(\S+)/i)![1];
+    const endM = this.r.match(
+      // TODO: regexp-quote blockType
+      new RegExp(`^[ \\t]*#\\+end_${blockType}[ \\t]*$`, 'im')
+    );
+    if (!endM) {
+      console.log('incomplete block', blockType, this.r.rest());
+      // Incomplete block: parse it as a paragraph.
+      return this.parseParagraph();
     }
-    return null;
+
+    const begin = this.r.offset();
+    const contentsBegin = begin + this.r.line().length;
+    const contentsEnd = begin + endM.index;
+    this.r.resetOffset(contentsEnd);
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    const _end = this.r.offset();
+
+    return u('special-block', { blockType, contentsBegin, contentsEnd }, []);
+  }
+
+  private parseKeyword(): Keyword {
+    const m = this.r.match(/[ \t]*#\+(\S+):(.*)/)!;
+    const key = m[1].toUpperCase();
+    const value = m[2].trim();
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    return u('keyword', { key, value });
   }
 
   private parseParagraph(): Paragraph {
     const contentsBegin = this.r.offset();
+    this.r.advance(this.r.line());
     const next = this.r.match(paragraphSeparateRe());
-    const contentsEnd = next ? contentsBegin + next.index : this.r.endOffset();
+    const contentsEnd = next
+      ? this.r.offset() + next.index
+      : this.r.endOffset();
     this.r.resetOffset(contentsEnd);
     this.parseEmptyLines();
 
@@ -501,6 +547,57 @@ class Parser {
     struct.push(...items);
     return struct.sort((a, b) => a.begin - b.begin);
   }
+
+  // Object parsers.
+
+  private parseLink(): Link | null {
+    const initialOffset = this.r.offset();
+
+    const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>.+?)\])?\]/;
+
+    const c = this.r.peek(1);
+    switch (c) {
+      case '[': {
+        // normal link [[http://example.com][text]]
+        const m = this.r.match(linkBracketRe);
+        this.r.advance(m);
+        if (m) {
+          let children: ObjectType[] = [];
+          if (m.groups!.text) {
+            const contentStart = initialOffset + 2 + m.groups!.link.length + 2;
+            const contentEnd = contentStart + m.groups!.text.length;
+            this.r.narrow(contentStart, contentEnd);
+            children = this.parseObjects(restriction('link'));
+            this.r.widen();
+          }
+
+          const linkType = m.groups!.link.match(/(.+?):/);
+
+          return u(
+            'link',
+            {
+              linkType: linkType ? linkType[1] : 'fuzzy',
+              rawLink: m.groups!.link,
+            },
+            children
+          );
+        }
+        break;
+      }
+
+      default: {
+        // plain link
+        const m = this.r.match(/^(\S+):\S+/);
+        this.r.advance(m);
+        if (m) {
+          return u('link', { linkType: m[1], rawLink: m[0] }, []);
+        }
+      }
+    }
+    return null;
+  }
+
+  // Helpers
 
   private parseEmptyLines(): string[] {
     return Parser.parseMulti(() => {

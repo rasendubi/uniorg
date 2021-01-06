@@ -120,4 +120,20 @@ hi`
   itParses('link after text', `some text [[link][text]]`);
 
   itParses('link with no text', `[[link]]`);
+
+  itParses(
+    'quote block',
+    `#+begin_quote
+hello
+#+end_quote`
+  );
+
+  itParses(
+    'special block',
+    `#+begin_blah
+hello
+#+end_blah`
+  );
+
+  itParses('keyword', `#+title: hi`);
 });

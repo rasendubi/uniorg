@@ -22,7 +22,7 @@ export class Reader {
     this.#right = text.length;
   }
 
-  public advance(n: number | RegExpExecArray | null | string) {
+  public advance<T extends number | RegExpExecArray | null | string>(n: T): T {
     if (!n) {
       // do nothing
     } else if (typeof n === 'number') {
@@ -36,6 +36,7 @@ export class Reader {
     } else {
       this.#offset += n.index + n[0].length;
     }
+    return n;
   }
 
   public match(regex: RegExp): RegExpExecArray | null {

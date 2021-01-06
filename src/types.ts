@@ -17,19 +17,18 @@ export interface Element extends Parent {
 }
 export interface Object extends Node {}
 
-export type GreaterElementType = OrgData | Headline | Section | List | Item;
-export type ElementType = Paragraph | List;
-export type ObjectType = Text | Link;
-
-export type OrgNode =
+export type GreaterElementType =
   | OrgData
   | Headline
   | Section
-  | Paragraph
   | List
   | Item
-  | Text
-  | Link;
+  | QuoteBlock
+  | SpecialBlock;
+export type ElementType = Keyword | Paragraph;
+export type ObjectType = Link | Text;
+
+export type OrgNode = GreaterElementType | ElementType | ObjectType;
 
 export interface OrgData extends GreaterElement {
   type: 'org-data';
@@ -71,6 +70,21 @@ export type ListStructureItem = {
 export interface Item extends GreaterElement {
   type: 'item';
   indent: number;
+}
+
+export interface QuoteBlock extends GreaterElement {
+  type: 'quote-block';
+}
+
+export interface SpecialBlock extends GreaterElement {
+  type: 'special-block';
+  blockType: string;
+}
+
+export interface Keyword extends Node {
+  type: 'keyword';
+  key: string;
+  value: string;
 }
 
 export interface Text extends Object, Literal {

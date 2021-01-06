@@ -50,6 +50,20 @@ children:
     children: []
 `;
 
+exports[`org/parser parses keyword 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 11
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 11
+    children:
+      - type: "keyword"
+        key: "TITLE"
+        value: "hi"
+`;
+
 exports[`org/parser parses link 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -347,6 +361,27 @@ children:
                             value: "list"
 `;
 
+exports[`org/parser parses quote block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 31
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 31
+    children:
+      - type: "quote-block"
+        contentsBegin: 14
+        contentsEnd: 20
+        children:
+          - type: "paragraph"
+            contentsBegin: 14
+            contentsEnd: 20
+            children:
+              - type: "text"
+                value: "hello\\n"
+`;
+
 exports[`org/parser parses regular link 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -457,6 +492,28 @@ children:
         children:
           - type: "text"
             value: "hi"
+`;
+
+exports[`org/parser parses special block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 29
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 29
+    children:
+      - type: "special-block"
+        blockType: "blah"
+        contentsBegin: 13
+        contentsEnd: 19
+        children:
+          - type: "paragraph"
+            contentsBegin: 13
+            contentsEnd: 19
+            children:
+              - type: "text"
+                value: "hello\\n"
 `;
 
 exports[`org/parser parses two empty lines breaking list 1`] = `
