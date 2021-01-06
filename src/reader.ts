@@ -43,6 +43,16 @@ export class Reader {
     return regex.exec(this.rest());
   }
 
+  public forceMatch(regex: RegExp): RegExpExecArray {
+    const m = this.match(regex);
+    if (!m) {
+      throw new Error(
+        `match error: ${regex} against ${JSON.stringify(this.rest())}`
+      );
+    }
+    return m;
+  }
+
   public peek(n: number): string {
     return this.#text.substring(this.#offset, this.#offset + n);
   }

@@ -79,6 +79,14 @@ another section`
   hastTest('link mixed with text', `hello http://example.com blah`);
 
   hastTest(
+    'src block',
+    `#+begin_src c
+,*a = b;
+printf("%d\\n", *a);
+#+end_src`
+  );
+
+  hastTest(
     'special block',
     `#+begin_blah
 hello

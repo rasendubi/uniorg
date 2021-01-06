@@ -9,6 +9,7 @@ import {
   restriction,
   listEndRe,
   greaterElements,
+  unescapeCodeInString,
 } from './parser/utils';
 import { Reader } from './reader';
 import {
@@ -24,6 +25,8 @@ import {
   ListStructureItem,
   QuoteBlock,
   SpecialBlock,
+  Keyword,
+  SrcBlock,
 } from './types';
 
 /*
@@ -246,6 +249,8 @@ class Parser {
           switch (blockType) {
             case 'quote':
               return this.parseQuoteBlock();
+            case 'src':
+              return this.parseSrcBlock();
             default:
               return this.parseSpecialBlock();
           }
@@ -367,6 +372,35 @@ class Parser {
     const _end = this.r.offset();
 
     return u('quote-block', { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseSrcBlock(): SrcBlock | Paragraph {
+    const endM = this.r.match(/^[ \t]*#\+end_src[ \t]*$/im);
+    if (!endM) {
+      // Incomplete block: parse it as a paragraph.
+      return this.parseParagraph();
+    }
+
+    const headerM = this.r.forceMatch(
+      /^[ \t]*#\+begin_src(?: +(?<language>\S+))?(?<switches>(?: +(?:-(?:l ".+"|[ikr])|[-+]n(?: *[0-9]+)?))+)?(?<parameters>.*)[ \t]*$/im
+    );
+    const { language, switches, parameters } = headerM.groups as Record<
+      string,
+      string
+    >;
+
+    const begin = this.r.offset();
+    const contentsBegin = begin + this.r.line().length;
+    const contentsEnd = begin + endM.index;
+    const value = unescapeCodeInString(
+      this.r.substring(contentsBegin, contentsEnd)
+    );
+    this.r.resetOffset(contentsEnd);
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    const _end = this.r.offset();
+
+    return u('src-block', { language, value });
   }
 
   private parseSpecialBlock(): SpecialBlock | Paragraph {

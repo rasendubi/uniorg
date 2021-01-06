@@ -93,3 +93,11 @@ exports[`org/org-to-hast special block 1`] = `
 </div>
 </div>
 `;
+
+exports[`org/org-to-hast src block 1`] = `
+<div>
+<pre><code>a = b;
+printf("%d\\n", *a);
+</code></pre>
+</div>
+`;

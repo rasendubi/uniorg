@@ -304,3 +304,7 @@ export const greaterElements = new Set([
   'special-block',
   'table',
 ]);
+
+export function unescapeCodeInString(s: string) {
+  return s.replace(/^[ \t]*,*(,)(?:\*|#\+)/gm, '');
+}

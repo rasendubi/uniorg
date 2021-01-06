@@ -24,6 +24,20 @@ children:
             value: "hi"
 `;
 
+exports[`org/parser parses escaper in src block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 32
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 32
+    children:
+      - type: "src-block"
+        language: "c"
+        value: "a = 0;\\n"
+`;
+
 exports[`org/parser parses initial section 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -514,6 +528,19 @@ children:
             children:
               - type: "text"
                 value: "hello\\n"
+`;
+
+exports[`org/parser parses src block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 27
+    children:
+      - type: "src-block"
+        value: "hello\\n"
 `;
 
 exports[`org/parser parses two empty lines breaking list 1`] = `

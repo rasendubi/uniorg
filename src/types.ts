@@ -25,7 +25,7 @@ export type GreaterElementType =
   | Item
   | QuoteBlock
   | SpecialBlock;
-export type ElementType = Keyword | Paragraph;
+export type ElementType = SrcBlock | Keyword | Paragraph;
 export type ObjectType = Link | Text;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
@@ -70,6 +70,12 @@ export type ListStructureItem = {
 export interface Item extends GreaterElement {
   type: 'item';
   indent: number;
+}
+
+export interface SrcBlock extends Node {
+  type: 'src-block';
+  language?: string;
+  value: string;
 }
 
 export interface QuoteBlock extends GreaterElement {

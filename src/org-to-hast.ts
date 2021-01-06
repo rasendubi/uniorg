@@ -27,6 +27,8 @@ function toHast(node: any): Hast {
       return h('li', toHast(org.children));
     case 'quote-block':
       return h('blockquote', toHast(org.children));
+    case 'src-block':
+      return h('pre', h('code', org.value));
     case 'special-block':
       return h('div', toHast(org.children));
     case 'keyword':
@@ -41,5 +43,7 @@ function toHast(node: any): Hast {
         { href: org.rawLink },
         org.children.length ? toHast(org.children) : org.rawLink
       );
+    default:
+      return org;
   }
 }

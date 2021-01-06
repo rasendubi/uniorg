@@ -122,6 +122,20 @@ hi`
   itParses('link with no text', `[[link]]`);
 
   itParses(
+    'src block',
+    `#+begin_src
+hello
+#+end_src`
+  );
+
+  itParses(
+    'escaper in src block',
+    `#+begin_src c
+,*a = 0;
+#+end_src`
+  );
+
+  itParses(
     'quote block',
     `#+begin_quote
 hello
