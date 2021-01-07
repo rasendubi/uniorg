@@ -54,6 +54,11 @@ describe('org/org-to-hast', () => {
   );
 
   hastTest(
+    'complex headline',
+    `* TODO [#A] headline /italic/ title :some:tags:`
+  );
+
+  hastTest(
     'headline with sections',
     `hello
 * hi

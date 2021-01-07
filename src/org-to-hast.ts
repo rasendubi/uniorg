@@ -1,3 +1,4 @@
+import u from 'unist-builder';
 import h from 'hastscript';
 import { OrgNode, OrgData } from './types';
 
@@ -42,8 +43,47 @@ export function orgToHast(
     switch (org.type) {
       case 'org-data':
         return h('div', toHast(org.children));
-      case 'headline':
-        return [h(`h${org.level}`, toHast(org.title)), ...toHast(org.children)];
+      case 'headline': {
+        if (org.commented) return null;
+
+        const intersperse = <T extends unknown>(items: T[], sep: T) =>
+          items.flatMap((e) => [sep, e]).slice(1);
+
+        const todo = org.todoKeyword
+          ? [
+              h(
+                'span',
+                { className: ['todo-keyword', org.todoKeyword] },
+                org.todoKeyword
+              ),
+              ' ',
+            ]
+          : null;
+        const priority = org.priority
+          ? [h('span', { className: 'priority' }, `[${org.priority}]`), ' ']
+          : null;
+        const tags = org.tags.length
+          ? [
+              u('text', { value: '\xa0\xa0\xa0' }),
+              h(
+                'span.tags',
+                intersperse(
+                  org.tags.map(
+                    (x) => h('span.tag', { className: `tag-${x}` }, x) as any
+                  ),
+                  '\xa0'
+                )
+              ),
+            ]
+          : null;
+        return [
+          h(
+            `h${org.level}`,
+            [todo, priority, toHast(org.title), tags].filter((x) => x)
+          ),
+          ...toHast(org.children),
+        ];
+      }
       case 'section':
         return toHast(org.children);
       case 'plain-list':

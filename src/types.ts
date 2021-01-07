@@ -46,7 +46,12 @@ export interface OrgData extends GreaterElement {
 export interface Headline extends GreaterElement {
   type: 'headline';
   level: number;
+  todoKeyword: string | null;
+  priority: string | null;
+  commented: boolean;
+  rawValue: string;
   title: ObjectType[];
+  tags: string[];
   children: Array<Section | Headline>;
 }
 

@@ -38,6 +38,36 @@ children:
                 value: "hello"
 `;
 
+exports[`org/parser parses complex headline 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 55
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: "TODO"
+    priority: "A"
+    commented: true
+    rawValue: "headline /italic/ title"
+    title:
+      - type: "text"
+        value: "headline "
+      - type: "italic"
+        contentsBegin: 30
+        contentsEnd: 36
+        children:
+          - type: "text"
+            value: "italic"
+      - type: "text"
+        value: " title"
+    tags:
+      - "some"
+      - "tags"
+    contentsBegin: 55
+    contentsEnd: 55
+    children: []
+`;
+
 exports[`org/parser parses emphasis 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -295,10 +325,14 @@ children:
             value: "hello\\n"
   - type: "headline"
     level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
     rawValue: "hi"
     title:
       - type: "text"
         value: "hi"
+    tags: []
     contentsBegin: 10
     contentsEnd: 10
     children: []
@@ -462,28 +496,40 @@ contentsEnd: 22
 children:
   - type: "headline"
     level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
     rawValue: "Hello"
     title:
       - type: "text"
         value: "Hello"
+    tags: []
     contentsBegin: 8
     contentsEnd: 8
     children: []
   - type: "headline"
     level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
     rawValue: "World"
     title:
       - type: "text"
         value: "World"
+    tags: []
     contentsBegin: 16
     contentsEnd: 16
     children: []
   - type: "headline"
     level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
     rawValue: "blah"
     title:
       - type: "text"
         value: "blah"
+    tags: []
     contentsBegin: 22
     contentsEnd: 22
     children: []
@@ -496,46 +542,66 @@ contentsEnd: 36
 children:
   - type: "headline"
     level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
     rawValue: "hi"
     title:
       - type: "text"
         value: "hi"
+    tags: []
     contentsBegin: 5
     contentsEnd: 22
     children:
       - type: "headline"
         level: 2
+        todoKeyword: null
+        priority: null
+        commented: false
         rawValue: "there"
         title:
           - type: "text"
             value: "there"
+        tags: []
         contentsBegin: 14
         contentsEnd: 22
         children:
           - type: "headline"
             level: 3
+            todoKeyword: null
+            priority: null
+            commented: false
             rawValue: "how"
             title:
               - type: "text"
                 value: "how"
+            tags: []
             contentsBegin: 22
             contentsEnd: 22
             children: []
   - type: "headline"
     level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
     rawValue: "are"
     title:
       - type: "text"
         value: "are"
+    tags: []
     contentsBegin: 28
     contentsEnd: 36
     children:
       - type: "headline"
         level: 3
+        todoKeyword: null
+        priority: null
+        commented: false
         rawValue: "you"
         title:
           - type: "text"
             value: "you"
+        tags: []
         contentsBegin: 36
         contentsEnd: 36
         children: []
@@ -764,10 +830,14 @@ contentsEnd: 7
 children:
   - type: "headline"
     level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
     rawValue: "Hello"
     title:
       - type: "text"
         value: "Hello"
+    tags: []
     contentsBegin: 7
     contentsEnd: 7
     children: []

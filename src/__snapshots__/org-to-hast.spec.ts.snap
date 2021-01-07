@@ -8,6 +8,12 @@ exports[`org/org-to-hast blockquote 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast complex headline 1`] = `
+<div>
+<h1><span class="todo-keyword TODO">TODO</span> <span class="priority">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
+</div>
+`;
+
 exports[`org/org-to-hast emphasis 1`] = `
 <div>
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span style="text-decoration: underline;">under</span></p>

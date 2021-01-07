@@ -368,24 +368,37 @@ class Parser {
   // Elements parsers
 
   private parseHeadline(): Headline {
-    const stars = this.r.match(new RegExp(`^(\\*+)[ \\t]+`))!;
-    this.r.advance(stars);
+    const stars = this.r.advance(
+      this.r.forceMatch(new RegExp(`^(\\*+)[ \\t]+`))
+    );
     const level = stars[1].length;
 
-    // TODO: keyword
-    // TODO: priority
+    const todoM = this.r.advance(
+      this.r.match(new RegExp('^' + this.options.todoKeywords.join('|')))
+    );
+    const todoKeyword = todoM?.[0] ?? null;
+    this.r.advance(this.r.match(/^[ \t]*/));
 
-    const titleMatch = this.r.match(/^.*/)!;
+    const priorityM = this.r.advance(this.r.match(/^\[#.\]/));
+    const priority = priorityM?.[0][2] ?? null;
+    this.r.advance(this.r.match(/^[ \t]*/));
+
+    const commented = !!this.r.advance(this.r.match(/^COMMENT/));
+    this.r.advance(this.r.match(/^[ \t]*/));
+
     const titleStart = this.r.offset();
-    const titleEnd = titleStart + titleMatch[0].length;
+
+    const tagsM = this.r.match(/^(.*?)[ \t]+:([\w@#%:]+):[ \t]*$/);
+    const tags = tagsM?.[2].split(':') ?? [];
+    const titleEnd = tagsM
+      ? titleStart + tagsM.index + tagsM[1].length
+      : titleStart + this.r.match(/.*/)![0].length;
+
     const rawValue = this.r.substring(titleStart, titleEnd);
-    this.r.advance(titleMatch);
 
     this.r.narrow(titleStart, titleEnd);
     const title = this.parseObjects(restrictionFor('headline'));
     this.r.widen();
-
-    // TODO: tags
 
     this.r.advance(this.r.line());
     this.parseEmptyLines();
@@ -403,8 +416,12 @@ class Parser {
       'headline',
       {
         level,
+        todoKeyword,
+        priority,
+        commented,
         rawValue,
         title,
+        tags,
         contentsBegin,
         contentsEnd,
       },

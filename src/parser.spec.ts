@@ -69,6 +69,11 @@ describe('org/parser', () => {
 `
   );
 
+  itParses(
+    'complex headline',
+    `* TODO [#A] COMMENT headline /italic/ title :some:tags:`
+  );
+
   itParses('single-line section', `hi`);
 
   itParses('single-item list', `- hi`);
