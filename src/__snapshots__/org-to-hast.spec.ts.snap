@@ -86,6 +86,16 @@ exports[`org/org-to-hast nested list 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast ordered list 1`] = `
+<div>
+<ol>
+  <li>
+    <p>one</p>
+  </li>
+</ol>
+</div>
+`;
+
 exports[`org/org-to-hast paragraph 1`] = `
 <div>
 <p>hello</p>

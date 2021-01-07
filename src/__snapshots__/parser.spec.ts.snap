@@ -120,6 +120,7 @@ children:
     children:
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 0
         contentsEnd: 18
         structure:
@@ -142,6 +143,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 2
             contentsEnd: 10
             children:
@@ -155,6 +157,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 12
             contentsEnd: 18
             children:
@@ -208,6 +211,7 @@ children:
     children:
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 0
         contentsEnd: 9
         structure:
@@ -223,6 +227,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 2
             contentsEnd: 9
             children:
@@ -245,6 +250,7 @@ children:
     children:
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 0
         contentsEnd: 13
         structure:
@@ -260,6 +266,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 2
             contentsEnd: 13
             children:
@@ -412,6 +419,7 @@ children:
             value: "hello\\n"
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 6
         contentsEnd: 12
         structure:
@@ -427,6 +435,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 8
             contentsEnd: 12
             children:
@@ -535,6 +544,7 @@ children:
     children:
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 0
         contentsEnd: 27
         structure:
@@ -565,6 +575,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 2
             contentsEnd: 27
             children:
@@ -576,6 +587,7 @@ children:
                     value: "there\\n"
               - type: "plain-list"
                 indent: 2
+                listType: "unordered"
                 contentsBegin: 8
                 contentsEnd: 27
                 structure: *a1
@@ -584,6 +596,7 @@ children:
                     indent: 2
                     bullet: "- "
                     checkbox: null
+                    tag: null
                     contentsBegin: 12
                     contentsEnd: 19
                     children:
@@ -597,6 +610,7 @@ children:
                     indent: 2
                     bullet: "- "
                     checkbox: null
+                    tag: null
                     contentsBegin: 23
                     contentsEnd: 27
                     children:
@@ -606,6 +620,66 @@ children:
                         children:
                           - type: "text"
                             value: "list"
+`;
+
+exports[`org/parser parses ordered list 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 13
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 13
+    children:
+      - type: "plain-list"
+        indent: 0
+        listType: "ordered"
+        contentsBegin: 0
+        contentsEnd: 13
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "1. "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 7
+          - begin: 7
+            indent: 0
+            bullet: "2. "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 13
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "1. "
+            checkbox: null
+            tag: null
+            contentsBegin: 3
+            contentsEnd: 7
+            children:
+              - type: "paragraph"
+                contentsBegin: 3
+                contentsEnd: 7
+                children:
+                  - type: "text"
+                    value: "one\\n"
+          - type: "item"
+            indent: 0
+            bullet: "2. "
+            checkbox: null
+            tag: null
+            contentsBegin: 10
+            contentsEnd: 13
+            children:
+              - type: "paragraph"
+                contentsBegin: 10
+                contentsEnd: 13
+                children:
+                  - type: "text"
+                    value: "two"
 `;
 
 exports[`org/parser parses quote block 1`] = `
@@ -698,6 +772,7 @@ children:
     children:
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 0
         contentsEnd: 4
         structure:
@@ -713,6 +788,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 2
             contentsEnd: 4
             children:
@@ -787,6 +863,7 @@ children:
     children:
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 1
         contentsEnd: 44
         structure:
@@ -802,6 +879,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 3
             contentsEnd: 44
             children:
@@ -826,6 +904,7 @@ children:
     children:
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 0
         contentsEnd: 10
         structure:
@@ -841,6 +920,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 2
             contentsEnd: 10
             children:
@@ -852,6 +932,7 @@ children:
                     value: "list1\\n"
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 10
         contentsEnd: 18
         structure:
@@ -867,6 +948,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 12
             contentsEnd: 18
             children:
@@ -918,6 +1000,7 @@ children:
     children:
       - type: "plain-list"
         indent: 0
+        listType: "unordered"
         contentsBegin: 0
         contentsEnd: 12
         structure:
@@ -940,6 +1023,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 2
             contentsEnd: 5
             children:
@@ -953,6 +1037,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
+            tag: null
             contentsBegin: 7
             contentsEnd: 12
             children:

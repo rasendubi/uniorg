@@ -526,6 +526,11 @@ class Parser {
       );
     }
     const indent = item.indent;
+    const listType = item.tag
+      ? 'descriptive'
+      : '-+*'.includes(item.bullet[0])
+      ? 'unordered'
+      : 'ordered';
     let pos = item.end;
     while (true) {
       const next = structure.find(
@@ -540,7 +545,7 @@ class Parser {
 
     return u(
       'plain-list',
-      { indent, contentsBegin, contentsEnd, structure },
+      { indent, listType, contentsBegin, contentsEnd, structure },
       []
     );
   }
@@ -563,7 +568,14 @@ class Parser {
     this.r.resetOffset(contentsEnd);
     return u(
       'item',
-      { indent: item.indent, bullet, checkbox, contentsBegin, contentsEnd },
+      {
+        indent: item.indent,
+        bullet,
+        checkbox,
+        tag: item.tag,
+        contentsBegin,
+        contentsEnd,
+      },
       []
     );
   }

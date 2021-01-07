@@ -64,6 +64,8 @@ another section`
 
   hastTest('list', `- hello`);
 
+  hastTest('ordered list', `1. one`);
+
   hastTest(
     'nested list',
     `

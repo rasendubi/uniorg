@@ -22,9 +22,19 @@ function toHast(node: any): Hast {
     case 'section':
       return toHast(org.children);
     case 'plain-list':
-      return h('ul', toHast(org.children));
+      if (org.listType === 'unordered') {
+        return h('ul', toHast(org.children));
+      } else if (org.listType === 'ordered') {
+        return h('ol', toHast(org.children));
+      } else {
+        return h('dl', toHast(org.children));
+      }
     case 'item':
-      return h('li', toHast(org.children));
+      if (org.tag !== null) {
+        return [h('dt', org.tag), h('dd', toHast(org.children))];
+      } else {
+        return h('li', toHast(org.children));
+      }
     case 'quote-block':
       return h('blockquote', toHast(org.children));
     case 'src-block':

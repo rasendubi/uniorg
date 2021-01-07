@@ -60,6 +60,7 @@ export interface Paragraph extends Parent {
 
 export interface List extends GreaterElement {
   type: 'plain-list';
+  listType: 'ordered' | 'unordered' | 'descriptive';
   indent: number;
   children: Item[];
   structure: ListStructureItem[];
@@ -78,6 +79,7 @@ export type ListStructureItem = {
 export interface Item extends GreaterElement {
   type: 'item';
   indent: number;
+  tag: string | null;
 }
 
 export interface SrcBlock extends Node {
