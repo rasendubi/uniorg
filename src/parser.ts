@@ -111,7 +111,7 @@ class Parser {
         this.r.narrow(cbeg, cend);
         element.children = this.parseElements(
           Parser.nextMode(mode, type, true),
-          structure ?? element?.structure
+          structure ?? (element?.structure as ListStructureItem[] | undefined)
         );
         this.r.widen();
       } else {
@@ -256,6 +256,17 @@ class Parser {
       const result = this.parseSection();
       this.r.widen(true);
       return result;
+    }
+
+    // When not at beginning of line, point is at the beginning of an
+    // item or a footnote definition: next item is always a paragraph.
+    if (
+      !(
+        this.r.offset() === 0 ||
+        this.r.substring(this.r.offset() - 1, this.r.offset()) === '\n'
+      )
+    ) {
+      return this.parseParagraph();
     }
 
     // TODO: affiliated keywords
@@ -504,7 +515,7 @@ class Parser {
   private parseList(structure: ListStructureItem[]): List {
     const contentsBegin = this.r.offset();
 
-    const item = structure.find((x) => x.begin === contentsBegin)!;
+    const item = structure.find((x) => x.begin === contentsBegin);
     if (!item) {
       throw new Error(
         `parseList: cannot find item. contentsBegin: ${contentsBegin}, structure: ${JSON.stringify(
@@ -536,11 +547,7 @@ class Parser {
 
   private parseItem(structure: ListStructureItem[]) {
     const offset = this.r.offset();
-    const m = this.r.match(fullItemRe());
-    this.r.advance(m);
-    if (!m) {
-      throw new Error('parseItem: fullItemRe failed');
-    }
+    const m = this.r.advance(this.r.forceMatch(fullItemRe()));
     const bullet = m.groups!.bullet;
     const checkbox =
       m.groups!.checkbox === '[ ]'
@@ -579,10 +586,7 @@ class Parser {
           struct.push(item);
         }
 
-        const fullM = this.r.match(fullItemRe());
-        if (!fullM) {
-          throw new Error(`fullItemRe didn't match: ${this.r.rest()}`);
-        }
+        const fullM = this.r.forceMatch(fullItemRe());
         const { bullet, counter, checkbox, tag } = fullM.groups as Record<
           string,
           string
@@ -638,7 +642,9 @@ class Parser {
   // Object parsers.
 
   private parseUnderline(): Underline | null {
-    const m = this.r.match(emphRe());
+    // backoff one char to check border
+    this.r.backoff(1);
+    const m = this.r.lookingAt(emphRe());
     if (!m) return null;
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
@@ -647,7 +653,9 @@ class Parser {
   }
 
   private parseBold(): Bold | null {
-    const m = this.r.match(emphRe());
+    // backoff one char to check border
+    this.r.backoff(1);
+    const m = this.r.lookingAt(emphRe());
     if (!m) return null;
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
@@ -656,7 +664,9 @@ class Parser {
   }
 
   private parseItalic(): Italic | null {
-    const m = this.r.match(emphRe());
+    // backoff one char to check border
+    this.r.backoff(1);
+    const m = this.r.lookingAt(emphRe());
     if (!m) return null;
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
@@ -665,7 +675,9 @@ class Parser {
   }
 
   private parseCode(): Code | null {
-    const m = this.r.match(verbatimRe());
+    // backoff one char to check border
+    this.r.backoff(1);
+    const m = this.r.lookingAt(verbatimRe());
     if (!m) return null;
     const value = m[4];
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
@@ -675,7 +687,8 @@ class Parser {
   }
 
   private parseVerbatim(): Verbatim | null {
-    const m = this.r.match(verbatimRe());
+    this.r.backoff(1);
+    const m = this.r.lookingAt(verbatimRe());
     if (!m) return null;
     const value = m[4];
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
@@ -685,7 +698,9 @@ class Parser {
   }
 
   private parseStrikeThrough(): StrikeThrough | null {
-    const m = this.r.match(emphRe());
+    // backoff one char to check border
+    this.r.backoff(1);
+    const m = this.r.lookingAt(emphRe());
     if (!m) return null;
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;

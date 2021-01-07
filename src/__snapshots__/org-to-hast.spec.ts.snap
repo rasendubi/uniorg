@@ -10,9 +10,7 @@ exports[`org/org-to-hast blockquote 1`] = `
 
 exports[`org/org-to-hast emphasis 1`] = `
 <div>
-<p>
-  <emph>Consider</emph> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span style="text-decoration: underline;">under</span>
-</p>
+<p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span style="text-decoration: underline;">under</span></p>
 </div>
 `;
 
@@ -91,6 +89,14 @@ exports[`org/org-to-hast nested list 1`] = `
 exports[`org/org-to-hast paragraph 1`] = `
 <div>
 <p>hello</p>
+</div>
+`;
+
+exports[`org/org-to-hast remove common src block offset 1`] = `
+<div>
+<pre><code>hello
+  world
+</code></pre>
 </div>
 `;
 

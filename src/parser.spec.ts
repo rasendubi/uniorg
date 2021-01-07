@@ -107,6 +107,8 @@ describe('org/parser', () => {
 - item 2`
   );
 
+  itParses('fake list numbers', `- 1. blah`);
+
   itParses(
     'empty lines before first paragraph',
     `
@@ -143,6 +145,15 @@ hello
   );
 
   itParses(
+    'src in list',
+    `
+- example:
+  #+begin_src
+  blah
+  #+end_src`
+  );
+
+  itParses(
     'quote block',
     `#+begin_quote
 hello
@@ -161,6 +172,10 @@ hello
   itParses('bold', `*hello*`);
 
   itParses('emphasis', `/Consider/ ~t*h*e~ *following* =example= +strike+`);
+
+  itParses('C++ accidental strike-through', `C++ blah C++`);
+
+  itParses('emphasis boundaries', `a/a/ b*b* c~c~ d=d= e+e+ f_f_`);
 
   itParses('hanging /', `- hello/other`);
 });

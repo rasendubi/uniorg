@@ -39,8 +39,20 @@ export class Reader {
     return n;
   }
 
+  /**
+   * Move cursor backwards.
+   */
+  public backoff(n: number) {
+    this.#offset = Math.max(this.#left, this.#offset - n);
+  }
+
   public match(regex: RegExp): RegExpExecArray | null {
     return regex.exec(this.rest());
+  }
+
+  public lookingAt(regex: RegExp): RegExpExecArray | null {
+    const m = this.match(regex);
+    return m?.index === 0 ? m : null;
   }
 
   public forceMatch(regex: RegExp): RegExpExecArray {

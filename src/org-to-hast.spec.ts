@@ -87,6 +87,15 @@ printf("%d\\n", *a);
   );
 
   hastTest(
+    'remove common src block offset',
+    `
+  #+begin_src
+    hello
+      world
+  #+end_src`
+  );
+
+  hastTest(
     'special block',
     `#+begin_blah
 hello

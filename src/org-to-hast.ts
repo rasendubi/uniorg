@@ -28,7 +28,7 @@ function toHast(node: any): Hast {
     case 'quote-block':
       return h('blockquote', toHast(org.children));
     case 'src-block':
-      return h('pre', h('code', org.value));
+      return h('pre', h('code', removeCommonIndent(org.value)));
     case 'special-block':
       return h('div', toHast(org.children));
     case 'keyword':
@@ -38,7 +38,7 @@ function toHast(node: any): Hast {
     case 'bold':
       return h('strong', toHast(org.children));
     case 'italic':
-      return h('emph', toHast(org.children));
+      return h('em', toHast(org.children));
     case 'code':
       return h('code', { className: 'inline-code' }, org.value);
     case 'verbatim':
@@ -64,3 +64,12 @@ function toHast(node: any): Hast {
       return org;
   }
 }
+
+const removeCommonIndent = (s: string) => {
+  const lines = s.split(/\n/g);
+  const minIndent = Math.min(
+    ...lines.map((l) => l.match(/\S|$/)?.index || Infinity)
+  );
+  const indent = minIndent === Infinity ? 0 : minIndent;
+  return lines.map((l) => l.substring(indent)).join('\n');
+};

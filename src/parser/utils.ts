@@ -175,14 +175,14 @@ export function paragraphSeparateRe(): RegExp {
       [
         // Headlines, inlinetasks.
         '\\*+ ',
-        // Comments, keyword-like or block-like constructs.
-        // Blocks and keywords with dual values need to be
-        // double-checked.
-        '#(?: |$|\\+(?:begin_\\S+|\\S+(?:\\[.*\\])?:[ \\t]*))',
         '[ \\t]*(?:' +
           [
             // Empty lines.
             '$',
+            // Comments, keyword-like or block-like constructs.
+            // Blocks and keywords with dual values need to be
+            // double-checked.
+            '#(?: |$|\\+(?:begin_\\S+|\\S+(?:\\[.*\\])?:[ \\t]*))',
             // Lists.
             `(?:[-+*]|(?:[0-9]+${alpha})${term})(?:[ \\t]|$)`,
           ].join('|') +
@@ -207,7 +207,7 @@ export function itemRe(): RegExp {
 /// - checkbox
 /// - tag (description tag)
 export function fullItemRe(): RegExp {
-  return /^(?<indent>[ \t]*)(?<bullet>(?:[-+*]|(?:[0-9]+|[A-Za-z])[.)])(?:[ \t]+|$))(?:\[@(?:start:)?(?<counter>[0-9]+|[A-Za-z])\][ \t]*)?(?:(?<checkbox>\[[ X-]\])(?:[ \t]+|$))?(?:(?<tag>.*)[ \t]+::(?:[ \t]+|$))?/;
+  return /^(?<indent>[ \t]*)(?<bullet>(?:[-+*]|(?:[0-9]+|[A-Za-z])[.)])(?:[ \t]+|$))(?:\[@(?:start:)?(?<counter>[0-9]+|[A-Za-z])\][ \t]*)?(?:(?<checkbox>\[[ X-]\])(?:[ \t]+|$))?(?:(?<tag>.*)[ \t]+::(?:[ \t]+|$))?/m;
 }
 
 export function listEndRe(): RegExp {

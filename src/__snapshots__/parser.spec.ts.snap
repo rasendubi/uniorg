@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`org/parser parses C++ accidental strike-through 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 12
+        children:
+          - type: "text"
+            value: "C++ blah C++"
+`;
+
 exports[`org/parser parses bold 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -66,6 +83,23 @@ children:
             children:
               - type: "text"
                 value: "strike"
+`;
+
+exports[`org/parser parses emphasis boundaries 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 29
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 29
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 29
+        children:
+          - type: "text"
+            value: "a/a/ b*b* c~c~ d=d= e+e+ f_f_"
 `;
 
 exports[`org/parser parses empty document 1`] = `
@@ -161,6 +195,43 @@ children:
       - type: "src-block"
         language: "c"
         value: "a = 0;\\n"
+`;
+
+exports[`org/parser parses fake list numbers 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 9
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 9
+    children:
+      - type: "plain-list"
+        indent: 0
+        contentsBegin: 0
+        contentsEnd: 9
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 9
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 2
+            contentsEnd: 9
+            children:
+              - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 9
+                children:
+                  - type: "text"
+                    value: "1. blah"
 `;
 
 exports[`org/parser parses hanging / 1`] = `
@@ -703,6 +774,45 @@ children:
     children:
       - type: "src-block"
         value: "hello\\n"
+`;
+
+exports[`org/parser parses src in list 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 44
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 44
+    children:
+      - type: "plain-list"
+        indent: 0
+        contentsBegin: 1
+        contentsEnd: 44
+        structure:
+          - begin: 1
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 44
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 3
+            contentsEnd: 44
+            children:
+              - type: "paragraph"
+                contentsBegin: 3
+                contentsEnd: 12
+                children:
+                  - type: "text"
+                    value: "example:\\n"
+              - type: "src-block"
+                value: "  blah\\n"
 `;
 
 exports[`org/parser parses two empty lines breaking list 1`] = `
