@@ -38,7 +38,14 @@ function toHast(node: any): Hast {
     case 'quote-block':
       return h('blockquote', toHast(org.children));
     case 'src-block':
-      return h('pre', h('code', removeCommonIndent(org.value)));
+      return h(
+        'pre',
+        h(
+          'code',
+          { className: org.language ? `language-${org.language}` : undefined },
+          removeCommonIndent(org.value)
+        )
+      );
     case 'special-block':
       return h('div', toHast(org.children));
     case 'keyword':
