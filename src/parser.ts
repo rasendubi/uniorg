@@ -741,13 +741,15 @@ class Parser {
             this.r.widen();
           }
 
-          const linkType = m.groups!.link.match(/(.+?):/);
+          const linkType = m.groups!.link.match(/(.+?):(.*)/);
 
           return u(
             'link',
             {
+              format: 'bracket' as 'bracket',
               linkType: linkType ? linkType[1] : 'fuzzy',
               rawLink: m.groups!.link,
+              path: linkType ? linkType[2] : m.groups!.link,
             },
             children
           );
@@ -757,10 +759,19 @@ class Parser {
 
       default: {
         // plain link
-        const m = this.r.match(/^(\S+):\S+/);
+        const m = this.r.match(/^(\S+):(\S+)/);
         this.r.advance(m);
         if (m) {
-          return u('link', { linkType: m[1], rawLink: m[0] }, []);
+          return u(
+            'link',
+            {
+              format: 'plain' as 'plain',
+              linkType: m[1],
+              rawLink: m[0],
+              path: m[2],
+            },
+            []
+          );
         }
       }
     }

@@ -140,7 +140,9 @@ export interface Underline extends Object {
 
 export interface Link extends Object {
   type: 'link';
+  format: 'plain' | 'bracket';
   linkType: string;
   rawLink: string;
+  path: string;
   children: ObjectType[];
 }

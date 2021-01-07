@@ -32,6 +32,14 @@ exports[`org/org-to-hast headline with sections 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast images 1`] = `
+<div>
+<p>
+  <img src="./image.png">
+</p>
+</div>
+`;
+
 exports[`org/org-to-hast keywords 1`] = `<div></div>`;
 
 exports[`org/org-to-hast link 1`] = `

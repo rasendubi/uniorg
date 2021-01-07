@@ -117,4 +117,6 @@ hello, world!
     'emphasis',
     `/Consider/ ~t*h*e~ *following* =example= +strike+ _under_`
   );
+
+  hastTest('images', `[[./image.png]]`);
 });
