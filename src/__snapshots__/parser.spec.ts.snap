@@ -1,10 +1,135 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`org/parser parses bold 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 7
+        children:
+          - type: "bold"
+            contentsBegin: 1
+            contentsEnd: 6
+            children:
+              - type: "text"
+                value: "hello"
+`;
+
+exports[`org/parser parses emphasis 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 49
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 49
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 49
+        children:
+          - type: "italic"
+            contentsBegin: 1
+            contentsEnd: 9
+            children:
+              - type: "text"
+                value: "Consider"
+          - type: "text"
+            value: " "
+          - type: "code"
+            value: "t*h*e"
+            children: []
+          - type: "text"
+            value: " "
+          - type: "bold"
+            contentsBegin: 20
+            contentsEnd: 29
+            children:
+              - type: "text"
+                value: "following"
+          - type: "text"
+            value: " "
+          - type: "verbatim"
+            value: "example"
+            children: []
+          - type: "text"
+            value: " "
+          - type: "strike-through"
+            contentsBegin: 42
+            contentsEnd: 48
+            children:
+              - type: "text"
+                value: "strike"
+`;
+
 exports[`org/parser parses empty document 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 0
 children: []
+`;
+
+exports[`org/parser parses empty line between list items 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 18
+    children:
+      - type: "plain-list"
+        indent: 0
+        contentsBegin: 0
+        contentsEnd: 18
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 10
+          - begin: 10
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 18
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 2
+            contentsEnd: 10
+            children:
+              - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 9
+                children:
+                  - type: "text"
+                    value: "item 1\\n"
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 12
+            contentsEnd: 18
+            children:
+              - type: "paragraph"
+                contentsBegin: 12
+                contentsEnd: 18
+                children:
+                  - type: "text"
+                    value: "item 2"
 `;
 
 exports[`org/parser parses empty lines before first paragraph 1`] = `
@@ -36,6 +161,43 @@ children:
       - type: "src-block"
         language: "c"
         value: "a = 0;\\n"
+`;
+
+exports[`org/parser parses hanging / 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 13
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 13
+    children:
+      - type: "plain-list"
+        indent: 0
+        contentsBegin: 0
+        contentsEnd: 13
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 13
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            contentsBegin: 2
+            contentsEnd: 13
+            children:
+              - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 13
+                children:
+                  - type: "text"
+                    value: "hello/other"
 `;
 
 exports[`org/parser parses initial section 1`] = `

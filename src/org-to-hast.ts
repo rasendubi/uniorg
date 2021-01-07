@@ -35,6 +35,23 @@ function toHast(node: any): Hast {
       return null;
     case 'paragraph':
       return h('p', toHast(org.children));
+    case 'bold':
+      return h('strong', toHast(org.children));
+    case 'italic':
+      return h('emph', toHast(org.children));
+    case 'code':
+      return h('code', { className: 'inline-code' }, org.value);
+    case 'verbatim':
+      // org-mode renders verbatim as <code>
+      return h('code', { className: 'inline-verbatim' }, org.value);
+    case 'strike-through':
+      return h('del', toHast(org.children));
+    case 'underline':
+      return h(
+        'span',
+        { style: 'text-decoration: underline;' },
+        toHast(org.children)
+      );
     case 'text':
       return org.value;
     case 'link':

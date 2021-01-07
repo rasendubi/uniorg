@@ -101,4 +101,9 @@ hello, world!
   );
 
   hastTest('keywords', `#+TITLE: blah`);
+
+  hastTest(
+    'emphasis',
+    `/Consider/ ~t*h*e~ *following* =example= +strike+ _under_`
+  );
 });

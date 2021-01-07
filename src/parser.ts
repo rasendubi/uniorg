@@ -6,10 +6,13 @@ import {
   itemRe,
   fullItemRe,
   paragraphSeparateRe,
-  restriction,
+  restrictionFor,
   listEndRe,
   greaterElements,
   unescapeCodeInString,
+  emphRe,
+  emphasisRegexpComponents,
+  verbatimRe,
 } from './parser/utils';
 import { Reader } from './reader';
 import {
@@ -27,6 +30,12 @@ import {
   SpecialBlock,
   Keyword,
   SrcBlock,
+  Bold,
+  Underline,
+  Italic,
+  Code,
+  Verbatim,
+  StrikeThrough,
 } from './types';
 
 /*
@@ -107,7 +116,7 @@ class Parser {
         this.r.widen();
       } else {
         this.r.narrow(cbeg, cend);
-        element.children = this.parseObjects(restriction(element.type));
+        element.children = this.parseObjects(restrictionFor(element.type));
         this.r.widen();
       }
 
@@ -146,19 +155,11 @@ class Parser {
   private parseObjects(restriction: Set<string>): ObjectType[] {
     const objects: ObjectType[] = [];
 
-    const emphasisRegexpComponents = {
-      pre: '-–—\\s\\(\'"\\{',
-      post: '-–—\\s.,:!?;\'"\\)\\}\\[',
-      border: '\\s',
-      body: '.',
-      newline: 1,
-    };
-
     const objectRegexp = new RegExp(
       [
         // Bold, code, italic, strike-through, underline
         // and verbatim.
-        // `[*~=+_/][^${emphasisRegexpComponents.border}]`,
+        `[*~=+_/][^${emphasisRegexpComponents.border}]`,
 
         // Objects starting with "[": regular link,
         // footnote reference, statistics cookie,
@@ -180,9 +181,16 @@ class Parser {
       ].join('|')
     );
 
+    // offset where previously parsed object ends.
+    let prevEnd = this.r.offset();
+
     let prevOffset = -1;
-    while (true) {
+    while (!this.r.eof()) {
       const offset = this.r.offset();
+
+      // Handle parseObject returning result without advancing the
+      // cursor. This is always a programming error and leads to
+      // infinite loop here.
       if (prevOffset === offset) {
         throw new Error('no progress');
       }
@@ -192,22 +200,37 @@ class Parser {
       if (!match) {
         break;
       }
+      this.r.advance(match.index);
+      const objectBegin = this.r.offset();
 
-      if (match.index !== 0) {
-        // parse text before object
-        const text = this.r.peek(match.index);
-        this.r.advance(match.index);
-        objects.push(u('text', { value: text }));
-      }
-
-      // TODO: handle parseObject returning null. (Process text before
-      // object after object is found.)
       const o = this.parseObject(restriction);
-      if (o) {
-        objects.push(o);
+      if (!o) {
+        // Matching objectRegexp does not guarantee that we've found a
+        // valid object (e.g., italic without closing /). Advance
+        // cursor by one char and try searching for the next object.
+        this.r.resetOffset(objectBegin + 1);
+        continue;
       }
+
+      if (objectBegin !== prevEnd) {
+        // parse text before object
+        const value = this.r.substring(prevEnd, objectBegin);
+        objects.push(u('text', { value }));
+      }
+
+      const cbeg = o.contentsBegin as number | undefined;
+      const cend = o.contentsEnd as number | undefined;
+      if (cbeg !== undefined && cend !== undefined) {
+        this.r.narrow(cbeg, cend);
+        o.children = this.parseObjects(restrictionFor(o.type));
+        this.r.widen();
+      }
+
+      objects.push(o);
+      prevEnd = this.r.offset();
     }
 
+    this.r.resetOffset(prevEnd);
     const text = this.r.rest();
     this.r.advance(text.length);
     if (text.trim().length) {
@@ -284,6 +307,36 @@ class Parser {
   private parseObject(restriction: Set<string>): ObjectType | null {
     const c = this.r.peek(2);
     switch (c[0]) {
+      case '_':
+        if (restriction.has('underline')) {
+          return this.parseUnderline();
+        }
+        break;
+      case '*':
+        if (restriction.has('bold')) {
+          return this.parseBold();
+        }
+        break;
+      case '/':
+        if (restriction.has('italic')) {
+          return this.parseItalic();
+        }
+        break;
+      case '~':
+        if (restriction.has('code')) {
+          return this.parseCode();
+        }
+        break;
+      case '=':
+        if (restriction.has('verbatim')) {
+          return this.parseVerbatim();
+        }
+        break;
+      case '+':
+        if (restriction.has('strike-through')) {
+          return this.parseStrikeThrough();
+        }
+        break;
       case '[':
         if (c[1] === '[') {
           // normal link
@@ -318,7 +371,7 @@ class Parser {
     this.r.advance(titleMatch);
 
     this.r.narrow(titleStart, titleEnd);
-    const title = this.parseObjects(restriction('headline'));
+    const title = this.parseObjects(restrictionFor('headline'));
     this.r.widen();
 
     // TODO: tags
@@ -548,7 +601,7 @@ class Parser {
         items.push(item);
 
         this.r.advance(this.r.line());
-      } else if (this.r.match(/^[ \t]*$/)) {
+      } else if (this.r.match(/^[ \t]*\n/)) {
         // skip empty lines
         this.r.advance(this.r.line());
       } else {
@@ -584,6 +637,62 @@ class Parser {
 
   // Object parsers.
 
+  private parseUnderline(): Underline | null {
+    const m = this.r.match(emphRe());
+    if (!m) return null;
+    const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
+    const contentsEnd = contentsBegin + m[4].length;
+    this.r.resetOffset(contentsEnd + 1);
+    return u('underline', { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseBold(): Bold | null {
+    const m = this.r.match(emphRe());
+    if (!m) return null;
+    const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
+    const contentsEnd = contentsBegin + m[4].length;
+    this.r.resetOffset(contentsEnd + 1);
+    return u('bold', { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseItalic(): Italic | null {
+    const m = this.r.match(emphRe());
+    if (!m) return null;
+    const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
+    const contentsEnd = contentsBegin + m[4].length;
+    this.r.resetOffset(contentsEnd + 1);
+    return u('italic', { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseCode(): Code | null {
+    const m = this.r.match(verbatimRe());
+    if (!m) return null;
+    const value = m[4];
+    const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
+    const contentsEnd = contentsBegin + m[4].length;
+    this.r.resetOffset(contentsEnd + 1);
+    return u('code', { value }, []);
+  }
+
+  private parseVerbatim(): Verbatim | null {
+    const m = this.r.match(verbatimRe());
+    if (!m) return null;
+    const value = m[4];
+    const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
+    const contentsEnd = contentsBegin + m[4].length;
+    this.r.resetOffset(contentsEnd + 1);
+    return u('verbatim', { value }, []);
+  }
+
+  private parseStrikeThrough(): StrikeThrough | null {
+    const m = this.r.match(emphRe());
+    if (!m) return null;
+    const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
+    const contentsEnd = contentsBegin + m[4].length;
+    this.r.resetOffset(contentsEnd + 1);
+    return u('strike-through', { contentsBegin, contentsEnd }, []);
+  }
+
   private parseLink(): Link | null {
     const initialOffset = this.r.offset();
 
@@ -601,7 +710,7 @@ class Parser {
             const contentStart = initialOffset + 2 + m.groups!.link.length + 2;
             const contentEnd = contentStart + m.groups!.text.length;
             this.r.narrow(contentStart, contentEnd);
-            children = this.parseObjects(restriction('link'));
+            children = this.parseObjects(restrictionFor('link'));
             this.r.widen();
           }
 

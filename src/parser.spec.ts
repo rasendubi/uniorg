@@ -101,6 +101,13 @@ describe('org/parser', () => {
   );
 
   itParses(
+    'empty line between list items',
+    `- item 1
+
+- item 2`
+  );
+
+  itParses(
     'empty lines before first paragraph',
     `
 
@@ -150,4 +157,10 @@ hello
   );
 
   itParses('keyword', `#+title: hi`);
+
+  itParses('bold', `*hello*`);
+
+  itParses('emphasis', `/Consider/ ~t*h*e~ *following* =example= +strike+`);
+
+  itParses('hanging /', `- hello/other`);
 });

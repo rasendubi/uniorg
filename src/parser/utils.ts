@@ -1,10 +1,24 @@
 export interface ParseOptions {
   todoKeywords: string[];
+  emphasisRegexpComponents: {
+    pre: string;
+    post: string;
+    border: string;
+    body: string;
+    newline: number;
+  };
   linkTypes: string[];
 }
 
 export const defaultOptions: ParseOptions = {
   todoKeywords: ['TODO', 'DONE'],
+  emphasisRegexpComponents: {
+    pre: '-–—\\s\\(\'"\\{',
+    post: '-–—\\s.,:!?;\'"\\)\\}\\[',
+    border: '\\s',
+    body: '.',
+    newline: 1,
+  },
   linkTypes: [
     'eww',
     'rmail',
@@ -133,6 +147,12 @@ export const defaultOptions: ParseOptions = {
   ],
 };
 
+export const {
+  todoKeywords,
+  emphasisRegexpComponents,
+  linkTypes,
+} = defaultOptions;
+
 export function linkPlainRe(): string {
   return `${linkTypesRe()}:([^\\]\\[ \t\\n()<>]+(?:\\([\\w0-9_]+\\)|([^\\W \t\\n]|/)))`;
 }
@@ -194,7 +214,7 @@ export function listEndRe(): RegExp {
   return /^[ \t]*\n[ \t]*\n/m;
 }
 
-export function restriction(type: string) {
+export function restrictionFor(type: string) {
   const allObjects = new Set([
     'bold',
     'code',
@@ -307,4 +327,23 @@ export const greaterElements = new Set([
 
 export function unescapeCodeInString(s: string) {
   return s.replace(/^[ \t]*,*(,)(?:\*|#\+)/gm, '');
+}
+
+function emphTemplate(s: string) {
+  const { pre, post, border, newline, body: b } = emphasisRegexpComponents;
+  const body = newline <= 0 ? b : `${b}*?(?:\\n${b}*?){0,${newline}}`;
+  return new RegExp(
+    [
+      `([${pre}]|^)`, // before markers
+      `(([${s}])([^${border}]|[^${border}]${body}[^${border}])\\3)`,
+      `([${post}]|$)`, // after markers
+    ].join('')
+  );
+}
+
+export function emphRe() {
+  return emphTemplate('*/_+');
+}
+export function verbatimRe() {
+  return emphTemplate('=~');
 }

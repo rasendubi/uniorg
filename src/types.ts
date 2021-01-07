@@ -26,7 +26,15 @@ export type GreaterElementType =
   | QuoteBlock
   | SpecialBlock;
 export type ElementType = SrcBlock | Keyword | Paragraph;
-export type ObjectType = Link | Text;
+export type ObjectType =
+  | Link
+  | Bold
+  | Italic
+  | Code
+  | Verbatim
+  | StrikeThrough
+  | Underline
+  | Text;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
 
@@ -96,6 +104,36 @@ export interface Keyword extends Node {
 export interface Text extends Object, Literal {
   type: 'text';
   value: string;
+}
+
+export interface Bold extends Object {
+  type: 'bold';
+  children: ObjectType[];
+}
+
+export interface Italic extends Object {
+  type: 'italic';
+  children: ObjectType[];
+}
+
+export interface Code extends Object {
+  type: 'code';
+  value: string;
+}
+
+export interface Verbatim extends Object {
+  type: 'verbatim';
+  value: string;
+}
+
+export interface StrikeThrough extends Object {
+  type: 'strike-through';
+  children: ObjectType[];
+}
+
+export interface Underline extends Object {
+  type: 'underline';
+  children: ObjectType[];
 }
 
 export interface Link extends Object {
