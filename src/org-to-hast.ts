@@ -78,7 +78,7 @@ function toHast(node: any): Hast {
 const removeCommonIndent = (s: string) => {
   const lines = s.split(/\n/g);
   const minIndent = Math.min(
-    ...lines.map((l) => l.match(/\S|$/)?.index || Infinity)
+    ...lines.map((l) => l.match(/\S/)?.index ?? Infinity)
   );
   const indent = minIndent === Infinity ? 0 : minIndent;
   return lines.map((l) => l.substring(indent)).join('\n');
