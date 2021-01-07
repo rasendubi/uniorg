@@ -154,6 +154,10 @@ export function orgToHast(
           org.children.length ? toHast(org.children) : org.rawLink
         );
       }
+      case 'timestamp':
+        return h('span.timestamp', org.rawValue);
+      case 'planning':
+        return null;
       default:
         return org;
     }

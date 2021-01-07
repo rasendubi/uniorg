@@ -13,6 +13,7 @@ import {
   emphRe,
   emphasisRegexpComponents,
   verbatimRe,
+  linkTypesRe,
 } from './parser/utils';
 import { Reader } from './reader';
 import {
@@ -36,6 +37,8 @@ import {
   Code,
   Verbatim,
   StrikeThrough,
+  Timestamp,
+  Planning,
 } from './types';
 
 /*
@@ -157,9 +160,14 @@ class Parser {
 
     const objectRegexp = new RegExp(
       [
+        // TODO: Sub/superscript.
+
         // Bold, code, italic, strike-through, underline
         // and verbatim.
         `[*~=+_/][^${emphasisRegexpComponents.border}]`,
+
+        // Plain links.
+        linkPlainRe(),
 
         // Objects starting with "[": regular link,
         // footnote reference, statistics cookie,
@@ -169,15 +177,27 @@ class Parser {
           // 'fn:',
           // '|',
           '\\[',
+          '|',
+          '[0-9]{4}-[0-9]{2}-[0-9]{2}',
           // '|',
-          // '[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}',
-          // '|',
-          // '[0-9]*\\(?:%\\|/[0-9]*\\)\\]',
+          // '[0-9]*(?:%|/[0-9]*)\\]',
           ')',
         ].join(''),
 
-        // Plain link
-        linkPlainRe(),
+        // TODO: Objects starting with "@": export snippets.
+        // TODO: Objects starting with "{": macro.
+
+        // Objects starting with "<": timestamp (active, diary),
+        // target, radio target and angular links.
+        `<(?:%%|<|[0-9]|${linkTypesRe()})`,
+
+        // TODO: Objects starting with "$": latex fragment.
+
+        // TODO: Objects starting with "\": line break, entity, latex
+        // fragment.
+
+        // TODO: Objects starting with raw text: inline Babel source
+        // block, inline Babel call.
       ].join('|')
     );
 
@@ -244,8 +264,16 @@ class Parser {
     mode: ParseMode,
     structure?: ListStructureItem[]
   ): GreaterElementType | ElementType {
+    // Item.
     if (mode === 'item') return this.parseItem(structure!);
+
+    // TODO: Table Row.
+    // TODO: Node Property.
+
+    // Headline.
     if (this.atHeading()) return this.parseHeadline();
+
+    // Sections (must be checked after headline).
     if (mode === 'section') return this.parseSection();
     if (mode === 'first-section') {
       const nextHeading = this.r.match(/^\*+[ \t]/m);
@@ -257,6 +285,19 @@ class Parser {
       this.r.widen(true);
       return result;
     }
+
+    // TODO: Comments.
+
+    // Planning.
+    if (
+      mode === 'planning' &&
+      // TODO: check previous line is headline
+      this.r.match(/^[ \t]*(CLOSED:|DEADLINE:|SCHEDULED:)/)
+    ) {
+      return this.parsePlanning();
+    }
+
+    // TODO: Property drawer.
 
     // When not at beginning of line, point is at the beginning of an
     // item or a footnote definition: next item is always a paragraph.
@@ -348,16 +389,39 @@ class Parser {
           return this.parseStrikeThrough();
         }
         break;
+      case '<':
+        if (c[1] === '<') {
+          // TODO: radio target / target
+        } else {
+          const offset = this.r.offset();
+          const ts = restriction.has('timestamp') && this.parseTimestamp();
+          if (ts) return ts;
+          this.r.resetOffset(offset);
+
+          const link = restriction.has('link') && this.parseLink();
+          if (link) return link;
+          this.r.resetOffset(offset);
+        }
+        break;
       case '[':
         if (c[1] === '[') {
           // normal link
           if (restriction.has('link')) {
             return this.parseLink();
           }
+        } else {
+          const offset = this.r.offset();
+
+          const ts = restriction.has('timestamp') && this.parseTimestamp();
+          if (ts) return ts;
+          this.r.resetOffset(offset);
+
+          // TODO: statistics cookie
         }
+
         break;
       default:
-        // probably a plain link
+        // This is probably a plain link.
         if (restriction.has('link')) {
           return this.parseLink();
         }
@@ -427,6 +491,34 @@ class Parser {
       },
       []
     );
+  }
+
+  private parsePlanning(): Planning | null {
+    this.r.narrow(this.r.offset(), this.r.offset() + this.r.line().length);
+
+    let scheduled: Timestamp | null = null;
+    let deadline: Timestamp | null = null;
+    let closed: Timestamp | null = null;
+    while (true) {
+      const m = this.r.match(
+        /\b(SCHEDULED:|DEADLINE:|CLOSED:) *[\[<]([^\]>]+)[\]>]/
+      );
+      if (!m) break;
+
+      this.r.advance(m.index + m[1].length);
+      this.r.advance(this.r.match(/^[ \t]*/));
+
+      const keyword = m[1];
+      const time = this.parseTimestamp();
+      if (keyword === 'SCHEDULED:') scheduled = time;
+      if (keyword === 'DEADLINE:') deadline = time;
+      if (keyword === 'CLOSED:') closed = time;
+    }
+
+    this.r.widen(true);
+    this.parseEmptyLines();
+
+    return u('planning', { scheduled, deadline, closed });
   }
 
   private parseSection(): Section {
@@ -795,7 +887,83 @@ class Parser {
     return null;
   }
 
+  private parseTimestamp(): Timestamp | null {
+    const active =
+      this.r.substring(this.r.offset(), this.r.offset() + 1) === '<';
+    const m = this.r.advance(
+      this.r.match(/^([<[](%%)?.*?)[\]>](?:--([<[].*?[\]>]))?/)
+    );
+    if (!m) return null;
+    const rawValue = m[0];
+    const dateStart = m[1];
+    const dateEnd = m[3];
+    const diary = !!m[2];
+
+    let timeRange = null;
+    if (!diary) {
+      const timeM = dateStart.match(
+        /[012]?[0-9]:[0-5][0-9](-([012]?[0-9]):([0-5][0-9]))/
+      );
+      if (timeM) {
+        timeRange = { hour: Number(timeM[2]), minute: Number(timeM[3]) };
+      }
+    }
+
+    const timestampType:
+      | 'active'
+      | 'active-range'
+      | 'inactive'
+      | 'inactive-range'
+      | 'diary' = diary
+      ? 'diary'
+      : active && (dateEnd || timeRange)
+      ? 'active-range'
+      : active
+      ? 'active'
+      : dateEnd || timeRange
+      ? 'inactive-range'
+      : 'inactive';
+    // TODO: repeater props
+    // TODO: warning props
+
+    const start = Parser.parseDate(dateStart)!;
+    const end = dateEnd
+      ? Parser.parseDate(dateEnd)
+      : timeRange
+      ? { ...start, ...timeRange }
+      : null;
+
+    return u('timestamp', {
+      timestampType,
+      rawValue,
+      start,
+      end,
+    });
+  }
+
   // Helpers
+
+  private static parseDate(
+    s: string
+  ): {
+    year: number;
+    month: number;
+    day: number;
+    hour: number | null;
+    minute: number | null;
+  } | null {
+    const m = s.match(
+      /(([0-9]{4})-([0-9]{2})-([0-9]{2})( +[^\]+0-9>\r\n -]+)?( +([0-9]{1,2}):([0-9]{2}))?)/
+    );
+    if (!m) return null;
+    return {
+      year: Number(m[2]),
+      month: Number(m[3]),
+      day: Number(m[4]),
+      hour: m[7] ? Number(m[7]) : null,
+      minute: m[8] ? Number(m[8]) : null,
+    };
+  }
 
   private parseEmptyLines(): string[] {
     return Parser.parseMulti(() => {

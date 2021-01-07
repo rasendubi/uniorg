@@ -1,6 +1,117 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`org/parser parses C++ accidental strike-through 1`] = `
+exports[`org/parser blocks escaper in src block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 32
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 32
+    children:
+      - type: "src-block"
+        language: "c"
+        value: "a = 0;\\n"
+`;
+
+exports[`org/parser blocks quote block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 31
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 31
+    children:
+      - type: "quote-block"
+        contentsBegin: 14
+        contentsEnd: 20
+        children:
+          - type: "paragraph"
+            contentsBegin: 14
+            contentsEnd: 20
+            children:
+              - type: "text"
+                value: "hello\\n"
+`;
+
+exports[`org/parser blocks special block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 29
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 29
+    children:
+      - type: "special-block"
+        blockType: "blah"
+        contentsBegin: 13
+        contentsEnd: 19
+        children:
+          - type: "paragraph"
+            contentsBegin: 13
+            contentsEnd: 19
+            children:
+              - type: "text"
+                value: "hello\\n"
+`;
+
+exports[`org/parser blocks src block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 27
+    children:
+      - type: "src-block"
+        value: "hello\\n"
+`;
+
+exports[`org/parser blocks src in list 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 44
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 44
+    children:
+      - type: "plain-list"
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 1
+        contentsEnd: 44
+        structure:
+          - begin: 1
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 44
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: null
+            contentsBegin: 3
+            contentsEnd: 44
+            children:
+              - type: "paragraph"
+                contentsBegin: 3
+                contentsEnd: 12
+                children:
+                  - type: "text"
+                    value: "example:\\n"
+              - type: "src-block"
+                value: "  blah\\n"
+`;
+
+exports[`org/parser emphasis marks C++ accidental strike-through 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -17,7 +128,7 @@ children:
             value: "C++ blah C++"
 `;
 
-exports[`org/parser parses bold 1`] = `
+exports[`org/parser emphasis marks bold 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -38,37 +149,7 @@ children:
                 value: "hello"
 `;
 
-exports[`org/parser parses complex headline 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 55
-children:
-  - type: "headline"
-    level: 1
-    todoKeyword: "TODO"
-    priority: "A"
-    commented: true
-    rawValue: "headline /italic/ title"
-    title:
-      - type: "text"
-        value: "headline "
-      - type: "italic"
-        contentsBegin: 30
-        contentsEnd: 36
-        children:
-          - type: "text"
-            value: "italic"
-      - type: "text"
-        value: " title"
-    tags:
-      - "some"
-      - "tags"
-    contentsBegin: 55
-    contentsEnd: 55
-    children: []
-`;
-
-exports[`org/parser parses emphasis 1`] = `
+exports[`org/parser emphasis marks emphasis 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 49
@@ -115,7 +196,7 @@ children:
                 value: "strike"
 `;
 
-exports[`org/parser parses emphasis boundaries 1`] = `
+exports[`org/parser emphasis marks emphasis boundaries 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 29
@@ -132,144 +213,7 @@ children:
             value: "a/a/ b*b* c~c~ d=d= e+e+ f_f_"
 `;
 
-exports[`org/parser parses empty document 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 0
-children: []
-`;
-
-exports[`org/parser parses empty line between list items 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 18
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 18
-    children:
-      - type: "plain-list"
-        indent: 0
-        listType: "unordered"
-        contentsBegin: 0
-        contentsEnd: 18
-        structure:
-          - begin: 0
-            indent: 0
-            bullet: "- "
-            counter: null
-            checkbox: null
-            tag: null
-            end: 10
-          - begin: 10
-            indent: 0
-            bullet: "- "
-            counter: null
-            checkbox: null
-            tag: null
-            end: 18
-        children:
-          - type: "item"
-            indent: 0
-            bullet: "- "
-            checkbox: null
-            tag: null
-            contentsBegin: 2
-            contentsEnd: 10
-            children:
-              - type: "paragraph"
-                contentsBegin: 2
-                contentsEnd: 9
-                children:
-                  - type: "text"
-                    value: "item 1\\n"
-          - type: "item"
-            indent: 0
-            bullet: "- "
-            checkbox: null
-            tag: null
-            contentsBegin: 12
-            contentsEnd: 18
-            children:
-              - type: "paragraph"
-                contentsBegin: 12
-                contentsEnd: 18
-                children:
-                  - type: "text"
-                    value: "item 2"
-`;
-
-exports[`org/parser parses empty lines before first paragraph 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 4
-children:
-  - type: "section"
-    contentsBegin: 2
-    contentsEnd: 4
-    children:
-      - type: "paragraph"
-        contentsBegin: 2
-        contentsEnd: 4
-        children:
-          - type: "text"
-            value: "hi"
-`;
-
-exports[`org/parser parses escaper in src block 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 32
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 32
-    children:
-      - type: "src-block"
-        language: "c"
-        value: "a = 0;\\n"
-`;
-
-exports[`org/parser parses fake list numbers 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 9
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 9
-    children:
-      - type: "plain-list"
-        indent: 0
-        listType: "unordered"
-        contentsBegin: 0
-        contentsEnd: 9
-        structure:
-          - begin: 0
-            indent: 0
-            bullet: "- "
-            counter: null
-            checkbox: null
-            tag: null
-            end: 9
-        children:
-          - type: "item"
-            indent: 0
-            bullet: "- "
-            checkbox: null
-            tag: null
-            contentsBegin: 2
-            contentsEnd: 9
-            children:
-              - type: "paragraph"
-                contentsBegin: 2
-                contentsEnd: 9
-                children:
-                  - type: "text"
-                    value: "1. blah"
-`;
-
-exports[`org/parser parses hanging / 1`] = `
+exports[`org/parser emphasis marks hanging / 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 13
@@ -308,188 +252,44 @@ children:
                     value: "hello/other"
 `;
 
-exports[`org/parser parses initial section 1`] = `
+exports[`org/parser empty document 1`] = `
 type: "org-data"
 contentsBegin: 0
-contentsEnd: 10
+contentsEnd: 0
+children: []
+`;
+
+exports[`org/parser headline complex headline 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 55
 children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 6
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 6
-        children:
-          - type: "text"
-            value: "hello\\n"
   - type: "headline"
     level: 1
-    todoKeyword: null
-    priority: null
-    commented: false
-    rawValue: "hi"
+    todoKeyword: "TODO"
+    priority: "A"
+    commented: true
+    rawValue: "headline /italic/ title"
     title:
       - type: "text"
-        value: "hi"
-    tags: []
-    contentsBegin: 10
-    contentsEnd: 10
+        value: "headline "
+      - type: "italic"
+        contentsBegin: 30
+        contentsEnd: 36
+        children:
+          - type: "text"
+            value: "italic"
+      - type: "text"
+        value: " title"
+    tags:
+      - "some"
+      - "tags"
+    contentsBegin: 55
+    contentsEnd: 55
     children: []
 `;
 
-exports[`org/parser parses keyword 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 11
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 11
-    children:
-      - type: "keyword"
-        key: "TITLE"
-        value: "hi"
-`;
-
-exports[`org/parser parses link 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 18
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 18
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 18
-        children:
-          - type: "link"
-            format: "plain"
-            linkType: "http"
-            rawLink: "http://example.com"
-            path: "//example.com"
-            children: []
-`;
-
-exports[`org/parser parses link after text 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 24
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 24
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 24
-        children:
-          - type: "text"
-            value: "some text "
-          - type: "link"
-            format: "bracket"
-            linkType: "fuzzy"
-            rawLink: "link"
-            path: "link"
-            children:
-              - type: "text"
-                value: "text"
-`;
-
-exports[`org/parser parses link mixed with text 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 29
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 29
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 29
-        children:
-          - type: "text"
-            value: "hello "
-          - type: "link"
-            format: "plain"
-            linkType: "http"
-            rawLink: "http://example.com"
-            path: "//example.com"
-            children: []
-          - type: "text"
-            value: " blah"
-`;
-
-exports[`org/parser parses link with no text 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 8
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 8
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 8
-        children:
-          - type: "link"
-            format: "bracket"
-            linkType: "fuzzy"
-            rawLink: "link"
-            path: "link"
-            children: []
-`;
-
-exports[`org/parser parses list after paragraph 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 12
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 12
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 6
-        children:
-          - type: "text"
-            value: "hello\\n"
-      - type: "plain-list"
-        indent: 0
-        listType: "unordered"
-        contentsBegin: 6
-        contentsEnd: 12
-        structure:
-          - begin: 6
-            indent: 0
-            bullet: "- "
-            counter: null
-            checkbox: null
-            tag: null
-            end: 12
-        children:
-          - type: "item"
-            indent: 0
-            bullet: "- "
-            checkbox: null
-            tag: null
-            contentsBegin: 8
-            contentsEnd: 12
-            children:
-              - type: "paragraph"
-                contentsBegin: 8
-                contentsEnd: 12
-                children:
-                  - type: "text"
-                    value: "list"
-`;
-
-exports[`org/parser parses multiple headlines 1`] = `
+exports[`org/parser headline multiple headlines 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 22
@@ -535,7 +335,7 @@ children:
     children: []
 `;
 
-exports[`org/parser parses nested headlines 1`] = `
+exports[`org/parser headline nested headlines 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 36
@@ -607,7 +407,356 @@ children:
         children: []
 `;
 
-exports[`org/parser parses nested lists 1`] = `
+exports[`org/parser headline single headline 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "Hello"
+    title:
+      - type: "text"
+        value: "Hello"
+    tags: []
+    contentsBegin: 7
+    contentsEnd: 7
+    children: []
+`;
+
+exports[`org/parser keyword 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 11
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 11
+    children:
+      - type: "keyword"
+        key: "TITLE"
+        value: "hi"
+`;
+
+exports[`org/parser links link 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 18
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 18
+        children:
+          - type: "link"
+            format: "plain"
+            linkType: "http"
+            rawLink: "http://example.com"
+            path: "//example.com"
+            children: []
+`;
+
+exports[`org/parser links link after text 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 24
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 24
+        children:
+          - type: "text"
+            value: "some text "
+          - type: "link"
+            format: "bracket"
+            linkType: "fuzzy"
+            rawLink: "link"
+            path: "link"
+            children:
+              - type: "text"
+                value: "text"
+`;
+
+exports[`org/parser links link mixed with text 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 29
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 29
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 29
+        children:
+          - type: "text"
+            value: "hello "
+          - type: "link"
+            format: "plain"
+            linkType: "http"
+            rawLink: "http://example.com"
+            path: "//example.com"
+            children: []
+          - type: "text"
+            value: " blah"
+`;
+
+exports[`org/parser links link with no text 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 8
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 8
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 8
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "fuzzy"
+            rawLink: "link"
+            path: "link"
+            children: []
+`;
+
+exports[`org/parser links regular link 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 14
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 14
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 14
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "fuzzy"
+            rawLink: "link"
+            path: "link"
+            children:
+              - type: "text"
+                value: "text"
+`;
+
+exports[`org/parser links regular link with longer link slash 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 18
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 18
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "fuzzy"
+            rawLink: "longlink"
+            path: "longlink"
+            children:
+              - type: "text"
+                value: "text"
+`;
+
+exports[`org/parser links two links in one line 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 34
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 34
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 34
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "fuzzy"
+            rawLink: "link1"
+            path: "link1"
+            children:
+              - type: "text"
+                value: "text1"
+          - type: "text"
+            value: " "
+          - type: "link"
+            format: "bracket"
+            linkType: "fuzzy"
+            rawLink: "link2"
+            path: "link2"
+            children:
+              - type: "text"
+                value: "text2"
+`;
+
+exports[`org/parser list empty line between list items 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 18
+    children:
+      - type: "plain-list"
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 0
+        contentsEnd: 18
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 10
+          - begin: 10
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 18
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: null
+            contentsBegin: 2
+            contentsEnd: 10
+            children:
+              - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 9
+                children:
+                  - type: "text"
+                    value: "item 1\\n"
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: null
+            contentsBegin: 12
+            contentsEnd: 18
+            children:
+              - type: "paragraph"
+                contentsBegin: 12
+                contentsEnd: 18
+                children:
+                  - type: "text"
+                    value: "item 2"
+`;
+
+exports[`org/parser list fake list numbers 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 9
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 9
+    children:
+      - type: "plain-list"
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 0
+        contentsEnd: 9
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 9
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: null
+            contentsBegin: 2
+            contentsEnd: 9
+            children:
+              - type: "paragraph"
+                contentsBegin: 2
+                contentsEnd: 9
+                children:
+                  - type: "text"
+                    value: "1. blah"
+`;
+
+exports[`org/parser list list after paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "hello\\n"
+      - type: "plain-list"
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 6
+        contentsEnd: 12
+        structure:
+          - begin: 6
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 12
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: null
+            contentsBegin: 8
+            contentsEnd: 12
+            children:
+              - type: "paragraph"
+                contentsBegin: 8
+                contentsEnd: 12
+                children:
+                  - type: "text"
+                    value: "list"
+`;
+
+exports[`org/parser list nested lists 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -696,7 +845,7 @@ children:
                             value: "list"
 `;
 
-exports[`org/parser parses ordered list 1`] = `
+exports[`org/parser list ordered list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 13
@@ -756,94 +905,7 @@ children:
                     value: "two"
 `;
 
-exports[`org/parser parses quote block 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 31
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 31
-    children:
-      - type: "quote-block"
-        contentsBegin: 14
-        contentsEnd: 20
-        children:
-          - type: "paragraph"
-            contentsBegin: 14
-            contentsEnd: 20
-            children:
-              - type: "text"
-                value: "hello\\n"
-`;
-
-exports[`org/parser parses regular link 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 14
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 14
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 14
-        children:
-          - type: "link"
-            format: "bracket"
-            linkType: "fuzzy"
-            rawLink: "link"
-            path: "link"
-            children:
-              - type: "text"
-                value: "text"
-`;
-
-exports[`org/parser parses regular link with longer link slash 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 18
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 18
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 18
-        children:
-          - type: "link"
-            format: "bracket"
-            linkType: "fuzzy"
-            rawLink: "longlink"
-            path: "longlink"
-            children:
-              - type: "text"
-                value: "text"
-`;
-
-exports[`org/parser parses single headline 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 7
-children:
-  - type: "headline"
-    level: 1
-    todoKeyword: null
-    priority: null
-    commented: false
-    rawValue: "Hello"
-    title:
-      - type: "text"
-        value: "Hello"
-    tags: []
-    contentsBegin: 7
-    contentsEnd: 7
-    children: []
-`;
-
-exports[`org/parser parses single-item list 1`] = `
+exports[`org/parser list single-item list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 4
@@ -882,100 +944,7 @@ children:
                     value: "hi"
 `;
 
-exports[`org/parser parses single-line section 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 2
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 2
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 2
-        children:
-          - type: "text"
-            value: "hi"
-`;
-
-exports[`org/parser parses special block 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 29
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 29
-    children:
-      - type: "special-block"
-        blockType: "blah"
-        contentsBegin: 13
-        contentsEnd: 19
-        children:
-          - type: "paragraph"
-            contentsBegin: 13
-            contentsEnd: 19
-            children:
-              - type: "text"
-                value: "hello\\n"
-`;
-
-exports[`org/parser parses src block 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 27
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 27
-    children:
-      - type: "src-block"
-        value: "hello\\n"
-`;
-
-exports[`org/parser parses src in list 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 44
-children:
-  - type: "section"
-    contentsBegin: 1
-    contentsEnd: 44
-    children:
-      - type: "plain-list"
-        indent: 0
-        listType: "unordered"
-        contentsBegin: 1
-        contentsEnd: 44
-        structure:
-          - begin: 1
-            indent: 0
-            bullet: "- "
-            counter: null
-            checkbox: null
-            tag: null
-            end: 44
-        children:
-          - type: "item"
-            indent: 0
-            bullet: "- "
-            checkbox: null
-            tag: null
-            contentsBegin: 3
-            contentsEnd: 44
-            children:
-              - type: "paragraph"
-                contentsBegin: 3
-                contentsEnd: 12
-                children:
-                  - type: "text"
-                    value: "example:\\n"
-              - type: "src-block"
-                value: "  blah\\n"
-`;
-
-exports[`org/parser parses two empty lines breaking list 1`] = `
+exports[`org/parser list two empty lines breaking list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -1042,40 +1011,7 @@ children:
                     value: "list 2"
 `;
 
-exports[`org/parser parses two links in one line 1`] = `
-type: "org-data"
-contentsBegin: 0
-contentsEnd: 34
-children:
-  - type: "section"
-    contentsBegin: 0
-    contentsEnd: 34
-    children:
-      - type: "paragraph"
-        contentsBegin: 0
-        contentsEnd: 34
-        children:
-          - type: "link"
-            format: "bracket"
-            linkType: "fuzzy"
-            rawLink: "link1"
-            path: "link1"
-            children:
-              - type: "text"
-                value: "text1"
-          - type: "text"
-            value: " "
-          - type: "link"
-            format: "bracket"
-            linkType: "fuzzy"
-            rawLink: "link2"
-            path: "link2"
-            children:
-              - type: "text"
-                value: "text2"
-`;
-
-exports[`org/parser parses two-item list 1`] = `
+exports[`org/parser list two-item list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -1133,4 +1069,321 @@ children:
                 children:
                   - type: "text"
                     value: "there"
+`;
+
+exports[`org/parser planning 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 96
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 96
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 96
+        children:
+          - type: "planning"
+            scheduled:
+              type: "timestamp"
+              timestampType: "inactive"
+              rawValue: "[2019-03-13 Wed]"
+              start:
+                year: 2019
+                month: 3
+                day: 13
+                hour: null
+                minute: null
+              end: null
+            deadline:
+              type: "timestamp"
+              timestampType: "inactive"
+              rawValue: "[2019-03-14 Thu]"
+              start:
+                year: 2019
+                month: 3
+                day: 14
+                hour: null
+                minute: null
+              end: null
+            closed:
+              type: "timestamp"
+              timestampType: "inactive"
+              rawValue: "[2019-03-13 Wed 23:48]"
+              start:
+                year: 2019
+                month: 3
+                day: 13
+                hour: 23
+                minute: 48
+              end: null
+`;
+
+exports[`org/parser section empty lines before first section 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 4
+children:
+  - type: "section"
+    contentsBegin: 2
+    contentsEnd: 4
+    children:
+      - type: "paragraph"
+        contentsBegin: 2
+        contentsEnd: 4
+        children:
+          - type: "text"
+            value: "hi"
+`;
+
+exports[`org/parser section initial section 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 10
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 6
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "hello\\n"
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "hi"
+    title:
+      - type: "text"
+        value: "hi"
+    tags: []
+    contentsBegin: 10
+    contentsEnd: 10
+    children: []
+`;
+
+exports[`org/parser section section in headline 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 23
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "hello"
+    title:
+      - type: "text"
+        value: "hello"
+    tags: []
+    contentsBegin: 8
+    contentsEnd: 23
+    children:
+      - type: "section"
+        contentsBegin: 8
+        contentsEnd: 23
+        children:
+          - type: "paragraph"
+            contentsBegin: 8
+            contentsEnd: 23
+            children:
+              - type: "text"
+                value: "this is section"
+`;
+
+exports[`org/parser section single-line section 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 2
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 2
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 2
+        children:
+          - type: "text"
+            value: "hi"
+`;
+
+exports[`org/parser timestamps active 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 16
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 16
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 16
+        children:
+          - type: "timestamp"
+            timestampType: "active"
+            rawValue: "<2021-01-07 Thu>"
+            start:
+              year: 2021
+              month: 1
+              day: 7
+              hour: null
+              minute: null
+            end: null
+`;
+
+exports[`org/parser timestamps active-range 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 34
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 34
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 34
+        children:
+          - type: "timestamp"
+            timestampType: "active-range"
+            rawValue: "<2021-01-07 Thu>--<2021-01-09 Sat>"
+            start:
+              year: 2021
+              month: 1
+              day: 7
+              hour: null
+              minute: null
+            end:
+              year: 2021
+              month: 1
+              day: 9
+              hour: null
+              minute: null
+`;
+
+exports[`org/parser timestamps inactive 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 16
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 16
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 16
+        children:
+          - type: "timestamp"
+            timestampType: "inactive"
+            rawValue: "[2021-01-07 Thu]"
+            start:
+              year: 2021
+              month: 1
+              day: 7
+              hour: null
+              minute: null
+            end: null
+`;
+
+exports[`org/parser timestamps inactive-range 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 34
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 34
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 34
+        children:
+          - type: "timestamp"
+            timestampType: "inactive-range"
+            rawValue: "[2021-01-07 Thu]--[2021-01-08 Fri]"
+            start:
+              year: 2021
+              month: 1
+              day: 7
+              hour: null
+              minute: null
+            end:
+              year: 2021
+              month: 1
+              day: 8
+              hour: null
+              minute: null
+`;
+
+exports[`org/parser timestamps time range 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 28
+        children:
+          - type: "timestamp"
+            timestampType: "inactive-range"
+            rawValue: "[2021-01-07 Thu 19:36-20:38]"
+            start:
+              year: 2021
+              month: 1
+              day: 7
+              hour: 19
+              minute: 36
+            end:
+              year: 2021
+              month: 1
+              day: 7
+              hour: 20
+              minute: 38
+`;
+
+exports[`org/parser timestamps with time 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 22
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 22
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 22
+        children:
+          - type: "timestamp"
+            timestampType: "inactive"
+            rawValue: "[2021-01-07 Thu 19:36]"
+            start:
+              year: 2021
+              month: 1
+              day: 7
+              hour: 19
+              minute: 36
+            end: null
 `;

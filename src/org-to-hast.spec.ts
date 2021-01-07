@@ -33,6 +33,12 @@ hastTest.skip = (name: string, input: string) => {
     expect(result).toMatchSnapshot();
   });
 };
+hastTest.only = (name: string, input: string) => {
+  it.only(name, () => {
+    const result = processor.processSync(input).contents;
+    expect(result).toMatchSnapshot();
+  });
+};
 hastTest.todo = (name: string, _input?: string) => {
   it.todo(name);
 };
@@ -65,6 +71,12 @@ describe('org/org-to-hast', () => {
 section
 ** hello
 another section`
+  );
+
+  hastTest(
+    'planning',
+    `* headline
+CLOSED: [2019-03-13 Wed 23:48] SCHEDULED: [2019-03-13 Wed] DEADLINE: [2019-03-14 Thu]`
   );
 
   hastTest('list', `- hello`);
@@ -124,4 +136,14 @@ hello, world!
   );
 
   hastTest('images', `[[./image.png]]`);
+
+  describe('timestamps', () => {
+    hastTest('inactive', `[2021-01-07 Thu]`);
+    hastTest('inactive-range', `[2021-01-07 Thu]--[2021-01-08 Fri]`);
+    hastTest('active', `<2021-01-07 Thu>`);
+    hastTest('active-range', `<2021-01-07 Thu>--<2021-01-09 Sat>`);
+    hastTest('with time', `[2021-01-07 Thu 19:36]`);
+    hastTest('time range', `[2021-01-07 Thu 19:36-20:38]`);
+    hastTest.todo('diary');
+  });
 });

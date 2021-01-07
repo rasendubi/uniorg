@@ -116,6 +116,12 @@ exports[`org/org-to-hast paragraph 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast planning 1`] = `
+<div>
+<h1>headline</h1>
+</div>
+`;
+
 exports[`org/org-to-hast remove common src block offset 1`] = `
 <div>
 <pre><code>hello
@@ -137,5 +143,41 @@ exports[`org/org-to-hast src block 1`] = `
 <pre><code class="language-c">a = b;
 printf("%d\\n", *a);
 </code></pre>
+</div>
+`;
+
+exports[`org/org-to-hast timestamps active 1`] = `
+<div>
+<p><span class="timestamp">&#x3C;2021-01-07 Thu></span></p>
+</div>
+`;
+
+exports[`org/org-to-hast timestamps active-range 1`] = `
+<div>
+<p><span class="timestamp">&#x3C;2021-01-07 Thu>--&#x3C;2021-01-09 Sat></span></p>
+</div>
+`;
+
+exports[`org/org-to-hast timestamps inactive 1`] = `
+<div>
+<p><span class="timestamp">[2021-01-07 Thu]</span></p>
+</div>
+`;
+
+exports[`org/org-to-hast timestamps inactive-range 1`] = `
+<div>
+<p><span class="timestamp">[2021-01-07 Thu]--[2021-01-08 Fri]</span></p>
+</div>
+`;
+
+exports[`org/org-to-hast timestamps time range 1`] = `
+<div>
+<p><span class="timestamp">[2021-01-07 Thu 19:36-20:38]</span></p>
+</div>
+`;
+
+exports[`org/org-to-hast timestamps with time 1`] = `
+<div>
+<p><span class="timestamp">[2021-01-07 Thu 19:36]</span></p>
 </div>
 `;

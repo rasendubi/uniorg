@@ -25,7 +25,7 @@ export type GreaterElementType =
   | Item
   | QuoteBlock
   | SpecialBlock;
-export type ElementType = SrcBlock | Keyword | Paragraph;
+export type ElementType = Planning | SrcBlock | Keyword | Paragraph;
 export type ObjectType =
   | Link
   | Bold
@@ -34,7 +34,8 @@ export type ObjectType =
   | Verbatim
   | StrikeThrough
   | Underline
-  | Text;
+  | Text
+  | Timestamp;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
 
@@ -53,6 +54,13 @@ export interface Headline extends GreaterElement {
   title: ObjectType[];
   tags: string[];
   children: Array<Section | Headline>;
+}
+
+export interface Planning extends Node {
+  type: 'planning';
+  closed: Timestamp | null;
+  deadline: Timestamp | null;
+  scheduled: Timestamp | null;
 }
 
 export interface Section extends GreaterElement {
@@ -150,4 +158,29 @@ export interface Link extends Object {
   rawLink: string;
   path: string;
   children: ObjectType[];
+}
+
+export interface Timestamp extends Object {
+  type: 'timestamp';
+  timestampType:
+    | 'active'
+    | 'active-range'
+    | 'diary'
+    | 'inactive'
+    | 'inactive-range';
+  rawValue: string;
+  start: {
+    year: number;
+    month: number;
+    day: number;
+    hour: number | null;
+    minute: number | null;
+  };
+  end: {
+    year: number;
+    month: number;
+    day: number;
+    hour: number | null;
+    minute: number | null;
+  } | null;
 }
