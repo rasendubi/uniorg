@@ -20,12 +20,19 @@ export interface Object extends Node {}
 export type GreaterElementType =
   | OrgData
   | Headline
+  | PropertyDrawer
   | Section
+  | Drawer
   | List
   | Item
   | QuoteBlock
   | SpecialBlock;
-export type ElementType = Planning | SrcBlock | Keyword | Paragraph;
+export type ElementType =
+  | Planning
+  | NodeProperty
+  | SrcBlock
+  | Keyword
+  | Paragraph;
 export type ObjectType =
   | Link
   | Bold
@@ -61,6 +68,21 @@ export interface Planning extends Node {
   closed: Timestamp | null;
   deadline: Timestamp | null;
   scheduled: Timestamp | null;
+}
+
+export interface Drawer extends GreaterElement {
+  type: 'drawer';
+  name: string;
+}
+
+export interface PropertyDrawer extends GreaterElement {
+  type: 'property-drawer';
+}
+
+export interface NodeProperty extends Node {
+  type: 'node-property';
+  key: string;
+  value: string;
 }
 
 export interface Section extends GreaterElement {

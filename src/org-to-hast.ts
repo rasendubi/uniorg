@@ -158,6 +158,10 @@ export function orgToHast(
         return h('span.timestamp', org.rawValue);
       case 'planning':
         return null;
+      case 'property-drawer':
+        return null;
+      case 'drawer':
+        return null;
       default:
         return org;
     }

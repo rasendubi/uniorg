@@ -111,6 +111,34 @@ children:
                 value: "  blah\\n"
 `;
 
+exports[`org/parser custom drawer 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 30
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 30
+    children:
+      - type: "drawer"
+        name: "MYDRAWER"
+        contentsBegin: 11
+        contentsEnd: 25
+        children:
+          - type: "paragraph"
+            contentsBegin: 11
+            contentsEnd: 25
+            children:
+              - type: "text"
+                value: "hello "
+              - type: "italic"
+                contentsBegin: 18
+                contentsEnd: 23
+                children:
+                  - type: "text"
+                    value: "there"
+`;
+
 exports[`org/parser emphasis marks C++ accidental strike-through 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -1127,6 +1155,74 @@ children:
                 hour: 23
                 minute: 48
               end: null
+`;
+
+exports[`org/parser property drawer + section 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 68
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 68
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 68
+        children:
+          - type: "property-drawer"
+            contentsBegin: 24
+            contentsEnd: 57
+            children:
+              - type: "node-property"
+                key: "CREATED"
+                value: "[2019-03-13 Wed 23:57]"
+          - type: "paragraph"
+            contentsBegin: 63
+            contentsEnd: 68
+            children:
+              - type: "text"
+                value: "hello"
+`;
+
+exports[`org/parser property drawer 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 62
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 62
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 62
+        children:
+          - type: "property-drawer"
+            contentsBegin: 24
+            contentsEnd: 57
+            children:
+              - type: "node-property"
+                key: "CREATED"
+                value: "[2019-03-13 Wed 23:57]"
 `;
 
 exports[`org/parser section empty lines before first section 1`] = `

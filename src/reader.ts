@@ -65,6 +65,18 @@ export class Reader {
     return m;
   }
 
+  public forceLookingAt(regex: RegExp): RegExpExecArray {
+    const m = this.lookingAt(regex);
+    if (!m) {
+      throw new Error(
+        `match (lookingAt) error: ${regex} against ${JSON.stringify(
+          this.rest()
+        )}`
+      );
+    }
+    return m;
+  }
+
   public peek(n: number): string {
     return this.#text.substring(this.#offset, this.#offset + n);
   }

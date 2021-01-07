@@ -101,6 +101,29 @@ this is section`
 CLOSED: [2019-03-13 Wed 23:48] SCHEDULED: [2019-03-13 Wed] DEADLINE: [2019-03-14 Thu]`
   );
 
+  itParses(
+    'property drawer',
+    `* headline
+:PROPERTIES:
+:CREATED: [2019-03-13 Wed 23:57]
+:END:`
+  );
+  itParses(
+    'property drawer + section',
+    `* headline
+:PROPERTIES:
+:CREATED: [2019-03-13 Wed 23:57]
+:END:
+hello`
+  );
+
+  itParses(
+    'custom drawer',
+    `:MYDRAWER:
+hello /there/
+:END:`
+  );
+
   describe('timestamps', () => {
     itParses('inactive', `[2021-01-07 Thu]`);
     itParses('inactive-range', `[2021-01-07 Thu]--[2021-01-08 Fri]`);

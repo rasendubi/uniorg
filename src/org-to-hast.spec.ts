@@ -79,6 +79,21 @@ another section`
 CLOSED: [2019-03-13 Wed 23:48] SCHEDULED: [2019-03-13 Wed] DEADLINE: [2019-03-14 Thu]`
   );
 
+  hastTest(
+    'property drawer',
+    `* headline
+:PROPERTIES:
+:CREATED: [2019-03-13 Wed 23:57]
+:END:`
+  );
+
+  hastTest(
+    'custom drawer',
+    `:MYDRAWER:
+hello /there/
+:END:`
+  );
+
   hastTest('list', `- hello`);
 
   hastTest('ordered list', `1. one`);

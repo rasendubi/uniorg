@@ -17,6 +17,7 @@ import {
 } from './parser/utils';
 import { Reader } from './reader';
 import {
+  NodeProperty,
   Headline,
   List,
   OrgData,
@@ -39,6 +40,8 @@ import {
   StrikeThrough,
   Timestamp,
   Planning,
+  PropertyDrawer,
+  Drawer,
 } from './types';
 
 /*
@@ -268,7 +271,8 @@ class Parser {
     if (mode === 'item') return this.parseItem(structure!);
 
     // TODO: Table Row.
-    // TODO: Node Property.
+
+    if (mode === 'node-property') return this.parseNodeProperty();
 
     // Headline.
     if (this.atHeading()) return this.parseHeadline();
@@ -297,7 +301,17 @@ class Parser {
       return this.parsePlanning();
     }
 
-    // TODO: Property drawer.
+    if (
+      (mode === 'planning' ||
+        // && TODO: check previous line is headline
+        ((mode === 'property-drawer' || mode === 'top-comment') &&
+          !this.r.lookingAt(/\s*$/m))) &&
+      this.r.lookingAt(
+        /^[ \t]*:PROPERTIES:[ \t]*\n(?:[ \t]*:\S+:(?: .*)?[ \t]*\n)*?[ \t]*:END:[ \t]*$/m
+      )
+    ) {
+      return this.parsePropertyDrawer();
+    }
 
     // When not at beginning of line, point is at the beginning of an
     // item or a footnote definition: next item is always a paragraph.
@@ -310,7 +324,20 @@ class Parser {
       return this.parseParagraph();
     }
 
+    // TODO: Clock.
+    // TODO: Inlinetask.
+
+    // From there, elements can have affiliated keywords.
     // TODO: affiliated keywords
+
+    // TODO: LaTeX Environment.
+
+    // Drawer.
+    if (this.r.lookingAt(drawerRe)) {
+      return this.parseDrawer();
+    }
+
+    // TODO: Fixed width
 
     // Inline Comments, Blocks, Babel Calls, Dynamic Blocks and
     // Keywords.
@@ -343,6 +370,11 @@ class Parser {
       }
     }
 
+    // TODO: Footnote Definition.
+    // TODO: Horizontal Rule.
+    // TODO: Diary Sexp.
+    // TODO: Table.
+
     // List.
     if (this.r.match(itemRe())) {
       if (structure === undefined) {
@@ -353,6 +385,7 @@ class Parser {
       return this.parseList(structure);
     }
 
+    // Default element: Paragraph.
     return this.parseParagraph();
   }
 
@@ -493,7 +526,7 @@ class Parser {
     );
   }
 
-  private parsePlanning(): Planning | null {
+  private parsePlanning(): Planning {
     this.r.narrow(this.r.offset(), this.r.offset() + this.r.line().length);
 
     let scheduled: Timestamp | null = null;
@@ -606,6 +639,44 @@ class Parser {
     this.r.advance(this.r.line());
     this.parseEmptyLines();
     return u('keyword', { key, value });
+  }
+
+  private parsePropertyDrawer(): PropertyDrawer {
+    this.r.advance(this.r.line());
+    const contentsBegin = this.r.offset();
+    const endM = this.r.forceMatch(/^[ \t]*:END:[ \t]*$/m);
+    this.r.advance(endM.index);
+    const contentsEnd = this.r.offset();
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    return u('property-drawer', { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseDrawer(): Drawer | Paragraph {
+    const endM = this.r.match(/^[ \t]*:END:[ \t]*$/m);
+    if (!endM) {
+      console.log('incomplete drawer');
+      // Incomplete drawer: parse it as a paragraph.
+      return this.parseParagraph();
+    }
+    const contentsEnd = this.r.offset() + endM.index;
+
+    const name = this.r.forceLookingAt(drawerRe)[1];
+    this.r.advance(this.r.line());
+    const contentsBegin = this.r.offset();
+    this.r.resetOffset(contentsEnd);
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    return u('drawer', { name, contentsBegin, contentsEnd }, []);
+  }
+
+  private parseNodeProperty(): NodeProperty {
+    const propertyRe = /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
+    const m = this.r.forceLookingAt(propertyRe)!;
+    const key = m.groups!['key'];
+    const value = m.groups!['value1'] ?? m.groups!['value2'];
+    this.r.advance(this.r.line());
+    return u('node-property', { key, value });
   }
 
   private parseParagraph(): Paragraph {
@@ -988,3 +1059,5 @@ class Parser {
     return this.r.match(/^\*+ /) !== null;
   }
 }
+
+const drawerRe = /^[ \t]*:((?:\w|[-_])+):[ \t]*$/m;

@@ -14,6 +14,8 @@ exports[`org/org-to-hast complex headline 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast custom drawer 1`] = `<div></div>`;
+
 exports[`org/org-to-hast emphasis 1`] = `
 <div>
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span style="text-decoration: underline;">under</span></p>
@@ -117,6 +119,12 @@ exports[`org/org-to-hast paragraph 1`] = `
 `;
 
 exports[`org/org-to-hast planning 1`] = `
+<div>
+<h1>headline</h1>
+</div>
+`;
+
+exports[`org/org-to-hast property drawer 1`] = `
 <div>
 <h1>headline</h1>
 </div>
