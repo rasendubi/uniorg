@@ -228,6 +228,31 @@ hello
     );
 
     itParses(
+      'verse block',
+      `#+BEGIN_VERSE
+ Great clouds overhead
+ Tiny black birds rise and fall
+ Snow covers Emacs
+
+    ---AlexSchroeder
+#+END_VERSE`
+    );
+
+    itParses(
+      'center block',
+      `#+begin_center
+hello
+#+end_center`
+    );
+
+    itParses(
+      'comment block',
+      `#+begin_comment
+hello
+#+end_comment`
+    );
+
+    itParses(
       'special block',
       `#+begin_blah
 hello

@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`org/parser blocks center block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 33
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 33
+    children:
+      - type: "center-block"
+        contentsBegin: 15
+        contentsEnd: 21
+        children:
+          - type: "paragraph"
+            contentsBegin: 15
+            contentsEnd: 21
+            children:
+              - type: "text"
+                value: "hello\\n"
+`;
+
+exports[`org/parser blocks comment block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 35
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 35
+    children:
+      - type: "comment-block"
+        value: "hello\\n"
+`;
+
 exports[`org/parser blocks escaper in src block 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -109,6 +143,30 @@ children:
                     value: "example:\\n"
               - type: "src-block"
                 value: "  blah\\n"
+`;
+
+exports[`org/parser blocks verse block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 121
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 121
+    children:
+      - type: "verse-block"
+        contentsBegin: 14
+        contentsEnd: 110
+        children:
+          - type: "text"
+            value: " Great clouds overhead
+
+              \\ Tiny black birds rise and fall
+
+              \\ Snow covers Emacs
+
+
+              \\    ---AlexSchroeder\\n"
 `;
 
 exports[`org/parser custom drawer 1`] = `

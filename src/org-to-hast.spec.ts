@@ -121,6 +121,31 @@ printf("%d\\n", *a);
   );
 
   hastTest(
+    'verse block',
+    `#+BEGIN_VERSE
+ Great clouds overhead
+ Tiny black birds rise and fall
+ Snow covers Emacs
+
+    ---AlexSchroeder
+#+END_VERSE`
+  );
+
+  hastTest(
+    'center block',
+    `#+begin_center
+hello
+#+end_center`
+  );
+
+  hastTest(
+    'comment block',
+    `#+begin_comment
+hello
+#+end_comment`
+  );
+
+  hastTest(
     'remove common src block offset',
     `
   #+begin_src

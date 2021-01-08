@@ -8,6 +8,16 @@ exports[`org/org-to-hast blockquote 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast center block 1`] = `
+<div>
+<div class="center">
+  <p>hello</p>
+</div>
+</div>
+`;
+
+exports[`org/org-to-hast comment block 1`] = `<div></div>`;
+
 exports[`org/org-to-hast complex headline 1`] = `
 <div>
 <h1><span class="todo-keyword TODO">TODO</span> <span class="priority">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
@@ -206,5 +216,16 @@ exports[`org/org-to-hast timestamps time range 1`] = `
 exports[`org/org-to-hast timestamps with time 1`] = `
 <div>
 <p><span class="timestamp">[2021-01-07 Thu 19:36]</span></p>
+</div>
+`;
+
+exports[`org/org-to-hast verse block 1`] = `
+<div>
+<p class="verse">
+  Great clouds overhead
+  Tiny black birds rise and fall
+  Snow covers Emacs
+  ---AlexSchroeder
+</p>
 </div>
 `;

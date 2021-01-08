@@ -113,6 +113,12 @@ export function orgToHast(
             removeCommonIndent(org.value)
           )
         );
+      case 'verse-block':
+        return h('p.verse', toHast(org.children));
+      case 'center-block':
+        return h('div.center', toHast(org.children));
+      case 'comment-block':
+        return null;
       case 'special-block':
         return h('div', toHast(org.children));
       case 'keyword':

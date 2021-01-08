@@ -31,11 +31,14 @@ export type GreaterElementType =
   | List
   | Item
   | QuoteBlock
+  | VerseBlock
+  | CenterBlock
   | SpecialBlock
   | Table;
 export type ElementType =
   | Planning
   | NodeProperty
+  | CommentBlock
   | SrcBlock
   | Keyword
   | TableRow
@@ -133,6 +136,17 @@ export interface SrcBlock extends Node {
 
 export interface QuoteBlock extends GreaterElement {
   type: 'quote-block';
+}
+export interface VerseBlock extends GreaterElement {
+  type: 'verse-block';
+}
+export interface CenterBlock extends GreaterElement {
+  type: 'center-block';
+}
+
+export interface CommentBlock extends Node {
+  type: 'comment-block';
+  value: string;
 }
 
 export interface SpecialBlock extends GreaterElement {

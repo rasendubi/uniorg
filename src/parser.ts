@@ -45,6 +45,9 @@ import {
   Table,
   TableRow,
   TableCell,
+  VerseBlock,
+  CenterBlock,
+  CommentBlock,
 } from './types';
 
 /*
@@ -249,10 +252,18 @@ class Parser {
           this.r.resetOffset(offset);
           const blockType = blockM[1].toLowerCase();
           switch (blockType) {
+            case 'center':
+              return this.parseBlock('center-block', 'center');
+            case 'comment':
+              return this.parseCommentBlock();
+            // TODO: example
+            // TODO: export
             case 'quote':
-              return this.parseQuoteBlock();
+              return this.parseBlock('quote-block', 'quote');
             case 'src':
               return this.parseSrcBlock();
+            case 'verse':
+              return this.parseBlock('verse-block', 'verse');
             default:
               return this.parseSpecialBlock();
           }
@@ -618,8 +629,15 @@ class Parser {
     return u('section', { contentsBegin: begin, contentsEnd: end }, []);
   }
 
-  private parseQuoteBlock(): QuoteBlock | Paragraph {
-    const endM = this.r.match(/^[ \t]*#\+end_quote[ \t]*$/im);
+  private parseBlock<T extends string>(
+    type: T,
+    pattern: string
+  ):
+    | { type: T; contentsBegin: number; contentsEnd: number; children: never[] }
+    | Paragraph {
+    const endM = this.r.match(
+      new RegExp(`^[ \\t]*#\\+end_${pattern}[ \\t]*$`, 'im')
+    );
     if (!endM) {
       // Incomplete block: parse it as a paragraph.
       return this.parseParagraph();
@@ -633,7 +651,14 @@ class Parser {
     this.parseEmptyLines();
     const _end = this.r.offset();
 
-    return u('quote-block', { contentsBegin, contentsEnd }, []);
+    return u(type, { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseCommentBlock(): CommentBlock | Paragraph {
+    const comment = this.parseBlock('comment-block', 'comment');
+    if (comment.type !== 'comment-block') return comment;
+    const value = this.r.substring(comment.contentsBegin, comment.contentsEnd);
+    return u('comment-block', { value });
   }
 
   private parseSrcBlock(): SrcBlock | Paragraph {
