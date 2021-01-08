@@ -11,9 +11,14 @@ export interface GreaterElement extends Parent {
   children: Array<GreaterElementType | ElementType>;
 }
 export interface Element extends Parent {
-  contentsBegin: number;
-  contentsEnd: number;
-  children: Array<ObjectType>;
+  contentsBegin?: number;
+  contentsEnd?: number;
+  children: ObjectType[];
+}
+export interface RecursiveObject extends Object {
+  contentsBegin?: number;
+  contentsEnd?: number;
+  children: ObjectType[];
 }
 export interface Object extends Node {}
 
@@ -26,12 +31,14 @@ export type GreaterElementType =
   | List
   | Item
   | QuoteBlock
-  | SpecialBlock;
+  | SpecialBlock
+  | Table;
 export type ElementType =
   | Planning
   | NodeProperty
   | SrcBlock
   | Keyword
+  | TableRow
   | Paragraph;
 export type ObjectType =
   | Link
@@ -42,7 +49,8 @@ export type ObjectType =
   | StrikeThrough
   | Underline
   | Text
-  | Timestamp;
+  | Timestamp
+  | TableCell;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
 
@@ -132,6 +140,31 @@ export interface SpecialBlock extends GreaterElement {
   blockType: string;
 }
 
+export type Table = TableOrg | TableTableEl;
+export interface TableOrg extends GreaterElement {
+  type: 'table';
+  /** Formulas associated to the table, if any. */
+  tblfm: string | null;
+  tableType: 'org';
+}
+export interface TableTableEl extends Node {
+  type: 'table';
+  /** Formulas associated to the table, if any. */
+  tblfm: string | null;
+  tableType: 'table.el';
+  /** Raw `table.el` table. */
+  value: string;
+}
+
+export interface TableRow extends Element {
+  type: 'table-row';
+  rowType: 'standard' | 'rule';
+}
+
+export interface TableCell extends RecursiveObject {
+  type: 'table-cell';
+}
+
 export interface Keyword extends Node {
   type: 'keyword';
   key: string;
@@ -143,14 +176,12 @@ export interface Text extends Object, Literal {
   value: string;
 }
 
-export interface Bold extends Object {
+export interface Bold extends RecursiveObject {
   type: 'bold';
-  children: ObjectType[];
 }
 
-export interface Italic extends Object {
+export interface Italic extends RecursiveObject {
   type: 'italic';
-  children: ObjectType[];
 }
 
 export interface Code extends Object {
@@ -163,23 +194,20 @@ export interface Verbatim extends Object {
   value: string;
 }
 
-export interface StrikeThrough extends Object {
+export interface StrikeThrough extends RecursiveObject {
   type: 'strike-through';
-  children: ObjectType[];
 }
 
-export interface Underline extends Object {
+export interface Underline extends RecursiveObject {
   type: 'underline';
-  children: ObjectType[];
 }
 
-export interface Link extends Object {
+export interface Link extends RecursiveObject {
   type: 'link';
   format: 'plain' | 'bracket';
   linkType: string;
   rawLink: string;
   path: string;
-  children: ObjectType[];
 }
 
 export interface Timestamp extends Object {

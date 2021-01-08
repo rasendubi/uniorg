@@ -1,6 +1,6 @@
 import u from 'unist-builder';
 import h from 'hastscript';
-import { OrgNode, OrgData } from './types';
+import { OrgNode, OrgData, TableRow, TableCell } from './types';
 
 type Hast = any;
 
@@ -162,6 +162,53 @@ export function orgToHast(
         return null;
       case 'drawer':
         return null;
+      case 'table': {
+        // TODO: support column groups
+        // see https://orgmode.org/manual/Column-Groups.html
+
+        const table = h('table', []);
+
+        let hasHead = false;
+        let group: TableRow[] = [];
+        (org.children as TableRow[]).forEach((r) => {
+          if (r.rowType === 'rule') {
+            // rule finishes the group
+            if (!hasHead) {
+              table.children.push(
+                h(
+                  'thead',
+                  group.map((row: TableRow) =>
+                    h(
+                      'tr',
+                      row.children.map((cell) => h('th', toHast(cell.children)))
+                    )
+                  )
+                )
+              );
+              hasHead = true;
+            } else {
+              table.children.push(h('tbody', toHast(group)));
+            }
+            group = [];
+          }
+
+          group.push(r);
+        });
+
+        if (group.length) {
+          table.children.push(h('tbody', toHast(group)));
+        }
+
+        return table;
+      }
+      case 'table-row':
+        if (org.rowType === 'standard') {
+          return h('tr', toHast(org.children));
+        } else {
+          return null;
+        }
+      case 'table-cell':
+        return h('td', toHast(org.children));
       default:
         return org;
     }

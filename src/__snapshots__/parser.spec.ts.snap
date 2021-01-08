@@ -510,6 +510,8 @@ children:
             linkType: "fuzzy"
             rawLink: "link"
             path: "link"
+            contentsBegin: 18
+            contentsEnd: 22
             children:
               - type: "text"
                 value: "text"
@@ -579,6 +581,8 @@ children:
             linkType: "fuzzy"
             rawLink: "link"
             path: "link"
+            contentsBegin: 8
+            contentsEnd: 12
             children:
               - type: "text"
                 value: "text"
@@ -602,6 +606,8 @@ children:
             linkType: "fuzzy"
             rawLink: "longlink"
             path: "longlink"
+            contentsBegin: 12
+            contentsEnd: 16
             children:
               - type: "text"
                 value: "text"
@@ -625,6 +631,8 @@ children:
             linkType: "fuzzy"
             rawLink: "link1"
             path: "link1"
+            contentsBegin: 9
+            contentsEnd: 14
             children:
               - type: "text"
                 value: "text1"
@@ -635,6 +643,8 @@ children:
             linkType: "fuzzy"
             rawLink: "link2"
             path: "link2"
+            contentsBegin: 26
+            contentsEnd: 31
             children:
               - type: "text"
                 value: "text2"
@@ -1317,6 +1327,62 @@ children:
         children:
           - type: "text"
             value: "hi"
+`;
+
+exports[`org/parser table 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 59
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 59
+    children:
+      - type: "table"
+        tableType: "org"
+        tblfm: ""
+        contentsBegin: 1
+        contentsEnd: 59
+        children:
+          - type: "table-row"
+            rowType: "standard"
+            contentsBegin: 2
+            contentsEnd: 19
+            children:
+              - type: "table-cell"
+                contentsBegin: 3
+                contentsEnd: 8
+                children:
+                  - type: "text"
+                    value: "head1"
+              - type: "table-cell"
+                contentsBegin: 12
+                contentsEnd: 17
+                children:
+                  - type: "text"
+                    value: "head2"
+          - type: "table-row"
+            rowType: "rule"
+            contentsBegin: 21
+            contentsEnd: 21
+            children: []
+          - type: "table-row"
+            rowType: "standard"
+            contentsBegin: 40
+            contentsEnd: 58
+            children:
+              - type: "table-cell"
+                contentsBegin: 41
+                contentsEnd: 47
+                children:
+                  - type: "text"
+                    value: "value1"
+              - type: "table-cell"
+                contentsBegin: 50
+                contentsEnd: 56
+                children:
+                  - type: "text"
+                    value: "value2"
 `;
 
 exports[`org/parser timestamps active 1`] = `

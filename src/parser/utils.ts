@@ -175,14 +175,25 @@ export function paragraphSeparateRe(): RegExp {
       [
         // Headlines, inlinetasks.
         '\\*+ ',
+        // TODO: Footnote definitions.
+        // TODO: Diary sexps.
         '[ \\t]*(?:' +
           [
             // Empty lines.
             '$',
+            // Tables (any type).
+            '\\|',
+            '\\+(?:-+\\+)+[ \t]*$',
             // Comments, keyword-like or block-like constructs.
             // Blocks and keywords with dual values need to be
             // double-checked.
             '#(?: |$|\\+(?:begin_\\S+|\\S+(?:\\[.*\\])?:[ \\t]*))',
+            // Drawers (any type) and fixed-width areas. Drawers need
+            // to be double-checked.
+            ':(?: |$|[-_\\w]+:[ \\t]*$)',
+            // TODO: Horizontal rules.
+            // TODO: LaTeX environments.
+            // TODO: Clock lines.
             // Lists.
             `(?:[-+*]|(?:[0-9]+${alpha})${term})(?:[ \\t]|$)`,
           ].join('|') +

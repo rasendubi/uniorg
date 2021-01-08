@@ -154,6 +154,25 @@ printf("%d\\n", *a);
 </div>
 `;
 
+exports[`org/org-to-hast table 1`] = `
+<div>
+<table>
+  <thead>
+    <tr>
+      <th>head1</th>
+      <th>head2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value1</td>
+      <td>value2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+`;
+
 exports[`org/org-to-hast timestamps active 1`] = `
 <div>
 <p><span class="timestamp">&#x3C;2021-01-07 Thu></span></p>

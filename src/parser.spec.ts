@@ -246,4 +246,13 @@ hello
 
     itParses('hanging /', `- hello/other`);
   });
+
+  itParses(
+    'table',
+    `
+| head1  | head2 |
+|--------+-------|
+| value1 | value2 |
+`
+  );
 });

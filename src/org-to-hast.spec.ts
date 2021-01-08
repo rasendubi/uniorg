@@ -161,4 +161,13 @@ hello, world!
     hastTest('time range', `[2021-01-07 Thu 19:36-20:38]`);
     hastTest.todo('diary');
   });
+
+  hastTest(
+    'table',
+    `
+| head1  | head2 |
+|--------+-------|
+| value1 | value2 |
+`
+  );
 });

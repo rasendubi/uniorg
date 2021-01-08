@@ -42,6 +42,9 @@ import {
   Planning,
   PropertyDrawer,
   Drawer,
+  Table,
+  TableRow,
+  TableCell,
 } from './types';
 
 /*
@@ -158,111 +161,6 @@ class Parser {
     return null;
   }
 
-  private parseObjects(restriction: Set<string>): ObjectType[] {
-    const objects: ObjectType[] = [];
-
-    const objectRegexp = new RegExp(
-      [
-        // TODO: Sub/superscript.
-
-        // Bold, code, italic, strike-through, underline
-        // and verbatim.
-        `[*~=+_/][^${emphasisRegexpComponents.border}]`,
-
-        // Plain links.
-        linkPlainRe(),
-
-        // Objects starting with "[": regular link,
-        // footnote reference, statistics cookie,
-        // timestamp (inactive).
-        [
-          '\\[(?:',
-          // 'fn:',
-          // '|',
-          '\\[',
-          '|',
-          '[0-9]{4}-[0-9]{2}-[0-9]{2}',
-          // '|',
-          // '[0-9]*(?:%|/[0-9]*)\\]',
-          ')',
-        ].join(''),
-
-        // TODO: Objects starting with "@": export snippets.
-        // TODO: Objects starting with "{": macro.
-
-        // Objects starting with "<": timestamp (active, diary),
-        // target, radio target and angular links.
-        `<(?:%%|<|[0-9]|${linkTypesRe()})`,
-
-        // TODO: Objects starting with "$": latex fragment.
-
-        // TODO: Objects starting with "\": line break, entity, latex
-        // fragment.
-
-        // TODO: Objects starting with raw text: inline Babel source
-        // block, inline Babel call.
-      ].join('|')
-    );
-
-    // offset where previously parsed object ends.
-    let prevEnd = this.r.offset();
-
-    let prevOffset = -1;
-    while (!this.r.eof()) {
-      const offset = this.r.offset();
-
-      // Handle parseObject returning result without advancing the
-      // cursor. This is always a programming error and leads to
-      // infinite loop here.
-      if (prevOffset === offset) {
-        throw new Error('no progress');
-      }
-      prevOffset = offset;
-
-      const match = this.r.match(objectRegexp);
-      if (!match) {
-        break;
-      }
-      this.r.advance(match.index);
-      const objectBegin = this.r.offset();
-
-      const o = this.parseObject(restriction);
-      if (!o) {
-        // Matching objectRegexp does not guarantee that we've found a
-        // valid object (e.g., italic without closing /). Advance
-        // cursor by one char and try searching for the next object.
-        this.r.resetOffset(objectBegin + 1);
-        continue;
-      }
-
-      if (objectBegin !== prevEnd) {
-        // parse text before object
-        const value = this.r.substring(prevEnd, objectBegin);
-        objects.push(u('text', { value }));
-      }
-
-      const cbeg = o.contentsBegin as number | undefined;
-      const cend = o.contentsEnd as number | undefined;
-      if (cbeg !== undefined && cend !== undefined) {
-        this.r.narrow(cbeg, cend);
-        o.children = this.parseObjects(restrictionFor(o.type));
-        this.r.widen();
-      }
-
-      objects.push(o);
-      prevEnd = this.r.offset();
-    }
-
-    this.r.resetOffset(prevEnd);
-    const text = this.r.rest();
-    this.r.advance(text.length);
-    if (text.trim().length) {
-      objects.push(u('text', { value: text }));
-    }
-
-    return objects;
-  }
-
   private parseElement(
     mode: ParseMode,
     structure?: ListStructureItem[]
@@ -270,8 +168,10 @@ class Parser {
     // Item.
     if (mode === 'item') return this.parseItem(structure!);
 
-    // TODO: Table Row.
+    // Table Row.
+    if (mode === 'table-row') return this.parseTableRow();
 
+    // Node Property.
     if (mode === 'node-property') return this.parseNodeProperty();
 
     // Headline.
@@ -373,7 +273,26 @@ class Parser {
     // TODO: Footnote Definition.
     // TODO: Horizontal Rule.
     // TODO: Diary Sexp.
-    // TODO: Table.
+
+    // Table.
+    // There is no strict definition of a table.el table. Try to
+    // prevent false positive while being quick.
+    const ruleRe = /[ \t]*\+(-+\+)+[ \t]*$/;
+    if (this.r.lookingAt(/^[ \t]*\|/)) {
+      return this.parseTable();
+    } else if (this.r.lookingAt(ruleRe)) {
+      const offset = this.r.offset();
+      const nextLineOffset = offset + this.r.line().length;
+      const firstNonTable = this.r.match(/^[ \t]*($|[^|])/m)?.index ?? null;
+      this.r.advance(firstNonTable);
+      const isTable =
+        this.r.offset() > nextLineOffset && this.r.lookingAt(ruleRe);
+      this.r.resetOffset(offset);
+      if (isTable) {
+        return this.parseTable();
+      }
+      // fallthrough
+    }
 
     // List.
     if (this.r.match(itemRe())) {
@@ -389,7 +308,144 @@ class Parser {
     return this.parseParagraph();
   }
 
-  private parseObject(restriction: Set<string>): ObjectType | null {
+  private parseObjects(restriction: Set<string>): ObjectType[] {
+    const objects: ObjectType[] = [];
+
+    // offset where previously parsed object ends.
+    let prevEnd = this.r.offset();
+
+    while (!this.r.eof()) {
+      const prevOffset = this.r.offset();
+      const mobject = this.parseObject(restriction);
+      if (!mobject) break;
+
+      // Handle parseObject returning result without advancing the
+      // cursor. This is always a programming error and leads to
+      // infinite loop here.
+      if (this.r.offset() === prevOffset) {
+        throw new Error(
+          `no progress (parseObject): ${JSON.stringify(
+            mobject
+          )}, text: ${JSON.stringify(this.r.rest())}, objects: ${JSON.stringify(
+            objects,
+            null,
+            2
+          )}`
+        );
+      }
+
+      const [objectBegin, o] = mobject;
+      if (objectBegin !== prevEnd) {
+        // parse text before object
+        const value = this.r.substring(prevEnd, objectBegin);
+        objects.push(u('text', { value }));
+      }
+
+      const cbeg = o.contentsBegin as number | undefined;
+      const cend = o.contentsEnd as number | undefined;
+      if (cbeg !== undefined && cend !== undefined) {
+        this.r.narrow(cbeg, cend);
+        o.children = this.parseObjects(restrictionFor(o.type));
+        this.r.widen();
+      }
+
+      objects.push(o);
+
+      prevEnd = this.r.offset();
+    }
+
+    this.r.resetOffset(prevEnd);
+
+    // handle text after the last object
+    const text = this.r.rest();
+    this.r.advance(text.length);
+    if (text.trim().length) {
+      objects.push(u('text', { value: text }));
+    }
+
+    return objects;
+  }
+
+  private parseObject(restriction: Set<string>): [number, ObjectType] | null {
+    // table-cell only allowed inside table-row and always succeed.
+    if (restriction.has('table-cell')) {
+      return [this.r.offset(), this.parseTableCell()];
+    }
+
+    // 1. Search for pattern that probably starts an object.
+    // 2. Try to parse object at that position.
+    // 3. If not a valid object, advance by one char and repeat.
+
+    const objectRe = new RegExp(
+      [
+        // TODO: Sub/superscript.
+
+        // Bold, code, italic, strike-through, underline
+        // and verbatim.
+        `[*~=+_/][^${emphasisRegexpComponents.border}]`,
+
+        // Plain links.
+        linkPlainRe(),
+
+        // Objects starting with "[": regular link,
+        // footnote reference, statistics cookie,
+        // timestamp (inactive).
+        [
+          '\\[(?:',
+          // 'fn:',
+          // '|',
+          '\\[',
+          '|',
+          '[0-9]{4}-[0-9]{2}-[0-9]{2}',
+          // '|',
+          // '[0-9]*(?:%|/[0-9]*)\\]',
+          ')',
+        ].join(''),
+
+        // TODO: Objects starting with "@": export snippets.
+        // TODO: Objects starting with "{": macro.
+
+        // Objects starting with "<": timestamp (active, diary),
+        // target, radio target and angular links.
+        `<(?:%%|<|[0-9]|${linkTypesRe()})`,
+
+        // TODO: Objects starting with "$": latex fragment.
+
+        // TODO: Objects starting with "\": line break, entity, latex
+        // fragment.
+
+        // TODO: Objects starting with raw text: inline Babel source
+        // block, inline Babel call.
+      ].join('|')
+    );
+
+    while (!this.r.eof()) {
+      const m = this.r.match(objectRe);
+      if (!m) return null;
+
+      this.r.advance(m.index);
+
+      const begin = this.r.offset();
+      const o = this.tryParseObject(restriction);
+      if (o) {
+        if (begin === this.r.offset()) {
+          throw new Error('no progress (tryParseObject)');
+        }
+        return [begin, o];
+      }
+
+      this.r.resetOffset(begin);
+
+      // Matching objectRegexp does not guarantee that we've found a
+      // valid object (e.g., italic without closing /). Advance cursor
+      // by one char and try searching for the next object.
+      this.r.advance(1);
+    }
+
+    return null;
+  }
+
+  private tryParseObject(restriction: Set<string>): ObjectType | null {
     const c = this.r.peek(2);
     switch (c[0]) {
       case '_':
@@ -692,6 +748,64 @@ class Parser {
     return u('paragraph', { contentsBegin, contentsEnd }, []);
   }
 
+  private parseTable(): Table {
+    const contentsBegin = this.r.offset();
+    const tableType: 'org' | 'table.el' = this.r.lookingAt(/^[ \t]*\|/)
+      ? 'org'
+      : 'table.el';
+    const endRe = new RegExp(
+      `^[ \\t]*($|[^| \\t${tableType === 'org' ? '' : '+'}])`,
+      'm'
+    );
+    const endM = this.r.match(endRe);
+    const contentsEnd = endM ? contentsBegin + endM.index : this.r.endOffset();
+    this.r.resetOffset(contentsEnd);
+    let tblfm = '';
+    while (true) {
+      const tblfmM = this.r.lookingAt(/^[ \t]*#\+TBLFM: +(.*?)[ \t]*$/m);
+      if (!tblfmM) break;
+      tblfm = tblfm + tblfmM[1];
+      this.r.advance(this.r.line());
+    }
+    this.parseEmptyLines();
+
+    if (tableType === 'org') {
+      return u('table', { tableType, tblfm, contentsBegin, contentsEnd }, []);
+    } else {
+      return u(
+        'table',
+        {
+          tableType,
+          tblfm,
+          value: this.r.substring(contentsBegin, contentsEnd),
+        },
+        []
+      );
+    }
+  }
+
+  private parseTableRow(): TableRow {
+    const rowType: 'rule' | 'standard' = this.r.lookingAt(/^[ \t]*\|-/)
+      ? 'rule'
+      : 'standard';
+    this.r.advance(this.r.forceMatch(/\|/));
+    const contentsBegin = this.r.offset();
+    this.r.advance(this.r.forceMatch(/^.*?[ \t]*$/m));
+    // A table rule has no contents. In that case, ensure
+    // contentsBegin matches contentsEnd.
+    const contentsEnd = rowType === 'rule' ? contentsBegin : this.r.offset();
+    this.r.advance(this.r.line());
+    return u('table-row', { rowType, contentsBegin, contentsEnd }, []);
+  }
+
+  private parseTableCell(): TableCell {
+    this.r.advance(this.r.forceLookingAt(/^[ \t]*/));
+    const contentsBegin = this.r.offset();
+    const m = this.r.advance(this.r.forceLookingAt(/(.*?)[ \t]*(?:\||$)/m));
+    const contentsEnd = contentsBegin + m[1].length;
+    return u('table-cell', { contentsBegin, contentsEnd }, []);
+  }
+
   private parseList(structure: ListStructureItem[]): List {
     const contentsBegin = this.r.offset();
 
@@ -912,13 +1026,11 @@ class Parser {
         const m = this.r.match(linkBracketRe);
         this.r.advance(m);
         if (m) {
-          let children: ObjectType[] = [];
+          const contents: Pick<Link, 'contentsBegin' | 'contentsEnd'> = {};
           if (m.groups!.text) {
-            const contentStart = initialOffset + 2 + m.groups!.link.length + 2;
-            const contentEnd = contentStart + m.groups!.text.length;
-            this.r.narrow(contentStart, contentEnd);
-            children = this.parseObjects(restrictionFor('link'));
-            this.r.widen();
+            const contentsBegin = (contents.contentsBegin =
+              initialOffset + 2 + m.groups!.link.length + 2);
+            contents.contentsEnd = contentsBegin + m.groups!.text.length;
           }
 
           const linkType = m.groups!.link.match(/(.+?):(.*)/);
@@ -930,8 +1042,9 @@ class Parser {
               linkType: linkType ? linkType[1] : 'fuzzy',
               rawLink: m.groups!.link,
               path: linkType ? linkType[2] : m.groups!.link,
+              ...contents,
             },
-            children
+            []
           );
         }
         break;
