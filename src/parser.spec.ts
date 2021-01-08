@@ -183,6 +183,11 @@ hello /there/
   describe('links', () => {
     itParses('link', `http://example.com`);
 
+    itParses(
+      'plain link does not include trailing punctuation',
+      `Example: http://example.com.`
+    );
+
     itParses('link mixed with text', `hello http://example.com blah`);
 
     itParses('regular link', `[[link][text]]`);

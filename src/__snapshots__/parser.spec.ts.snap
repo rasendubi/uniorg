@@ -621,6 +621,31 @@ children:
             children: []
 `;
 
+exports[`org/parser links plain link does not include trailing punctuation 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "paragraph"
+        contentsBegin: 0
+        contentsEnd: 28
+        children:
+          - type: "text"
+            value: "Example: "
+          - type: "link"
+            format: "plain"
+            linkType: "http"
+            rawLink: "http://example.com"
+            path: "//example.com"
+            children: []
+          - type: "text"
+            value: "."
+`;
+
 exports[`org/parser links regular link 1`] = `
 type: "org-data"
 contentsBegin: 0
