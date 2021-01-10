@@ -168,6 +168,10 @@ export function orgToHast(
         return null;
       case 'drawer':
         return null;
+      case 'comment':
+        return null;
+      case 'fixed-width':
+        return h('pre', org.value);
       case 'table': {
         // TODO: support column groups
         // see https://orgmode.org/manual/Column-Groups.html

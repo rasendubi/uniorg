@@ -169,6 +169,45 @@ children:
               \\    ---AlexSchroeder\\n"
 `;
 
+exports[`org/parser comments empty comment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 1
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 1
+    children:
+      - type: "comment"
+        value: ""
+`;
+
+exports[`org/parser comments multi-line comment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 60
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 60
+    children:
+      - type: "comment"
+        value: "first line\\nsecond\\nthird\\nfourth"
+`;
+
+exports[`org/parser comments single-line comment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 17
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 17
+    children:
+      - type: "comment"
+        value: "this is comment"
+`;
+
 exports[`org/parser custom drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -343,6 +382,45 @@ type: "org-data"
 contentsBegin: 0
 contentsEnd: 0
 children: []
+`;
+
+exports[`org/parser fixed-width empty fixed-width 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 1
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 1
+    children:
+      - type: "fixed-width"
+        value: ""
+`;
+
+exports[`org/parser fixed-width multi-line fixed-width 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 17
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 17
+    children:
+      - type: "fixed-width"
+        value: "hello\\n  world"
+`;
+
+exports[`org/parser fixed-width single-line fixed-width 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "fixed-width"
+        value: "hello"
 `;
 
 exports[`org/parser headline complex headline 1`] = `

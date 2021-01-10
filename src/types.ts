@@ -42,6 +42,8 @@ export type ElementType =
   | SrcBlock
   | Keyword
   | TableRow
+  | Comment
+  | FixedWidth
   | Paragraph;
 export type ObjectType =
   | Link
@@ -102,6 +104,18 @@ export interface Section extends GreaterElement {
 
 export interface Paragraph extends Parent {
   type: 'paragraph';
+}
+
+export interface Comment extends Node {
+  type: 'comment';
+  /** Comments, without pound signs. */
+  value: string;
+}
+
+export interface FixedWidth extends Node {
+  type: 'fixed-width';
+  /** Contents, without colos prefix. */
+  value: string;
 }
 
 export interface List extends GreaterElement {

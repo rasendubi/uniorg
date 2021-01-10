@@ -195,4 +195,13 @@ hello, world!
 | value1 | value2 |
 `
   );
+
+  hastTest(
+    'comments',
+    `hello
+# comment
+there`
+  );
+
+  hastTest('fixed-width', `: hello`);
 });

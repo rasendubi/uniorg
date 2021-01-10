@@ -285,4 +285,26 @@ hello
 | value1 | value2 |
 `
   );
+
+  describe('comments', () => {
+    itParses('empty comment', `#`);
+    itParses('single-line comment', `# this is comment`);
+    itParses(
+      'multi-line comment',
+      `# first line
+  # second
+# third
+                    # fourth`
+    );
+  });
+
+  describe('fixed-width', () => {
+    itParses('empty fixed-width', `:`);
+    itParses('single-line fixed-width', `: hello`);
+    itParses(
+      'multi-line fixed-width',
+      `: hello
+:   world`
+    );
+  });
 });

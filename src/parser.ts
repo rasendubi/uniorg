@@ -28,7 +28,6 @@ import {
   Link,
   GreaterElementType,
   ListStructureItem,
-  QuoteBlock,
   SpecialBlock,
   Keyword,
   SrcBlock,
@@ -45,9 +44,9 @@ import {
   Table,
   TableRow,
   TableCell,
-  VerseBlock,
-  CenterBlock,
   CommentBlock,
+  Comment,
+  FixedWidth,
 } from './types';
 
 /*
@@ -193,7 +192,10 @@ class Parser {
       return result;
     }
 
-    // TODO: Comments.
+    // Comments.
+    if (this.r.lookingAt(/^[ \t]*#(?: |$)/m)) {
+      return this.parseComment();
+    }
 
     // Planning.
     if (
@@ -240,7 +242,10 @@ class Parser {
       return this.parseDrawer();
     }
 
-    // TODO: Fixed width
+    // Fixed width
+    if (this.r.lookingAt(/[ \t]*:( |$)/m)) {
+      return this.parseFixedWidth();
+    }
 
     // Inline Comments, Blocks, Babel Calls, Dynamic Blocks and
     // Keywords.
@@ -652,6 +657,34 @@ class Parser {
     const _end = this.r.offset();
 
     return u(type, { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseComment(): Comment {
+    let valueLines = [];
+    while (true) {
+      const m = this.r.lookingAt(/^[ \t]*# ?(.*)$/m);
+      if (!m) break;
+      this.r.advance(this.r.line());
+
+      valueLines.push(m[1]);
+    }
+    const value = valueLines.join('\n');
+
+    return u('comment', { value });
+  }
+
+  private parseFixedWidth(): FixedWidth {
+    let valueLines = [];
+    while (true) {
+      const m = this.r.lookingAt(/^[ \t]*: ?(.*)$/m);
+      if (!m) break;
+      this.r.advance(this.r.line());
+
+      valueLines.push(m[1]);
+    }
+    const value = valueLines.join('\n');
+
+    return u('fixed-width', { value });
   }
 
   private parseCommentBlock(): CommentBlock | Paragraph {

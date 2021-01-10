@@ -18,6 +18,13 @@ exports[`org/org-to-hast center block 1`] = `
 
 exports[`org/org-to-hast comment block 1`] = `<div></div>`;
 
+exports[`org/org-to-hast comments 1`] = `
+<div>
+<p>hello</p>
+<p>there</p>
+</div>
+`;
+
 exports[`org/org-to-hast complex headline 1`] = `
 <div>
 <h1><span class="todo-keyword TODO">TODO</span> <span class="priority">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
@@ -33,6 +40,12 @@ exports[`org/org-to-hast emphasis 1`] = `
 `;
 
 exports[`org/org-to-hast empty 1`] = `<div></div>`;
+
+exports[`org/org-to-hast fixed-width 1`] = `
+<div>
+<pre>hello</pre>
+</div>
+`;
 
 exports[`org/org-to-hast headline 1`] = `
 <div>
