@@ -44,6 +44,8 @@ export type ElementType =
   | TableRow
   | Comment
   | FixedWidth
+  | Clock
+  | LatexEnvironment
   | Paragraph;
 export type ObjectType =
   | Link
@@ -83,7 +85,7 @@ export interface Planning extends Node {
   scheduled: Timestamp | null;
 }
 
-export interface Drawer extends GreaterElement {
+export interface Drawer extends GreaterElement, WithAffiliatedKeywords {
   type: 'drawer';
   name: string;
 }
@@ -112,9 +114,23 @@ export interface Comment extends Node {
   value: string;
 }
 
-export interface FixedWidth extends Node {
+export interface FixedWidth extends Node, WithAffiliatedKeywords {
   type: 'fixed-width';
   /** Contents, without colos prefix. */
+  value: string;
+}
+
+export interface Clock extends Node {
+  type: 'clock';
+  // Clock duration for a closed clock
+  duration: string | null;
+  status: 'closed' | 'running';
+  value: Timestamp | null;
+}
+
+export interface LatexEnvironment extends Node, WithAffiliatedKeywords {
+  type: 'latex-environment';
+  /** LaTeX code. */
   value: string;
 }
 
@@ -142,28 +158,25 @@ export interface Item extends GreaterElement {
   tag: string | null;
 }
 
-export interface SrcBlock extends Node {
+export interface SrcBlock extends Node, WithAffiliatedKeywords {
   type: 'src-block';
   language?: string;
   value: string;
 }
-
-export interface QuoteBlock extends GreaterElement {
+export interface QuoteBlock extends GreaterElement, WithAffiliatedKeywords {
   type: 'quote-block';
 }
-export interface VerseBlock extends GreaterElement {
+export interface VerseBlock extends GreaterElement, WithAffiliatedKeywords {
   type: 'verse-block';
 }
-export interface CenterBlock extends GreaterElement {
+export interface CenterBlock extends GreaterElement, WithAffiliatedKeywords {
   type: 'center-block';
 }
-
-export interface CommentBlock extends Node {
+export interface CommentBlock extends Node, WithAffiliatedKeywords {
   type: 'comment-block';
   value: string;
 }
-
-export interface SpecialBlock extends GreaterElement {
+export interface SpecialBlock extends GreaterElement, WithAffiliatedKeywords {
   type: 'special-block';
   blockType: string;
 }
@@ -193,7 +206,7 @@ export interface TableCell extends RecursiveObject {
   type: 'table-cell';
 }
 
-export interface Keyword extends Node {
+export interface Keyword extends Node, WithAffiliatedKeywords {
   type: 'keyword';
   key: string;
   value: string;
@@ -261,4 +274,17 @@ export interface Timestamp extends Object {
     hour: number | null;
     minute: number | null;
   } | null;
+}
+
+type AffiliatedValue =
+  | string
+  | [string, string]
+  | ObjectType[]
+  | [ObjectType[], ObjectType[]];
+export type AffiliatedKeywords = Record<
+  string,
+  AffiliatedValue | AffiliatedValue[]
+>;
+export interface WithAffiliatedKeywords {
+  affiliated: AffiliatedKeywords;
 }

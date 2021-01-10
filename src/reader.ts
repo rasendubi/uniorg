@@ -91,6 +91,11 @@ export class Reader {
     return this.#text.substring(this.#offset, this.#right);
   }
 
+  /**
+   * Returns string at [left, right).
+   *
+   * Ignores narrowing.
+   */
   public substring(left: number, right: number): string {
     return this.#text.substring(left, right);
   }

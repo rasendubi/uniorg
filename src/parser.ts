@@ -47,6 +47,9 @@ import {
   CommentBlock,
   Comment,
   FixedWidth,
+  Clock,
+  LatexEnvironment,
+  AffiliatedKeywords,
 } from './types';
 
 /*
@@ -226,25 +229,32 @@ class Parser {
         this.r.substring(this.r.offset() - 1, this.r.offset()) === '\n'
       )
     ) {
-      return this.parseParagraph();
+      return this.parseParagraph({});
     }
 
-    // TODO: Clock.
+    // Clock.
+    if (this.r.lookingAt(/^[ \t]*CLOCK:/)) {
+      return this.parseClock();
+    }
+
     // TODO: Inlinetask.
 
     // From there, elements can have affiliated keywords.
-    // TODO: affiliated keywords
+    const affiliated = this.parseAffiliatedKeywords();
 
-    // TODO: LaTeX Environment.
+    // LaTeX Environment.
+    if (this.r.lookingAt(latexBeginEnvironmentRe)) {
+      return this.parseLatexEnvironment(affiliated);
+    }
 
     // Drawer.
     if (this.r.lookingAt(drawerRe)) {
-      return this.parseDrawer();
+      return this.parseDrawer(affiliated);
     }
 
     // Fixed width
     if (this.r.lookingAt(/[ \t]*:( |$)/m)) {
-      return this.parseFixedWidth();
+      return this.parseFixedWidth(affiliated);
     }
 
     // Inline Comments, Blocks, Babel Calls, Dynamic Blocks and
@@ -258,31 +268,33 @@ class Parser {
           const blockType = blockM[1].toLowerCase();
           switch (blockType) {
             case 'center':
-              return this.parseBlock('center-block', 'center');
+              return this.parseBlock('center-block', 'center', affiliated);
             case 'comment':
-              return this.parseCommentBlock();
+              return this.parseCommentBlock(affiliated);
             // TODO: example
             // TODO: export
             case 'quote':
-              return this.parseBlock('quote-block', 'quote');
+              return this.parseBlock('quote-block', 'quote', affiliated);
             case 'src':
-              return this.parseSrcBlock();
+              return this.parseSrcBlock(affiliated);
             case 'verse':
-              return this.parseBlock('verse-block', 'verse');
+              return this.parseBlock('verse-block', 'verse', affiliated);
             default:
-              return this.parseSpecialBlock();
+              return this.parseSpecialBlock(affiliated);
           }
         }
 
+        // TODO: parse babel-call
+        // TODO: parse dynamic-block
+
         if (this.r.match(/\S+:/)) {
           this.r.resetOffset(offset);
-          return this.parseKeyword();
+          return this.parseKeyword(affiliated);
         }
 
         // fallback: parse as paragraph
-        console.log('fallback parse as paragraph');
         this.r.resetOffset(offset);
-        return this.parseParagraph();
+        return this.parseParagraph(affiliated);
       }
     }
 
@@ -295,7 +307,7 @@ class Parser {
     // prevent false positive while being quick.
     const ruleRe = /[ \t]*\+(-+\+)+[ \t]*$/;
     if (this.r.lookingAt(/^[ \t]*\|/)) {
-      return this.parseTable();
+      return this.parseTable(affiliated);
     } else if (this.r.lookingAt(ruleRe)) {
       const offset = this.r.offset();
       const nextLineOffset = offset + this.r.line().length;
@@ -305,7 +317,7 @@ class Parser {
         this.r.offset() > nextLineOffset && this.r.lookingAt(ruleRe);
       this.r.resetOffset(offset);
       if (isTable) {
-        return this.parseTable();
+        return this.parseTable(affiliated);
       }
       // fallthrough
     }
@@ -317,11 +329,11 @@ class Parser {
         structure = this.parseListStructure();
         this.r.resetOffset(offset);
       }
-      return this.parseList(structure);
+      return this.parseList(structure, affiliated);
     }
 
     // Default element: Paragraph.
-    return this.parseParagraph();
+    return this.parseParagraph(affiliated);
   }
 
   private parseObjects(restriction: Set<string>): ObjectType[] {
@@ -636,16 +648,23 @@ class Parser {
 
   private parseBlock<T extends string>(
     type: T,
-    pattern: string
+    pattern: string,
+    affiliated: AffiliatedKeywords
   ):
-    | { type: T; contentsBegin: number; contentsEnd: number; children: never[] }
+    | {
+        type: T;
+        affiliated: AffiliatedKeywords;
+        contentsBegin: number;
+        contentsEnd: number;
+        children: never[];
+      }
     | Paragraph {
     const endM = this.r.match(
       new RegExp(`^[ \\t]*#\\+end_${pattern}[ \\t]*$`, 'im')
     );
     if (!endM) {
       // Incomplete block: parse it as a paragraph.
-      return this.parseParagraph();
+      return this.parseParagraph(affiliated);
     }
 
     const begin = this.r.offset();
@@ -656,7 +675,7 @@ class Parser {
     this.parseEmptyLines();
     const _end = this.r.offset();
 
-    return u(type, { contentsBegin, contentsEnd }, []);
+    return u(type, { affiliated, contentsBegin, contentsEnd }, []);
   }
 
   private parseComment(): Comment {
@@ -673,7 +692,7 @@ class Parser {
     return u('comment', { value });
   }
 
-  private parseFixedWidth(): FixedWidth {
+  private parseFixedWidth(affiliated: AffiliatedKeywords): FixedWidth {
     let valueLines = [];
     while (true) {
       const m = this.r.lookingAt(/^[ \t]*: ?(.*)$/m);
@@ -684,21 +703,26 @@ class Parser {
     }
     const value = valueLines.join('\n');
 
-    return u('fixed-width', { value });
+    return u('fixed-width', { affiliated, value });
   }
 
-  private parseCommentBlock(): CommentBlock | Paragraph {
-    const comment = this.parseBlock('comment-block', 'comment');
-    if (comment.type !== 'comment-block') return comment;
+  private parseCommentBlock(
+    affiliated: AffiliatedKeywords
+  ): CommentBlock | Paragraph {
+    const comment = this.parseBlock('comment-block', 'comment', affiliated);
+    if (comment.type !== 'comment-block') {
+      // parsed as paragraph
+      return comment;
+    }
     const value = this.r.substring(comment.contentsBegin, comment.contentsEnd);
-    return u('comment-block', { value });
+    return u('comment-block', { affiliated, value });
   }
 
-  private parseSrcBlock(): SrcBlock | Paragraph {
+  private parseSrcBlock(affiliated: AffiliatedKeywords): SrcBlock | Paragraph {
     const endM = this.r.match(/^[ \t]*#\+end_src[ \t]*$/im);
     if (!endM) {
       // Incomplete block: parse it as a paragraph.
-      return this.parseParagraph();
+      return this.parseParagraph(affiliated);
     }
 
     const headerM = this.r.forceMatch(
@@ -720,10 +744,12 @@ class Parser {
     this.parseEmptyLines();
     const _end = this.r.offset();
 
-    return u('src-block', { language, value });
+    return u('src-block', { affiliated, language, value });
   }
 
-  private parseSpecialBlock(): SpecialBlock | Paragraph {
+  private parseSpecialBlock(
+    affiliated: AffiliatedKeywords
+  ): SpecialBlock | Paragraph {
     const blockType = this.r.match(/[ \t]*#\+begin_(\S+)/i)![1];
     const endM = this.r.match(
       // TODO: regexp-quote blockType
@@ -732,7 +758,7 @@ class Parser {
     if (!endM) {
       console.log('incomplete block', blockType, this.r.rest());
       // Incomplete block: parse it as a paragraph.
-      return this.parseParagraph();
+      return this.parseParagraph(affiliated);
     }
 
     const begin = this.r.offset();
@@ -743,16 +769,96 @@ class Parser {
     this.parseEmptyLines();
     const _end = this.r.offset();
 
-    return u('special-block', { blockType, contentsBegin, contentsEnd }, []);
+    return u(
+      'special-block',
+      { affiliated, blockType, contentsBegin, contentsEnd },
+      []
+    );
   }
 
-  private parseKeyword(): Keyword {
+  private parseAffiliatedKeywords(): AffiliatedKeywords {
+    const offset = this.r.offset();
+
+    const result: AffiliatedKeywords = {};
+    while (!this.r.eof()) {
+      const keywordM = this.r.lookingAt(affiliatedRe);
+      if (!keywordM) break;
+
+      const rawKeyword = (
+        keywordM.groups!.dualKeyword ??
+        keywordM.groups!.regularKeyword ??
+        keywordM.groups!.attributeKeyword
+      ).toUpperCase();
+      const keyword = keywordTranslationTable[rawKeyword] ?? rawKeyword;
+
+      // true if keyword should have its value parsed
+      const isParsed = parsedKeywords.has(keyword);
+
+      this.r.advance(keywordM);
+      this.r.narrow(this.r.offset(), this.r.offset() + this.r.line().length);
+      const mainValue = isParsed
+        ? this.parseObjects(restrictionFor('keyword'))
+        : this.r.rest().trim();
+      this.r.widen();
+      this.r.advance(this.r.line());
+
+      const isDual = dualKeywords.has(keyword);
+      const dualValue = isDual ? keywordM.groups!.dualValue ?? null : null;
+
+      const value = dualValue === null ? mainValue : [mainValue, dualValue];
+
+      if (
+        multipleKeywords.has(keyword) ||
+        // Attributes can always appear on multiple lines.
+        keyword.match(/^ATTR_/)
+      ) {
+        result[keyword] = result[keyword] || [];
+        (result[keyword] as any[]).push(value);
+      } else {
+        result[keyword] = value;
+      }
+    }
+
+    // If affiliated keywords are orphaned: move back to first one.
+    // They will be parsed as a paragraph.
+    if (this.r.lookingAt(/^[ \t]*$/m)) {
+      this.r.resetOffset(offset);
+      return {};
+    }
+
+    return result;
+  }
+
+  private parseKeyword(affiliated: AffiliatedKeywords): Keyword {
     const m = this.r.match(/[ \t]*#\+(\S+):(.*)/)!;
     const key = m[1].toUpperCase();
     const value = m[2].trim();
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    return u('keyword', { key, value });
+    return u('keyword', { affiliated, key, value });
+  }
+
+  private parseLatexEnvironment(
+    affiliated: AffiliatedKeywords
+  ): LatexEnvironment | Paragraph {
+    const beginOffset = this.r.offset();
+    const beginM = this.r.advance(
+      this.r.forceLookingAt(latexBeginEnvironmentRe)
+    );
+    const name = beginM[1];
+    const endM = this.r.match(latexEndEnvironmentRe(name));
+    if (!endM) {
+      // Incomplete latex environment: parse it as a paragraph.
+      this.r.resetOffset(beginOffset);
+      return this.parseParagraph(affiliated);
+    }
+    this.r.advance(endM);
+    const endOffset = this.r.offset();
+    this.parseEmptyLines();
+
+    const value = this.r.substring(beginOffset, endOffset);
+
+    return u('latex-environment', { affiliated, value });
   }
 
   private parsePropertyDrawer(): PropertyDrawer {
@@ -766,12 +872,12 @@ class Parser {
     return u('property-drawer', { contentsBegin, contentsEnd }, []);
   }
 
-  private parseDrawer(): Drawer | Paragraph {
+  private parseDrawer(affiliated: AffiliatedKeywords): Drawer | Paragraph {
     const endM = this.r.match(/^[ \t]*:END:[ \t]*$/m);
     if (!endM) {
       console.log('incomplete drawer');
       // Incomplete drawer: parse it as a paragraph.
-      return this.parseParagraph();
+      return this.parseParagraph(affiliated);
     }
     const contentsEnd = this.r.offset() + endM.index;
 
@@ -781,7 +887,22 @@ class Parser {
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    return u('drawer', { name, contentsBegin, contentsEnd }, []);
+    return u('drawer', { affiliated, name, contentsBegin, contentsEnd }, []);
+  }
+
+  private parseClock(): Clock {
+    this.r.advance(this.r.forceMatch(/^[ \t]*CLOCK:[ \t]*/));
+    const value = this.parseTimestamp();
+
+    this.r.advance(this.r.match(/^[ \t]+=>[ \t]*/));
+    const durationM = this.r.advance(this.r.lookingAt(/^(\S+)[ \t]*$/m));
+    const duration = durationM ? durationM[1] : null;
+
+    const status: 'closed' | 'running' = duration ? 'closed' : 'running';
+
+    this.parseEmptyLines();
+
+    return u('clock', { value, duration, status });
   }
 
   private parseNodeProperty(): NodeProperty {
@@ -793,20 +914,76 @@ class Parser {
     return u('node-property', { key, value });
   }
 
-  private parseParagraph(): Paragraph {
+  private parseParagraph(affiliated: AffiliatedKeywords): Paragraph {
     const contentsBegin = this.r.offset();
     this.r.advance(this.r.line());
-    const next = this.r.match(paragraphSeparateRe());
+
+    let next = null;
+    while ((next = this.r.match(paragraphSeparateRe()))) {
+      this.r.advance(next.index);
+
+      // A matching `paragraphSeparateRe` is not necessarily the end
+      // of the paragraph. In particular, drawers, blocks or LaTeX
+      // environments opening lines must be closed.  Moreover keywords
+      // with a secondary value must belong to "dual keywords".
+
+      const blockBeginM = this.r.lookingAt(/[ \t]*#\+begin_(\S+)/i);
+      if (blockBeginM) {
+        const blockEndM = this.r.match(
+          new RegExp(`^[ \\t]*#\\+end_${blockBeginM[1]}[ \\t]*$`, 'im')
+        );
+        if (!blockEndM) {
+          this.r.advance(this.r.line());
+          continue;
+        }
+        break;
+      }
+
+      const drawerM = this.r.lookingAt(drawerRe);
+      if (drawerM) {
+        const endM = this.r.match(/^[ \t]*:END:[ \t]*$/m);
+        if (!endM) {
+          this.r.advance(this.r.line());
+          continue;
+        }
+        break;
+      }
+
+      const latexEnvironmentM = this.r.lookingAt(latexBeginEnvironmentRe);
+      if (latexEnvironmentM) {
+        const name = latexEnvironmentM[1];
+        const endM = this.r.match(latexEndEnvironmentRe(name));
+        if (!endM) {
+          this.r.advance(this.r.line());
+          continue;
+        }
+        break;
+      }
+
+      const dualKeywordM = this.r.lookingAt(/[ \t]*#\+(\S+)\[.*\]:/);
+      if (dualKeywordM) {
+        if (!dualKeywords.has(dualKeywordM[1].toLowerCase())) {
+          this.r.advance(this.r.line());
+          continue;
+        }
+        break;
+      }
+
+      // Everything else unambigously ends paragraph.
+      break;
+    }
+
     const contentsEnd = next
       ? this.r.offset() + next.index
       : this.r.endOffset();
+
     this.r.resetOffset(contentsEnd);
     this.parseEmptyLines();
 
-    return u('paragraph', { contentsBegin, contentsEnd }, []);
+    return u('paragraph', { affiliated, contentsBegin, contentsEnd }, []);
   }
 
-  private parseTable(): Table {
+  private parseTable(affiliated: AffiliatedKeywords): Table {
     const contentsBegin = this.r.offset();
     const tableType: 'org' | 'table.el' = this.r.lookingAt(/^[ \t]*\|/)
       ? 'org'
@@ -833,6 +1010,7 @@ class Parser {
       return u(
         'table',
         {
+          affiliated,
           tableType,
           tblfm,
           value: this.r.substring(contentsBegin, contentsEnd),
@@ -864,7 +1042,10 @@ class Parser {
     return u('table-cell', { contentsBegin, contentsEnd }, []);
   }
 
-  private parseList(structure: ListStructureItem[]): List {
+  private parseList(
+    structure: ListStructureItem[],
+    affiliated: AffiliatedKeywords
+  ): List {
     const contentsBegin = this.r.offset();
 
     const item = structure.find((x) => x.begin === contentsBegin);
@@ -897,7 +1078,7 @@ class Parser {
 
     return u(
       'plain-list',
-      { indent, listType, contentsBegin, contentsEnd, structure },
+      { affiliated, indent, listType, contentsBegin, contentsEnd, structure },
       []
     );
   }
@@ -1236,3 +1417,57 @@ class Parser {
 }
 
 const drawerRe = /^[ \t]*:((?:\w|[-_])+):[ \t]*$/m;
+
+const latexBeginEnvironmentRe = /^[ \t]*\\begin\{([A-Za-z0-9*]+)\}/i;
+const latexEndEnvironmentRe = (name: string) =>
+  new RegExp(`\\\\end\\{${name}\\}[ \\t]*$`, 'mi');
+
+const affiliatedKeywords = [
+  'CAPTION',
+  'DATA',
+  'HEADER',
+  'HEADERS',
+  'LABEL',
+  'NAME',
+  'PLOT',
+  'RESNAME',
+  'RESULT',
+  'RESULTS',
+  'SOURCE',
+  'SRCNAME',
+  'TBLNAME',
+];
+const dualKeywords = new Set(['RESULTS', 'CAPTION']);
+const parsedKeywords = new Set(['CAPTION']);
+const multipleKeywords = new Set(['CAPTION', 'HEADER']);
+
+const keywordTranslationTable: Record<string, string> = {
+  DATA: 'NAME',
+  LABEL: 'NAME',
+  RESNAME: 'NAME',
+  SOURCE: 'NAME',
+  SRCNAME: 'NAME',
+  TBLNAME: 'NAME',
+  RESULT: 'RESULTS',
+  HEADERS: 'HEADER',
+};
+
+const affiliatedRe = new RegExp(
+  [
+    '[ \\t]*#\\+(?:',
+    [
+      // Dual affiliated keywords.
+      `(?<dualKeyword>${[...dualKeywords].join(
+        '|'
+      )})(?:\\[(?<dualValue>.*)\\])?`,
+      // Regular affiliated keywords.
+      `(?<regularKeyword>${affiliatedKeywords
+        .filter((x) => !dualKeywords.has(x))
+        .join('|')})`,
+      // Export attributes.
+      `(?<attributeKeyword>ATTR_[-_A-Za-z0-9]+)`,
+    ].join('|'),
+    '):[ \\t]*',
+  ].join(''),
+  'i'
+);

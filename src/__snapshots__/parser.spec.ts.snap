@@ -1,5 +1,126 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`org/parser affiliated keyword dual keywords 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 30
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 30
+    children:
+      - type: "fixed-width"
+        affiliated:
+          RESULTS:
+            - ""
+            - "A"
+        value: "Hello, world!"
+`;
+
+exports[`org/parser affiliated keyword keyword renaming 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 36
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 36
+    children:
+      - type: "src-block"
+        affiliated:
+          NAME: "hi"
+        value: ""
+`;
+
+exports[`org/parser affiliated keyword multiple keywords 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 36
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 36
+    children:
+      - type: "paragraph"
+        affiliated:
+          NAME: "name"
+          CAPTION:
+            - - type: "text"
+                value: "hi\\n"
+        contentsBegin: 27
+        contentsEnd: 36
+        children:
+          - type: "text"
+            value: "paragraph"
+`;
+
+exports[`org/parser affiliated keyword multiple same keywords 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 78
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 78
+    children:
+      - type: "paragraph"
+        affiliated:
+          NAME: "name2"
+          CAPTION:
+            - - type: "text"
+                value: "caption1\\n"
+            - - type: "text"
+                value: "caption2\\n"
+        contentsBegin: 69
+        contentsEnd: 78
+        children:
+          - type: "text"
+            value: "paragraph"
+`;
+
+exports[`org/parser affiliated keyword name 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 55
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 55
+    children:
+      - type: "src-block"
+        affiliated:
+          NAME: "source"
+        language: "org"
+        value: "some paragraph\\n"
+`;
+
+exports[`org/parser affiliated keyword parsed keywords 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 34
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 34
+    children:
+      - type: "paragraph"
+        affiliated:
+          CAPTION:
+            - - type: "text"
+                value: "hello "
+              - type: "bold"
+                contentsBegin: 18
+                contentsEnd: 23
+                children:
+                  - type: "text"
+                    value: "world"
+        contentsBegin: 25
+        contentsEnd: 34
+        children:
+          - type: "text"
+            value: "paragraph"
+`;
+
 exports[`org/parser blocks center block 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -10,10 +131,12 @@ children:
     contentsEnd: 33
     children:
       - type: "center-block"
+        affiliated: {}
         contentsBegin: 15
         contentsEnd: 21
         children:
           - type: "paragraph"
+            affiliated: {}
             contentsBegin: 15
             contentsEnd: 21
             children:
@@ -31,6 +154,7 @@ children:
     contentsEnd: 35
     children:
       - type: "comment-block"
+        affiliated: {}
         value: "hello\\n"
 `;
 
@@ -44,8 +168,27 @@ children:
     contentsEnd: 32
     children:
       - type: "src-block"
+        affiliated: {}
         language: "c"
         value: "a = 0;\\n"
+`;
+
+exports[`org/parser blocks incomplete block after paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 28
+        children:
+          - type: "text"
+            value: "hello\\n#+begin_src\\nnot a code"
 `;
 
 exports[`org/parser blocks quote block 1`] = `
@@ -58,10 +201,12 @@ children:
     contentsEnd: 31
     children:
       - type: "quote-block"
+        affiliated: {}
         contentsBegin: 14
         contentsEnd: 20
         children:
           - type: "paragraph"
+            affiliated: {}
             contentsBegin: 14
             contentsEnd: 20
             children:
@@ -79,11 +224,13 @@ children:
     contentsEnd: 29
     children:
       - type: "special-block"
+        affiliated: {}
         blockType: "blah"
         contentsBegin: 13
         contentsEnd: 19
         children:
           - type: "paragraph"
+            affiliated: {}
             contentsBegin: 13
             contentsEnd: 19
             children:
@@ -101,6 +248,7 @@ children:
     contentsEnd: 27
     children:
       - type: "src-block"
+        affiliated: {}
         value: "hello\\n"
 `;
 
@@ -114,6 +262,7 @@ children:
     contentsEnd: 44
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 1
@@ -136,12 +285,14 @@ children:
             contentsEnd: 44
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 3
                 contentsEnd: 12
                 children:
                   - type: "text"
                     value: "example:\\n"
               - type: "src-block"
+                affiliated: {}
                 value: "  blah\\n"
 `;
 
@@ -155,6 +306,7 @@ children:
     contentsEnd: 121
     children:
       - type: "verse-block"
+        affiliated: {}
         contentsBegin: 14
         contentsEnd: 110
         children:
@@ -167,6 +319,61 @@ children:
 
 
               \\    ---AlexSchroeder\\n"
+`;
+
+exports[`org/parser clock clock in progress 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 29
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 29
+    children:
+      - type: "clock"
+        value:
+          type: "timestamp"
+          timestampType: "inactive"
+          rawValue: "[2021-01-10 Sun 14:36]"
+          start:
+            year: 2021
+            month: 1
+            day: 10
+            hour: 14
+            minute: 36
+          end: null
+        duration: null
+        status: "running"
+`;
+
+exports[`org/parser clock finished clock 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 62
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 62
+    children:
+      - type: "clock"
+        value:
+          type: "timestamp"
+          timestampType: "inactive-range"
+          rawValue: "[2020-12-22 Tue 09:07]--[2020-12-22 Tue 11:10]"
+          start:
+            year: 2020
+            month: 12
+            day: 22
+            hour: 9
+            minute: 7
+          end:
+            year: 2020
+            month: 12
+            day: 22
+            hour: 11
+            minute: 10
+        duration: "2:03"
+        status: "closed"
 `;
 
 exports[`org/parser comments empty comment 1`] = `
@@ -218,11 +425,13 @@ children:
     contentsEnd: 30
     children:
       - type: "drawer"
+        affiliated: {}
         name: "MYDRAWER"
         contentsBegin: 11
         contentsEnd: 25
         children:
           - type: "paragraph"
+            affiliated: {}
             contentsBegin: 11
             contentsEnd: 25
             children:
@@ -236,6 +445,24 @@ children:
                     value: "there"
 `;
 
+exports[`org/parser dual keyword inside paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 33
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 33
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 39
+        children:
+          - type: "text"
+            value: "hello\\n#+RESULTS[hi]: hello\\nthere\\n"
+`;
+
 exports[`org/parser emphasis marks C++ accidental strike-through 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -246,6 +473,7 @@ children:
     contentsEnd: 12
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 12
         children:
@@ -263,6 +491,7 @@ children:
     contentsEnd: 7
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 7
         children:
@@ -284,6 +513,7 @@ children:
     contentsEnd: 49
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 49
         children:
@@ -331,6 +561,7 @@ children:
     contentsEnd: 29
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 29
         children:
@@ -348,6 +579,7 @@ children:
     contentsEnd: 13
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 0
@@ -370,6 +602,7 @@ children:
             contentsEnd: 13
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 2
                 contentsEnd: 13
                 children:
@@ -394,6 +627,7 @@ children:
     contentsEnd: 1
     children:
       - type: "fixed-width"
+        affiliated: {}
         value: ""
 `;
 
@@ -407,6 +641,7 @@ children:
     contentsEnd: 17
     children:
       - type: "fixed-width"
+        affiliated: {}
         value: "hello\\n  world"
 `;
 
@@ -420,6 +655,7 @@ children:
     contentsEnd: 7
     children:
       - type: "fixed-width"
+        affiliated: {}
         value: "hello"
 `;
 
@@ -591,6 +827,24 @@ children:
     children: []
 `;
 
+exports[`org/parser incomplete drawer after paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 24
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 1
+        contentsEnd: 24
+        children:
+          - type: "text"
+            value: "hello\\n:NONDRAWER:\\nhello"
+`;
+
 exports[`org/parser keyword 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -601,8 +855,94 @@ children:
     contentsEnd: 11
     children:
       - type: "keyword"
+        affiliated: {}
         key: "TITLE"
         value: "hi"
+`;
+
+exports[`org/parser latex environment incomplete latex environment after paragraph (two lines) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 41
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 41
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 41
+        children:
+          - type: "text"
+            value: "hello
+
+              there
+
+              \\\\begin{hello}
+
+              I am incomplete"
+`;
+
+exports[`org/parser latex environment incomplete latex environment after paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 35
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 35
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 35
+        children:
+          - type: "text"
+            value: "hello
+
+              \\\\begin{hello}
+
+              I am incomplete"
+`;
+
+exports[`org/parser latex environment latex environment after paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 37
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 37
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "hello\\n"
+      - type: "latex-environment"
+        affiliated: {}
+        value: "\\\\begin{hello} there \\\\end{hello}"
+`;
+
+exports[`org/parser latex environment multi-line 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 35
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 35
+    children:
+      - type: "latex-environment"
+        affiliated: {}
+        value: "\\\\begin{hello}
+
+          some text
+
+          \\\\end{hello}"
 `;
 
 exports[`org/parser links link 1`] = `
@@ -615,6 +955,7 @@ children:
     contentsEnd: 18
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 18
         children:
@@ -636,6 +977,7 @@ children:
     contentsEnd: 24
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 24
         children:
@@ -663,6 +1005,7 @@ children:
     contentsEnd: 29
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 29
         children:
@@ -688,6 +1031,7 @@ children:
     contentsEnd: 8
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 8
         children:
@@ -709,6 +1053,7 @@ children:
     contentsEnd: 28
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 28
         children:
@@ -734,6 +1079,7 @@ children:
     contentsEnd: 14
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 14
         children:
@@ -759,6 +1105,7 @@ children:
     contentsEnd: 18
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 18
         children:
@@ -784,6 +1131,7 @@ children:
     contentsEnd: 34
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 34
         children:
@@ -821,6 +1169,7 @@ children:
     contentsEnd: 18
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 0
@@ -850,6 +1199,7 @@ children:
             contentsEnd: 10
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 2
                 contentsEnd: 9
                 children:
@@ -864,6 +1214,7 @@ children:
             contentsEnd: 18
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 12
                 contentsEnd: 18
                 children:
@@ -881,6 +1232,7 @@ children:
     contentsEnd: 9
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 0
@@ -903,6 +1255,7 @@ children:
             contentsEnd: 9
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 2
                 contentsEnd: 9
                 children:
@@ -920,12 +1273,14 @@ children:
     contentsEnd: 12
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 6
         children:
           - type: "text"
             value: "hello\\n"
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 6
@@ -948,6 +1303,7 @@ children:
             contentsEnd: 12
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 8
                 contentsEnd: 12
                 children:
@@ -965,6 +1321,7 @@ children:
     contentsEnd: 27
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 0
@@ -1002,12 +1359,14 @@ children:
             contentsEnd: 27
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 2
                 contentsEnd: 8
                 children:
                   - type: "text"
                     value: "there\\n"
               - type: "plain-list"
+                affiliated: {}
                 indent: 2
                 listType: "unordered"
                 contentsBegin: 8
@@ -1023,6 +1382,7 @@ children:
                     contentsEnd: 19
                     children:
                       - type: "paragraph"
+                        affiliated: {}
                         contentsBegin: 12
                         contentsEnd: 19
                         children:
@@ -1037,6 +1397,7 @@ children:
                     contentsEnd: 27
                     children:
                       - type: "paragraph"
+                        affiliated: {}
                         contentsBegin: 23
                         contentsEnd: 27
                         children:
@@ -1054,6 +1415,7 @@ children:
     contentsEnd: 13
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "ordered"
         contentsBegin: 0
@@ -1083,6 +1445,7 @@ children:
             contentsEnd: 7
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 3
                 contentsEnd: 7
                 children:
@@ -1097,6 +1460,7 @@ children:
             contentsEnd: 13
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 10
                 contentsEnd: 13
                 children:
@@ -1114,6 +1478,7 @@ children:
     contentsEnd: 4
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 0
@@ -1136,6 +1501,7 @@ children:
             contentsEnd: 4
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 2
                 contentsEnd: 4
                 children:
@@ -1153,6 +1519,7 @@ children:
     contentsEnd: 18
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 0
@@ -1175,12 +1542,14 @@ children:
             contentsEnd: 10
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 2
                 contentsEnd: 8
                 children:
                   - type: "text"
                     value: "list1\\n"
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 10
@@ -1203,6 +1572,7 @@ children:
             contentsEnd: 18
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 12
                 contentsEnd: 18
                 children:
@@ -1220,6 +1590,7 @@ children:
     contentsEnd: 12
     children:
       - type: "plain-list"
+        affiliated: {}
         indent: 0
         listType: "unordered"
         contentsBegin: 0
@@ -1249,6 +1620,7 @@ children:
             contentsEnd: 5
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 2
                 contentsEnd: 5
                 children:
@@ -1263,11 +1635,30 @@ children:
             contentsEnd: 12
             children:
               - type: "paragraph"
+                affiliated: {}
                 contentsBegin: 7
                 contentsEnd: 12
                 children:
                   - type: "text"
                     value: "there"
+`;
+
+exports[`org/parser non-dual keyword inside paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 25
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 25
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 28
+        children:
+          - type: "text"
+            value: "hello\\n#+BLAH[hi]: heh\\nhi\\n"
 `;
 
 exports[`org/parser planning 1`] = `
@@ -1358,6 +1749,7 @@ children:
                 key: "CREATED"
                 value: "[2019-03-13 Wed 23:57]"
           - type: "paragraph"
+            affiliated: {}
             contentsBegin: 63
             contentsEnd: 68
             children:
@@ -1406,6 +1798,7 @@ children:
     contentsEnd: 4
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 2
         contentsEnd: 4
         children:
@@ -1423,6 +1816,7 @@ children:
     contentsEnd: 6
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 6
         children:
@@ -1466,6 +1860,7 @@ children:
         contentsEnd: 23
         children:
           - type: "paragraph"
+            affiliated: {}
             contentsBegin: 8
             contentsEnd: 23
             children:
@@ -1483,6 +1878,7 @@ children:
     contentsEnd: 2
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 2
         children:
@@ -1556,6 +1952,7 @@ children:
     contentsEnd: 16
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 16
         children:
@@ -1581,6 +1978,7 @@ children:
     contentsEnd: 34
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 34
         children:
@@ -1611,6 +2009,7 @@ children:
     contentsEnd: 16
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 16
         children:
@@ -1636,6 +2035,7 @@ children:
     contentsEnd: 34
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 34
         children:
@@ -1666,6 +2066,7 @@ children:
     contentsEnd: 28
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 28
         children:
@@ -1696,6 +2097,7 @@ children:
     contentsEnd: 22
     children:
       - type: "paragraph"
+        affiliated: {}
         contentsBegin: 0
         contentsEnd: 22
         children:

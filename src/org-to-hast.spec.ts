@@ -204,4 +204,16 @@ there`
   );
 
   hastTest('fixed-width', `: hello`);
+
+  hastTest(
+    'clock',
+    `CLOCK: [2020-12-22 Tue 09:07]--[2020-12-22 Tue 11:10] =>  2:03`
+  );
+
+  hastTest(
+    `latex environment`,
+    `\\begin{hello}
+some text
+\\end{hello}`
+  );
 });

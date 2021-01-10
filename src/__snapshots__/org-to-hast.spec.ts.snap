@@ -16,6 +16,8 @@ exports[`org/org-to-hast center block 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast clock 1`] = `<div></div>`;
+
 exports[`org/org-to-hast comment block 1`] = `<div></div>`;
 
 exports[`org/org-to-hast comments 1`] = `
@@ -72,6 +74,16 @@ exports[`org/org-to-hast images 1`] = `
 `;
 
 exports[`org/org-to-hast keywords 1`] = `<div></div>`;
+
+exports[`org/org-to-hast latex environment 1`] = `
+<div>
+<div class="math math-display">
+  \\begin{hello}
+  some text
+  \\end{hello}
+</div>
+</div>
+`;
 
 exports[`org/org-to-hast link 1`] = `
 <div>

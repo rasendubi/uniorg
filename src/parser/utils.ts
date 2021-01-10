@@ -192,8 +192,10 @@ export function paragraphSeparateRe(): RegExp {
             // to be double-checked.
             ':(?: |$|[-_\\w]+:[ \\t]*$)',
             // TODO: Horizontal rules.
-            // TODO: LaTeX environments.
-            // TODO: Clock lines.
+            // LaTeX environments.
+            `\\\\begin\\{([A-Za-z0-9*]+)\\}`,
+            // Clock lines.
+            `CLOCK:`,
             // Lists.
             `(?:[-+*]|(?:[0-9]+${alpha})${term})(?:[ \\t]|$)`,
           ].join('|') +

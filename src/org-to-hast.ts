@@ -172,6 +172,10 @@ export function orgToHast(
         return null;
       case 'fixed-width':
         return h('pre', org.value);
+      case 'clock':
+        return null;
+      case 'latex-environment':
+        return h('div.math.math-display', org.value);
       case 'table': {
         // TODO: support column groups
         // see https://orgmode.org/manual/Column-Groups.html

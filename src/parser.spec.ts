@@ -96,6 +96,21 @@ this is section`
   itParses('keyword', `#+title: hi`);
 
   itParses(
+    'non-dual keyword inside paragraph',
+    `hello
+#+BLAH[hi]: heh
+hi
+`
+  );
+  itParses(
+    'dual keyword inside paragraph',
+    `hello
+#+RESULTS[hi]: hello
+there
+`
+  );
+
+  itParses(
     'planning',
     `* headline
 CLOSED: [2019-03-13 Wed 23:48] SCHEDULED: [2019-03-13 Wed] DEADLINE: [2019-03-14 Thu]`
@@ -122,6 +137,14 @@ hello`
     `:MYDRAWER:
 hello /there/
 :END:`
+  );
+
+  itParses(
+    'incomplete drawer after paragraph',
+    `
+hello
+:NONDRAWER:
+hello`
   );
 
   describe('timestamps', () => {
@@ -263,6 +286,13 @@ hello
 hello
 #+end_blah`
     );
+
+    itParses(
+      'incomplete block after paragraph',
+      `hello
+#+begin_src
+not a code`
+    );
   });
 
   describe('emphasis marks', () => {
@@ -305,6 +335,92 @@ hello
       'multi-line fixed-width',
       `: hello
 :   world`
+    );
+  });
+
+  describe('clock', () => {
+    itParses('clock in progress', `CLOCK: [2021-01-10 Sun 14:36]`);
+    itParses(
+      'finished clock',
+      `CLOCK: [2020-12-22 Tue 09:07]--[2020-12-22 Tue 11:10] =>  2:03`
+    );
+  });
+
+  describe('latex environment', () => {
+    itParses(
+      'multi-line',
+      `\\begin{hello}
+some text
+\\end{hello}`
+    );
+
+    itParses(
+      'latex environment after paragraph',
+      `hello
+\\begin{hello} there \\end{hello}`
+    );
+
+    itParses(
+      'incomplete latex environment after paragraph',
+      `hello
+\\begin{hello}
+I am incomplete`
+    );
+
+    itParses(
+      'incomplete latex environment after paragraph (two lines)',
+      `hello
+there
+\\begin{hello}
+I am incomplete`
+    );
+  });
+
+  describe('affiliated keyword', () => {
+    itParses(
+      'name',
+      `#+NAME: source
+#+begin_src org
+some paragraph
+#+end_src`
+    );
+
+    itParses(
+      'parsed keywords',
+      `#+CAPTION: hello *world*
+paragraph`
+    );
+
+    itParses(
+      'multiple keywords',
+      `#+NAME: name
+#+CAPTION: hi
+paragraph`
+    );
+
+    itParses(
+      'multiple same keywords',
+      `
+#+NAME: name1
+#+NAME: name2
+#+CAPTION: caption1
+#+CAPTION: caption2
+paragraph`
+    );
+
+    itParses(
+      'keyword renaming',
+      `#+srcname: hi
+#+begin_src
+#+end_src
+`
+    );
+
+    itParses(
+      'dual keywords',
+      `
+#+RESULTS[A]:
+: Hello, world!`
     );
   });
 });
