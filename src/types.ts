@@ -48,6 +48,7 @@ export type ElementType =
   | FixedWidth
   | Clock
   | LatexEnvironment
+  | HorizontalRule
   | Paragraph;
 export type ObjectType =
   | Link
@@ -104,6 +105,10 @@ export interface NodeProperty extends Node {
 
 export interface Section extends GreaterElement {
   type: 'section';
+}
+
+export interface HorizontalRule extends Node {
+  type: 'horizontal-rule';
 }
 
 export interface Paragraph extends Parent {

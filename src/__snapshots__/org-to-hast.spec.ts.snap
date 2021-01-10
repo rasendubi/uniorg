@@ -75,6 +75,12 @@ exports[`org/org-to-hast headline with sections 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast horizontal rule 1`] = `
+<div>
+<hr>
+</div>
+`;
+
 exports[`org/org-to-hast images 1`] = `
 <div>
 <p>

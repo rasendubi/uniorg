@@ -871,6 +871,18 @@ children:
     children: []
 `;
 
+exports[`org/parser horizontal rule 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "horizontal-rule"
+`;
+
 exports[`org/parser incomplete drawer after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0

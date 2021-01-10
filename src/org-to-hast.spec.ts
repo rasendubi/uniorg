@@ -245,4 +245,6 @@ there`
 some text
 \\end{hello}`
   );
+
+  hastTest('horizontal rule', `-----`);
 });

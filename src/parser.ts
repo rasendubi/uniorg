@@ -302,7 +302,11 @@ class Parser {
     }
 
     // TODO: Footnote Definition.
-    // TODO: Horizontal Rule.
+
+    // Horizontal Rule.
+    if (this.r.lookingAt(/^[ \t]*-{5,}[ \t]*$/)) {
+      return this.parseHorizontalRule(affiliated);
+    }
     // TODO: Diary Sexp.
 
     // Table.
@@ -1025,6 +1029,12 @@ class Parser {
     this.parseEmptyLines();
 
     return u('paragraph', { affiliated, contentsBegin, contentsEnd }, []);
+  }
+
+  private parseHorizontalRule(affiliated: AffiliatedKeywords): HorizontalRule {
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    return u('horizontal-rule', {});
   }
 
   private parseTable(affiliated: AffiliatedKeywords): Table {

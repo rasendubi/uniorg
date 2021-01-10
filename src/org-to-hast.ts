@@ -130,6 +130,8 @@ export function orgToHast(
         return h('div', toHast(org.children));
       case 'keyword':
         return null;
+      case 'horizontal-rule':
+        return h('hr');
       case 'paragraph':
         return h('p', toHast(org.children));
       case 'bold':

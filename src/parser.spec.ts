@@ -444,4 +444,6 @@ paragraph`
 : Hello, world!`
     );
   });
+
+  itParses('horizontal rule', `-----`);
 });
