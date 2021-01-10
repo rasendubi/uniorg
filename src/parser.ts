@@ -53,6 +53,12 @@ import {
   AffiliatedKeywords,
   ExampleBlock,
   FootnoteReference,
+  ExportBlock,
+  FootnoteDefinition,
+  HorizontalRule,
+  DiarySexp,
+  Entity,
+  LatexFragment,
 } from './types';
 
 /*
@@ -314,7 +320,7 @@ class Parser {
     }
     // Diary Sexp.
     if (this.r.lookingAt(/^%%\(/)) {
-      return this.parseDiarySexp();
+      return this.parseDiarySexp(affiliated);
     }
 
     // Table.
@@ -800,7 +806,7 @@ class Parser {
 
   private parseExportBlock(
     affiliated: AffiliatedKeywords
-  ): ExampleBlock | Paragraph {
+  ): ExportBlock | Paragraph {
     const endM = this.r.match(/^[ \t]*#\+end_export[ \t]*$/im);
     if (!endM) {
       // Incomplete block: parse it as a paragraph.
@@ -1110,7 +1116,7 @@ class Parser {
   private parseHorizontalRule(affiliated: AffiliatedKeywords): HorizontalRule {
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    return u('horizontal-rule', {});
+    return u('horizontal-rule', { affiliated });
   }
 
   private parseDiarySexp(affiliated: AffiliatedKeywords): DiarySexp {
@@ -1475,7 +1481,9 @@ class Parser {
 
     const contentsBegin = begin + m.index + m[0].length;
     const contentsEnd = end - 1;
-    const footnoteType = m.groups!.inline ? 'inline' : 'standard';
+    const footnoteType: 'inline' | 'standard' = m.groups!.inline
+      ? 'inline'
+      : 'standard';
     const label =
       footnoteType === 'inline'
         ? m.groups!.label_inline ?? null
@@ -1492,7 +1500,7 @@ class Parser {
         []
       );
     } else {
-      return u('footnote-reference', { label, footnoteType });
+      return u('footnote-reference', { label, footnoteType }, []);
     }
   }
 
@@ -1598,7 +1606,7 @@ class Parser {
     // TODO: warning props
 
     const start = diary ? null : Parser.parseDate(dateStart)!;
-    const end = diary
+    const end = !start
       ? null
       : dateEnd
       ? Parser.parseDate(dateEnd)

@@ -499,6 +499,7 @@ children:
     contentsEnd: 65
     children:
       - type: "diary-sexp"
+        affiliated: {}
         value: "%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)"
 `;
 
@@ -1014,6 +1015,7 @@ children:
           - type: "footnote-reference"
             label: "1"
             footnoteType: "standard"
+            children: []
 `;
 
 exports[`org/parser headline complex headline 1`] = `
@@ -1194,6 +1196,7 @@ children:
     contentsEnd: 5
     children:
       - type: "horizontal-rule"
+        affiliated: {}
 `;
 
 exports[`org/parser incomplete drawer after paragraph 1`] = `

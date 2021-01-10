@@ -22,7 +22,9 @@ export class Reader {
     this.#right = text.length;
   }
 
-  public advance<T extends number | RegExpExecArray | null | string>(n: T): T {
+  public advance<
+    T extends string | number | RegExpExecArray | null | undefined
+  >(n: T): T {
     if (!n) {
       // do nothing
     } else if (typeof n === 'number') {

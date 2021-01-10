@@ -23,7 +23,16 @@ export const getOrgEntity = (
   };
 };
 
-const orgEntities: [string, string, boolean, string, string, string][] = [
+// (json-encode org-entities)
+const orgEntities: [
+  string,
+  string,
+  boolean,
+  string,
+  string,
+  string,
+  string
+][] = [
   // * Letters
   // ** Latin
   ['Agrave', '\\`{A}', false, '&Agrave;', 'A', 'À', 'À'],

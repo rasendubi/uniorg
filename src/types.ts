@@ -318,7 +318,7 @@ export interface Timestamp extends Object {
     day: number;
     hour: number | null;
     minute: number | null;
-  };
+  } | null;
   end: {
     year: number;
     month: number;
