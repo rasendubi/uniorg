@@ -247,4 +247,15 @@ some text
   );
 
   hastTest('horizontal rule', `-----`);
+
+  hastTest(
+    'diary sexp',
+    `%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)`
+  );
+
+  hastTest(
+    'latex-fragment',
+    `If $a^2=b$ and \\( b=2 \\), then the solution must be
+either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
+  );
 });

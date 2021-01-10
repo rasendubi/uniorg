@@ -34,6 +34,7 @@ export type GreaterElementType =
   | VerseBlock
   | CenterBlock
   | SpecialBlock
+  | FootnoteDefinition
   | Table;
 export type ElementType =
   | Planning
@@ -49,6 +50,7 @@ export type ElementType =
   | Clock
   | LatexEnvironment
   | HorizontalRule
+  | DiarySexp
   | Paragraph;
 export type ObjectType =
   | Link
@@ -60,6 +62,7 @@ export type ObjectType =
   | Underline
   | Text
   | Timestamp
+  | FootnoteReference
   | TableCell;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
@@ -107,13 +110,21 @@ export interface Section extends GreaterElement {
   type: 'section';
 }
 
-export interface HorizontalRule extends Node {
+export interface HorizontalRule extends Node, WithAffiliatedKeywords {
   type: 'horizontal-rule';
 }
 
-export interface FootnoteDefinition extends GreaterElement {
+export interface FootnoteDefinition
+  extends GreaterElement,
+    WithAffiliatedKeywords {
   type: 'footnote-definition';
   label: string;
+}
+
+export interface DiarySexp extends Node, WithAffiliatedKeywords {
+  type: 'diary-sexp';
+  /** Full Sexp */
+  value: string;
 }
 
 export interface Paragraph extends Parent {
@@ -142,6 +153,12 @@ export interface Clock extends Node {
 
 export interface LatexEnvironment extends Node, WithAffiliatedKeywords {
   type: 'latex-environment';
+  /** LaTeX code. */
+  value: string;
+}
+
+export interface LatexFragment extends Node {
+  type: 'latex-fragment';
   /** LaTeX code. */
   value: string;
 }
@@ -295,6 +312,12 @@ export interface Timestamp extends Object {
     hour: number | null;
     minute: number | null;
   } | null;
+}
+
+export interface FootnoteReference extends RecursiveObject {
+  type: 'footnote-reference';
+  label: string;
+  footnoteType: 'inline' | 'standard';
 }
 
 type AffiliatedValue =

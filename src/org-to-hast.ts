@@ -132,6 +132,12 @@ export function orgToHast(
         return null;
       case 'horizontal-rule':
         return h('hr');
+      case 'diary-sexp':
+        return null;
+      case 'footnote-reference':
+      case 'footnote-definition':
+        // TODO: serialize footnotes and footnote definitions.
+        return null;
       case 'paragraph':
         return h('p', toHast(org.children));
       case 'bold':
@@ -185,6 +191,8 @@ export function orgToHast(
         return null;
       case 'latex-environment':
         return h('div.math.math-display', org.value);
+      case 'latex-fragment':
+        return h('span.math.math-inline', org.value);
       case 'table': {
         // TODO: support column groups
         // see https://orgmode.org/manual/Column-Groups.html

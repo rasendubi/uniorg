@@ -35,6 +35,8 @@ exports[`org/org-to-hast complex headline 1`] = `
 
 exports[`org/org-to-hast custom drawer 1`] = `<div></div>`;
 
+exports[`org/org-to-hast diary sexp 1`] = `<div></div>`;
+
 exports[`org/org-to-hast emphasis 1`] = `
 <div>
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span style="text-decoration: underline;">under</span></p>
@@ -98,6 +100,15 @@ exports[`org/org-to-hast latex environment 1`] = `
   some text
   \\end{hello}
 </div>
+</div>
+`;
+
+exports[`org/org-to-hast latex-fragment 1`] = `
+<div>
+<p>
+  If <span class="math math-inline">$a^2=b$</span> and <span class="math math-inline">\\( b=2 \\)</span>, then the solution must be
+  either <span class="math math-inline">$$ a=+\\sqrt{2} $$</span> or <span class="math math-inline">\\[ a=-\\sqrt{2} \\]</span>.
+</p>
 </div>
 `;
 

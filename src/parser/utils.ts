@@ -193,7 +193,8 @@ export function paragraphSeparateRe(): RegExp {
             // Drawers (any type) and fixed-width areas. Drawers need
             // to be double-checked.
             ':(?: |$|[-_\\w]+:[ \\t]*$)',
-            // TODO: Horizontal rules.
+            // Horizontal rules.
+            '-{5,}[ \\t]*$',
             // LaTeX environments.
             `\\\\begin\\{([A-Za-z0-9*]+)\\}`,
             // Clock lines.

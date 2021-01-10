@@ -51,6 +51,7 @@ import {
   LatexEnvironment,
   AffiliatedKeywords,
   ExampleBlock,
+  FootnoteReference,
 } from './types';
 
 /*
@@ -310,7 +311,10 @@ class Parser {
     if (this.r.lookingAt(/^[ \t]*-{5,}[ \t]*$/)) {
       return this.parseHorizontalRule(affiliated);
     }
-    // TODO: Diary Sexp.
+    // Diary Sexp.
+    if (this.r.lookingAt(/^%%\(/)) {
+      return this.parseDiarySexp();
+    }
 
     // Table.
     // There is no strict definition of a table.el table. Try to
@@ -416,45 +420,44 @@ class Parser {
 
     const objectRe = new RegExp(
       [
-        // TODO: Sub/superscript.
-
+        // Sub/superscript.
+        '(?:[_^][-{(*+.,\\p{Letter}\\p{Number}])',
         // Bold, code, italic, strike-through, underline
         // and verbatim.
         `[*~=+_/][^${emphasisRegexpComponents.border}]`,
-
         // Plain links.
         linkPlainRe(),
-
         // Objects starting with "[": regular link,
         // footnote reference, statistics cookie,
         // timestamp (inactive).
         [
           '\\[(?:',
-          // 'fn:',
-          // '|',
+          'fn:',
+          '|',
           '\\[',
           '|',
           '[0-9]{4}-[0-9]{2}-[0-9]{2}',
-          // '|',
-          // '[0-9]*(?:%|/[0-9]*)\\]',
+          '|',
+          '[0-9]*(?:%|/[0-9]*)\\]',
           ')',
         ].join(''),
-
-        // TODO: Objects starting with "@": export snippets.
-        // TODO: Objects starting with "{": macro.
-
+        // Objects starting with "@": export snippets.
+        '@@',
+        // Objects starting with "{": macro.
+        '{{{',
         // Objects starting with "<": timestamp (active, diary),
         // target, radio target and angular links.
         `<(?:%%|<|[0-9]|${linkTypesRe()})`,
-
-        // TODO: Objects starting with "$": latex fragment.
-
-        // TODO: Objects starting with "\": line break, entity, latex
+        // Objects starting with "$": latex fragment.
+        '\\$',
+        // Objects starting with "\": line break, entity, latex
         // fragment.
-
-        // TODO: Objects starting with raw text: inline Babel source
-        // block, inline Babel call.
-      ].join('|')
+        '\\\\(?:[a-zA-Z\\[\\(]|\\\\[ \\t]*$|_ +)',
+        // Objects starting with raw text: inline Babel source block,
+        // inline Babel call.
+        '(?:call|src)_',
+      ].join('|'),
+      'm'
     );
 
     while (!this.r.eof()) {
@@ -516,6 +519,11 @@ class Parser {
           return this.parseStrikeThrough();
         }
         break;
+      case '$':
+        if (restriction.has('latex-fragment')) {
+          return this.parseLatexFragment();
+        }
+        break;
       case '<':
         if (c[1] === '<') {
           // TODO: radio target / target
@@ -530,11 +538,31 @@ class Parser {
           this.r.resetOffset(offset);
         }
         break;
+      case '\\':
+        if (c[1] === '\\') {
+          // TODO: line break parser
+        } else {
+          const offset = this.r.offset();
+          const entity = null;
+          // TODO: const entity = restriction.has('entity') && this.parseEntity();
+          if (entity) return entity;
+          this.r.resetOffset(offset);
+
+          const fragment =
+            restriction.has('latex-fragment') && this.parseLatexFragment();
+          if (fragment) return fragment;
+          this.r.resetOffset(offset);
+        }
+        break;
       case '[':
         if (c[1] === '[') {
           // normal link
           if (restriction.has('link')) {
             return this.parseLink();
+          }
+        } else if (c[1] === 'f') {
+          if (restriction.has('footnote-reference')) {
+            return this.parseFootnoteReference();
           }
         } else {
           const offset = this.r.offset();
@@ -1085,6 +1113,13 @@ class Parser {
     return u('horizontal-rule', {});
   }
 
+  private parseDiarySexp(affiliated: AffiliatedKeywords): DiarySexp {
+    const value = this.r.forceLookingAt(/(%%\(.*)[ \t]*$/)[1];
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    return u('diary-sexp', { affiliated, value });
+  }
+
   private parseTable(affiliated: AffiliatedKeywords): Table {
     const contentsBegin = this.r.offset();
     const tableType: 'org' | 'table.el' = this.r.lookingAt(/^[ \t]*\|/)
@@ -1355,6 +1390,99 @@ class Parser {
     return u('strike-through', { contentsBegin, contentsEnd }, []);
   }
 
+  private parseLatexFragment(): LatexFragment | null {
+    const begin = this.r.offset();
+    const prefix = this.r.peek(2);
+    if (prefix[0] !== '$') {
+      switch (prefix[1]) {
+        case '(':
+          this.r.advance(this.r.match(/\)/));
+          break;
+        case '[':
+          this.r.advance(this.r.match(/\]/));
+          break;
+        default: {
+          // Macro.
+          const m = this.r.advance(
+            this.r.lookingAt(
+              /^\\[a-zA-Z]+\*?((\[[^\]\[\n{}]*\])|(\{[^{}\n]*\}))*/
+            )
+          );
+        }
+      }
+    } else if (prefix[1] === '$') {
+      this.r.advance(this.r.match(/\$\$.*?\$\$/));
+    } else {
+      const charBefore = this.r.substring(this.r.offset() - 1, this.r.offset());
+      if (
+        charBefore !== '$' &&
+        !' \t\n,.;'.includes(prefix[1]) &&
+        this.r.advance(this.r.match(/\$.*?\$/)) &&
+        !' \t\n,.'.includes(
+          this.r.substring(this.r.offset() - 1, this.r.offset())
+        ) &&
+        this.r.lookingAt(
+          /^(\p{Punctuation}|\p{White_Space}|\p{Open_Punctuation}|\p{Close_Punctuation}|\\"|'|$)/mu
+        )
+      ) {
+        // we've found the end
+        // ...wow
+      } else {
+        return null;
+      }
+    }
+    const end = this.r.offset();
+    if (begin === end) return null;
+
+    const value = this.r.substring(begin, end);
+    return u('latex-fragment', { value });
+  }
+
+  private parseFootnoteReference(): FootnoteReference | null {
+    const begin = this.r.offset();
+    const m = this.r.match(footnoteRe);
+    if (!m) return null;
+
+    // return true if match is found
+    const advanceToClosingBracket = (): boolean => {
+      while (true) {
+        const m = this.r.advance(this.r.match(/[\[\]]/));
+        if (!m) return false;
+        if (m[0] == '[') {
+          const closed = advanceToClosingBracket();
+          if (!closed) return false;
+        }
+        return true;
+      }
+    };
+
+    const closed = advanceToClosingBracket();
+    if (!closed) return null;
+    const end = this.r.offset();
+
+    const contentsBegin = begin + m.index + m[0].length;
+    const contentsEnd = end - 1;
+    const footnoteType = m.groups!.inline ? 'inline' : 'standard';
+    const label =
+      footnoteType === 'inline'
+        ? m.groups!.label_inline ?? null
+        : m.groups!.label;
+    if (footnoteType === 'inline') {
+      return u(
+        'footnote-reference',
+        {
+          label,
+          footnoteType,
+          contentsBegin,
+          contentsEnd,
+        },
+        []
+      );
+    } else {
+      return u('footnote-reference', { label, footnoteType });
+    }
+  }
+
   private parseLink(): Link | null {
     const initialOffset = this.r.offset();
 
@@ -1577,6 +1705,6 @@ const affiliatedRe = new RegExp(
   'i'
 );
 
-const footnoteRe = /\[fn:(?:(?<name_inline>[-_\w]+)?:|(?<name>[-_\w]+)\])/;
+const footnoteRe = /\[fn:(?:(?<label_inline>[-_\w]+)?(?<inline>:)|(?<label>[-_\w]+)\])/;
 const footnoteDefinitionRe = /^\[fn:([-_\w]+)\]/;
 const footnoteDefinitionSeparatorRe = /^\*|^\[fn:([-_\w]+)\]|^([ \t]*\n){2,}/m;

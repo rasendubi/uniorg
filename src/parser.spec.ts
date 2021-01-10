@@ -492,4 +492,27 @@ footnote
 [fn:1] hello`
     );
   });
+
+  itParses(
+    'diary sexp',
+    `%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)`
+  );
+
+  describe('footnote-reference', () => {
+    itParses('standard reference', `hello[fn:1]`);
+    itParses(
+      'inline reference',
+      `hello[fn:: this is inline /footnote/ definition]`
+    );
+    itParses(
+      'named inline reference',
+      `hello[fn:name: this is inline /footnote/ definition]`
+    );
+  });
+
+  itParses(
+    'latex-fragment',
+    `If $a^2=b$ and \\( b=2 \\), then the solution must be
+either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
+  );
 });

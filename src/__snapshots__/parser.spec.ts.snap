@@ -489,6 +489,19 @@ children:
                     value: "there"
 `;
 
+exports[`org/parser diary sexp 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 65
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 65
+    children:
+      - type: "diary-sexp"
+        value: "%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)"
+`;
+
 exports[`org/parser dual keyword inside paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -889,6 +902,95 @@ children:
                 value: "footnote\\n"
 `;
 
+exports[`org/parser footnote-reference inline reference 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 48
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 48
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 48
+        children:
+          - type: "text"
+            value: "hello"
+          - type: "footnote-reference"
+            label: null
+            footnoteType: "inline"
+            contentsBegin: 10
+            contentsEnd: 47
+            children:
+              - type: "text"
+                value: " this is inline "
+              - type: "italic"
+                contentsBegin: 27
+                contentsEnd: 35
+                children:
+                  - type: "text"
+                    value: "footnote"
+              - type: "text"
+                value: " definition"
+`;
+
+exports[`org/parser footnote-reference named inline reference 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 52
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 52
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 52
+        children:
+          - type: "text"
+            value: "hello"
+          - type: "footnote-reference"
+            label: "name"
+            footnoteType: "inline"
+            contentsBegin: 14
+            contentsEnd: 51
+            children:
+              - type: "text"
+                value: " this is inline "
+              - type: "italic"
+                contentsBegin: 31
+                contentsEnd: 39
+                children:
+                  - type: "text"
+                    value: "footnote"
+              - type: "text"
+                value: " definition"
+`;
+
+exports[`org/parser footnote-reference standard reference 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 11
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 11
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 11
+        children:
+          - type: "text"
+            value: "hello"
+          - type: "footnote-reference"
+            label: "1"
+            footnoteType: "standard"
+`;
+
 exports[`org/parser headline complex headline 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -1185,6 +1287,40 @@ children:
           some text
 
           \\\\end{hello}"
+`;
+
+exports[`org/parser latex-fragment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 98
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 98
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 98
+        children:
+          - type: "text"
+            value: "If "
+          - type: "latex-fragment"
+            value: "$a^2=b$"
+          - type: "text"
+            value: " and "
+          - type: "latex-fragment"
+            value: "\\\\( b=2 \\\\)"
+          - type: "text"
+            value: ", then the solution must be\\neither "
+          - type: "latex-fragment"
+            value: "$$ a=+\\\\sqrt{2} $$"
+          - type: "text"
+            value: " or "
+          - type: "latex-fragment"
+            value: "\\\\[ a=-\\\\sqrt{2} \\\\]"
+          - type: "text"
+            value: "."
 `;
 
 exports[`org/parser links link 1`] = `
