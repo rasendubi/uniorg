@@ -173,6 +173,50 @@ children:
         value: "a = 0;\\n"
 `;
 
+exports[`org/parser blocks example block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 32
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 32
+    children:
+      - type: "example-block"
+        affiliated: {}
+        value: "hi\\n"
+`;
+
+exports[`org/parser blocks export block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 30
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 30
+    children:
+      - type: "export-block"
+        affiliated: {}
+        backend: null
+        value: "hi\\n"
+`;
+
+exports[`org/parser blocks export block with backend 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 35
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 35
+    children:
+      - type: "export-block"
+        affiliated: {}
+        backend: "html"
+        value: "hi\\n"
+`;
+
 exports[`org/parser blocks incomplete block after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0

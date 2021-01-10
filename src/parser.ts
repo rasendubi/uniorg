@@ -50,6 +50,7 @@ import {
   Clock,
   LatexEnvironment,
   AffiliatedKeywords,
+  ExampleBlock,
 } from './types';
 
 /*
@@ -271,8 +272,10 @@ class Parser {
               return this.parseBlock('center-block', 'center', affiliated);
             case 'comment':
               return this.parseCommentBlock(affiliated);
-            // TODO: example
-            // TODO: export
+            case 'example':
+              return this.parseExampleBlock(affiliated);
+            case 'export':
+              return this.parseExportBlock(affiliated);
             case 'quote':
               return this.parseBlock('quote-block', 'quote', affiliated);
             case 'src':
@@ -745,6 +748,47 @@ class Parser {
     const _end = this.r.offset();
 
     return u('src-block', { affiliated, language, value });
+  }
+
+  private parseExampleBlock(
+    affiliated: AffiliatedKeywords
+  ): ExampleBlock | Paragraph {
+    // TODO: parse switches
+    const block = this.parseBlock('example-block', 'example', affiliated);
+    if (block.type !== 'example-block') {
+      // parsed as paragraph
+      return block;
+    }
+    const value = this.r.substring(block.contentsBegin, block.contentsEnd);
+    return u('example-block', { affiliated, value });
+  }
+
+  private parseExportBlock(
+    affiliated: AffiliatedKeywords
+  ): ExampleBlock | Paragraph {
+    const endM = this.r.match(/^[ \t]*#\+end_export[ \t]*$/im);
+    if (!endM) {
+      // Incomplete block: parse it as a paragraph.
+      return this.parseParagraph(affiliated);
+    }
+
+    const headerM = this.r.forceMatch(
+      /^[ \t]*#\+begin_export(?:[ \t]+(\S+))?[ \t]*$/im
+    );
+    const backend = headerM[1] ?? null;
+
+    const begin = this.r.offset();
+    const contentsBegin = begin + this.r.line().length;
+    const contentsEnd = begin + endM.index;
+    const value = unescapeCodeInString(
+      this.r.substring(contentsBegin, contentsEnd)
+    );
+    this.r.resetOffset(contentsEnd);
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    const _end = this.r.offset();
+
+    return u('export-block', { affiliated, backend, value });
   }
 
   private parseSpecialBlock(

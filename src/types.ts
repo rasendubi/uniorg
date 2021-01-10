@@ -40,6 +40,8 @@ export type ElementType =
   | NodeProperty
   | CommentBlock
   | SrcBlock
+  | ExampleBlock
+  | ExportBlock
   | Keyword
   | TableRow
   | Comment
@@ -161,6 +163,15 @@ export interface Item extends GreaterElement {
 export interface SrcBlock extends Node, WithAffiliatedKeywords {
   type: 'src-block';
   language?: string;
+  value: string;
+}
+export interface ExampleBlock extends Node, WithAffiliatedKeywords {
+  type: 'example-block';
+  value: string;
+}
+export interface ExportBlock extends Node, WithAffiliatedKeywords {
+  type: 'export-block';
+  backend: string | null;
   value: string;
 }
 export interface QuoteBlock extends GreaterElement, WithAffiliatedKeywords {

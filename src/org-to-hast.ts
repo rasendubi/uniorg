@@ -119,6 +119,13 @@ export function orgToHast(
         return h('div.center', toHast(org.children));
       case 'comment-block':
         return null;
+      case 'example-block':
+        return h('div.exampe', org.value);
+      case 'export-block':
+        if (org.backend === 'html') {
+          return u('raw', org.value);
+        }
+        return null;
       case 'special-block':
         return h('div', toHast(org.children));
       case 'keyword':

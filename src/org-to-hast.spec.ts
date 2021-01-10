@@ -4,10 +4,16 @@ import { Type } from 'yaml/util';
 import unified from 'unified';
 import orgParse from './unified-org-parse';
 import org2rehype from './unified-org-rehype';
+import raw from 'rehype-raw';
 import format from 'rehype-format';
 import html from 'rehype-stringify';
 
-const processor = unified().use(orgParse).use(org2rehype).use(format).use(html);
+const processor = unified()
+  .use(orgParse)
+  .use(org2rehype)
+  .use(raw)
+  .use(format)
+  .use(html);
 
 YAML.scalarOptions.str.defaultType = Type.QUOTE_DOUBLE;
 YAML.scalarOptions.str.defaultKeyType = Type.PLAIN;
@@ -152,6 +158,29 @@ hello
     hello
       world
   #+end_src`
+  );
+
+  hastTest(
+    'example block',
+    `#+begin_example
+example
+#+end_example`
+  );
+
+  hastTest(
+    'export block',
+    `#+begin_export
+export
+#+end_export`
+  );
+
+  hastTest(
+    'export html block',
+    `
+#+begin_export html
+<abbr title="World Health Organization">WHO</abbr> was founded in 1948.
+#+end_export
+`
   );
 
   hastTest(

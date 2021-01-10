@@ -281,6 +281,27 @@ hello
     );
 
     itParses(
+      'example block',
+      `#+begin_example
+hi
+#+end_example`
+    );
+
+    itParses(
+      'export block',
+      `#+begin_export
+hi
+#+end_export`
+    );
+
+    itParses(
+      'export block with backend',
+      `#+begin_export html
+hi
+#+end_export`
+    );
+
+    itParses(
       'special block',
       `#+begin_blah
 hello
