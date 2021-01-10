@@ -674,6 +674,31 @@ contentsEnd: 0
 children: []
 `;
 
+exports[`org/parser entity 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 7
+        children:
+          - type: "entity"
+            useBrackets: false
+            name: "Agrave"
+            latex: "\\\\\`{A}"
+            requireLatexMath: false
+            html: "&Agrave;"
+            ascii: "A"
+            latin1: "À"
+            utf8: "À"
+`;
+
 exports[`org/parser fixed-width empty fixed-width 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -1219,13 +1244,11 @@ children:
         contentsEnd: 41
         children:
           - type: "text"
-            value: "hello
-
-              there
-
-              \\\\begin{hello}
-
-              I am incomplete"
+            value: "hello\\nthere\\n"
+          - type: "latex-fragment"
+            value: "\\\\begin{hello}"
+          - type: "text"
+            value: "\\nI am incomplete"
 `;
 
 exports[`org/parser latex environment incomplete latex environment after paragraph 1`] = `
@@ -1243,11 +1266,11 @@ children:
         contentsEnd: 35
         children:
           - type: "text"
-            value: "hello
-
-              \\\\begin{hello}
-
-              I am incomplete"
+            value: "hello\\n"
+          - type: "latex-fragment"
+            value: "\\\\begin{hello}"
+          - type: "text"
+            value: "\\nI am incomplete"
 `;
 
 exports[`org/parser latex environment latex environment after paragraph 1`] = `

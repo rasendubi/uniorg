@@ -1,4 +1,5 @@
 import u from 'unist-builder';
+import { getOrgEntity } from './parser/entities';
 import {
   defaultOptions,
   linkPlainRe,
@@ -543,8 +544,7 @@ class Parser {
           // TODO: line break parser
         } else {
           const offset = this.r.offset();
-          const entity = null;
-          // TODO: const entity = restriction.has('entity') && this.parseEntity();
+          const entity = restriction.has('entity') && this.parseEntity();
           if (entity) return entity;
           this.r.resetOffset(offset);
 
@@ -1388,6 +1388,19 @@ class Parser {
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
     return u('strike-through', { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseEntity(): Entity | null {
+    const m = this.r.advance(
+      this.r.lookingAt(
+        /^\\(?:(?<value1>_ +)|(?<value2>there4|sup[123]|frac[13][24]|[a-zA-Z]+)(?<brackets>$|\{\}|\P{Letter}))/mu
+      )
+    );
+    if (!m) return null;
+    const hasBrackets = m.groups!.brackets === '{}';
+    const value = getOrgEntity(m.groups!.value1 ?? m.groups!.value2);
+    if (!value) return null;
+    return u('entity', { useBrackets: hasBrackets, ...value });
   }
 
   private parseLatexFragment(): LatexFragment | null {

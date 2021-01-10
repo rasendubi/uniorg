@@ -45,6 +45,12 @@ exports[`org/org-to-hast emphasis 1`] = `
 
 exports[`org/org-to-hast empty 1`] = `<div></div>`;
 
+exports[`org/org-to-hast entity 1`] = `
+<div>
+<p>À</p>
+</div>
+`;
+
 exports[`org/org-to-hast example block 1`] = `
 <div>
 <div class="exampe">example</div>

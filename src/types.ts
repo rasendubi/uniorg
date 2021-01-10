@@ -63,6 +63,8 @@ export type ObjectType =
   | Text
   | Timestamp
   | FootnoteReference
+  | LatexFragment
+  | Entity
   | TableCell;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
@@ -161,6 +163,18 @@ export interface LatexFragment extends Node {
   type: 'latex-fragment';
   /** LaTeX code. */
   value: string;
+}
+
+export interface Entity extends Node {
+  type: 'entity';
+  name: string;
+  useBrackets: boolean;
+  latex: string;
+  requireLatexMath: boolean;
+  html: string;
+  ascii: string;
+  latin1: string;
+  utf8: string;
 }
 
 export interface List extends GreaterElement {

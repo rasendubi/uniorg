@@ -193,6 +193,9 @@ export function orgToHast(
         return h('div.math.math-display', org.value);
       case 'latex-fragment':
         return h('span.math.math-inline', org.value);
+      case 'entity':
+        // rehype does not allow html escapes, so we use utf8 value instead.
+        return u('text', { value: org.utf8 });
       case 'table': {
         // TODO: support column groups
         // see https://orgmode.org/manual/Column-Groups.html
