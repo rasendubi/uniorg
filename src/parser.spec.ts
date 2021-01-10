@@ -446,4 +446,50 @@ paragraph`
   });
 
   itParses('horizontal rule', `-----`);
+
+  describe('footnote definition', () => {
+    itParses(
+      'simple',
+      `
+[fn:hello] this is footnote definition
+`
+    );
+    itParses(
+      'paragraph split',
+      `
+[fn:hello] hello
+
+
+next paragraph`
+    );
+    itParses(
+      'starting on next line',
+      `
+[fn:hello]
+footnote
+`
+    );
+    itParses(
+      'sequential',
+      `
+[fn:hello] footnote1
+[fn:2] footnote2
+`
+    );
+    itParses(
+      'sequential with affiliated keywords',
+      `
+#+NAME: f1
+[fn:hello] footnote1
+#+NAME: f2
+[fn:2] footnote2
+`
+    );
+
+    itParses(
+      'footnote definition splits paragraph',
+      `hello
+[fn:1] hello`
+    );
+  });
 });

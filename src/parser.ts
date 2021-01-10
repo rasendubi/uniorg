@@ -301,7 +301,10 @@ class Parser {
       }
     }
 
-    // TODO: Footnote Definition.
+    // Footnote Definition.
+    if (this.r.lookingAt(footnoteDefinitionRe)) {
+      return this.parseFootnoteDefinition(affiliated);
+    }
 
     // Horizontal Rule.
     if (this.r.lookingAt(/^[ \t]*-{5,}[ \t]*$/)) {
@@ -1031,6 +1034,51 @@ class Parser {
     return u('paragraph', { affiliated, contentsBegin, contentsEnd }, []);
   }
 
+  private parseFootnoteDefinition(
+    affiliated: AffiliatedKeywords
+  ): FootnoteDefinition {
+    const m = this.r.forceLookingAt(footnoteDefinitionRe);
+    const label = m[1];
+
+    const begin = this.r.offset();
+
+    this.r.advance(this.r.line());
+    const endM = this.r.match(footnoteDefinitionSeparatorRe);
+    this.r.advance(endM?.index);
+    let contentsEnd = endM ? this.r.offset() : this.r.endOffset();
+    if (endM && endM[0][0] === '[') {
+      // At a new footnote definition, make sure we end before any
+      // affiliated keyword above.
+      let lines = this.r.substring(begin, this.r.offset()).split('\n');
+      // drop first line because this is the line definition starts,
+      // drop last line because it is empty.
+      lines = lines.slice(1, lines.length - 1);
+      while (lines.length) {
+        const line = lines.pop()!;
+        if (line.match(affiliatedRe)?.index === 0) {
+          // -1 to compensate for \n
+          this.r.advance(-line.length - 1);
+        } else {
+          break;
+        }
+      }
+      contentsEnd = this.r.offset();
+    }
+
+    this.r.narrow(begin, contentsEnd);
+    this.r.advance(this.r.forceMatch(/\][ \r\t\n]/m));
+    const contentsBegin = this.r.offset();
+    this.r.widen();
+    this.r.resetOffset(contentsEnd);
+    this.parseEmptyLines();
+
+    return u(
+      'footnote-definition',
+      { affiliated, label, contentsBegin, contentsEnd },
+      []
+    );
+  }
+
   private parseHorizontalRule(affiliated: AffiliatedKeywords): HorizontalRule {
     this.r.advance(this.r.line());
     this.parseEmptyLines();
@@ -1404,11 +1452,14 @@ class Parser {
       : dateEnd || timeRange
       ? 'inactive-range'
       : 'inactive';
+
     // TODO: repeater props
     // TODO: warning props
 
-    const start = Parser.parseDate(dateStart)!;
-    const end = dateEnd
+    const start = diary ? null : Parser.parseDate(dateStart)!;
+    const end = diary
+      ? null
+      : dateEnd
       ? Parser.parseDate(dateEnd)
       : timeRange
       ? { ...start, ...timeRange }
@@ -1525,3 +1576,7 @@ const affiliatedRe = new RegExp(
   ].join(''),
   'i'
 );
+
+const footnoteRe = /\[fn:(?:(?<name_inline>[-_\w]+)?:|(?<name>[-_\w]+)\])/;
+const footnoteDefinitionRe = /^\[fn:([-_\w]+)\]/;
+const footnoteDefinitionSeparatorRe = /^\*|^\[fn:([-_\w]+)\]|^([ \t]*\n){2,}/m;

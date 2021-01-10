@@ -175,8 +175,10 @@ export function paragraphSeparateRe(): RegExp {
       [
         // Headlines, inlinetasks.
         '\\*+ ',
-        // TODO: Footnote definitions.
-        // TODO: Diary sexps.
+        // Footnote definitions.
+        '\\[fn:[-_\\w]+\\]',
+        // Diary sexps.
+        '%%\\(',
         '[ \\t]*(?:' +
           [
             // Empty lines.

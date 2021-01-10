@@ -111,6 +111,11 @@ export interface HorizontalRule extends Node {
   type: 'horizontal-rule';
 }
 
+export interface FootnoteDefinition extends GreaterElement {
+  type: 'footnote-definition';
+  label: string;
+}
+
 export interface Paragraph extends Parent {
   type: 'paragraph';
 }

@@ -703,6 +703,192 @@ children:
         value: "hello"
 `;
 
+exports[`org/parser footnote definition footnote definition splits paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 18
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "hello\\n"
+      - type: "footnote-definition"
+        affiliated: {}
+        label: "1"
+        contentsBegin: 13
+        contentsEnd: 18
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 13
+            contentsEnd: 18
+            children:
+              - type: "text"
+                value: "hello"
+`;
+
+exports[`org/parser footnote definition paragraph split 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 34
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 34
+    children:
+      - type: "footnote-definition"
+        affiliated: {}
+        label: "hello"
+        contentsBegin: 12
+        contentsEnd: 18
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 12
+            contentsEnd: 18
+            children:
+              - type: "text"
+                value: "hello\\n"
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 20
+        contentsEnd: 34
+        children:
+          - type: "text"
+            value: "next paragraph"
+`;
+
+exports[`org/parser footnote definition sequential 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 39
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 39
+    children:
+      - type: "footnote-definition"
+        affiliated: {}
+        label: "hello"
+        contentsBegin: 12
+        contentsEnd: 22
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 12
+            contentsEnd: 22
+            children:
+              - type: "text"
+                value: "footnote1\\n"
+      - type: "footnote-definition"
+        affiliated: {}
+        label: "2"
+        contentsBegin: 29
+        contentsEnd: 39
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 29
+            contentsEnd: 39
+            children:
+              - type: "text"
+                value: "footnote2\\n"
+`;
+
+exports[`org/parser footnote definition sequential with affiliated keywords 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 61
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 61
+    children:
+      - type: "footnote-definition"
+        affiliated:
+          NAME: "f1"
+        label: "hello"
+        contentsBegin: 23
+        contentsEnd: 33
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 23
+            contentsEnd: 33
+            children:
+              - type: "text"
+                value: "footnote1\\n"
+      - type: "footnote-definition"
+        affiliated:
+          NAME: "f2"
+        label: "2"
+        contentsBegin: 51
+        contentsEnd: 61
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 51
+            contentsEnd: 61
+            children:
+              - type: "text"
+                value: "footnote2\\n"
+`;
+
+exports[`org/parser footnote definition simple 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 40
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 40
+    children:
+      - type: "footnote-definition"
+        affiliated: {}
+        label: "hello"
+        contentsBegin: 12
+        contentsEnd: 40
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 12
+            contentsEnd: 40
+            children:
+              - type: "text"
+                value: "this is footnote definition\\n"
+`;
+
+exports[`org/parser footnote definition starting on next line 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 21
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 21
+    children:
+      - type: "footnote-definition"
+        affiliated: {}
+        label: "hello"
+        contentsBegin: 12
+        contentsEnd: 21
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 12
+            contentsEnd: 21
+            children:
+              - type: "text"
+                value: "footnote\\n"
+`;
+
 exports[`org/parser headline complex headline 1`] = `
 type: "org-data"
 contentsBegin: 0
