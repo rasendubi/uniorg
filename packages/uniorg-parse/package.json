@@ -1,6 +1,6 @@
 {
   "name": "uniorg-parse",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "uniorg plugin to parse org-mode",
   "keywords": [
     "uniorg",
