@@ -38,19 +38,21 @@ uniorg is compatible with [unified](https://github.com/unifiedjs/unified) ecosys
 
 For example, here's how you transform an org-mode to html.
 
-    import unified from 'unified';
-    import parse from 'uniorg-parse';
-    import uniorg2rehype from 'uniorg-rehype';
-    import stringify from 'rehype-stringify';
+```js
+import unified from 'unified';
+import parse from 'uniorg-parse';
+import uniorg2rehype from 'uniorg-rehype';
+import stringify from 'rehype-stringify';
 
-    const processor = unified()
-      .use(parse)
-      .use(uniorg2rehype)
-      .use(stringify);
+const processor = unified()
+  .use(parse)
+  .use(uniorg2rehype)
+  .use(stringify);
 
-    processor
-      .process(`* org-mode example\n your text goes here`)
-      .then((file) => console.log(file));
+processor
+  .process(`* org-mode example\n your text goes here`)
+  .then((file) => console.log(file.contents));
+```
 
 Plugins for code syntax highlight ([rehype-highlight](https://github.com/rehypejs/rehype-highlight), [@mapbox/rehype-prism](https://github.com/mapbox/rehype-prism)) and latex-formatting ([rehype-katex](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex), [rehype-mathjax](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-mathjax)) should work out of the box:
 
@@ -76,7 +78,7 @@ $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
 #+begin_src js
 console.log('uniorg is cool!');
 #+end_src
-`).then((file) => console.log(file));
+`).then((file) => console.log(file.contents));
 ```
 
 
