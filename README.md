@@ -7,6 +7,11 @@
 I want to publish my braindump from org-mode notes. None of the parsers I tried have provided enough precision.
 
 
+# Demo
+
+You can check the demo at https://braindump.rasen.dev/uniorg (the entire website is built from org-mode pages with uniorg).
+
+
 # Compatibility
 
 uniorg follows [Org Syntax](https://orgmode.org/worg/dev/org-syntax.html) and [Org Element API](https://orgmode.org/worg/dev/org-element-api.html). It draws heavily from [org-element.el](http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/org/org-element.el), which means uniorg sees org files the same way org-mode sees it.
