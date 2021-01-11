@@ -1,6 +1,6 @@
 {
   "name": "uniorg-rehype",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "uniorg plugin to transform to rehype",
   "keywords": [
     "unified",
@@ -39,13 +39,13 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
-    "uniorg": "^0.1.0",
-    "uniorg-parse": "^0.1.0",
     "jest": "^26.6.3",
     "rehype-format": "^3.1.0",
     "rehype-raw": "^5.0.0",
     "rehype-stringify": "^8.0.0",
-    "unified": "^9.2.0"
+    "unified": "^9.2.0",
+    "uniorg": "^0.1.1",
+    "uniorg-parse": "^0.1.1"
   },
   "dependencies": {
     "hastscript": "^6.0.0",

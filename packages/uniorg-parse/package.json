@@ -1,6 +1,6 @@
 {
   "name": "uniorg-parse",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "uniorg plugin to parse org-mode",
   "keywords": [
     "uniorg",
@@ -38,8 +38,8 @@
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/unist": "^2.0.3",
-    "uniorg": "^0.1.0",
     "jest": "^26.6.3",
+    "uniorg": "^0.1.1",
     "yaml": "^2.0.0-1"
   },
   "dependencies": {
