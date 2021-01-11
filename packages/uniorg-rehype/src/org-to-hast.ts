@@ -1,6 +1,6 @@
 import u from 'unist-builder';
 import h from 'hastscript';
-import { OrgNode, OrgData, TableRow, TableCell } from './types';
+import { OrgNode, OrgData, TableRow } from 'uniorg';
 
 type Hast = any;
 

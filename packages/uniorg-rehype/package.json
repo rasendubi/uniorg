@@ -1,0 +1,54 @@
+{
+  "name": "uniorg-rehype",
+  "version": "0.1.0",
+  "description": "uniorg plugin to transform to rehype",
+  "keywords": [
+    "unified",
+    "uniorg",
+    "plugin",
+    "html",
+    "hast",
+    "org-mode",
+    "rehype"
+  ],
+  "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
+  "homepage": "https://github.com/rasendubi/uniorg",
+  "license": "GPL-3.0-or-later",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasendubi/uniorg.git"
+  },
+  "scripts": {
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.json",
+    "clean": "rm -rf ./lib",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/rasendubi/uniorg/issues"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "uniorg": "^0.1.0",
+    "uniorg-parse": "^0.1.0",
+    "jest": "^26.6.3",
+    "rehype-format": "^3.1.0",
+    "rehype-raw": "^5.0.0",
+    "rehype-stringify": "^8.0.0",
+    "unified": "^9.2.0"
+  },
+  "dependencies": {
+    "hastscript": "^6.0.0",
+    "unist-builder": "^2.0.3"
+  }
+}

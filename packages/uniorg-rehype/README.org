@@ -1,0 +1,30 @@
+* ~uniorg-rehype~
+uniorg plugin to mutate uniorg to *[[https://github.com/rehypejs/rehype][rehype]]*.
+
+Note: ~uniorg-rehype~ doesn't deal with HTML inside the Org (~#+begin_export html~). You'll need [[https://github.com/rehypejs/rehype-raw][rehype-raw]] if you're planning on doing that.
+
+** Install
+#+begin_src sh
+npm install uniorg-rehype
+#+end_src
+
+** Use
+#+begin_src js
+var unified = require('unified')
+var createStream = require('unified-stream')
+var uniorgPars = require('uniorg-parse')
+var uniorg2rehype = require('uniorg-rehype')
+var html = require('rehype-stringify')
+
+var processor = unified().use(uniorgParse).use(uniorg2rehype).use(html)
+
+process.stdin.pipe(createStream(processor)).pipe(process.stdout)
+#+end_src
+
+** API
+*** ~processor().use(uniorg2rehype)~
+
+*uniorg* plugin to mutate to *[[https://github.com/rehypejs/rehype][rehype]]*.
+
+** License
+GPLv3 or later

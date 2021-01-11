@@ -1,0 +1,39 @@
+{
+  "name": "uniorg",
+  "version": "0.1.0",
+  "description": "uniorg type definitions",
+  "keywords": [
+    "uniorg",
+    "unified",
+    "org-mode",
+    "ast"
+  ],
+  "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
+  "homepage": "https://github.com/rasendubi/uniorg",
+  "license": "GPL-3.0-or-later",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasendubi/uniorg.git"
+  },
+  "scripts": {
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.json",
+    "clean": "rm -rf ./lib",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build"
+  },
+  "bugs": {
+    "url": "https://github.com/rasendubi/uniorg/issues"
+  },
+  "devDependencies": {
+    "@types/unist": "^2.0.3"
+  }
+}

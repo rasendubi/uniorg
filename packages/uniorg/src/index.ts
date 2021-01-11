@@ -1,4 +1,4 @@
-import { Parent, Node, Literal } from 'unist';
+import { Parent, Node, Literal } from "unist";
 
 // SPEC: The paragraph is the unit of measurement. An element defines
 // syntactical parts that are at the same level as a paragraph,
@@ -70,12 +70,12 @@ export type ObjectType =
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
 
 export interface OrgData extends GreaterElement {
-  type: 'org-data';
+  type: "org-data";
   children: Array<Section | Headline>;
 }
 
 export interface Headline extends GreaterElement {
-  type: 'headline';
+  type: "headline";
   level: number;
   todoKeyword: string | null;
   priority: string | null;
@@ -87,86 +87,86 @@ export interface Headline extends GreaterElement {
 }
 
 export interface Planning extends Node {
-  type: 'planning';
+  type: "planning";
   closed: Timestamp | null;
   deadline: Timestamp | null;
   scheduled: Timestamp | null;
 }
 
 export interface Drawer extends GreaterElement, WithAffiliatedKeywords {
-  type: 'drawer';
+  type: "drawer";
   name: string;
 }
 
 export interface PropertyDrawer extends GreaterElement {
-  type: 'property-drawer';
+  type: "property-drawer";
 }
 
 export interface NodeProperty extends Node {
-  type: 'node-property';
+  type: "node-property";
   key: string;
   value: string;
 }
 
 export interface Section extends GreaterElement {
-  type: 'section';
+  type: "section";
 }
 
 export interface HorizontalRule extends Node, WithAffiliatedKeywords {
-  type: 'horizontal-rule';
+  type: "horizontal-rule";
 }
 
 export interface FootnoteDefinition
   extends GreaterElement,
     WithAffiliatedKeywords {
-  type: 'footnote-definition';
+  type: "footnote-definition";
   label: string;
 }
 
 export interface DiarySexp extends Node, WithAffiliatedKeywords {
-  type: 'diary-sexp';
+  type: "diary-sexp";
   /** Full Sexp */
   value: string;
 }
 
 export interface Paragraph extends Parent {
-  type: 'paragraph';
+  type: "paragraph";
 }
 
 export interface Comment extends Node {
-  type: 'comment';
+  type: "comment";
   /** Comments, without pound signs. */
   value: string;
 }
 
 export interface FixedWidth extends Node, WithAffiliatedKeywords {
-  type: 'fixed-width';
+  type: "fixed-width";
   /** Contents, without colos prefix. */
   value: string;
 }
 
 export interface Clock extends Node {
-  type: 'clock';
+  type: "clock";
   // Clock duration for a closed clock
   duration: string | null;
-  status: 'closed' | 'running';
+  status: "closed" | "running";
   value: Timestamp | null;
 }
 
 export interface LatexEnvironment extends Node, WithAffiliatedKeywords {
-  type: 'latex-environment';
+  type: "latex-environment";
   /** LaTeX code. */
   value: string;
 }
 
 export interface LatexFragment extends Node {
-  type: 'latex-fragment';
+  type: "latex-fragment";
   /** LaTeX code. */
   value: string;
 }
 
 export interface Entity extends Node {
-  type: 'entity';
+  type: "entity";
   name: string;
   useBrackets: boolean;
   latex: string;
@@ -178,8 +178,8 @@ export interface Entity extends Node {
 }
 
 export interface List extends GreaterElement {
-  type: 'plain-list';
-  listType: 'ordered' | 'unordered' | 'descriptive';
+  type: "plain-list";
+  listType: "ordered" | "unordered" | "descriptive";
   indent: number;
   children: Item[];
   structure: ListStructureItem[];
@@ -196,121 +196,121 @@ export type ListStructureItem = {
 };
 
 export interface Item extends GreaterElement {
-  type: 'item';
+  type: "item";
   indent: number;
   tag: string | null;
 }
 
 export interface SrcBlock extends Node, WithAffiliatedKeywords {
-  type: 'src-block';
+  type: "src-block";
   language?: string;
   value: string;
 }
 export interface ExampleBlock extends Node, WithAffiliatedKeywords {
-  type: 'example-block';
+  type: "example-block";
   value: string;
 }
 export interface ExportBlock extends Node, WithAffiliatedKeywords {
-  type: 'export-block';
+  type: "export-block";
   backend: string | null;
   value: string;
 }
 export interface QuoteBlock extends GreaterElement, WithAffiliatedKeywords {
-  type: 'quote-block';
+  type: "quote-block";
 }
 export interface VerseBlock extends GreaterElement, WithAffiliatedKeywords {
-  type: 'verse-block';
+  type: "verse-block";
 }
 export interface CenterBlock extends GreaterElement, WithAffiliatedKeywords {
-  type: 'center-block';
+  type: "center-block";
 }
 export interface CommentBlock extends Node, WithAffiliatedKeywords {
-  type: 'comment-block';
+  type: "comment-block";
   value: string;
 }
 export interface SpecialBlock extends GreaterElement, WithAffiliatedKeywords {
-  type: 'special-block';
+  type: "special-block";
   blockType: string;
 }
 
 export type Table = TableOrg | TableTableEl;
 export interface TableOrg extends GreaterElement {
-  type: 'table';
+  type: "table";
   /** Formulas associated to the table, if any. */
   tblfm: string | null;
-  tableType: 'org';
+  tableType: "org";
 }
 export interface TableTableEl extends Node {
-  type: 'table';
+  type: "table";
   /** Formulas associated to the table, if any. */
   tblfm: string | null;
-  tableType: 'table.el';
+  tableType: "table.el";
   /** Raw `table.el` table. */
   value: string;
 }
 
 export interface TableRow extends Element {
-  type: 'table-row';
-  rowType: 'standard' | 'rule';
+  type: "table-row";
+  rowType: "standard" | "rule";
 }
 
 export interface TableCell extends RecursiveObject {
-  type: 'table-cell';
+  type: "table-cell";
 }
 
 export interface Keyword extends Node, WithAffiliatedKeywords {
-  type: 'keyword';
+  type: "keyword";
   key: string;
   value: string;
 }
 
 export interface Text extends Object, Literal {
-  type: 'text';
+  type: "text";
   value: string;
 }
 
 export interface Bold extends RecursiveObject {
-  type: 'bold';
+  type: "bold";
 }
 
 export interface Italic extends RecursiveObject {
-  type: 'italic';
+  type: "italic";
 }
 
 export interface Code extends Object {
-  type: 'code';
+  type: "code";
   value: string;
 }
 
 export interface Verbatim extends Object {
-  type: 'verbatim';
+  type: "verbatim";
   value: string;
 }
 
 export interface StrikeThrough extends RecursiveObject {
-  type: 'strike-through';
+  type: "strike-through";
 }
 
 export interface Underline extends RecursiveObject {
-  type: 'underline';
+  type: "underline";
 }
 
 export interface Link extends RecursiveObject {
-  type: 'link';
-  format: 'plain' | 'bracket';
+  type: "link";
+  format: "plain" | "bracket";
   linkType: string;
   rawLink: string;
   path: string;
 }
 
 export interface Timestamp extends Object {
-  type: 'timestamp';
+  type: "timestamp";
   timestampType:
-    | 'active'
-    | 'active-range'
-    | 'diary'
-    | 'inactive'
-    | 'inactive-range';
+    | "active"
+    | "active-range"
+    | "diary"
+    | "inactive"
+    | "inactive-range";
   rawValue: string;
   start: {
     year: number;
@@ -329,9 +329,9 @@ export interface Timestamp extends Object {
 }
 
 export interface FootnoteReference extends RecursiveObject {
-  type: 'footnote-reference';
+  type: "footnote-reference";
   label: string;
-  footnoteType: 'inline' | 'standard';
+  footnoteType: "inline" | "standard";
 }
 
 type AffiliatedValue =

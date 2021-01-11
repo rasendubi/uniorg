@@ -1,22 +1,4 @@
 import u from 'unist-builder';
-import { getOrgEntity } from './parser/entities';
-import {
-  defaultOptions,
-  linkPlainRe,
-  ParseOptions,
-  itemRe,
-  fullItemRe,
-  paragraphSeparateRe,
-  restrictionFor,
-  listEndRe,
-  greaterElements,
-  unescapeCodeInString,
-  emphRe,
-  emphasisRegexpComponents,
-  verbatimRe,
-  linkTypesRe,
-} from './parser/utils';
-import { Reader } from './reader';
 import {
   NodeProperty,
   Headline,
@@ -59,7 +41,26 @@ import {
   DiarySexp,
   Entity,
   LatexFragment,
-} from './types';
+} from 'uniorg';
+
+import { getOrgEntity } from './entities';
+import {
+  defaultOptions,
+  linkPlainRe,
+  ParseOptions,
+  itemRe,
+  fullItemRe,
+  paragraphSeparateRe,
+  restrictionFor,
+  listEndRe,
+  greaterElements,
+  unescapeCodeInString,
+  emphRe,
+  emphasisRegexpComponents,
+  verbatimRe,
+  linkTypesRe,
+} from './utils';
+import { Reader } from './reader';
 
 /*
 (defun rasen/org-debug ()
@@ -451,7 +452,7 @@ class Parser {
         // Objects starting with "@": export snippets.
         '@@',
         // Objects starting with "{": macro.
-        '{{{',
+        '\\{\\{\\{',
         // Objects starting with "<": timestamp (active, diary),
         // target, radio target and angular links.
         `<(?:%%|<|[0-9]|${linkTypesRe()})`,
@@ -464,7 +465,7 @@ class Parser {
         // inline Babel call.
         '(?:call|src)_',
       ].join('|'),
-      'm'
+      'mu'
     );
 
     while (!this.r.eof()) {

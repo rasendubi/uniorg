@@ -1,9 +1,6 @@
-import YAML from 'yaml';
-import { Type } from 'yaml/util';
-
 import unified from 'unified';
-import orgParse from './unified-org-parse';
-import org2rehype from './unified-org-rehype';
+import orgParse from 'uniorg-parse';
+import org2rehype from '.';
 import raw from 'rehype-raw';
 import format from 'rehype-format';
 import html from 'rehype-stringify';
@@ -14,9 +11,6 @@ const processor = unified()
   .use(raw)
   .use(format)
   .use(html);
-
-YAML.scalarOptions.str.defaultType = Type.QUOTE_DOUBLE;
-YAML.scalarOptions.str.defaultKeyType = Type.PLAIN;
 
 expect.addSnapshotSerializer({
   test(value) {

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.build.json",
+
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "uniorg": ["packages/uniorg/src"],
+      "uniorg-parse": ["packages/uniorg-parse/src"],
+      "uniorg-rehype": ["packages/uniorg-rehype/src"]
+    }
+  }
+}
