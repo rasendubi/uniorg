@@ -1563,6 +1563,47 @@ children:
                 value: "text2"
 `;
 
+exports[`org/parser list checkbox item 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 10
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 10
+    children:
+      - type: "plain-list"
+        affiliated: {}
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 0
+        contentsEnd: 10
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: "[x]"
+            tag: null
+            end: 10
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: "on"
+            tag: null
+            contentsBegin: 6
+            contentsEnd: 10
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 6
+                contentsEnd: 10
+                children:
+                  - type: "text"
+                    value: "done"
+`;
+
 exports[`org/parser list empty line between list items 1`] = `
 type: "org-data"
 contentsBegin: 0

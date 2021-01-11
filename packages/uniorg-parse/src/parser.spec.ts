@@ -209,6 +209,8 @@ hello`
     );
 
     itParses('fake list numbers', `- 1. blah`);
+
+    itParses('checkbox item', `- [x] done`);
   });
 
   describe('links', () => {
