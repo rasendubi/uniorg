@@ -1,0 +1,19 @@
+{
+  "name": "example",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Simple example of uniorg usage.",
+  "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
+  "homepage": "https://github.com/rasendubi/uniorg#readme",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "rehype-stringify": "^8.0.0",
+    "unified": "^9.2.0",
+    "unified-stream": "^1.0.6",
+    "uniorg-parse": "^0.1.2",
+    "uniorg-rehype": "^0.1.2"
+  }
+}

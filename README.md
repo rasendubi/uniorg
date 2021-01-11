@@ -11,6 +11,8 @@ I want to publish my braindump from org-mode notes. None of the parsers I tried 
 
 You can check the demo at https://braindump.rasen.dev/uniorg (the entire website is built from org-mode pages with uniorg).
 
+Also see [examples](./examples/example) for a runnable example.
+
 
 # Compatibility
 
