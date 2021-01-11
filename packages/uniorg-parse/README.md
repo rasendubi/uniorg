@@ -1,13 +1,17 @@
-* ~uniorg-parse~
-[[https://orgmode.org/][Org-mode]] parser compatible with [[https://github.com/unifiedjs/unified][unified]] ecosystem.
+# `uniorg-parse`
 
-** Install
-#+begin_src sh
+[Org-mode](https://orgmode.org/) parser compatible with [unified](https://github.com/unifiedjs/unified) ecosystem.
+
+## Install
+
+```sh
 npm install uniorg-parse
-#+end_src
+```
 
-** Use
-#+begin_src js
+
+## Use
+
+```js
 var unified = require('unified')
 var createStream = require('unified-stream')
 var uniorgPars = require('uniorg-parse')
@@ -17,22 +21,28 @@ var html = require('rehype-stringify')
 var processor = unified().use(uniorgParse).use(uniorg2rehype).use(html)
 
 process.stdin.pipe(createStream(processor)).pipe(process.stdout)
-#+end_src
+```
 
-** API
-*** ~processor().use(uniorgParse)~
 
-Configure the ~processor~ to read Markdown as input and process *[[https//github.com/rasendubi/uniorg][uniorg]]* syntax trees.
+## API
 
-*** ~parse(string)~
+
+### `processor().use(uniorgParse)`
+
+Configure the `processor` to read Markdown as input and process **[uniorg](https://github.com/rasendubi/uniorg)** syntax trees.
+
+
+### `parse(string)`
 
 Parse string.
 
-#+begin_src js
+```js
 import { parse } from 'uniorg-parse';
 
 console.log(parse('* example document'))
-#+end_src
+```
 
-** License
+
+## License
+
 GPLv3 or later
