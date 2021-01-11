@@ -93,6 +93,14 @@ this is section`
     );
   });
 
+  itParses(
+    'paragraph split by empty line',
+    `a1
+a2
+
+b`
+  );
+
   itParses('keyword', `#+title: hi`);
 
   itParses(

@@ -1059,9 +1059,7 @@ class Parser {
       break;
     }
 
-    const contentsEnd = next
-      ? this.r.offset() + next.index
-      : this.r.endOffset();
+    const contentsEnd = next ? this.r.offset() : this.r.endOffset();
 
     this.r.resetOffset(contentsEnd);
     this.parseEmptyLines();

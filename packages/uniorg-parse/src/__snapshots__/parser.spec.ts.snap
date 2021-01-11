@@ -515,7 +515,7 @@ children:
       - type: "paragraph"
         affiliated: {}
         contentsBegin: 0
-        contentsEnd: 39
+        contentsEnd: 33
         children:
           - type: "text"
             value: "hello\\n#+RESULTS[hi]: hello\\nthere\\n"
@@ -2059,10 +2059,35 @@ children:
       - type: "paragraph"
         affiliated: {}
         contentsBegin: 0
-        contentsEnd: 28
+        contentsEnd: 25
         children:
           - type: "text"
             value: "hello\\n#+BLAH[hi]: heh\\nhi\\n"
+`;
+
+exports[`org/parser paragraph split by empty line 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 8
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 8
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "a1\\na2\\n"
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 7
+        contentsEnd: 8
+        children:
+          - type: "text"
+            value: "b"
 `;
 
 exports[`org/parser planning 1`] = `
