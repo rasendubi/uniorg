@@ -18,7 +18,7 @@ npm install uniorg-rehype
 ```js
 var unified = require('unified')
 var createStream = require('unified-stream')
-var uniorgPars = require('uniorg-parse')
+var uniorgParse = require('uniorg-parse')
 var uniorg2rehype = require('uniorg-rehype')
 var html = require('rehype-stringify')
 
@@ -35,6 +35,16 @@ process.stdin.pipe(createStream(processor)).pipe(process.stdout)
 
 **uniorg** plugin to mutate to **[rehype](https://github.com/rehypejs/rehype)**.
 
+### `orgToHast(uniorg)`
+
+Convert uniorg AST into hast.
+
+```js
+import { parse } from 'uniorg-parse/parser';
+import { orgToHast } from 'uniorg-rehype/org-to-hast';
+
+orgToHast(parse(`* headline`));
+```
 
 ## License
 

@@ -14,7 +14,7 @@ npm install uniorg-parse
 ```js
 var unified = require('unified')
 var createStream = require('unified-stream')
-var uniorgPars = require('uniorg-parse')
+var uniorgParse = require('uniorg-parse')
 var uniorg2rehype = require('uniorg-rehype')
 var html = require('rehype-stringify')
 
@@ -37,7 +37,7 @@ Configure the `processor` to read Markdown as input and process **[uniorg](https
 Parse string.
 
 ```js
-import { parse } from 'uniorg-parse';
+import { parse } from 'uniorg-parse/parser';
 
 console.log(parse('* example document'))
 ```
