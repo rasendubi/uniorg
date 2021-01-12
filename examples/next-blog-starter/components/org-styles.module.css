@@ -1,0 +1,51 @@
+.org {
+  @apply text-lg leading-relaxed;
+}
+
+.org h2 {
+  @apply text-3xl mt-12 mb-4 leading-snug;
+}
+
+.org h3 {
+  @apply text-2xl mt-8 mb-4 leading-snug;
+}
+
+.org p,
+.org ul,
+.org ol,
+.org blockquote {
+  @apply my-6;
+}
+
+.org ul,
+.org ol,
+.org dl {
+  @apply ml-8;
+}
+.org ul {
+  @apply list-disc;
+}
+.org ol {
+  @apply list-decimal;
+}
+.org dt {
+  @apply font-bold;
+}
+.org dd {
+  @apply ml-8;
+}
+
+.org a {
+  @apply underline hover:text-success duration-200 transition-colors;
+}
+
+.org blockquote {
+  @apply ml-8 italic;
+}
+
+.org table {
+  @apply border-collapse;
+}
+.org th, .org td {
+  @apply border border-black p-1;
+}
