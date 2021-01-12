@@ -325,14 +325,15 @@ class Parser {
     }
 
     // Table.
-    // There is no strict definition of a table.el table. Try to
-    // prevent false positive while being quick.
-    const ruleRe = /[ \t]*\+(-+\+)+[ \t]*$/;
+    const ruleRe = /[ \t]*\+(-+\+)+[ \t]*$/m;
     if (this.r.lookingAt(/^[ \t]*\|/)) {
       return this.parseTable(affiliated);
     } else if (this.r.lookingAt(ruleRe)) {
+      // There is no strict definition of a table.el table. Try to
+      // prevent false positive while being quick.
       const offset = this.r.offset();
-      const nextLineOffset = offset + this.r.line().length;
+      this.r.advance(this.r.line());
+      const nextLineOffset = this.r.offset();
       const firstNonTable = this.r.match(/^[ \t]*($|[^|])/m)?.index ?? null;
       this.r.advance(firstNonTable);
       const isTable =
@@ -1149,16 +1150,12 @@ class Parser {
     if (tableType === 'org') {
       return u('table', { tableType, tblfm, contentsBegin, contentsEnd }, []);
     } else {
-      return u(
-        'table',
-        {
-          affiliated,
-          tableType,
-          tblfm,
-          value: this.r.substring(contentsBegin, contentsEnd),
-        },
-        []
-      );
+      return u('table', {
+        affiliated,
+        tableType,
+        tblfm,
+        value: this.r.substring(contentsBegin, contentsEnd),
+      });
     }
   }
 

@@ -35,6 +35,21 @@ exports[`org/org-to-hast complex headline 1`] = `
 
 exports[`org/org-to-hast custom drawer 1`] = `<div></div>`;
 
+exports[`org/org-to-hast description list 1`] = `
+<div>
+<dl>
+  <dt>term1</dt>
+  <dd>
+    <p>description 1</p>
+  </dd>
+  <dt>term 2</dt>
+  <dd>
+    <p>description 2</p>
+  </dd>
+</dl>
+</div>
+`;
+
 exports[`org/org-to-hast diary sexp 1`] = `<div></div>`;
 
 exports[`org/org-to-hast emphasis 1`] = `
@@ -235,6 +250,52 @@ exports[`org/org-to-hast table 1`] = `
     <tr>
       <td>value1</td>
       <td>value2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+`;
+
+exports[`org/org-to-hast table without header 1`] = `
+<div>
+<table>
+  <tbody>
+    <tr>
+      <td>value1</td>
+      <td>value2</td>
+    </tr>
+    <tr>
+      <td>value3</td>
+      <td>value4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+`;
+
+exports[`org/org-to-hast table, multiple body 1`] = `
+<div>
+<table>
+  <thead>
+    <tr>
+      <th>head1</th>
+      <th>head2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value1</td>
+      <td>value2</td>
+    </tr>
+    <tr>
+      <td>value3</td>
+      <td>value4</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>value5</td>
+      <td>value6</td>
     </tr>
   </tbody>
 </table>

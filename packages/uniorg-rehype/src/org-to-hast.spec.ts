@@ -108,6 +108,12 @@ hello /there/
 `
   );
 
+  hastTest(
+    'description list',
+    `- term1 :: description 1
+- term 2 :: description 2`
+  );
+
   hastTest('link', `https://example.com`);
 
   hastTest('link mixed with text', `hello http://example.com blah`);
@@ -216,6 +222,26 @@ hello, world!
 | head1  | head2 |
 |--------+-------|
 | value1 | value2 |
+`
+  );
+
+  hastTest(
+    'table without header',
+    `
+| value1 | value2 |
+| value3 | value4 |
+`
+  );
+
+  hastTest(
+    'table, multiple body',
+    `
+| head1  | head2 |
+|--------+-------|
+| value1 | value2 |
+| value3 | value4 |
+|--------+--------|
+| value5 | value6 |
 `
   );
 

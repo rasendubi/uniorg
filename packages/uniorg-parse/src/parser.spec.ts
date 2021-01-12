@@ -188,6 +188,12 @@ hello`
     );
 
     itParses(
+      'description list',
+      `- term1 :: description 1
+- term 2 :: description 2`
+    );
+
+    itParses(
       'list after paragraph',
       `hello
 - list`
@@ -345,6 +351,15 @@ not a code`
 |--------+-------|
 | value1 | value2 |
 `
+  );
+  itParses(
+    'table.el table',
+    `
++--------+--------+
+| head1  | head2  |
++--------+--------+
+| value1 | value2 |
++--------+--------+`
   );
 
   describe('comments', () => {
