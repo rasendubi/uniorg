@@ -1018,6 +1018,39 @@ children:
             children: []
 `;
 
+exports[`org/parser headline DONE from next line should not capture first headline 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 31
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "Headline 1"
+    title:
+      - type: "text"
+        value: "Headline 1"
+    tags: []
+    contentsBegin: 14
+    contentsEnd: 14
+    children: []
+  - type: "headline"
+    level: 1
+    todoKeyword: "DONE"
+    priority: null
+    commented: false
+    rawValue: "Headline 2"
+    title:
+      - type: "text"
+        value: "Headline 2"
+    tags: []
+    contentsBegin: 31
+    contentsEnd: 31
+    children: []
+`;
+
 exports[`org/parser headline complex headline 1`] = `
 type: "org-data"
 contentsBegin: 0

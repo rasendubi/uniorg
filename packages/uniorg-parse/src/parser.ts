@@ -595,31 +595,33 @@ class Parser {
   // Elements parsers
 
   private parseHeadline(): Headline {
-    const stars = this.r.advance(
-      this.r.forceMatch(new RegExp(`^(\\*+)[ \\t]+`))
-    );
+    const begin = this.r.offset();
+    this.r.advance(this.r.line());
+    this.r.narrow(begin, this.r.offset());
+
+    const stars = this.r.advance(this.r.forceLookingAt(/^(\*+)[ \t]+/));
     const level = stars[1].length;
 
     const todoM = this.r.advance(
-      this.r.match(new RegExp('^' + this.options.todoKeywords.join('|')))
+      this.r.lookingAt(new RegExp('^' + this.options.todoKeywords.join('|')))
     );
     const todoKeyword = todoM?.[0] ?? null;
-    this.r.advance(this.r.match(/^[ \t]*/));
+    this.r.advance(this.r.lookingAt(/^[ \t]*/));
 
-    const priorityM = this.r.advance(this.r.match(/^\[#.\]/));
+    const priorityM = this.r.advance(this.r.lookingAt(/^\[#.\]/));
     const priority = priorityM?.[0][2] ?? null;
-    this.r.advance(this.r.match(/^[ \t]*/));
+    this.r.advance(this.r.lookingAt(/^[ \t]*/));
 
-    const commented = !!this.r.advance(this.r.match(/^COMMENT/));
-    this.r.advance(this.r.match(/^[ \t]*/));
+    const commented = !!this.r.advance(this.r.lookingAt(/^COMMENT/));
+    this.r.advance(this.r.lookingAt(/^[ \t]*/));
 
     const titleStart = this.r.offset();
 
-    const tagsM = this.r.match(/^(.*?)[ \t]+:([\w@#%:]+):[ \t]*$/);
+    const tagsM = this.r.lookingAt(/^(.*?)[ \t]+:([\w@#%:]+):[ \t]*$/);
     const tags = tagsM?.[2].split(':') ?? [];
     const titleEnd = tagsM
       ? titleStart + tagsM.index + tagsM[1].length
-      : titleStart + this.r.match(/.*/)![0].length;
+      : titleStart + this.r.lookingAt(/.*/)![0].length;
 
     const rawValue = this.r.substring(titleStart, titleEnd);
 
@@ -627,7 +629,9 @@ class Parser {
     const title = this.parseObjects(restrictionFor('headline'));
     this.r.widen();
 
-    this.r.advance(this.r.line());
+    // Reset line restriction and continue with parsing body.
+    this.r.widen();
+
     this.parseEmptyLines();
     const contentsBegin = this.r.offset();
 

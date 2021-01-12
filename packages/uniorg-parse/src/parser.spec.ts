@@ -68,6 +68,13 @@ describe('org/parser', () => {
       'complex headline',
       `* TODO [#A] COMMENT headline /italic/ title :some:tags:`
     );
+
+    itParses(
+      'DONE from next line should not capture first headline',
+      `* Headline 1
+
+* DONE Headline 2`
+    );
   });
 
   describe('section', () => {
