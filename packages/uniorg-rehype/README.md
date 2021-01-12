@@ -40,8 +40,8 @@ process.stdin.pipe(createStream(processor)).pipe(process.stdout)
 Convert uniorg AST into hast.
 
 ```js
-import { parse } from 'uniorg-parse/parser';
-import { orgToHast } from 'uniorg-rehype/org-to-hast';
+import { parse } from 'uniorg-parse/lib/parser';
+import { orgToHast } from 'uniorg-rehype/lib/org-to-hast';
 
 orgToHast(parse(`* headline`));
 ```

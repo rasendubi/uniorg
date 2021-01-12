@@ -37,7 +37,7 @@ Configure the `processor` to read Markdown as input and process **[uniorg](https
 Parse string.
 
 ```js
-import { parse } from 'uniorg-parse/parser';
+import { parse } from 'uniorg-parse/lib/parser';
 
 console.log(parse('* example document'))
 ```
