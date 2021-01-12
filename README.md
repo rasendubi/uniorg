@@ -1,5 +1,11 @@
 # uniorg
 
+[![build](https://github.com/rasendubi/uniorg/workflows/main/badge.svg)](https://github.com/rasendubi/uniorg/actions)
+[![codecov](https://codecov.io/gh/rasendubi/uniorg/branch/master/graph/badge.svg?token=dMHp3L9b6D)](https://codecov.io/gh/rasendubi/uniorg)
+[![uniorg npm](https://img.shields.io/npm/v/uniorg?label=uniorg)](https://www.npmjs.com/package/uniorg)
+[![uniorg-parse npm](https://img.shields.io/npm/v/uniorg-parse?label=uniorg-parse)](https://www.npmjs.com/package/uniorg-parse)
+[![uniorg-rehype npm](https://img.shields.io/npm/v/uniorg-rehype?label=uniorg-rehype)](https://www.npmjs.com/package/uniorg-rehype)
+
 [Org-mode](https://orgmode.org/) parser compatible with [unified](https://github.com/unifiedjs/unified) ecosystem.
 
 # Why
