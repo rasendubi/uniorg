@@ -1503,65 +1503,93 @@ class Parser {
   private parseLink(): Link | null {
     const initialOffset = this.r.offset();
 
+    // TODO: Type 1: Text targeted from a radio target.
+
+    // Type 2: Standard link.
     const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>.+?)\])?\]/;
-
-    const c = this.r.peek(1);
-    switch (c) {
-      case '[': {
-        // normal link [[http://example.com][text]]
-        const m = this.r.match(linkBracketRe);
-        this.r.advance(m);
-        if (m) {
-          const contents: Pick<Link, 'contentsBegin' | 'contentsEnd'> = {};
-          if (m.groups!.text) {
-            const contentsBegin = (contents.contentsBegin =
-              initialOffset + 2 + m.groups!.link.length + 2);
-            contents.contentsEnd = contentsBegin + m.groups!.text.length;
-          }
-
-          const linkType = m.groups!.link.match(/(.+?):(.*)/);
-
-          return u(
-            'link',
-            {
-              format: 'bracket' as 'bracket',
-              linkType: linkType ? linkType[1] : 'fuzzy',
-              rawLink: m.groups!.link,
-              path: linkType ? linkType[2] : m.groups!.link,
-              ...contents,
-            },
-            []
-          );
-        }
-        break;
+    const bracketM = this.r.advance(this.r.lookingAt(linkBracketRe));
+    if (bracketM) {
+      const m = bracketM;
+      const contents: Pick<Link, 'contentsBegin' | 'contentsEnd'> = {};
+      if (m.groups!.text) {
+        const contentsBegin = (contents.contentsBegin =
+          initialOffset + 2 /* [[ */ + m.groups!.link.length + 2); /* ][ */
+        contents.contentsEnd = contentsBegin + m.groups!.text.length;
       }
 
-      default: {
-        // plain link
-        const linkPlainRe = new RegExp(
-          `\\b${linkTypesRe()}:([^\\][ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\p{Punctuation} \\t\\n]|/)))`,
-          'u'
-        );
-        const m = this.r.match(linkPlainRe);
-        this.r.advance(m);
-        if (m) {
-          return u(
-            'link',
-            {
-              format: 'plain' as 'plain',
-              linkType: m[1],
-              rawLink: m[0],
-              path: m[2],
-            },
-            []
-          );
-        }
-      }
+      // TODO: Decode any encoding. Expand any abbreviation in it.
+      const linkType = m.groups!.link.match(/(.+?):(.*)/);
+
+      return u(
+        'link',
+        {
+          format: 'bracket' as 'bracket',
+          linkType: linkType?.[1] ?? 'fuzzy',
+          rawLink: m.groups!.link,
+          path: linkType ? linkType[2] : m.groups!.link,
+          ...contents,
+        },
+        []
+      );
     }
+
+    // Type 3: Plain link, e.g., https://orgmode.org
+    const linkPlainRe = new RegExp(
+      `\\b${linkTypesRe()}:([^\\][ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\p{Punctuation} \\t\\n]|/)))`,
+      'u'
+    );
+    const plainM = this.r.advance(this.r.lookingAt(linkPlainRe));
+    if (plainM) {
+      const m = plainM;
+      return u(
+        'link',
+        {
+          format: 'plain' as 'plain',
+          linkType: m[1],
+          rawLink: m[0],
+          path: m[2],
+        },
+        []
+      );
+    }
+
+    // Type 4: Angular link, e.g., <https://orgmode.org>. Unlike
+    // bracket links, follow RFC 3986 and remove any extra whitespace
+    // in URI.
+    const linkAngleRe = new RegExp(
+      `<${linkTypesRe()}:([^>\\n]*(?:\\n[ \\t]*[^> \\t\\n][^>\\n]*)*)>`
+    );
+    const angularM = this.r.advance(this.r.lookingAt(linkAngleRe));
+    if (angularM) {
+      const m = angularM;
+      const linkType = m[1];
+      const rawLink = m[0].substring(1, m[0].length - 1); // strip < >
+      const path = m[2].replace(/[ \t]*\n[ \t]*/g, '');
+      return u(
+        'link',
+        { format: 'angle' as 'angle', linkType, rawLink, path },
+        []
+      );
+    }
+
     return null;
   }
 
   private parseTimestamp(): Timestamp | null {
+    // org-ts--internal-regexp
+    const tsInternalRe = '\\d{4}-\\d{2}-\\d{2}(:? .*?)?';
+    // org-ts-regexp-both
+    const tsBothRe = `[\\[<](` + tsInternalRe + `)[\\]>]`;
+    // org-element--timestamp-regexp
+    const timestampRe = new RegExp(
+      [
+        tsBothRe,
+        '(?:<[0-9]+-[0-9]+-[0-9]+[^>\\n]+?\\+[0-9]+[dwmy]>)',
+        '(?:<%%(?:([^>\\n]+))>)',
+      ].join('|')
+    );
+    if (!this.r.lookingAt(timestampRe)) return null;
+
     const active =
       this.r.substring(this.r.offset(), this.r.offset() + 1) === '<';
     const m = this.r.advance(

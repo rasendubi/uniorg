@@ -216,7 +216,10 @@ hello`
 
     itParses('fake list numbers', `- 1. blah`);
 
-    itParses('checkbox item', `- [x] done`);
+    itParses('checkbox item [ ]', `- [ ] not done`);
+    itParses('checkbox item [-]', `- [-] half-done`);
+    itParses('checkbox item [x]', `- [x] done`);
+    itParses('checkbox item [X]', `- [X] done`);
   });
 
   describe('links', () => {
@@ -238,6 +241,8 @@ hello`
     itParses('link after text', `some text [[link][text]]`);
 
     itParses('link with no text', `[[link]]`);
+
+    itParses('angle link', `<http://example.com>`);
   });
 
   describe('blocks', () => {
@@ -360,6 +365,15 @@ not a code`
 +--------+--------+
 | value1 | value2 |
 +--------+--------+`
+  );
+
+  itParses(
+    'table with format',
+    `
+| 1 |
+| 2 |
+#+TBLFM: $2=$1^2::$3=$1^3
+`
   );
 
   describe('comments', () => {

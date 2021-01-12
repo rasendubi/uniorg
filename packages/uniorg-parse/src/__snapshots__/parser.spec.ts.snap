@@ -1349,6 +1349,28 @@ children:
             value: "."
 `;
 
+exports[`org/parser links angle link 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 20
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 20
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 20
+        children:
+          - type: "link"
+            format: "angle"
+            linkType: "http"
+            rawLink: "http://example.com"
+            path: "//example.com"
+            children: []
+`;
+
 exports[`org/parser links link 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -1563,7 +1585,130 @@ children:
                 value: "text2"
 `;
 
-exports[`org/parser list checkbox item 1`] = `
+exports[`org/parser list checkbox item [ ] 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 14
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 14
+    children:
+      - type: "plain-list"
+        affiliated: {}
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 0
+        contentsEnd: 14
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: "[ ]"
+            tag: null
+            end: 14
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: "off"
+            tag: null
+            contentsBegin: 6
+            contentsEnd: 14
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 6
+                contentsEnd: 14
+                children:
+                  - type: "text"
+                    value: "not done"
+`;
+
+exports[`org/parser list checkbox item [-] 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 15
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 15
+    children:
+      - type: "plain-list"
+        affiliated: {}
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 0
+        contentsEnd: 15
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: "[-]"
+            tag: null
+            end: 15
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: "trans"
+            tag: null
+            contentsBegin: 6
+            contentsEnd: 15
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 6
+                contentsEnd: 15
+                children:
+                  - type: "text"
+                    value: "half-done"
+`;
+
+exports[`org/parser list checkbox item [X] 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 10
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 10
+    children:
+      - type: "plain-list"
+        affiliated: {}
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 0
+        contentsEnd: 10
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: "[X]"
+            tag: null
+            end: 10
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: "on"
+            tag: null
+            contentsBegin: 6
+            contentsEnd: 10
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 6
+                contentsEnd: 10
+                children:
+                  - type: "text"
+                    value: "done"
+`;
+
+exports[`org/parser list checkbox item [x] 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 10
@@ -2473,6 +2618,45 @@ children:
                 children:
                   - type: "text"
                     value: "value2"
+`;
+
+exports[`org/parser table with format 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 39
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 39
+    children:
+      - type: "table"
+        tableType: "org"
+        tblfm: "$2=$1^2::$3=$1^3"
+        contentsBegin: 1
+        contentsEnd: 13
+        children:
+          - type: "table-row"
+            rowType: "standard"
+            contentsBegin: 2
+            contentsEnd: 6
+            children:
+              - type: "table-cell"
+                contentsBegin: 3
+                contentsEnd: 4
+                children:
+                  - type: "text"
+                    value: "1"
+          - type: "table-row"
+            rowType: "standard"
+            contentsBegin: 8
+            contentsEnd: 12
+            children:
+              - type: "table-cell"
+                contentsBegin: 9
+                contentsEnd: 10
+                children:
+                  - type: "text"
+                    value: "2"
 `;
 
 exports[`org/parser table.el table 1`] = `
