@@ -17,8 +17,9 @@ I want to publish my braindump from org-mode notes. None of the parsers I tried 
 
 You can check the demo at https://braindump.rasen.dev/uniorg (the entire website is built from org-mode pages with uniorg).
 
-Also see [examples](./examples/example) for a runnable example.
+For uniorg-powered Next.js blog example, see [examples/next-blog-starter](./examples/next-blog-starter). (Deployed at [https://org-blog-starter.vercel.app/](https://org-blog-starter.vercel.app/).)
 
+Also see [examples/example](./examples/example) for a simple runnable org-to-html conversion tool.
 
 # Compatibility
 

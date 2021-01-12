@@ -8,7 +8,7 @@ To create the blog posts we use [`uniorg`](https://github.com/rasendubi/uniorg) 
 
 ## Demo
 
-[https://next-blog-starter.vercel.app/](https://next-blog-starter.vercel.app/)
+[https://org-blog-starter.vercel.app/](https://org-blog-starter.vercel.app/)
 
 ## Deploy your own
 
