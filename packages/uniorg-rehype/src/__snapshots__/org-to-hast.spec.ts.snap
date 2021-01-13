@@ -29,7 +29,7 @@ exports[`org/org-to-hast comments 1`] = `
 
 exports[`org/org-to-hast complex headline 1`] = `
 <div>
-<h1><span class="todo-keyword TODO">TODO</span> <span class="priority">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
+<h1><span class="todo-keyword TODO">TODO</span> <span class="priority priority-A">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
 </div>
 `;
 
@@ -54,7 +54,7 @@ exports[`org/org-to-hast diary sexp 1`] = `<div></div>`;
 
 exports[`org/org-to-hast emphasis 1`] = `
 <div>
-<p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span style="text-decoration: underline;">under</span></p>
+<p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span class="underline" style="text-decoration: underline;">under</span></p>
 </div>
 `;
 
@@ -78,7 +78,7 @@ exports[`org/org-to-hast export html block 1`] = `<div><abbr title="World Health
 
 exports[`org/org-to-hast fixed-width 1`] = `
 <div>
-<pre>hello</pre>
+<pre class="fixed-width">hello</pre>
 </div>
 `;
 
@@ -215,7 +215,7 @@ exports[`org/org-to-hast property drawer 1`] = `
 
 exports[`org/org-to-hast remove common src block offset 1`] = `
 <div>
-<pre><code>hello
+<pre class="src-block"><code>hello
   world
 </code></pre>
 </div>
@@ -223,7 +223,7 @@ exports[`org/org-to-hast remove common src block offset 1`] = `
 
 exports[`org/org-to-hast special block 1`] = `
 <div>
-<div>
+<div class="special-block block-blah">
   <p>hello</p>
 </div>
 </div>
@@ -231,7 +231,7 @@ exports[`org/org-to-hast special block 1`] = `
 
 exports[`org/org-to-hast src block 1`] = `
 <div>
-<pre><code class="language-c">a = b;
+<pre class="src-block"><code class="language-c">a = b;
 printf("%d\\n", *a);
 </code></pre>
 </div>

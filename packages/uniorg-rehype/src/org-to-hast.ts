@@ -60,7 +60,14 @@ export function orgToHast(
             ]
           : null;
         const priority = org.priority
-          ? [h('span', { className: 'priority' }, `[${org.priority}]`), ' ']
+          ? [
+              h(
+                'span',
+                { className: ['priority', `priority-${org.priority}`] },
+                `[${org.priority}]`
+              ),
+              ' ',
+            ]
           : null;
         const tags = org.tags.length
           ? [
@@ -104,7 +111,7 @@ export function orgToHast(
         return h('blockquote', toHast(org.children));
       case 'src-block':
         return h(
-          'pre',
+          'pre.src-block',
           h(
             'code',
             {
@@ -127,7 +134,11 @@ export function orgToHast(
         }
         return null;
       case 'special-block':
-        return h('div', toHast(org.children));
+        return h(
+          'div',
+          { className: ['special-block', `block-${org.blockType}`] },
+          toHast(org.children)
+        );
       case 'keyword':
         return null;
       case 'horizontal-rule':
@@ -145,15 +156,15 @@ export function orgToHast(
       case 'italic':
         return h('em', toHast(org.children));
       case 'code':
-        return h('code', { className: 'inline-code' }, org.value);
+        return h('code.inline-code', org.value);
       case 'verbatim':
         // org-mode renders verbatim as <code>
-        return h('code', { className: 'inline-verbatim' }, org.value);
+        return h('code.inline-verbatim', org.value);
       case 'strike-through':
         return h('del', toHast(org.children));
       case 'underline':
         return h(
-          'span',
+          'span.underline',
           { style: 'text-decoration: underline;' },
           toHast(org.children)
         );
@@ -186,7 +197,7 @@ export function orgToHast(
       case 'comment':
         return null;
       case 'fixed-width':
-        return h('pre', org.value);
+        return h('pre.fixed-width', org.value);
       case 'clock':
         return null;
       case 'latex-environment':
