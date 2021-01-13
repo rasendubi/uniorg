@@ -3,5 +3,5 @@
     "packages/*",
     "examples/*"
   ],
-  "version": "independent"
+  "version": "0.1.5"
 }
