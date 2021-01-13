@@ -1051,6 +1051,36 @@ children:
     children: []
 `;
 
+exports[`org/parser headline complex headline + newline 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 56
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: "TODO"
+    priority: "A"
+    commented: true
+    rawValue: "headline /italic/ title"
+    title:
+      - type: "text"
+        value: "headline "
+      - type: "italic"
+        contentsBegin: 30
+        contentsEnd: 36
+        children:
+          - type: "text"
+            value: "italic"
+      - type: "text"
+        value: " title"
+    tags:
+      - "some"
+      - "tags"
+    contentsBegin: 56
+    contentsEnd: 56
+    children: []
+`;
+
 exports[`org/parser headline complex headline 1`] = `
 type: "org-data"
 contentsBegin: 0
