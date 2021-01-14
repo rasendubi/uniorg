@@ -1,4 +1,3 @@
-
 # `uniorg-rehype`
 
 **[uniorg](https://github.com/rasendubi/uniorg)** plugin to mutate uniorg to **[rehype](https://github.com/rehypejs/rehype)**.
@@ -48,5 +47,4 @@ orgToHast(parse(`* headline`));
 
 ## License
 
-GPLv3 or later
-
+[GNU General Public License v3.0 or later](./LICENSE)

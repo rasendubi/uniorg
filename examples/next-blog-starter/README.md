@@ -4,7 +4,9 @@ This example showcases Next.js's [Static Generation](https://nextjs.org/docs/bas
 
 The blog posts are stored in `/_posts` as Org files. Adding a new Org file in there will create a new blog post.
 
-To create the blog posts we use [`uniorg`](https://github.com/rasendubi/uniorg) and [`remark-html`](https://github.com/remarkjs/remark-html) to convert the Org files into an HTML string, and then send it down as a prop to the page. The metadata of every post is handled by `extractExportSettings` unified plugin in [orgToHtml.js](./lib/orgToHtml.js) file.
+To create the blog posts we use [`uniorg`](https://github.com/rasendubi/uniorg) and [`rehype-stringify`][rehype-stringify] to convert the Org files into an HTML string, and then send it down as a prop to the page. The metadata of every post is handled by `extractExportSettings` unified plugin in [orgToHtml.js](./lib/orgToHtml.js) file.
+
+[rehype-stringify]: https://github.com/rehypejs/rehype/tree/main/packages/rehype-stringify
 
 ## Demo
 
@@ -26,9 +28,9 @@ npx create-next-app --example https://github.com/rasendubi/uniorg/tree/master/ex
 yarn create next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/next-blog-starter blog-starter-app
 ```
 
-Your blog should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
+Your blog should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/rasendubi/uniorg/discussions).
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Deploy it to the cloud with [Vercel](https://vercel.com/new) ([Documentation](https://nextjs.org/docs/deployment)).
 
 # Notes
 

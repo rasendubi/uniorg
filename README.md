@@ -1,4 +1,4 @@
-# uniorg
+# ![uniorg](./logo.svg)
 
 [![build](https://github.com/rasendubi/uniorg/workflows/main/badge.svg)](https://github.com/rasendubi/uniorg/actions)
 [![codecov](https://codecov.io/gh/rasendubi/uniorg/branch/master/graph/badge.svg?token=dMHp3L9b6D)](https://codecov.io/gh/rasendubi/uniorg)
@@ -6,26 +6,34 @@
 [![uniorg-parse npm](https://img.shields.io/npm/v/uniorg-parse?label=uniorg-parse)](https://www.npmjs.com/package/uniorg-parse)
 [![uniorg-rehype npm](https://img.shields.io/npm/v/uniorg-rehype?label=uniorg-rehype)](https://www.npmjs.com/package/uniorg-rehype)
 
-[Org-mode](https://orgmode.org/) parser compatible with [unified](https://github.com/unifiedjs/unified) ecosystem.
+**uniorg** is an accurate [Org-mode](https://orgmode.org/) parser compatible with [unified](https://github.com/unifiedjs/unified) ecosystem.
 
 # Why
 
 I want to publish my braindump from org-mode notes. None of the parsers I tried have provided enough precision.
 
+uniorg strives for parsing accuracy rather than speed or ease of writing the parser.
+
+uniorg follows [Org Syntax][org-syntax] and [Org Element API][org-element-api]. It draws heavily from [org-element.el][org-element], which means uniorg sees org files the same way as org-mode does. The code is full of regexes but that's exactly how org-mode parses files.
+
+[org-syntax]: https://orgmode.org/worg/dev/org-syntax.html
+[org-element-api]: https://orgmode.org/worg/dev/org-element-api.html
+[org-element]: http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/org/org-element.el
 
 # Demo
 
 You can check the demo at https://braindump.rasen.dev/uniorg (the entire website is built from org-mode pages with uniorg).
 
-For uniorg-powered Next.js blog example, see [examples/next-blog-starter](./examples/next-blog-starter). (Deployed at [https://org-blog-starter.vercel.app/](https://org-blog-starter.vercel.app/).)
+For uniorg-powered [Next.js][nextjs] blog example, see [examples/next-blog-starter](./examples/next-blog-starter). (Deployed at [https://org-blog-starter.vercel.app/](https://org-blog-starter.vercel.app/).)
 
 Also see [examples/example](./examples/example) for a simple runnable org-to-html conversion tool.
 
-# Compatibility
+[nextjs]: https://nextjs.org/
 
-uniorg follows [Org Syntax](https://orgmode.org/worg/dev/org-syntax.html) and [Org Element API](https://orgmode.org/worg/dev/org-element-api.html). It draws heavily from [org-element.el](http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/org/org-element.el), which means uniorg sees org files the same way org-mode sees it.
+# Status
 
-There are a couple of places I haven't yet finished:
+uniorg successfully parses most of the org syntax.
+However, there are a couple of places I haven't finished yet:
 
 - subscript, superscripts
 - [inlinetask](http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/org/org-inlinetask.el)
@@ -39,7 +47,18 @@ There are a couple of places I haven't yet finished:
 - switches and parameters in src-block and example-block
 - repeater/warning props in timestamp
 
-The rest of the syntax should work fine and exactly same way as in Emacs (including complex list nesting, links, drawers, clock entries, latex, etc.). If you want to help, grep for `TODO:` in <./packages/uniorg-parse/src/parser.ts>.
+The rest of the syntax should work fine and exactly the same way as in Emacs (including complex list nesting, links, drawers, clock entries, latex, etc.). If you want to help with items above, grep [parser.ts](./packages/uniorg-parse/src/parser.ts) for `TODO:`.
+
+# Packages
+
+This repository contains the following packages:
+- [`uniorg`][uniorg] — Typescript definitions of uniorg syntax tree
+- [`uniorg-parse`][uniorg-parse] — Parse org-mode files to uniorg syntax trees
+- [`uniorg-rehype`][uniorg-rehype] — Transform uniorg syntax trees to [**rehype**](https://github.com/rehypejs/rehype)
+
+[uniorg]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg
+[uniorg-parse]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-parse
+[uniorg-rehype]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-rehype
 
 # unified
 
@@ -93,4 +112,4 @@ console.log('uniorg is cool!');
 
 # License
 
-uniorg is licensed under GPLv3 or later.
+[GNU General Public License v3.0 or later](./LICENSE)
