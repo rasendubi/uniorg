@@ -22,11 +22,10 @@ uniorg follows [Org Syntax][org-syntax] and [Org Element API][org-element-api]. 
 
 # Demo
 
-You can check the demo at https://braindump.rasen.dev/uniorg (the entire website is built from org-mode pages with uniorg).
-
-For uniorg-powered [Next.js][nextjs] blog example, see [examples/next-blog-starter](./examples/next-blog-starter). (Deployed at [https://org-blog-starter.vercel.app/](https://org-blog-starter.vercel.app/).)
-
-Also see [examples/example](./examples/example) for a simple runnable org-to-html conversion tool.
+- https://braindump.rasen.dev/uniorg — play with how uniorg parses and translates org files.
+- https://org-blog-starter.vercel.app — uniorg-powered [Next.js][nextjs] blog example ([examples/next-blog-starter](./examples/next-blog-starter)).
+- https://org-braindump.vercel.app — uniorg-powered [Next.js][nextjs] website tailored to publishing an interlinked collection of notes ([examples/org-braindump](./examples/org-braindump)).
+- [examples/example](./examples/example) — a simple CLI tool to convert org files to html.
 
 [nextjs]: https://nextjs.org/
 

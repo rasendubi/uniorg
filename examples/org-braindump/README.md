@@ -2,8 +2,11 @@
 
 This example showcases how you can use [uniorg][uniorg] and [Next.js][nextjs] to publish a simple website from Org files. It is tailored to publishing a collection of interlinked notes.
 
+It is compatible with [org-roam][org-roam] but org-roam is not a requirement.
+
 [uniorg]: https://github.com/rasendubi/uniorg
 [nextjs]: https://nextjs.org/
+[org-roam]: https://github.com/org-roam/org-roam
 
 ## Demo
 
