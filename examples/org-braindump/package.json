@@ -1,0 +1,24 @@
+{
+  "name": "org-braindump",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "10.0.5",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "rehype-react": "^6.1.0",
+    "rehype-url-inspector": "^2.0.2",
+    "to-vfile": "^6.1.0",
+    "unified": "^9.2.0",
+    "uniorg-parse": "^0.1.6",
+    "uniorg-rehype": "^0.1.6",
+    "unist-util-visit": "^2.0.3",
+    "vfile-find-down": "^5.0.1",
+    "vfile-rename": "^1.0.3"
+  }
+}

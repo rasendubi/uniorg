@@ -1,0 +1,5 @@
+#+TITLE: Styling
+
+To style your braindump, edit [[https://github.com/rasendubi/tree/master/examples/org-braindump/src/styles/globals.css][src/styles/globals.css]] style file.
+
+Alternatively, you can import any CSS file in [[https://github.com/rasendubi/tree/master/examples/org-braindump/src/pages/_app.js][src/pages/_app.js]].

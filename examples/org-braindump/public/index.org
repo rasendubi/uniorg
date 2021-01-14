@@ -1,0 +1,18 @@
+#+TITLE: Uniorg braindump example
+
+This is an example braindump built with [[https://github.com/rasendubi/uniorg][uniorg]] and [[https://nextjs.org/][Next.js]].
+
+Source code is available [[https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump][at GitHub]].
+
+You can use ~create-next-app~ to bootstrap the example for you:
+#+begin_src sh
+npx create-next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump
+#+end_src
+
+Browse other pages:
+- [[file:./uniorg.org][uniorg]]
+- [[file:./styling.org][Styling]]
+- [[file:./code-highlight.org][Code highlight]]
+- [[file:./changing-posts-directory.org][Changing posts directory]]
+- [[file:./org-roam.org][org-roam]]
+- [[/archive][Archive]] (special page with all notes)

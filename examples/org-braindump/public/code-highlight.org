@@ -1,0 +1,6 @@
+#+TITLE: Code highlight
+
+If you want to enable code highlight, you can use [[https://github.com/rehypejs/rehype-highlight][rehype-highlight]] or [[https://github.com/mapbox/rehype-prism][@mapbox/rehype-prism]] plugin.
+
+Modify =src/lib/orgToHtml.js= and add your plugin of choice after ~org2rehype~, modify styles to include your theme (see [[file:./styling.org][Styling]]).
+uniorg-rehype attaches all necessary =language-{name}= classes, so you don't have to worry about this bit.

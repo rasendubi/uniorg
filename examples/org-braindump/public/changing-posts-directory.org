@@ -1,0 +1,5 @@
+#+TITLE: Changing posts directory
+
+By default, all posts are stored in “public” directory.
+
+If you want to change this directory, you can do that in =src/lib/api.js= file, ~pagesDirectory~ variable. When doing so, make sure you're copying all assets to “public” directory so that next.js serves them along with your pages.
