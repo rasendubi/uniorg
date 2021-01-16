@@ -446,6 +446,49 @@ children:
         value: "first line\\nsecond\\nthird\\nfourth"
 `;
 
+exports[`org/parser comments no comments in list 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 30
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 30
+    children:
+      - type: "plain-list"
+        affiliated: {}
+        indent: 0
+        listType: "unordered"
+        contentsBegin: 1
+        contentsEnd: 30
+        structure:
+          - begin: 1
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag: null
+            end: 30
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: null
+            contentsBegin: 3
+            contentsEnd: 30
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 3
+                contentsEnd: 19
+                children:
+                  - type: "text"
+                    value: "# not a comment\\n"
+              - type: "comment"
+                value: "comment"
+`;
+
 exports[`org/parser comments single-line comment 1`] = `
 type: "org-data"
 contentsBegin: 0

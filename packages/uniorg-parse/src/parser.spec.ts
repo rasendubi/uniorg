@@ -399,6 +399,12 @@ not a code`
 # third
                     # fourth`
     );
+    itParses(
+      'no comments in list',
+      `
+- # not a comment
+  # comment`
+    );
   });
 
   describe('fixed-width', () => {

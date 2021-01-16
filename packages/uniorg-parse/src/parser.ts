@@ -205,8 +205,12 @@ class Parser {
       return result;
     }
 
+    const isBeginningOfLine =
+      this.r.offset() === 0 ||
+      this.r.substring(this.r.offset() - 1, this.r.offset()) === '\n';
+
     // Comments.
-    if (this.r.lookingAt(/^[ \t]*#(?: |$)/m)) {
+    if (isBeginningOfLine && this.r.lookingAt(/^[ \t]*#(?: |$)/m)) {
       return this.parseComment();
     }
 
@@ -214,7 +218,7 @@ class Parser {
     if (
       mode === 'planning' &&
       // TODO: check previous line is headline
-      this.r.match(/^[ \t]*(CLOSED:|DEADLINE:|SCHEDULED:)/)
+      this.r.lookingAt(/^[ \t]*(CLOSED:|DEADLINE:|SCHEDULED:)/)
     ) {
       return this.parsePlanning();
     }
@@ -233,12 +237,7 @@ class Parser {
 
     // When not at beginning of line, point is at the beginning of an
     // item or a footnote definition: next item is always a paragraph.
-    if (
-      !(
-        this.r.offset() === 0 ||
-        this.r.substring(this.r.offset() - 1, this.r.offset()) === '\n'
-      )
-    ) {
+    if (!isBeginningOfLine) {
       return this.parseParagraph({});
     }
 
