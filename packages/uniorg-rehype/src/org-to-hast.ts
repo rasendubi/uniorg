@@ -121,7 +121,12 @@ export function orgToHast(
           )
         );
       case 'verse-block':
-        return h('p.verse', toHast(org.children));
+        // org-html exports verse-block as <p>. However, <p> might not
+        // survive minification (and does not if you use
+        // rehype-preset-minify), which drops all spaces and
+        // indentation. Serialize verse-block as <pre>, so whitespace
+        // is correctly preserved.
+        return h('pre.verse', toHast(org.children));
       case 'center-block':
         return h('div.center', toHast(org.children));
       case 'comment-block':

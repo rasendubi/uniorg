@@ -340,11 +340,11 @@ exports[`org/org-to-hast timestamps with time 1`] = `
 
 exports[`org/org-to-hast verse block 1`] = `
 <div>
-<p class="verse">
-  Great clouds overhead
-  Tiny black birds rise and fall
-  Snow covers Emacs
-  ---AlexSchroeder
-</p>
+<pre class="verse"> Great clouds overhead
+ Tiny black birds rise and fall
+ Snow covers Emacs
+
+    ---AlexSchroeder
+</pre>
 </div>
 `;
