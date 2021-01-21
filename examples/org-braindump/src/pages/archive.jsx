@@ -25,7 +25,7 @@ export default Archive;
 export const getStaticProps = async () => {
   const allPosts = await getAllPosts();
   const posts = allPosts
-    .map((p) => ({ title: p.data.title || '', path: p.path }))
+    .map((p) => ({ title: p.data.title || p.basename, path: p.path }))
     .sort((a, b) => {
       return a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1;
     });
