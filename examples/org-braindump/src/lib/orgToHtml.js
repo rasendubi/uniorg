@@ -45,7 +45,7 @@ function processUrl({ url: urlString, propertyName, node, file }) {
 
   if (url.protocol === 'file:') {
     let href = url.pathname.replace(/\.org$/, '');
-    node.properties[propertyName] = encodeURI(href);
+    node.properties[propertyName] = href;
 
     file.data.links = file.data.links || [];
     file.data.links.push(href);
