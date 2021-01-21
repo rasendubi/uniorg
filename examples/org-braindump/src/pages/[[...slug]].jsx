@@ -49,11 +49,11 @@ export const getStaticProps = async ({ params }) => {
   const backlinks = await Promise.all(data.backlinks.map(getPostBySlug));
   return {
     props: {
-      title: data.title,
+      title: data.title || '',
       hast: post.result,
       backlinks: backlinks.map((b) => ({
         path: b.path,
-        title: b.data.title,
+        title: b.data.title || '',
       })),
     },
   };
