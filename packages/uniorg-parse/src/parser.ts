@@ -1103,7 +1103,7 @@ class Parser {
     }
 
     this.r.narrow(begin, contentsEnd);
-    this.r.advance(this.r.forceMatch(/\][ \r\t\n]/m));
+    this.r.advance(this.r.forceMatch(/\][ \r\t\n]*/m));
     const contentsBegin = this.r.offset();
     this.r.widen();
     this.r.resetOffset(contentsEnd);

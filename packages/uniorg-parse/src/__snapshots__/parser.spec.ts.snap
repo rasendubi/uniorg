@@ -816,6 +816,30 @@ children:
                 value: "hello"
 `;
 
+exports[`org/parser footnote definition footnote definition with : following 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 16
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 16
+    children:
+      - type: "footnote-definition"
+        affiliated: {}
+        label: "1"
+        contentsBegin: 6
+        contentsEnd: 16
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 6
+            contentsEnd: 16
+            children:
+              - type: "text"
+                value: ": footnote"
+`;
+
 exports[`org/parser footnote definition paragraph split 1`] = `
 type: "org-data"
 contentsBegin: 0

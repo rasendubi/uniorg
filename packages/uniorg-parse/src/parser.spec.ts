@@ -556,6 +556,9 @@ footnote
       `hello
 [fn:1] hello`
     );
+
+    // note that footnote content is ": footnote", not "footnote".
+    itParses('footnote definition with : following', `[fn:1]: footnote`);
   });
 
   itParses(
