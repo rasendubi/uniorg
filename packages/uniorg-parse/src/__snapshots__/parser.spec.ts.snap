@@ -1455,6 +1455,28 @@ children:
             value: "."
 `;
 
+exports[`org/parser links ./ as start of file link 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 14
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 14
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 14
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "file"
+            rawLink: "./file.org"
+            path: "./file.org"
+            children: []
+`;
+
 exports[`org/parser links angle link 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -1474,6 +1496,50 @@ children:
             linkType: "http"
             rawLink: "http://example.com"
             path: "//example.com"
+            children: []
+`;
+
+exports[`org/parser links file link with percents 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 30
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 30
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 30
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "file"
+            rawLink: "./file%2Bwith%2Bspaces.org"
+            path: "./file%2Bwith%2Bspaces.org"
+            children: []
+`;
+
+exports[`org/parser links file link with spaces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 26
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 26
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 26
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "file"
+            rawLink: "./file with spaces.org"
+            path: "./file with spaces.org"
             children: []
 `;
 

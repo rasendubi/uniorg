@@ -119,6 +119,21 @@ hello /there/
   hastTest('link mixed with text', `hello http://example.com blah`);
 
   hastTest(
+    'escape local link',
+    `[[./path with "spaces".org][path with "spaces"]]`
+  );
+
+  hastTest(
+    'escape local link with percent',
+    `[[file:local%2Bpath%2Bwith%2Bpercents.org][local path with percents]]`
+  );
+
+  hastTest(
+    'do not double-escape urls',
+    `[[http://localhost:3000/path%2Bwith%2Bpercents][path with percents]]`
+  );
+
+  hastTest(
     'src block',
     `#+begin_src c
 ,*a = b;

@@ -255,6 +255,13 @@ hello`
 
     itParses('link with no text', `[[link]]`);
 
+    itParses('./ as start of file link', `[[./file.org]]`);
+
+    itParses('file link with spaces', `[[./file with spaces.org]]`);
+
+    // note that these are actual percents in the file name, not a url-encoded "file with spaces.org"
+    itParses('file link with percents', `[[./file%2Bwith%2Bspaces.org]]`);
+
     itParses('angle link', `<http://example.com>`);
   });
 

@@ -52,6 +52,12 @@ exports[`org/org-to-hast description list 1`] = `
 
 exports[`org/org-to-hast diary sexp 1`] = `<div></div>`;
 
+exports[`org/org-to-hast do not double-escape urls 1`] = `
+<div>
+<p><a href="http://localhost:3000/path%2Bwith%2Bpercents">path with percents</a></p>
+</div>
+`;
+
 exports[`org/org-to-hast emphasis 1`] = `
 <div>
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span class="underline" style="text-decoration: underline;">under</span></p>
@@ -63,6 +69,18 @@ exports[`org/org-to-hast empty 1`] = `<div></div>`;
 exports[`org/org-to-hast entity 1`] = `
 <div>
 <p>À</p>
+</div>
+`;
+
+exports[`org/org-to-hast escape local link 1`] = `
+<div>
+<p><a href="./path%20with%20%22spaces%22.org">path with "spaces"</a></p>
+</div>
+`;
+
+exports[`org/org-to-hast escape local link with percent 1`] = `
+<div>
+<p><a href="file:local%252Bpath%252Bwith%252Bpercents.org">local path with percents</a></p>
 </div>
 `;
 

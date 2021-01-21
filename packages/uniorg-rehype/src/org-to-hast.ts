@@ -176,7 +176,13 @@ export function orgToHast(
       case 'text':
         return org.value;
       case 'link': {
-        const link = org.rawLink;
+        let link = org.rawLink;
+        // This is where uniorg differs from org-mode. org-html-export
+        // does not url-encode file path, which leads to broken links
+        // if file contains "%".
+        if (org.linkType === 'file') {
+          link = encodeURI(link);
+        }
 
         const imageRe = new RegExp(
           `\.(${options.imageFilenameExtensions.join('|')})$`
@@ -185,6 +191,7 @@ export function orgToHast(
           // TODO: set alt
           return h('img', { src: link });
         }
+
         return h(
           'a',
           { href: link },

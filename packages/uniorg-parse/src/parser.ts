@@ -1504,6 +1504,9 @@ class Parser {
   }
 
   private parseLink(): Link | null {
+    // TODO: Special "file"-type link processing.  Extract opening
+    // application and search option, if any.  Also normalize URI.
+
     const initialOffset = this.r.offset();
 
     // TODO: Type 1: Text targeted from a radio target.
@@ -1520,16 +1523,30 @@ class Parser {
         contents.contentsEnd = contentsBegin + m.groups!.text.length;
       }
 
-      // TODO: Decode any encoding. Expand any abbreviation in it.
-      const linkType = m.groups!.link.match(/(.+?):(.*)/);
+      // RAW-LINK is the original link.  Decode any encoding.  Expand
+      // any abbreviation in it.
+      //
+      // Also treat any newline character and associated indentation
+      // as a single space character.  This is not compatible with RFC
+      // 3986, which requires to ignore them altogether.  However,
+      // doing so would require users to encode spaces on the fly when
+      // writing links (e.g., insert [[shell:ls%20*.org]] instead of
+      // [[shell:ls *.org]], which defeats Org's focus on simplicity.
+      const rawLink = m
+        .groups!.link.replace(/[ \t]*\n[ \t]*/m, ' ')
+        // `org-link-unescape`
+        .replace(/(\\+)([\[\]])/g, (p1, p2) => '\\'.repeat(p1.length / 2) + p2);
+      // TODO: org-link-expand-abbrev
+
+      const { linkType, path } = Parser.linkType(rawLink);
 
       return u(
         'link',
         {
           format: 'bracket' as 'bracket',
-          linkType: linkType?.[1] ?? 'fuzzy',
-          rawLink: m.groups!.link,
-          path: linkType ? linkType[2] : m.groups!.link,
+          linkType,
+          rawLink,
+          path,
           ...contents,
         },
         []
@@ -1576,6 +1593,29 @@ class Parser {
     }
 
     return null;
+  }
+
+  private static linkType(link: string): { linkType: string; path: string } {
+    // File type.
+    if (link.startsWith('/') || link.match(/^\.\.?\//)) {
+      return { linkType: 'file', path: link };
+    }
+    // Explicit type (http, irc, bbdb...).
+    const m = link.match(new RegExp(linkTypesRe()));
+    if (m) {
+      return { linkType: m[1], path: link.slice(m[0].length) };
+    }
+    // Code-ref type: `path` is the name of the reference.
+    if (link.startsWith('(') && link.endsWith(')')) {
+      return { linkType: 'coderef', path: link.slice(1, link.length - 1) };
+    }
+    // Custom-id type: `path` is the name of the custom id.
+    if (link.startsWith('#')) {
+      return { linkType: 'custom-id', path: link.slice(1) };
+    }
+    // Fuzzy type: Internal link either matches a target, a headline
+    // name or nothing. `path` is the target or headline's name.
+    return { linkType: 'fuzzy', path: link };
   }
 
   private parseTimestamp(): Timestamp | null {
