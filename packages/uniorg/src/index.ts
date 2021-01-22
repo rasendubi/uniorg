@@ -163,6 +163,8 @@ export interface LatexFragment extends Node {
   type: 'latex-fragment';
   /** LaTeX code. */
   value: string;
+  /** LaTeX code without inline math delimiters. */
+  contents: string;
 }
 
 export interface Entity extends Node {

@@ -215,7 +215,7 @@ export function orgToHast(
       case 'latex-environment':
         return h('div.math.math-display', org.value);
       case 'latex-fragment':
-        return h('span.math.math-inline', org.value);
+        return h('span.math.math-inline', org.contents.trim());
       case 'entity':
         // rehype does not allow html escapes, so we use utf8 value instead.
         return u('text', { value: org.utf8 });

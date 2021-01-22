@@ -1411,13 +1411,16 @@ class Parser {
   private parseLatexFragment(): LatexFragment | null {
     const begin = this.r.offset();
     const prefix = this.r.peek(2);
+    let contents: string | null | undefined = null;
     if (prefix[0] !== '$') {
       switch (prefix[1]) {
         case '(':
-          this.r.advance(this.r.match(/\)/));
+          this.r.advance(this.r.match(/\\\)/));
+          contents = this.r.substring(begin + 2, this.r.offset() - 2);
           break;
         case '[':
-          this.r.advance(this.r.match(/\]/));
+          this.r.advance(this.r.match(/\\\]/));
+          contents = this.r.substring(begin + 2, this.r.offset() - 2);
           break;
         default: {
           // Macro.
@@ -1426,16 +1429,20 @@ class Parser {
               /^\\[a-zA-Z]+\*?((\[[^\]\[\n{}]*\])|(\{[^{}\n]*\}))*/
             )
           );
+          contents = m?.[0];
         }
       }
     } else if (prefix[1] === '$') {
-      this.r.advance(this.r.match(/\$\$.*?\$\$/));
+      // TODO: limit search to 2 lines
+      const m = this.r.advance(this.r.match(/\$\$(.*?)\$\$/));
+      contents = m?.[1];
     } else {
+      // TODO: limit search to 2 lines
       const charBefore = this.r.substring(this.r.offset() - 1, this.r.offset());
       if (
         charBefore !== '$' &&
         !' \t\n,.;'.includes(prefix[1]) &&
-        this.r.advance(this.r.match(/\$.*?\$/)) &&
+        (contents = this.r.advance(this.r.match(/\$(.*?)\$/))?.[1]) &&
         !' \t\n,.'.includes(
           this.r.substring(this.r.offset() - 1, this.r.offset())
         ) &&
@@ -1453,7 +1460,7 @@ class Parser {
     if (begin === end) return null;
 
     const value = this.r.substring(begin, end);
-    return u('latex-fragment', { value });
+    return u('latex-fragment', { value, contents: contents ?? value });
   }
 
   private parseFootnoteReference(): FootnoteReference | null {
