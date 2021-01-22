@@ -30,7 +30,12 @@ const getFiles = (root) =>
 
 const backlinks = {};
 const processPost = async (file) => {
-  await toVFile.read(file, 'utf8');
+  try {
+    await toVFile.read(file, 'utf8');
+  } catch (e) {
+    console.error('Error reading file', file);
+    throw e;
+  }
 
   rename(file, { path: file.data.slug });
 
