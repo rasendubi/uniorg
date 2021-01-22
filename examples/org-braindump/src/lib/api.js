@@ -33,7 +33,7 @@ const processPost = async (file) => {
   try {
     await toVFile.read(file, 'utf8');
   } catch (e) {
-    console.error('Error reading file', file);
+    console.error('Error reading file', file, e);
     throw e;
   }
 
