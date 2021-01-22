@@ -217,6 +217,55 @@ children:
         value: "hi\\n"
 `;
 
+exports[`org/parser blocks fake block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 42
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 42
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 11
+        children:
+          - type: "text"
+            value: "#+nonblock\\n"
+      - type: "special-block"
+        affiliated: {}
+        blockType: "block"
+        contentsBegin: 25
+        contentsEnd: 31
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 25
+            contentsEnd: 31
+            children:
+              - type: "text"
+                value: "hello\\n"
+`;
+
+exports[`org/parser blocks fake block 2 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 34
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 34
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 34
+        children:
+          - type: "text"
+            value: "#+ begin_src\\nnot a block\\n#+end_src"
+`;
+
 exports[`org/parser blocks incomplete block after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -741,6 +790,24 @@ children:
             ascii: "A"
             latin1: "À"
             utf8: "À"
+`;
+
+exports[`org/parser fake keyword 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 12
+        children:
+          - type: "text"
+            value: "#+ title: hi"
 `;
 
 exports[`org/parser fixed-width empty fixed-width 1`] = `

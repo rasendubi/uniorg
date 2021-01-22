@@ -116,6 +116,8 @@ b`
 
   itParses('keyword', `#+title: hi`);
 
+  itParses('fake keyword', `#+ title: hi`);
+
   itParses(
     'non-dual keyword inside paragraph',
     `hello
@@ -354,6 +356,21 @@ hello
       `hello
 #+begin_src
 not a code`
+    );
+
+    itParses(
+      'fake block',
+      `#+nonblock
+#+begin_block
+hello
+#+end_block`
+    );
+
+    itParses(
+      'fake block 2',
+      `#+ begin_src
+not a block
+#+end_src`
     );
   });
 

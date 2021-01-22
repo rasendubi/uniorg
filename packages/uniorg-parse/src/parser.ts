@@ -270,10 +270,10 @@ class Parser {
     // Keywords.
     {
       const offset = this.r.offset();
-      if (this.r.advance(this.r.match(/^[ \t]*#\+/))) {
-        const blockM = this.r.match(/^begin_(\S+)/i);
+      if (this.r.advance(this.r.lookingAt(/^[ \t]*#\+/))) {
+        const blockM = this.r.lookingAt(/^begin_(\S+)/i);
         if (blockM) {
-          this.r.resetOffset(offset);
+          this.r.resetOffset(offset); // reset so that parse*Block can match starting #+
           const blockType = blockM[1].toLowerCase();
           switch (blockType) {
             case 'center':
@@ -298,8 +298,8 @@ class Parser {
         // TODO: parse babel-call
         // TODO: parse dynamic-block
 
-        if (this.r.match(/\S+:/)) {
-          this.r.resetOffset(offset);
+        if (this.r.lookingAt(/^\S+:/)) {
+          this.r.resetOffset(offset); // reset, so that parseKeyword can match starting #+
           return this.parseKeyword(affiliated);
         }
 
@@ -345,7 +345,7 @@ class Parser {
     }
 
     // List.
-    if (this.r.match(itemRe())) {
+    if (this.r.lookingAt(itemRe())) {
       if (structure === undefined) {
         const offset = this.r.offset();
         structure = this.parseListStructure();
@@ -620,7 +620,7 @@ class Parser {
     const tags = tagsM?.[2].split(':') ?? [];
     const titleEnd = tagsM
       ? titleStart + tagsM.index + tagsM[1].length
-      : titleStart + this.r.lookingAt(/.*/)![0].length;
+      : titleStart + this.r.forceLookingAt(/.*/)[0].length;
 
     const rawValue = this.r.substring(titleStart, titleEnd);
 
@@ -840,7 +840,7 @@ class Parser {
   private parseSpecialBlock(
     affiliated: AffiliatedKeywords
   ): SpecialBlock | Paragraph {
-    const blockType = this.r.match(/[ \t]*#\+begin_(\S+)/i)![1];
+    const blockType = this.r.forceLookingAt(/[ \t]*#\+begin_(\S+)/i)[1];
     const endM = this.r.match(
       // TODO: regexp-quote blockType
       new RegExp(`^[ \\t]*#\\+end_${blockType}[ \\t]*$`, 'im')
@@ -920,7 +920,7 @@ class Parser {
   }
 
   private parseKeyword(affiliated: AffiliatedKeywords): Keyword {
-    const m = this.r.match(/[ \t]*#\+(\S+):(.*)/)!;
+    const m = this.r.forceLookingAt(/[ \t]*#\+(\S+):(.*)/);
     const key = m[1].toUpperCase();
     const value = m[2].trim();
     this.r.advance(this.r.line());
@@ -997,7 +997,7 @@ class Parser {
 
   private parseNodeProperty(): NodeProperty {
     const propertyRe = /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
-    const m = this.r.forceLookingAt(propertyRe)!;
+    const m = this.r.forceLookingAt(propertyRe);
     const key = m.groups!['key'];
     const value = m.groups!['value1'] ?? m.groups!['value2'];
     this.r.advance(this.r.line());
@@ -1297,7 +1297,7 @@ class Parser {
         this.r.advance(this.r.line());
       } else {
         // At some text line. Check if it ends any previous item.
-        const indent = this.r.match(/^[ \t]*/)![0].length;
+        const indent = this.r.forceLookingAt(/^[ \t]*/)[0].length;
 
         while (items.length && items[items.length - 1].indent >= indent) {
           const item = items.pop()!;
