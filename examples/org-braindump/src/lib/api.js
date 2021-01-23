@@ -15,17 +15,22 @@ const pagesDirectory = path.join(process.cwd(), 'public');
 
 const getFiles = (root) =>
   new Promise((resolve, reject) => {
-    findDown.all('.org', root, (err, files) => {
-      if (err) {
-        reject(err);
-      } else {
-        files.forEach((f) => {
-          const slug = '/' + path.relative(root, f.path).replace(/\.org$/, '');
-          f.data.slug = slug;
-        });
-        resolve(files);
+    findDown.all(
+      (f, stats) => stats.isFile() && f.basename.endsWith('.org'),
+      root,
+      (err, files) => {
+        if (err) {
+          reject(err);
+        } else {
+          files.forEach((f) => {
+            const slug =
+              '/' + path.relative(root, f.path).replace(/\.org$/, '');
+            f.data.slug = slug;
+          });
+          resolve(files);
+        }
       }
-    });
+    );
   });
 
 const backlinks = {};
