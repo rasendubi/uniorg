@@ -1123,7 +1123,7 @@ class Parser {
   }
 
   private parseDiarySexp(affiliated: AffiliatedKeywords): DiarySexp {
-    const value = this.r.forceLookingAt(/(%%\(.*)[ \t]*$/)[1];
+    const value = this.r.forceLookingAt(/^(%%\(.*)[ \t]*$/m)[1];
     this.r.advance(this.r.line());
     this.parseEmptyLines();
     return u('diary-sexp', { affiliated, value });

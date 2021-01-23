@@ -595,6 +595,20 @@ children:
         value: "%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)"
 `;
 
+exports[`org/parser diary sexp with newline following 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 24
+    children:
+      - type: "diary-sexp"
+        affiliated: {}
+        value: "%%(diary-anniversaries)"
+`;
+
 exports[`org/parser dual keyword inside paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -2563,6 +2577,20 @@ children:
                 children:
                   - type: "text"
                     value: "there"
+`;
+
+exports[`org/parser non-closing diary sexp 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 26
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 26
+    children:
+      - type: "diary-sexp"
+        affiliated: {}
+        value: "%%(I am still a diary-sexp"
 `;
 
 exports[`org/parser non-dual keyword inside paragraph 1`] = `

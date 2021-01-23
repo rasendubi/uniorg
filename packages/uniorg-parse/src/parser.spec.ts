@@ -583,6 +583,10 @@ footnote
     `%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)`
   );
 
+  itParses('diary sexp with newline following', `%%(diary-anniversaries)\n`);
+
+  itParses('non-closing diary sexp', `%%(I am still a diary-sexp`);
+
   describe('footnote-reference', () => {
     itParses('standard reference', `hello[fn:1]`);
     itParses(
