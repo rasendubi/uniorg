@@ -170,6 +170,12 @@ hello
 hello`
   );
 
+  itParses(
+    'incomplete drawer',
+    `:NONDRAWER:
+I have no :END:`
+  );
+
   describe('timestamps', () => {
     itParses('inactive', `[2021-01-07 Thu]`);
     itParses('inactive-range', `[2021-01-07 Thu]--[2021-01-08 Fri]`);

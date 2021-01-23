@@ -965,7 +965,7 @@ class Parser {
   private parseDrawer(affiliated: AffiliatedKeywords): Drawer | Paragraph {
     const endM = this.r.match(/^[ \t]*:END:[ \t]*$/m);
     if (!endM) {
-      console.log('incomplete drawer');
+      console.log('incomplete drawer', this.r.line().trim());
       // Incomplete drawer: parse it as a paragraph.
       return this.parseParagraph(affiliated);
     }

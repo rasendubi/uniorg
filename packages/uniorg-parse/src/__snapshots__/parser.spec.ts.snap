@@ -1410,6 +1410,24 @@ children:
         affiliated: {}
 `;
 
+exports[`org/parser incomplete drawer 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 27
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 27
+        children:
+          - type: "text"
+            value: ":NONDRAWER:\\nI have no :END:"
+`;
+
 exports[`org/parser incomplete drawer after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
