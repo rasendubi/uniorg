@@ -20,6 +20,7 @@
     "uniorg-rehype": "^0.1.13",
     "unist-util-visit": "^2.0.3",
     "vfile-find-down": "^5.0.1",
-    "vfile-rename": "^1.0.3"
+    "vfile-rename": "^1.0.3",
+    "vfile-reporter": "^6.0.2"
   }
 }

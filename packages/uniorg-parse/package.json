@@ -44,6 +44,8 @@
     "yaml": "^2.0.0-1"
   },
   "dependencies": {
-    "unist-builder": "^2.0.3"
+    "unist-builder": "^2.0.3",
+    "vfile": "^4.2.1",
+    "vfile-location": "^3.2.0"
   }
 }

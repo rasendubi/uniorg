@@ -3,6 +3,7 @@ import trough from 'trough';
 import toVFile from 'to-vfile';
 import findDown from 'vfile-find-down';
 import rename from 'vfile-rename';
+import report from 'vfile-reporter';
 
 import orgToHtml from './orgToHtml';
 
@@ -79,6 +80,7 @@ function populateBacklinks(files) {
 const loadPosts = async () => {
   const files = await new Promise((resolve, reject) =>
     processor.run(pagesDirectory, (err, files) => {
+      console.error(report(err || files, { quiet: true }));
       if (err) reject(err);
       else resolve(files);
     })

@@ -1,5 +1,10 @@
+import { VFile } from 'vfile';
+import vfileLocation, { Location } from 'vfile-location';
+
 export class Reader {
   readonly #text: string;
+  readonly #vfile: VFile;
+  readonly #location: Location;
 
   /// Current cursor position ignoring the narrowing boundaries.
   #offset = 0;
@@ -16,10 +21,18 @@ export class Reader {
     prevOffset: number;
   }> = [];
 
-  public constructor(text: string) {
-    this.#text = text;
+  public constructor(vfile: VFile) {
+    this.#text = vfile.contents.toString();
     this.#left = 0;
-    this.#right = text.length;
+    this.#right = this.#text.length;
+    this.#vfile = vfile;
+    this.#location = vfileLocation(vfile);
+  }
+
+  public message(reason: string, offset?: number, ruleId?: string) {
+    const point =
+      offset !== undefined ? this.#location.toPoint(offset) : undefined;
+    this.#vfile.message(reason, point, ruleId);
   }
 
   public advance<

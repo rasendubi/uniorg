@@ -1,3 +1,4 @@
+import vfile, { VFile } from 'vfile';
 import u from 'unist-builder';
 import {
   NodeProperty,
@@ -83,16 +84,16 @@ type ParseMode =
   | 'top-comment'
   | null;
 
-export function parse(text: string, options?: Partial<ParseOptions>) {
-  return new Parser(text, options).parse();
+export function parse(file: VFile | string, options?: Partial<ParseOptions>) {
+  return new Parser(vfile(file), options).parse();
 }
 
 class Parser {
   private readonly r: Reader;
   private readonly options: ParseOptions;
 
-  public constructor(text: string, options: Partial<ParseOptions> = {}) {
-    this.r = new Reader(text);
+  public constructor(file: VFile, options: Partial<ParseOptions> = {}) {
+    this.r = new Reader(file);
     this.options = { ...defaultOptions, ...options };
   }
 
@@ -846,7 +847,7 @@ class Parser {
       new RegExp(`^[ \\t]*#\\+end_${blockType}[ \\t]*$`, 'im')
     );
     if (!endM) {
-      console.log('incomplete block', blockType, this.r.rest());
+      this.r.message('incomplete block', this.r.offset(), 'uniorg');
       // Incomplete block: parse it as a paragraph.
       return this.parseParagraph(affiliated);
     }
@@ -965,7 +966,7 @@ class Parser {
   private parseDrawer(affiliated: AffiliatedKeywords): Drawer | Paragraph {
     const endM = this.r.match(/^[ \t]*:END:[ \t]*$/m);
     if (!endM) {
-      console.log('incomplete drawer', this.r.line().trim());
+      this.r.message('incomplete drawer', this.r.offset(), 'uniorg');
       // Incomplete drawer: parse it as a paragraph.
       return this.parseParagraph(affiliated);
     }
