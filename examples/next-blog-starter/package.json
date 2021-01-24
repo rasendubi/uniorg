@@ -1,6 +1,6 @@
 {
   "name": "blog-starter",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "private": true,
   "scripts": {
     "dev": "next",
@@ -17,8 +17,8 @@
     "rehype-stringify": "^8.0.0",
     "remark": "13.0.0",
     "remark-html": "13.0.1",
-    "uniorg-parse": "^0.1.15",
-    "uniorg-rehype": "^0.1.15",
+    "uniorg-parse": "^0.1.16",
+    "uniorg-rehype": "^0.1.16",
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
