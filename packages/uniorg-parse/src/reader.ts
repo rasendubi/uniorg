@@ -22,7 +22,7 @@ export class Reader {
   }> = [];
 
   public constructor(vfile: VFile) {
-    this.#text = vfile.contents.toString();
+    this.#text = vfile.toString();
     this.#left = 0;
     this.#right = this.#text.length;
     this.#vfile = vfile;
