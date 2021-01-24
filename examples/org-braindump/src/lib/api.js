@@ -1,4 +1,5 @@
 import * as path from 'path';
+import trough from 'trough';
 import toVFile from 'to-vfile';
 import findDown from 'vfile-find-down';
 import rename from 'vfile-rename';
@@ -13,8 +14,13 @@ import orgToHtml from './orgToHtml';
 // serves them.
 const pagesDirectory = path.join(process.cwd(), 'public');
 
-const getFiles = (root) =>
-  new Promise((resolve, reject) => {
+const processor = trough()
+  .use(collectFiles)
+  .use(processPosts)
+  .use(populateBacklinks);
+
+function collectFiles(root) {
+  return new Promise((resolve, reject) => {
     findDown.all(
       (f, stats) => stats.isFile() && f.basename.endsWith('.org'),
       root,
@@ -32,48 +38,57 @@ const getFiles = (root) =>
       }
     );
   });
+}
 
-const backlinks = {};
-const processPost = async (file) => {
-  try {
-    await toVFile.read(file, 'utf8');
-  } catch (e) {
-    console.error('Error reading file', file, e);
-    throw e;
+async function processPosts(files) {
+  return Promise.all(files.map(processPost));
+
+  async function processPost(file) {
+    try {
+      await toVFile.read(file, 'utf8');
+    } catch (e) {
+      console.error('Error reading file', file, e);
+      throw e;
+    }
+
+    rename(file, { path: file.data.slug });
+
+    await orgToHtml(file);
+
+    return file;
   }
+}
 
-  rename(file, { path: file.data.slug });
-
-  file.data.links = [];
-  await orgToHtml(file);
-
-  file.data.links.forEach((other) => {
-    backlinks[other] = backlinks[other] || new Set();
-    backlinks[other].add(file.data.slug);
-  });
-
-  return file;
-};
 // Assign all collected backlinks to file. This function should be
 // called after all pages have been processed---otherwise, it might
 // miss backlinks.
-const populateBacklinks = async (file) => {
-  const links = backlinks[file.data.slug] ?? new Set();
-  file.data.backlinks = [...links];
-};
+function populateBacklinks(files) {
+  const backlinks = {};
+  files.forEach((file) => {
+    file.data.links = file.data.links || new Set();
+    file.data.backlinks = backlinks[file.data.slug] =
+      backlinks[file.data.slug] || new Set();
+
+    file.data.links.forEach((other) => {
+      backlinks[other] = backlinks[other] || new Set();
+      backlinks[other].add(file.data.slug);
+    });
+  });
+}
 
 const loadPosts = async () => {
-  const files = await getFiles(pagesDirectory);
-  const posts = Object.fromEntries(
-    files.map((f) => [f.data.slug, processPost(f)])
+  const files = await new Promise((resolve, reject) =>
+    processor.run(pagesDirectory, (err, files) => {
+      if (err) reject(err);
+      else resolve(files);
+    })
   );
+  const posts = Object.fromEntries(files.map((f) => [f.data.slug, f]));
   return posts;
 };
 
 const allPosts = async () => {
   const posts = await loadPosts();
-  const allPosts = await Promise.all(Object.values(posts));
-  allPosts.forEach(populateBacklinks);
   return posts;
 };
 

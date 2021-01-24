@@ -46,7 +46,7 @@ export const getStaticProps = async ({ params }) => {
   const path = '/' + join(...(params.slug || ['index']));
   const post = await getPostBySlug(path);
   const data = post.data;
-  const backlinks = await Promise.all(data.backlinks.map(getPostBySlug));
+  const backlinks = await Promise.all([...data.backlinks].map(getPostBySlug));
   return {
     props: {
       title: data.title || post.basename,
