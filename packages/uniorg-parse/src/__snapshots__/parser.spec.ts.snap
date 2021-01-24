@@ -806,6 +806,35 @@ children:
             utf8: "À"
 `;
 
+exports[`org/parser entity in parentheses 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 6
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 6
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "("
+          - type: "entity"
+            useBrackets: false
+            name: "leq"
+            latex: "\\\\le"
+            requireLatexMath: true
+            html: "&le;"
+            ascii: "<="
+            latin1: "<="
+            utf8: "≤"
+          - type: "text"
+            value: ")"
+`;
+
 exports[`org/parser fake keyword 1`] = `
 type: "org-data"
 contentsBegin: 0

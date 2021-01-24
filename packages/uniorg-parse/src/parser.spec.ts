@@ -630,4 +630,6 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
   );
 
   itParses('entity', `\\Agrave`);
+
+  itParses('entity in parentheses', `(\\leq)`);
 });

@@ -1404,6 +1404,12 @@ class Parser {
     );
     if (!m) return null;
     const hasBrackets = m.groups!.brackets === '{}';
+    if (!hasBrackets) {
+      // The brackets group is not brackets. That means it captured an
+      // extra non-letter or a newline. Backoff, so it can be parsed
+      // as text later.
+      this.r.backoff(m.groups!.brackets.length);
+    }
     const value = getOrgEntity(m.groups!.value1 ?? m.groups!.value2);
     if (!value) return null;
     return u('entity', { useBrackets: hasBrackets, ...value });
