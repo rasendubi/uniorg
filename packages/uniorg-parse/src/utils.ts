@@ -159,7 +159,7 @@ export function linkPlainRe(): string {
 
 export function linkTypesRe(): string {
   const linkTypes = defaultOptions.linkTypes;
-  return '(' + linkTypes.map((t) => t.replace(/\*/g, '\\*')).join('|') + '):';
+  return '(' + linkTypes.map(escapeRegExp).join('|') + '):';
 }
 
 export function paragraphSeparateRe(): RegExp {
@@ -362,4 +362,8 @@ export function emphRe() {
 }
 export function verbatimRe() {
   return emphTemplate('=~');
+}
+
+export function escapeRegExp(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

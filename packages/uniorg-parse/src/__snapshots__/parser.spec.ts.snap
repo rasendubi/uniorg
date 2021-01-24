@@ -1479,6 +1479,24 @@ children:
         value: "hi"
 `;
 
+exports[`org/parser latex environment environment with star 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 40
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 40
+    children:
+      - type: "latex-environment"
+        affiliated: {}
+        value: "\\\\begin{equation*}
+
+          blah
+
+          \\\\end{equation*}"
+`;
+
 exports[`org/parser latex environment incomplete latex environment after paragraph (two lines) 1`] = `
 type: "org-data"
 contentsBegin: 0

@@ -492,6 +492,15 @@ there
 \\begin{hello}
 I am incomplete`
     );
+
+    itParses(
+      'environment with star',
+      `
+\\begin{equation*}
+blah
+\\end{equation*}
+`
+    );
   });
 
   describe('affiliated keyword', () => {

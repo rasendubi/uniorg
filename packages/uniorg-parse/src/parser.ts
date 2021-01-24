@@ -60,6 +60,7 @@ import {
   emphasisRegexpComponents,
   verbatimRe,
   linkTypesRe,
+  escapeRegExp,
 } from './utils';
 import { Reader } from './reader';
 
@@ -843,8 +844,7 @@ class Parser {
   ): SpecialBlock | Paragraph {
     const blockType = this.r.forceLookingAt(/[ \t]*#\+begin_(\S+)/i)[1];
     const endM = this.r.match(
-      // TODO: regexp-quote blockType
-      new RegExp(`^[ \\t]*#\\+end_${blockType}[ \\t]*$`, 'im')
+      new RegExp(`^[ \\t]*#\\+end_${escapeRegExp(blockType)}[ \\t]*$`, 'im')
     );
     if (!endM) {
       this.r.message('incomplete block', this.r.offset(), 'uniorg');
@@ -1749,7 +1749,7 @@ const drawerRe = /^[ \t]*:((?:\w|[-_])+):[ \t]*$/m;
 
 const latexBeginEnvironmentRe = /^[ \t]*\\begin\{([A-Za-z0-9*]+)\}/i;
 const latexEndEnvironmentRe = (name: string) =>
-  new RegExp(`\\\\end\\{${name}\\}[ \\t]*$`, 'mi');
+  new RegExp(`\\\\end\\{${escapeRegExp(name)}\\}[ \\t]*$`, 'mi');
 
 const affiliatedKeywords = [
   'CAPTION',
