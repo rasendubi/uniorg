@@ -824,6 +824,24 @@ children:
             value: "#+ title: hi"
 `;
 
+exports[`org/parser file property drawer 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 66
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 66
+    children:
+      - type: "property-drawer"
+        contentsBegin: 13
+        contentsEnd: 61
+        children:
+          - type: "node-property"
+            key: "ID"
+            value: "01c7615e-d792-4d06-995b-19a2c046c055"
+`;
+
 exports[`org/parser fixed-width empty fixed-width 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -1669,6 +1687,28 @@ children:
             linkType: "file"
             rawLink: "./file with spaces.org"
             path: "./file with spaces.org"
+            children: []
+`;
+
+exports[`org/parser links https link 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 29
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 29
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 29
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "https"
+            rawLink: "https://example.com/hello"
+            path: "//example.com/hello"
             children: []
 `;
 

@@ -156,6 +156,13 @@ hello`
   );
 
   itParses(
+    'file property drawer',
+    `:PROPERTIES:
+:ID:       01c7615e-d792-4d06-995b-19a2c046c055
+:END:`
+  );
+
+  itParses(
     'custom drawer',
     `:MYDRAWER:
 hello /there/
@@ -271,6 +278,8 @@ I have no :END:`
     itParses('file link with percents', `[[./file%2Bwith%2Bspaces.org]]`);
 
     itParses('angle link', `<http://example.com>`);
+
+    itParses('https link', `[[https://example.com/hello]]`);
   });
 
   describe('blocks', () => {

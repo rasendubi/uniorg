@@ -1562,7 +1562,7 @@ class Parser {
 
     // Type 3: Plain link, e.g., https://orgmode.org
     const linkPlainRe = new RegExp(
-      `\\b${linkTypesRe()}:([^\\][ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\p{Punctuation} \\t\\n]|/)))`,
+      `\\b${linkTypesRe()}([^\\][ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\p{Punctuation} \\t\\n]|/)))`,
       'u'
     );
     const plainM = this.r.advance(this.r.lookingAt(linkPlainRe));
@@ -1584,7 +1584,7 @@ class Parser {
     // bracket links, follow RFC 3986 and remove any extra whitespace
     // in URI.
     const linkAngleRe = new RegExp(
-      `<${linkTypesRe()}:([^>\\n]*(?:\\n[ \\t]*[^> \\t\\n][^>\\n]*)*)>`
+      `<${linkTypesRe()}([^>\\n]*(?:\\n[ \\t]*[^> \\t\\n][^>\\n]*)*)>`
     );
     const angularM = this.r.advance(this.r.lookingAt(linkAngleRe));
     if (angularM) {

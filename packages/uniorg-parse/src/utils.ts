@@ -154,12 +154,12 @@ export const {
 } = defaultOptions;
 
 export function linkPlainRe(): string {
-  return `${linkTypesRe()}:([^\\]\\[ \t\\n()<>]+(?:\\([\\w0-9_]+\\)|([^\\W \t\\n]|/)))`;
+  return `${linkTypesRe()}([^\\]\\[ \t\\n()<>]+(?:\\([\\w0-9_]+\\)|([^\\W \t\\n]|/)))`;
 }
 
 export function linkTypesRe(): string {
   const linkTypes = defaultOptions.linkTypes;
-  return '(' + linkTypes.map((t) => t.replace(/\*/g, '\\*')).join('|') + ')';
+  return '(' + linkTypes.map((t) => t.replace(/\*/g, '\\*')).join('|') + '):';
 }
 
 export function paragraphSeparateRe(): RegExp {
