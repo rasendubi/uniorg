@@ -23,8 +23,8 @@ uniorg follows [Org Syntax][org-syntax] and [Org Element API][org-element-api]. 
 # Demo
 
 - https://braindump.rasen.dev/uniorg — play with how uniorg parses and translates org files.
-- https://org-blog-starter.vercel.app — uniorg-powered [Next.js][nextjs] blog example ([examples/next-blog-starter](./examples/next-blog-starter)).
-- https://org-braindump.vercel.app — uniorg-powered [Next.js][nextjs] website tailored to publishing an interlinked collection of notes ([examples/org-braindump](./examples/org-braindump)).
+- [examples/next-blog-starter](./examples/next-blog-starter) — uniorg-powered [Next.js][nextjs] blog example (https://org-blog-starter.vercel.app).
+- [examples/org-braindump](./examples/org-braindump) — uniorg-powered [Next.js][nextjs] website tailored to publishing an interlinked collection of notes (https://org-braindump.vercel.app).
 - [examples/example](./examples/example) — a simple CLI tool to convert org files to html.
 
 [nextjs]: https://nextjs.org/
@@ -88,14 +88,14 @@ import unified from 'unified';
 import parse from 'uniorg-parse';
 import uniorg2rehype from 'uniorg-rehype';
 import highlight from 'rehype-highlight';
-import mathjax from 'rehype-mathjax';
+import katex from 'rehype-katex';
 import stringify from 'rehype-stringify';
 
 const processor = unified()
   .use(parse)
   .use(uniorg2rehype)
   .use(highlight)
-  .use(mathjax)
+  .use(katex)
   .use(stringify);
 
 processor.process(`* org-mode example

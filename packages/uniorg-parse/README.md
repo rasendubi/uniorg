@@ -29,7 +29,7 @@ process.stdin.pipe(createStream(processor)).pipe(process.stdout)
 
 ### `processor().use(uniorgParse)`
 
-Configure the `processor` to read Markdown as input and process **[uniorg](https://github.com/rasendubi/uniorg)** syntax trees.
+Configure the `processor` to read Org as input and process **[uniorg](https://github.com/rasendubi/uniorg)** syntax trees.
 
 
 ### `parse(string)`
