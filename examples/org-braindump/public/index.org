@@ -14,5 +14,5 @@ Browse other pages:
 - [[file:./styling.org][Styling]]
 - [[file:./code-highlight.org][Code highlight]]
 - [[file:./changing-posts-directory.org][Changing posts directory]]
+- [[file:./archive-page][Archive page]]
 - [[file:./org-roam.org][org-roam]]
-- [[/archive][Archive]] (special page with all notes)

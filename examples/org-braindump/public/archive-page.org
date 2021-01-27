@@ -1,0 +1,7 @@
+#+TITLE: Archive page
+
+[[file:./archive][/archive]] is a special page that contains a list of all pages. It is generated from [[https://github.com/rasendubi/uniorg/blob/master/examples/org-braindump/src/pages/archive.jsx][src/pages/archive.jsx]].
+
+If you don't want it, you can simply delete the =archive.jsx= file.
+If you want it at another location—rename the file.
+If you want it to be the starting page, rename it to =index.jsx= and delete =public/index.org= file.
