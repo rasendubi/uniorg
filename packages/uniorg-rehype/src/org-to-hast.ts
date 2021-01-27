@@ -44,7 +44,13 @@ export function orgToHast(
       case 'org-data':
         return h('div', toHast(org.children));
       case 'headline': {
-        if (org.commented) return null;
+        // TODO: support other options that prevent export:
+        // - org-export-exclude-tags
+        // - #+EXCLUDE_TAGS:
+        // TODO: support selective export mode:
+        // - org-export-selected-tags
+        // - #+SELECTED_TAGS:
+        if (org.commented || org.tags.includes('noexport')) return null;
 
         const intersperse = <T extends unknown>(items: T[], sep: T) =>
           items.flatMap((e) => [sep, e]).slice(1);

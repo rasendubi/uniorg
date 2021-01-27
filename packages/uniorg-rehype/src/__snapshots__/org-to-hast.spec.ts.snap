@@ -58,6 +58,13 @@ exports[`org/org-to-hast do not double-escape urls 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast does not export :noexport: headline 1`] = `
+<div>
+<h1>hello</h1>
+<p>some text</p>
+</div>
+`;
+
 exports[`org/org-to-hast emphasis 1`] = `
 <div>
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span class="underline" style="text-decoration: underline;">under</span></p>

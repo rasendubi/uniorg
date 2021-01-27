@@ -74,6 +74,15 @@ another section`
   );
 
   hastTest(
+    'does not export :noexport: headline',
+    `* hello
+some text
+* nope :noexport:
+not exported text
+`
+  );
+
+  hastTest(
     'planning',
     `* headline
 CLOSED: [2019-03-13 Wed 23:48] SCHEDULED: [2019-03-13 Wed] DEADLINE: [2019-03-14 Thu]`
