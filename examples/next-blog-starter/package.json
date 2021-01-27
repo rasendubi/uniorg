@@ -14,6 +14,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "rehype-stringify": "^8.0.0",
+    "unified": "^9.2.0",
     "uniorg-parse": "^0.1.16",
     "uniorg-rehype": "^0.1.17",
     "unist-util-visit": "^2.0.3"
