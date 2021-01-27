@@ -1,6 +1,6 @@
 {
   "name": "uniorg-rehype",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "uniorg plugin to transform to rehype",
   "keywords": [
     "unified",
