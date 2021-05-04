@@ -491,6 +491,23 @@ children:
         status: "closed"
 `;
 
+exports[`org/parser comments does not eat keyword 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 32
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 32
+    children:
+      - type: "comment"
+        value: "this is comment"
+      - type: "keyword"
+        affiliated: {}
+        key: "TITLE"
+        value: "hello"
+`;
+
 exports[`org/parser comments empty comment 1`] = `
 type: "org-data"
 contentsBegin: 0

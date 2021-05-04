@@ -746,16 +746,22 @@ class Parser {
 
   private parseComment(): Comment {
     let valueLines = [];
+    this.r.advance(this.r.forceLookingAt(/^[ \t]*# ?/));
+    valueLines.push(this.r.advance(this.r.line()));
+
     while (true) {
-      const m = this.r.lookingAt(/^[ \t]*# ?(.*)$/m);
+      const m = this.r.advance(this.r.lookingAt(/^[ \t]*#( |$)/m));
       if (!m) break;
-      this.r.advance(this.r.line());
 
-      valueLines.push(m[1]);
+      valueLines.push(this.r.advance(this.r.line()));
     }
-    const value = valueLines.join('\n');
 
-    return u('comment', { value });
+    let value = valueLines.join('');
+    if (value[value.length - 1] === '\n') {
+      value = value.substring(0, value.length - 1);
+    }
+
+    return u('comment', { value: value });
   }
 
   private parseFixedWidth(affiliated: AffiliatedKeywords): FixedWidth {

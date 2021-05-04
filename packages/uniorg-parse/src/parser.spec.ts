@@ -493,6 +493,12 @@ not a block
 - # not a comment
   # comment`
     );
+
+    itParses(
+      'does not eat keyword',
+      `# this is comment
+#+title: hello`
+    );
   });
 
   describe('fixed-width', () => {
