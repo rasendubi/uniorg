@@ -684,6 +684,59 @@ footnote
 either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
   );
 
+  itParses(
+    'multiline latex fragment',
+    `$$2+
+2$$`
+  );
+
+  itParses(
+    'multiline latex fragment (3 lines)',
+    `$$2
+2
+2$$`
+  );
+
+  itParses(
+    'multiline latex fragment (4 lines)',
+    `$$2
+2
+2
+2$$`
+  );
+
+  itParses(
+    'multiline single-$ fragment',
+    `hello $2
+2
+2
+2$ world`
+  );
+
+  itParses(
+    'multiline \\[ \\] fragment',
+    `\\[2
+2
+2
+2\\]`
+  );
+
+  itParses(
+    'multiline \\( \\) fragment',
+    `\\(2
+2
+2
+2\\)`
+  );
+
+  itParses(
+    'fake multiline fragment',
+    `hello $2
+2
+2
+2 world`
+  );
+
   itParses('entity', `\\Agrave`);
 
   itParses('entity in parentheses', `(\\leq)`);

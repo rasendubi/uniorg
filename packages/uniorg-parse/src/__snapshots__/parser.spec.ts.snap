@@ -900,6 +900,24 @@ children:
             value: "#+ title: hi"
 `;
 
+exports[`org/parser fake multiline fragment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 20
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 20
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 20
+        children:
+          - type: "text"
+            value: "hello $2\\n2\\n2\\n2 world"
+`;
+
 exports[`org/parser file property drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -2729,6 +2747,124 @@ children:
                 children:
                   - type: "text"
                     value: "there"
+`;
+
+exports[`org/parser multiline \\( \\) fragment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 11
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 11
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 11
+        children:
+          - type: "latex-fragment"
+            value: "\\\\(2\\n2\\n2\\n2\\\\)"
+            contents: "2\\n2\\n2\\n2"
+`;
+
+exports[`org/parser multiline \\[ \\] fragment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 11
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 11
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 11
+        children:
+          - type: "latex-fragment"
+            value: "\\\\[2\\n2\\n2\\n2\\\\]"
+            contents: "2\\n2\\n2\\n2"
+`;
+
+exports[`org/parser multiline latex fragment (3 lines) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 9
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 9
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 9
+        children:
+          - type: "latex-fragment"
+            value: "$$2\\n2\\n2$$"
+            contents: "2\\n2\\n2"
+`;
+
+exports[`org/parser multiline latex fragment (4 lines) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 11
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 11
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 11
+        children:
+          - type: "latex-fragment"
+            value: "$$2\\n2\\n2\\n2$$"
+            contents: "2\\n2\\n2\\n2"
+`;
+
+exports[`org/parser multiline latex fragment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 8
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 8
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 8
+        children:
+          - type: "latex-fragment"
+            value: "$$2+\\n2$$"
+            contents: "2+\\n2"
+`;
+
+exports[`org/parser multiline single-$ fragment 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 21
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 21
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 21
+        children:
+          - type: "text"
+            value: "hello "
+          - type: "latex-fragment"
+            value: "$2\\n2\\n2\\n2$"
+            contents: "2\\n2\\n2\\n2"
+          - type: "text"
+            value: " world"
 `;
 
 exports[`org/parser non-closing diary sexp 1`] = `

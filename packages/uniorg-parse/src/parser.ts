@@ -1493,8 +1493,7 @@ class Parser {
         }
       }
     } else if (prefix[1] === '$') {
-      // TODO: limit search to 2 lines
-      const m = this.r.advance(this.r.match(/\$\$(.*?)\$\$/));
+      const m = this.r.advance(this.r.match(/\$\$((?:.|\n)*?)\$\$/m));
       contents = m?.[1];
     } else {
       // TODO: limit search to 2 lines
@@ -1502,7 +1501,7 @@ class Parser {
       if (
         charBefore !== '$' &&
         !' \t\n,.;'.includes(prefix[1]) &&
-        (contents = this.r.advance(this.r.match(/\$(.*?)\$/))?.[1]) &&
+        (contents = this.r.advance(this.r.match(/\$((?:.|\n)*?)\$/m))?.[1]) &&
         !' \t\n,.'.includes(
           this.r.substring(this.r.offset() - 1, this.r.offset())
         ) &&
