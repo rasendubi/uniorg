@@ -16,6 +16,8 @@ import {
   Keyword,
   SrcBlock,
   Bold,
+  Superscript,
+  Subscript,
   Underline,
   Italic,
   Code,
@@ -61,6 +63,7 @@ import {
   verbatimRe,
   linkTypesRe,
   escapeRegExp,
+  subsuperscriptRe,
 } from './utils';
 import { Reader } from './reader';
 
@@ -499,7 +502,19 @@ class Parser {
   private tryParseObject(restriction: Set<string>): ObjectType | null {
     const c = this.r.peek(2);
     switch (c[0]) {
+      case '^':
+        if (restriction.has('superscript')) {
+          return this.parseSuperscript();
+        }
+        break;
       case '_':
+        const offset = this.r.offset();
+        const subscript = restriction.has('subscript') && this.parseSubscript();
+        if (subscript) {
+          return subscript;
+        }
+        this.r.resetOffset(offset);
+
         if (restriction.has('underline')) {
           return this.parseUnderline();
         }
@@ -1328,6 +1343,38 @@ class Parser {
   }
 
   // Object parsers.
+
+  private parseSuperscript(): Superscript | null {
+    this.r.backoff(1); // backoff by one, to match previous char (should be non-space)
+    const start = this.r.offset();
+    const m = this.r.advance(this.r.lookingAt(subsuperscriptRe));
+    if (!m) return null;
+
+    const inside = m.groups!['inBraces'] || m.groups!['inBrackets'];
+
+    const begin = start + m[1].length;
+    const contentsBegin = begin + m[2].length + (inside ? 1 : 0);
+    const contentsEnd = begin + m[2].length + m[3].length - (inside ? 1 : 0);
+    const _end = this.r.offset();
+
+    return u('superscript', { contentsBegin, contentsEnd, children: [] });
+  }
+
+  private parseSubscript(): Subscript | null {
+    this.r.backoff(1); // backoff by one, to match previous char (should be non-space)
+    const start = this.r.offset();
+    const m = this.r.advance(this.r.lookingAt(subsuperscriptRe));
+    if (!m) return null;
+
+    const inside = m.groups!['inBraces'] || m.groups!['inBrackets'];
+
+    const begin = start + m[1].length;
+    const contentsBegin = begin + m[2].length + (inside ? 1 : 0);
+    const contentsEnd = begin + m[2].length + m[3].length - (inside ? 1 : 0);
+    const _end = this.r.offset();
+
+    return u('subscript', { contentsBegin, contentsEnd, children: [] });
+  }
 
   private parseUnderline(): Underline | null {
     // backoff one char to check border

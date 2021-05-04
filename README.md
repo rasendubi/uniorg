@@ -34,7 +34,6 @@ uniorg follows [Org Syntax][org-syntax] and [Org Element API][org-element-api]. 
 uniorg successfully parses most of the org syntax.
 However, there are a couple of places I haven't finished yet:
 
-- subscript, superscripts
 - [inlinetask](http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/org/org-inlinetask.el)
 - babel-call, inline-babel-call, inline-src-block
 - dynamic-block

@@ -367,3 +367,51 @@ export function verbatimRe() {
 export function escapeRegExp(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+/**
+ * Compile a regex that matches up to `n` nested groups delimited
+ * with `left` and `right`. The content of the outermost group is
+ * captured in the regex group `name`.
+ *
+ * Adapted from `org-create-multibrace-regexp` emacs function.
+ */
+const multibraceRe = (
+  left: string,
+  right: string,
+  n: number,
+  name = ''
+): string => {
+  const nothing = `[^${left}${right}]*?`;
+
+  let next = `(?:${nothing}${left}${nothing}${right})+${nothing}`;
+  let result = nothing;
+  for (let i = 1; i < n; i++) {
+    result = `${result}|${next}`;
+    next = `(?:${nothing}${left}${next}${right})+${nothing}`;
+  }
+
+  const nameRe = name ? `?<${name}>` : '';
+  return `${left}(${nameRe}${result})${right}`;
+};
+
+/** Number of stacked braces for sub/supersecript matching. */
+// TODO: make it configurable
+const matchSexpDepth = 3;
+
+/** A regular expression matching a sub- or superscript. */
+// Using \p{L}|\d instead of \w because js's \w matches underscore and
+// Emacs's doesn't.
+export const subsuperscriptRe = new RegExp(
+  `(\\S)([_^])((?:${multibraceRe(
+    '\\{',
+    '\\}',
+    matchSexpDepth,
+    'inBraces'
+  )})|(?:${multibraceRe(
+    '\\(',
+    '\\)',
+    matchSexpDepth,
+    'inBrackets'
+  )})|(?:\\*|[+-]?[\\p{L}\\d.,\\\\]*(?:\\p{L}|\\d)))`,
+  'u'
+);

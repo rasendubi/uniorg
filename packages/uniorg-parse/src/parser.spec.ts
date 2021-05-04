@@ -401,6 +401,55 @@ not a block
     itParses('hanging /', `- hello/other`);
   });
 
+  describe('superscript', () => {
+    itParses('simple', `hello^world`);
+    itParses('braces', `H^{+}`);
+    itParses('nested braces', `H^{{x}}`);
+    itParses('nested braces, 3 levels', `H^{hello{hi{there}}}`);
+    itParses('spaces in braces', `H^{hello world}`);
+    itParses('multiple nesting groups', `H^{hello{there}and{there}}`);
+
+    describe('no superscript', () => {
+      itParses('begginning of line', `^hello`);
+      itParses('pre whitespace', `hello ^there`);
+      itParses('post whitespace', `hello^ there`);
+      itParses('unbalanced braces', `H^{{+}`);
+      // replicating emacs +bugs+ limitations
+      itParses('too many nested braces', `H^{hello{hi{there{hello?}}}}`);
+      itParses(
+        'multiple 2-level nesting groups',
+        `H^{hello{there{}}and{there}}`
+      );
+    });
+  });
+
+  describe('subscript', () => {
+    itParses('simple', `hello_world`);
+    itParses('braces', `H_{+}`);
+    itParses('nested braces', `H_{{x}}`);
+    itParses('nested braces, 3 levels', `H_{hello{hi{there}}}`);
+    itParses('spaces in braces', `H_{hello world}`);
+    itParses('multiple nesting groups', `H_{hello{there}and{there}}`);
+
+    itParses('after superscript', `H^12_22`);
+    itParses('after subscript', `H_12_22`);
+
+    itParses('trailing _', `f_f_`);
+
+    describe('no superscript', () => {
+      itParses('begginning of line', `_hello`);
+      itParses('pre whitespace', `hello _there`);
+      itParses('post whitespace', `hello_ there`);
+      itParses('unbalanced braces', `H_{{+}`);
+      // replicating emacs +bugs+ limitations
+      itParses('too many nested braces', `H_{hello{hi{there{hello?}}}}`);
+      itParses(
+        'multiple 2-level nesting groups',
+        `H_{hello{there{}}and{there}}`
+      );
+    });
+  });
+
   itParses(
     'table',
     `

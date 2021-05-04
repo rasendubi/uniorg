@@ -263,7 +263,21 @@ children:
         contentsEnd: 34
         children:
           - type: "text"
-            value: "#+ begin_src\\nnot a block\\n#+end_src"
+            value: "#+ begin"
+          - type: "subscript"
+            contentsBegin: 9
+            contentsEnd: 12
+            children:
+              - type: "text"
+                value: "src"
+          - type: "text"
+            value: "\\nnot a block\\n#+end"
+          - type: "subscript"
+            contentsBegin: 31
+            contentsEnd: 34
+            children:
+              - type: "text"
+                value: "src"
 `;
 
 exports[`org/parser blocks incomplete block after paragraph 1`] = `
@@ -281,7 +295,15 @@ children:
         contentsEnd: 28
         children:
           - type: "text"
-            value: "hello\\n#+begin_src\\nnot a code"
+            value: "hello\\n#+begin"
+          - type: "subscript"
+            contentsBegin: 14
+            contentsEnd: 17
+            children:
+              - type: "text"
+                value: "src"
+          - type: "text"
+            value: "\\nnot a code"
 `;
 
 exports[`org/parser blocks quote block 1`] = `
@@ -730,7 +752,15 @@ children:
         contentsEnd: 29
         children:
           - type: "text"
-            value: "a/a/ b*b* c~c~ d=d= e+e+ f_f_"
+            value: "a/a/ b*b* c~c~ d=d= e+e+ f"
+          - type: "subscript"
+            contentsBegin: 27
+            contentsEnd: 28
+            children:
+              - type: "text"
+                value: "f"
+          - type: "text"
+            value: "_"
 `;
 
 exports[`org/parser emphasis marks hanging / 1`] = `
@@ -2964,6 +2994,596 @@ children:
         children:
           - type: "text"
             value: "hi"
+`;
+
+exports[`org/parser subscript after subscript 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 7
+        children:
+          - type: "text"
+            value: "H"
+          - type: "subscript"
+            contentsBegin: 2
+            contentsEnd: 4
+            children:
+              - type: "text"
+                value: "12"
+          - type: "subscript"
+            contentsBegin: 5
+            contentsEnd: 7
+            children:
+              - type: "text"
+                value: "22"
+`;
+
+exports[`org/parser subscript after superscript 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 7
+        children:
+          - type: "text"
+            value: "H"
+          - type: "superscript"
+            contentsBegin: 2
+            contentsEnd: 4
+            children:
+              - type: "text"
+                value: "12"
+          - type: "subscript"
+            contentsBegin: 5
+            contentsEnd: 7
+            children:
+              - type: "text"
+                value: "22"
+`;
+
+exports[`org/parser subscript braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 5
+        children:
+          - type: "text"
+            value: "H"
+          - type: "subscript"
+            contentsBegin: 3
+            contentsEnd: 4
+            children:
+              - type: "text"
+                value: "+"
+`;
+
+exports[`org/parser subscript multiple nesting groups 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 26
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 26
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 26
+        children:
+          - type: "text"
+            value: "H"
+          - type: "subscript"
+            contentsBegin: 3
+            contentsEnd: 25
+            children:
+              - type: "text"
+                value: "hello{there}and{there}"
+`;
+
+exports[`org/parser subscript nested braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 7
+        children:
+          - type: "text"
+            value: "H"
+          - type: "subscript"
+            contentsBegin: 3
+            contentsEnd: 6
+            children:
+              - type: "text"
+                value: "{x}"
+`;
+
+exports[`org/parser subscript nested braces, 3 levels 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 20
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 20
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 20
+        children:
+          - type: "text"
+            value: "H"
+          - type: "subscript"
+            contentsBegin: 3
+            contentsEnd: 19
+            children:
+              - type: "text"
+                value: "hello{hi{there}}"
+`;
+
+exports[`org/parser subscript no superscript begginning of line 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 6
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 6
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "_hello"
+`;
+
+exports[`org/parser subscript no superscript multiple 2-level nesting groups 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 28
+        children:
+          - type: "text"
+            value: "H_{hello{there{}}and{there}}"
+`;
+
+exports[`org/parser subscript no superscript post whitespace 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 12
+        children:
+          - type: "text"
+            value: "hello_ there"
+`;
+
+exports[`org/parser subscript no superscript pre whitespace 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 12
+        children:
+          - type: "text"
+            value: "hello _there"
+`;
+
+exports[`org/parser subscript no superscript too many nested braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 28
+        children:
+          - type: "text"
+            value: "H_{hello{hi{there{hello?}}}}"
+`;
+
+exports[`org/parser subscript no superscript unbalanced braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 6
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 6
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "H_{{+}"
+`;
+
+exports[`org/parser subscript simple 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 11
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 11
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 11
+        children:
+          - type: "text"
+            value: "hello"
+          - type: "subscript"
+            contentsBegin: 6
+            contentsEnd: 11
+            children:
+              - type: "text"
+                value: "world"
+`;
+
+exports[`org/parser subscript spaces in braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 15
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 15
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 15
+        children:
+          - type: "text"
+            value: "H"
+          - type: "subscript"
+            contentsBegin: 3
+            contentsEnd: 14
+            children:
+              - type: "text"
+                value: "hello world"
+`;
+
+exports[`org/parser subscript trailing _ 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 4
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 4
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 4
+        children:
+          - type: "text"
+            value: "f"
+          - type: "subscript"
+            contentsBegin: 2
+            contentsEnd: 3
+            children:
+              - type: "text"
+                value: "f"
+          - type: "text"
+            value: "_"
+`;
+
+exports[`org/parser superscript braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 5
+        children:
+          - type: "text"
+            value: "H"
+          - type: "superscript"
+            contentsBegin: 3
+            contentsEnd: 4
+            children:
+              - type: "text"
+                value: "+"
+`;
+
+exports[`org/parser superscript multiple nesting groups 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 26
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 26
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 26
+        children:
+          - type: "text"
+            value: "H"
+          - type: "superscript"
+            contentsBegin: 3
+            contentsEnd: 25
+            children:
+              - type: "text"
+                value: "hello{there}and{there}"
+`;
+
+exports[`org/parser superscript nested braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 7
+        children:
+          - type: "text"
+            value: "H"
+          - type: "superscript"
+            contentsBegin: 3
+            contentsEnd: 6
+            children:
+              - type: "text"
+                value: "{x}"
+`;
+
+exports[`org/parser superscript nested braces, 3 levels 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 20
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 20
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 20
+        children:
+          - type: "text"
+            value: "H"
+          - type: "superscript"
+            contentsBegin: 3
+            contentsEnd: 19
+            children:
+              - type: "text"
+                value: "hello{hi{there}}"
+`;
+
+exports[`org/parser superscript no superscript begginning of line 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 6
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 6
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "^hello"
+`;
+
+exports[`org/parser superscript no superscript multiple 2-level nesting groups 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 28
+        children:
+          - type: "text"
+            value: "H^{hello{there{}}and{there}}"
+`;
+
+exports[`org/parser superscript no superscript post whitespace 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 12
+        children:
+          - type: "text"
+            value: "hello^ there"
+`;
+
+exports[`org/parser superscript no superscript pre whitespace 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 12
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 12
+        children:
+          - type: "text"
+            value: "hello ^there"
+`;
+
+exports[`org/parser superscript no superscript too many nested braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 28
+        children:
+          - type: "text"
+            value: "H^{hello{hi{there{hello?}}}}"
+`;
+
+exports[`org/parser superscript no superscript unbalanced braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 6
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 6
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "H^{{+}"
+`;
+
+exports[`org/parser superscript simple 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 11
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 11
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 11
+        children:
+          - type: "text"
+            value: "hello"
+          - type: "superscript"
+            contentsBegin: 6
+            contentsEnd: 11
+            children:
+              - type: "text"
+                value: "world"
+`;
+
+exports[`org/parser superscript spaces in braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 15
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 15
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 15
+        children:
+          - type: "text"
+            value: "H"
+          - type: "superscript"
+            contentsBegin: 3
+            contentsEnd: 14
+            children:
+              - type: "text"
+                value: "hello world"
 `;
 
 exports[`org/parser table 1`] = `

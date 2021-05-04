@@ -166,6 +166,10 @@ export function orgToHast(
         return h('strong', toHast(org.children));
       case 'italic':
         return h('em', toHast(org.children));
+      case 'superscript':
+        return h('sup', toHast(org.children));
+      case 'subscript':
+        return h('sub', toHast(org.children));
       case 'code':
         return h('code.inline-code', org.value);
       case 'verbatim':

@@ -228,6 +228,10 @@ hello, world!
     `/Consider/ ~t*h*e~ *following* =example= +strike+ _under_`
   );
 
+  hastTest('superscript', `hello^there`);
+
+  hastTest('subscript', `hello_there`);
+
   hastTest('images', `[[./image.png]]`);
 
   describe('timestamps', () => {

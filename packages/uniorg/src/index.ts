@@ -60,6 +60,8 @@ export type ObjectType =
   | Verbatim
   | StrikeThrough
   | Underline
+  | Superscript
+  | Subscript
   | Text
   | Timestamp
   | FootnoteReference
@@ -295,6 +297,14 @@ export interface StrikeThrough extends RecursiveObject {
 
 export interface Underline extends RecursiveObject {
   type: 'underline';
+}
+
+export interface Superscript extends RecursiveObject {
+  type: 'superscript';
+}
+
+export interface Subscript extends RecursiveObject {
+  type: 'subscript';
 }
 
 export interface Link extends RecursiveObject {
