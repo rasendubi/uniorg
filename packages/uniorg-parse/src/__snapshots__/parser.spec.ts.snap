@@ -1922,6 +1922,32 @@ children:
             children: []
 `;
 
+exports[`org/parser links multiline description 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 34
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 34
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 34
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "fuzzy"
+            rawLink: "www.something.com"
+            path: "www.something.com"
+            contentsBegin: 21
+            contentsEnd: 32
+            children:
+              - type: "text"
+                value: "line1\\nline2"
+`;
+
 exports[`org/parser links plain link does not include trailing punctuation 1`] = `
 type: "org-data"
 contentsBegin: 0

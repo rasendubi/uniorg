@@ -280,6 +280,12 @@ I have no :END:`
     itParses('angle link', `<http://example.com>`);
 
     itParses('https link', `[[https://example.com/hello]]`);
+
+    itParses(
+      'multiline description',
+      `[[www.something.com][line1
+line2]]`
+    );
   });
 
   describe('blocks', () => {

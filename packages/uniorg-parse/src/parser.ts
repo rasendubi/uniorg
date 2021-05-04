@@ -1578,7 +1578,7 @@ class Parser {
     // TODO: Type 1: Text targeted from a radio target.
 
     // Type 2: Standard link.
-    const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>.+?)\])?\]/;
+    const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>[\s\S]+?)\])?\]/m;
     const bracketM = this.r.advance(this.r.lookingAt(linkBracketRe));
     if (bracketM) {
       const m = bracketM;
