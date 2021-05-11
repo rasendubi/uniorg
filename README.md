@@ -53,10 +53,12 @@ This repository contains the following packages:
 - [`uniorg`][uniorg] — Typescript definitions of uniorg syntax tree
 - [`uniorg-parse`][uniorg-parse] — Parse org-mode files to uniorg syntax trees
 - [`uniorg-rehype`][uniorg-rehype] — Transform uniorg syntax trees to [**rehype**](https://github.com/rehypejs/rehype)
+- [`uniorg-extract-keywords`][uniorg-extract-keywords] — Store org-mode keywords to vfile
 
 [uniorg]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg
 [uniorg-parse]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-parse
 [uniorg-rehype]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-rehype
+[uniorg-extract-keywords]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-extract-keywords
 
 # unified
 

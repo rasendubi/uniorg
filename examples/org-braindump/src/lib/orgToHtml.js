@@ -1,13 +1,13 @@
 import unified from 'unified';
-import visit from 'unist-util-visit';
 import inspectUrls from 'rehype-url-inspector';
 
 import orgParse from 'uniorg-parse';
 import org2rehype from 'uniorg-rehype';
+import extractKeywords from 'uniorg-extract-keywords';
 
 const processor = unified()
   .use(orgParse)
-  .use(extractExportSettings)
+  .use(extractKeywords)
   .use(org2rehype)
   .use(inspectUrls, { inspectEach: processUrl })
   .use(toJson);
@@ -18,23 +18,6 @@ export default async function orgToHtml(file) {
   } catch (e) {
     console.error('failed to process file', file.path, e);
     throw e;
-  }
-}
-
-/**
- * Extract all `#+KEYWORD`'s from org post and attach them to
- * `file.data`.
- */
-function extractExportSettings() {
-  return transformer;
-
-  function transformer(node, file) {
-    // Visit every keyword in the org file and copy its value to the
-    // file. file is then returned from processor.process, so all
-    // keywords are available outside.
-    visit(node, 'keyword', function (kw) {
-      file.data[kw.key.toLowerCase()] = kw.value;
-    });
   }
 }
 
