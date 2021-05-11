@@ -1,6 +1,6 @@
 {
   "name": "blog-starter",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "private": true,
   "scripts": {
     "dev": "next",
@@ -15,7 +15,7 @@
     "react-dom": "^17.0.1",
     "rehype-stringify": "^8.0.0",
     "unified": "^9.2.0",
-    "uniorg-extract-keywords": "^0.1.19",
+    "uniorg-extract-keywords": "^0.1.20",
     "uniorg-parse": "^0.1.19",
     "uniorg-rehype": "^0.1.19"
   },

@@ -1,6 +1,6 @@
 {
   "name": "uniorg-extract-keywords",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "Store org keywords and their values in vfile data property",
   "keywords": [
     "uniorg",
