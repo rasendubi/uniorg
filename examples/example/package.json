@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "0.1.19",
+  "version": "0.1.21",
   "private": true,
   "description": "Simple example of uniorg usage.",
   "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
@@ -13,7 +13,7 @@
     "rehype-stringify": "^8.0.0",
     "unified": "^9.2.0",
     "unified-stream": "^1.0.6",
-    "uniorg-parse": "^0.1.19",
-    "uniorg-rehype": "^0.1.19"
+    "uniorg-parse": "^0.1.21",
+    "uniorg-rehype": "^0.1.21"
   }
 }
