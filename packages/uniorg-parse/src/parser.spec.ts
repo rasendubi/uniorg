@@ -614,6 +614,15 @@ paragraph`
 
   itParses('horizontal rule', `-----`);
 
+  itParses(
+    'horizontal rule between paragraphs (#11)',
+    `Hello
+
+-----
+
+World`
+  );
+
   describe('footnote definition', () => {
     itParses(
       'simple',

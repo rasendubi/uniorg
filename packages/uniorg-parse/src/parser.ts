@@ -320,7 +320,7 @@ class Parser {
     }
 
     // Horizontal Rule.
-    if (this.r.lookingAt(/^[ \t]*-{5,}[ \t]*$/)) {
+    if (this.r.lookingAt(/^[ \t]*-{5,}[ \t]*$/m)) {
       return this.parseHorizontalRule(affiliated);
     }
     // Diary Sexp.

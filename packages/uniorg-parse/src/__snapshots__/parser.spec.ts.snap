@@ -1522,6 +1522,33 @@ children:
         affiliated: {}
 `;
 
+exports[`org/parser horizontal rule between paragraphs (#11) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 19
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 19
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 0
+        contentsEnd: 6
+        children:
+          - type: "text"
+            value: "Hello\\n"
+      - type: "horizontal-rule"
+        affiliated: {}
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 14
+        contentsEnd: 19
+        children:
+          - type: "text"
+            value: "World"
+`;
+
 exports[`org/parser incomplete drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
