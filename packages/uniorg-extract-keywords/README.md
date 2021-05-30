@@ -21,19 +21,19 @@ other org-mode
 and
 
 ```js
-const unified = require('unified')
-const toVfile = require('to-vfile')
-const uniorgParse = require('uniorg-parse')
-const extractKeywords = require('uniorg-extract-keywords')
-const uniorg2rehype = require('uniorg-rehype')
-const html = require('rehype-stringify')
+import unified from 'unified';
+import { toVFile } from 'to-vfile';
+import uniorgParse from 'uniorg-parse';
+import extractKeywords from 'uniorg-extract-keywords';
+import uniorg2rehype from 'uniorg-rehype';
+import html from 'rehype-stringify';
 
 unified()
   .use(uniorgParse)
   .use(extractKeywords)
   .use(uniorg2rehype)
   .use(html)
-  .process(toVfile.readSync('./example.org'), function (err, file) {
+  .process(toVFile.readSync('./example.org'), function (err, file) {
     console.log(file.toString());
     console.log(file.data);
   })
