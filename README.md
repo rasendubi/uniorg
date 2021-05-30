@@ -5,6 +5,8 @@
 [![uniorg npm](https://img.shields.io/npm/v/uniorg?label=uniorg)](https://www.npmjs.com/package/uniorg)
 [![uniorg-parse npm](https://img.shields.io/npm/v/uniorg-parse?label=uniorg-parse)](https://www.npmjs.com/package/uniorg-parse)
 [![uniorg-rehype npm](https://img.shields.io/npm/v/uniorg-rehype?label=uniorg-rehype)](https://www.npmjs.com/package/uniorg-rehype)
+[![uniorg-extract-keywords npm](https://img.shields.io/npm/v/uniorg-extract-keywords?label=uniorg-extract-keywords)](https://www.npmjs.com/package/uniorg-extract-keywords)
+[![orgast-util-to-string npm](https://img.shields.io/npm/v/orgast-util-to-string?label=orgast-util-to-string)](https://www.npmjs.com/package/orgast-util-to-string)
 
 **uniorg** is an accurate [Org-mode](https://orgmode.org/) parser compatible with [unified](https://github.com/unifiedjs/unified) ecosystem.
 
@@ -54,11 +56,13 @@ This repository contains the following packages:
 - [`uniorg-parse`][uniorg-parse] — Parse org-mode files to uniorg syntax trees
 - [`uniorg-rehype`][uniorg-rehype] — Transform uniorg syntax trees to [**rehype**](https://github.com/rehypejs/rehype)
 - [`uniorg-extract-keywords`][uniorg-extract-keywords] — Store org-mode keywords to vfile
+- [`orgast-util-to-string`][orgast-util-to-string] — Utility to get the plain text content of a node
 
 [uniorg]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg
 [uniorg-parse]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-parse
 [uniorg-rehype]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-rehype
 [uniorg-extract-keywords]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-extract-keywords
+[orgast-util-to-string]: https://github.com/rasendubi/uniorg/tree/master/packages/orgast-util-to-string
 
 # unified
 
