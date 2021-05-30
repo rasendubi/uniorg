@@ -1,6 +1,6 @@
 {
   "name": "orgast-util-to-string",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "uniorg (orgast) utility to get the plain text content of a node",
   "keywords": [
     "uniorg",
