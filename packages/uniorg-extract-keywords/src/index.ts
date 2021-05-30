@@ -19,7 +19,7 @@ export interface Options {
   preserveCase?: boolean;
 }
 
-const extractKeywords: Plugin<[Options?]> = (options: Options = {}) => {
+export const extractKeywords: Plugin<[Options?]> = (options: Options = {}) => {
   return transformer;
 
   function transformer(tree: Node, file: VFile) {

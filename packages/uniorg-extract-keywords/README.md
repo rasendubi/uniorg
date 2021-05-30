@@ -24,7 +24,7 @@ and
 import unified from 'unified';
 import { toVFile } from 'to-vfile';
 import uniorgParse from 'uniorg-parse';
-import extractKeywords from 'uniorg-extract-keywords';
+import { extractKeywords } from 'uniorg-extract-keywords';
 import uniorg2rehype from 'uniorg-rehype';
 import html from 'rehype-stringify';
 
@@ -42,10 +42,13 @@ unified()
 will output
 
 ```
-<p>other org-mode</p>
+<div><p>other org-mode
+</p></div>
 
 { title: 'Post title', author: 'Your Name' }
 ```
+
+**Note: you should use to-vfile@6. to-vfile@7 is currently incompatible with unified@9. See [#12](https://github.com/rasendubi/uniorg/issues/12#issuecomment-850945694) for more details.**
 
 ## Options
 
