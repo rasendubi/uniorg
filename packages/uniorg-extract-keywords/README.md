@@ -22,7 +22,7 @@ and
 
 ```js
 import unified from 'unified';
-import { toVFile } from 'to-vfile';
+import toVFile from 'to-vfile';
 import uniorgParse from 'uniorg-parse';
 import { extractKeywords } from 'uniorg-extract-keywords';
 import uniorg2rehype from 'uniorg-rehype';
