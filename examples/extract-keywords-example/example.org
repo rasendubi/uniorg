@@ -1,0 +1,4 @@
+#+TITLE: Post title
+#+AUTHOR: Your Name
+
+other org-mode
