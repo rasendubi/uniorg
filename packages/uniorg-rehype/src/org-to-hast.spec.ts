@@ -308,4 +308,24 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
   );
 
   hastTest('entity', `\\Agrave`);
+
+  test('respects hProperties', () => {
+    const s = unified()
+      .use(orgParse)
+      .use(() => (node: any) => {
+        const headline = node.children[0];
+        headline.data = { hProperties: { id: 'my-custom-id' } };
+      })
+      .use(org2rehype)
+      .use(format)
+      .use(html)
+      .processSync(`* headline`)
+      .toString();
+
+    expect(s).toMatchInlineSnapshot(`
+      <div>
+      <h1 id="my-custom-id">headline</h1>
+      </div>
+    `);
+  });
 });
