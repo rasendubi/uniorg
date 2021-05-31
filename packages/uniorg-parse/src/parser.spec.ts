@@ -133,11 +133,59 @@ there
 `
   );
 
-  itParses(
-    'planning',
-    `* headline
+  describe('planning', () => {
+    itParses(
+      'normal planning',
+      `* headline
 CLOSED: [2019-03-13 Wed 23:48] SCHEDULED: [2019-03-13 Wed] DEADLINE: [2019-03-14 Thu]`
-  );
+    );
+
+    itParses(
+      'fake planning',
+      `* headline
+CLOSED:`
+    );
+
+    itParses(
+      'mixed good and fake planning',
+      `* headline
+CLOSED: SCHEDULED: [2021-05-31 Mon]
+`
+    );
+
+    itParses(
+      'paragraph after planning',
+      `* headline
+CLOSED: [2021-05-31 Mon]
+this is paragraph`
+    );
+
+    itParses(
+      'planning before property drawer',
+      `* headline
+CLOSED: [2021-05-31 Mon]
+:PROPERTIES:
+:END:
+this is paragraph`
+    );
+
+    itParses(
+      'fake planning after property drawer',
+      `* headline
+:PROPERTIES:
+:END:
+CLOSED: [2021-05-31 Mon]
+this is paragraph`
+    );
+
+    itParses(
+      'fake planning over multiple lines',
+      `* headline
+CLOSED: [2021-05-31 Mon]
+SCHEDULED: [2021-05-31 Mon]
+this is paragraph`
+    );
+  });
 
   itParses(
     'property drawer',

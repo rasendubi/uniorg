@@ -698,7 +698,8 @@ class Parser {
       if (keyword === 'CLOSED:') closed = time;
     }
 
-    this.r.widen(true);
+    this.r.widen();
+    this.r.advance(this.r.line());
     this.parseEmptyLines();
 
     return u('planning', { scheduled, deadline, closed });

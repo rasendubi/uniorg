@@ -2977,7 +2977,177 @@ children:
             value: "b"
 `;
 
-exports[`org/parser planning 1`] = `
+exports[`org/parser planning fake planning 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 18
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 18
+        children:
+          - type: "planning"
+            scheduled: null
+            deadline: null
+            closed: null
+`;
+
+exports[`org/parser planning fake planning after property drawer 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 72
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 72
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 72
+        children:
+          - type: "property-drawer"
+            contentsBegin: 24
+            contentsEnd: 24
+            children: []
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 30
+            contentsEnd: 72
+            children:
+              - type: "text"
+                value: "CLOSED: "
+              - type: "timestamp"
+                timestampType: "inactive"
+                rawValue: "[2021-05-31 Mon]"
+                start:
+                  year: 2021
+                  month: 5
+                  day: 31
+                  hour: null
+                  minute: null
+                end: null
+              - type: "text"
+                value: "\\nthis is paragraph"
+`;
+
+exports[`org/parser planning fake planning over multiple lines 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 81
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 81
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 81
+        children:
+          - type: "planning"
+            scheduled: null
+            deadline: null
+            closed:
+              type: "timestamp"
+              timestampType: "inactive"
+              rawValue: "[2021-05-31 Mon]"
+              start:
+                year: 2021
+                month: 5
+                day: 31
+                hour: null
+                minute: null
+              end: null
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 36
+            contentsEnd: 81
+            children:
+              - type: "text"
+                value: "SCHEDULED: "
+              - type: "timestamp"
+                timestampType: "inactive"
+                rawValue: "[2021-05-31 Mon]"
+                start:
+                  year: 2021
+                  month: 5
+                  day: 31
+                  hour: null
+                  minute: null
+                end: null
+              - type: "text"
+                value: "\\nthis is paragraph"
+`;
+
+exports[`org/parser planning mixed good and fake planning 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 47
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 47
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 47
+        children:
+          - type: "planning"
+            scheduled:
+              type: "timestamp"
+              timestampType: "inactive"
+              rawValue: "[2021-05-31 Mon]"
+              start:
+                year: 2021
+                month: 5
+                day: 31
+                hour: null
+                minute: null
+              end: null
+            deadline: null
+            closed: null
+`;
+
+exports[`org/parser planning normal planning 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 96
@@ -3033,6 +3203,100 @@ children:
                 hour: 23
                 minute: 48
               end: null
+`;
+
+exports[`org/parser planning paragraph after planning 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 53
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 53
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 53
+        children:
+          - type: "planning"
+            scheduled: null
+            deadline: null
+            closed:
+              type: "timestamp"
+              timestampType: "inactive"
+              rawValue: "[2021-05-31 Mon]"
+              start:
+                year: 2021
+                month: 5
+                day: 31
+                hour: null
+                minute: null
+              end: null
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 36
+            contentsEnd: 53
+            children:
+              - type: "text"
+                value: "this is paragraph"
+`;
+
+exports[`org/parser planning planning before property drawer 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 72
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: null
+    priority: null
+    commented: false
+    rawValue: "headline"
+    title:
+      - type: "text"
+        value: "headline"
+    tags: []
+    contentsBegin: 11
+    contentsEnd: 72
+    children:
+      - type: "section"
+        contentsBegin: 11
+        contentsEnd: 72
+        children:
+          - type: "planning"
+            scheduled: null
+            deadline: null
+            closed:
+              type: "timestamp"
+              timestampType: "inactive"
+              rawValue: "[2021-05-31 Mon]"
+              start:
+                year: 2021
+                month: 5
+                day: 31
+                hour: null
+                minute: null
+              end: null
+          - type: "property-drawer"
+            contentsBegin: 49
+            contentsEnd: 49
+            children: []
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 55
+            contentsEnd: 72
+            children:
+              - type: "text"
+                value: "this is paragraph"
 `;
 
 exports[`org/parser property drawer + section 1`] = `
