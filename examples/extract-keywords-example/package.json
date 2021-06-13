@@ -1,6 +1,6 @@
 {
   "name": "extract-keywords-example",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "private": true,
   "description": "Example of using uniorg-extract-keywords",
   "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
@@ -17,6 +17,6 @@
     "unified": "^9.2.1",
     "uniorg-extract-keywords": "^0.1.24",
     "uniorg-parse": "^0.1.24",
-    "uniorg-rehype": "^0.1.24"
+    "uniorg-rehype": "^0.1.25"
   }
 }
