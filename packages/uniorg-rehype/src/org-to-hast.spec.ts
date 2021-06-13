@@ -215,6 +215,13 @@ hello
   );
 
   hastTest(
+    'html5 fancy block',
+    `#+begin_aside
+hello
+#+end_aside`
+  );
+
+  hastTest(
     'blockquote',
     `#+begin_quote
 hello, world!

@@ -129,6 +129,14 @@ exports[`org/org-to-hast horizontal rule 1`] = `
 </div>
 `;
 
+exports[`org/org-to-hast html5 fancy block 1`] = `
+<div>
+<aside>
+  <p>hello</p>
+</aside>
+</div>
+`;
+
 exports[`org/org-to-hast images 1`] = `
 <div>
 <p>

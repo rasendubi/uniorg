@@ -27,6 +27,27 @@ const defaultOptions: OrgToHastOptions = {
   ],
 };
 
+// `org-html-html5-elements`
+const html5Elements = new Set([
+  'article',
+  'aside',
+  'audio',
+  'canvas',
+  'details',
+  'figcaption',
+  'figure',
+  'footer',
+  'header',
+  'menu',
+  'meter',
+  'nav',
+  'output',
+  'progress',
+  'section',
+  'summary',
+  'video',
+]);
+
 /**
  * Similar to `hast` but respects `hProperties`.
  */
@@ -180,6 +201,10 @@ export function orgToHast(
         }
         return null;
       case 'special-block':
+        if (html5Elements.has(org.blockType)) {
+          return h(org, org.blockType, toHast(org.children));
+        }
+
         return h(
           org,
           'div',
