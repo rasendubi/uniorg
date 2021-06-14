@@ -1,5 +1,5 @@
 {
-  "name": "uniorg",
+  "name": "uniorg-root",
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
