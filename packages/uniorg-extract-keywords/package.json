@@ -1,6 +1,6 @@
 {
   "name": "uniorg-extract-keywords",
-  "version": "0.1.24",
+  "version": "0.2.0",
   "description": "Store org keywords and their values in vfile data property",
   "keywords": [
     "uniorg",
@@ -41,8 +41,8 @@
     "jest": "^26.6.3",
     "typescript": "^4.3.2",
     "unified": "^9.2.1",
-    "uniorg": "^0.1.18",
-    "uniorg-parse": "^0.1.24"
+    "uniorg": "^0.2.0",
+    "uniorg-parse": "^0.2.0"
   },
   "dependencies": {
     "unist-util-visit": "^2.0.3"
