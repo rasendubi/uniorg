@@ -330,9 +330,9 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
       .toString();
 
     expect(s).toMatchInlineSnapshot(`
-      <div>
+
       <h1 id="my-custom-id">headline</h1>
-      </div>
+
     `);
   });
 });

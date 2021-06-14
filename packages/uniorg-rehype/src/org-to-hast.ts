@@ -78,14 +78,22 @@ export function orgToHast(
 
   function toHast(node: any): Hast {
     if (Array.isArray(node)) {
-      return node.map(toHast).filter((x) => x !== null && x !== undefined);
+      return (
+        node
+          .map(toHast)
+          .filter((x) => x !== null && x !== undefined)
+          // toHast(section) returns an array, so without this flatMap
+          // `children: toHast(org.children)` could return an array of
+          // arrays which then fails to serialize by rehype-stringify.
+          .flatMap((x) => (Array.isArray(x) ? x : [x]))
+      );
     }
 
     const org = node as OrgNode;
 
     switch (org.type) {
       case 'org-data':
-        return h(org, 'div', {}, toHast(org.children));
+        return { type: 'root', children: toHast(org.children) };
       case 'headline': {
         // TODO: support other options that prevent export:
         // - org-export-exclude-tags

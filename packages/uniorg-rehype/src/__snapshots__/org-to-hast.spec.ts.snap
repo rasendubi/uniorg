@@ -1,42 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`org/org-to-hast blockquote 1`] = `
-<div>
+
 <blockquote>
   <p>hello, world!</p>
 </blockquote>
-</div>
+
 `;
 
 exports[`org/org-to-hast center block 1`] = `
-<div>
+
 <div class="center">
   <p>hello</p>
 </div>
-</div>
+
 `;
 
-exports[`org/org-to-hast clock 1`] = `<div></div>`;
+exports[`org/org-to-hast clock 1`] = ``;
 
-exports[`org/org-to-hast comment block 1`] = `<div></div>`;
+exports[`org/org-to-hast comment block 1`] = ``;
 
 exports[`org/org-to-hast comments 1`] = `
-<div>
+
 <p>hello</p>
 <p>there</p>
-</div>
+
 `;
 
 exports[`org/org-to-hast complex headline 1`] = `
-<div>
+
 <h1><span class="todo-keyword TODO">TODO</span> <span class="priority priority-A">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
-</div>
+
 `;
 
-exports[`org/org-to-hast custom drawer 1`] = `<div></div>`;
+exports[`org/org-to-hast custom drawer 1`] = ``;
 
 exports[`org/org-to-hast description list 1`] = `
-<div>
+
 <dl>
   <dt>term1</dt>
   <dd>
@@ -47,158 +47,158 @@ exports[`org/org-to-hast description list 1`] = `
     <p>description 2</p>
   </dd>
 </dl>
-</div>
+
 `;
 
-exports[`org/org-to-hast diary sexp 1`] = `<div></div>`;
+exports[`org/org-to-hast diary sexp 1`] = ``;
 
 exports[`org/org-to-hast do not double-escape urls 1`] = `
-<div>
+
 <p><a href="http://localhost:3000/path%2Bwith%2Bpercents">path with percents</a></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast does not export :noexport: headline 1`] = `
-<div>
+
 <h1>hello</h1>
 <p>some text</p>
-</div>
+
 `;
 
 exports[`org/org-to-hast emphasis 1`] = `
-<div>
+
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span class="underline" style="text-decoration: underline;">under</span></p>
-</div>
+
 `;
 
-exports[`org/org-to-hast empty 1`] = `<div></div>`;
+exports[`org/org-to-hast empty 1`] = ``;
 
 exports[`org/org-to-hast entity 1`] = `
-<div>
+
 <p>À</p>
-</div>
+
 `;
 
 exports[`org/org-to-hast escape local link 1`] = `
-<div>
+
 <p><a href="./path%20with%20%22spaces%22.org">path with "spaces"</a></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast escape local link with percent 1`] = `
-<div>
+
 <p><a href="file:local%252Bpath%252Bwith%252Bpercents.org">local path with percents</a></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast example block 1`] = `
-<div>
+
 <div class="exampe">example</div>
-</div>
+
 `;
 
-exports[`org/org-to-hast export block 1`] = `<div></div>`;
+exports[`org/org-to-hast export block 1`] = ``;
 
-exports[`org/org-to-hast export html block 1`] = `<div><abbr title="World Health Organization">WHO</abbr> was founded in 1948.</div>`;
+exports[`org/org-to-hast export html block 1`] = `<abbr title="World Health Organization">WHO</abbr> was founded in 1948.`;
 
 exports[`org/org-to-hast fixed-width 1`] = `
-<div>
+
 <pre class="fixed-width">hello</pre>
-</div>
+
 `;
 
 exports[`org/org-to-hast headline 1`] = `
-<div>
+
 <h1>hi</h1>
-</div>
+
 `;
 
 exports[`org/org-to-hast headline with sections 1`] = `
-<div>
+
 <p>hello</p>
 <h1>hi</h1>
 <p>section</p>
 <h2>hello</h2>
 <p>another section</p>
-</div>
+
 `;
 
 exports[`org/org-to-hast horizontal rule 1`] = `
-<div>
+
 <hr>
-</div>
+
 `;
 
 exports[`org/org-to-hast html5 fancy block 1`] = `
-<div>
+
 <aside>
   <p>hello</p>
 </aside>
-</div>
+
 `;
 
 exports[`org/org-to-hast images 1`] = `
-<div>
+
 <p>
   <img src="./image.png">
 </p>
-</div>
+
 `;
 
-exports[`org/org-to-hast keywords 1`] = `<div></div>`;
+exports[`org/org-to-hast keywords 1`] = ``;
 
 exports[`org/org-to-hast latex environment 1`] = `
-<div>
+
 <div class="math math-display">
   \\begin{hello}
   some text
   \\end{hello}
 </div>
-</div>
+
 `;
 
 exports[`org/org-to-hast latex-fragment 1`] = `
-<div>
+
 <p>
   If <span class="math math-inline">a^2=b</span> and <span class="math math-inline">b=2</span>, then the solution must be
   either <span class="math math-inline">a=+\\sqrt{2}</span> or <span class="math math-inline">a=-\\sqrt{2}</span>.
 </p>
-</div>
+
 `;
 
 exports[`org/org-to-hast link 1`] = `
-<div>
+
 <p><a href="https://example.com">https://example.com</a></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast link mixed with text 1`] = `
-<div>
+
 <p>hello <a href="http://example.com">http://example.com</a> blah</p>
-</div>
+
 `;
 
 exports[`org/org-to-hast list 1`] = `
-<div>
+
 <ul>
   <li>
     <p>hello</p>
   </li>
 </ul>
-</div>
+
 `;
 
 exports[`org/org-to-hast multiple headlines 1`] = `
-<div>
+
 <h1>hi</h1>
 <h2>there</h2>
 <h1>hello</h1>
 <h3>world</h3>
-</div>
+
 `;
 
 exports[`org/org-to-hast nested list 1`] = `
-<div>
+
 <ul>
   <li>
     <p>hello</p>
@@ -215,75 +215,75 @@ exports[`org/org-to-hast nested list 1`] = `
     <p>hi</p>
   </li>
 </ul>
-</div>
+
 `;
 
 exports[`org/org-to-hast ordered list 1`] = `
-<div>
+
 <ol>
   <li>
     <p>one</p>
   </li>
 </ol>
-</div>
+
 `;
 
 exports[`org/org-to-hast paragraph 1`] = `
-<div>
+
 <p>hello</p>
-</div>
+
 `;
 
 exports[`org/org-to-hast planning 1`] = `
-<div>
+
 <h1>headline</h1>
-</div>
+
 `;
 
 exports[`org/org-to-hast property drawer 1`] = `
-<div>
+
 <h1>headline</h1>
-</div>
+
 `;
 
 exports[`org/org-to-hast remove common src block offset 1`] = `
-<div>
+
 <pre class="src-block"><code>hello
   world
 </code></pre>
-</div>
+
 `;
 
 exports[`org/org-to-hast special block 1`] = `
-<div>
+
 <div class="special-block block-blah">
   <p>hello</p>
 </div>
-</div>
+
 `;
 
 exports[`org/org-to-hast src block 1`] = `
-<div>
+
 <pre class="src-block"><code class="language-c">a = b;
 printf("%d\\n", *a);
 </code></pre>
-</div>
+
 `;
 
 exports[`org/org-to-hast subscript 1`] = `
-<div>
+
 <p>hello<sub>there</sub></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast superscript 1`] = `
-<div>
+
 <p>hello<sup>there</sup></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast table 1`] = `
-<div>
+
 <table>
   <thead>
     <tr>
@@ -298,11 +298,11 @@ exports[`org/org-to-hast table 1`] = `
     </tr>
   </tbody>
 </table>
-</div>
+
 `;
 
 exports[`org/org-to-hast table without header 1`] = `
-<div>
+
 <table>
   <tbody>
     <tr>
@@ -315,11 +315,11 @@ exports[`org/org-to-hast table without header 1`] = `
     </tr>
   </tbody>
 </table>
-</div>
+
 `;
 
 exports[`org/org-to-hast table, multiple body 1`] = `
-<div>
+
 <table>
   <thead>
     <tr>
@@ -344,52 +344,52 @@ exports[`org/org-to-hast table, multiple body 1`] = `
     </tr>
   </tbody>
 </table>
-</div>
+
 `;
 
 exports[`org/org-to-hast timestamps active 1`] = `
-<div>
+
 <p><span class="timestamp">&#x3C;2021-01-07 Thu></span></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast timestamps active-range 1`] = `
-<div>
+
 <p><span class="timestamp">&#x3C;2021-01-07 Thu>--&#x3C;2021-01-09 Sat></span></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast timestamps inactive 1`] = `
-<div>
+
 <p><span class="timestamp">[2021-01-07 Thu]</span></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast timestamps inactive-range 1`] = `
-<div>
+
 <p><span class="timestamp">[2021-01-07 Thu]--[2021-01-08 Fri]</span></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast timestamps time range 1`] = `
-<div>
+
 <p><span class="timestamp">[2021-01-07 Thu 19:36-20:38]</span></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast timestamps with time 1`] = `
-<div>
+
 <p><span class="timestamp">[2021-01-07 Thu 19:36]</span></p>
-</div>
+
 `;
 
 exports[`org/org-to-hast verse block 1`] = `
-<div>
+
 <pre class="verse"> Great clouds overhead
  Tiny black birds rise and fall
  Snow covers Emacs
 
     ---AlexSchroeder
 </pre>
-</div>
+
 `;

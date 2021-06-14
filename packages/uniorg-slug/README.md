@@ -41,12 +41,10 @@ console.log(node.toString());
 
 will output:
 ```
-<div>
   <h1 id="headline">headline</h1>
   <h2 id="blah">nested headline</h2>
   <h2 id="headline-1">headline</h2>
   <p><code class="inline-code">id</code> property is ignored.</p>
-</div>
 ```
 
 

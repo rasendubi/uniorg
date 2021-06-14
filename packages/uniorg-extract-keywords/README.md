@@ -42,8 +42,8 @@ unified()
 will output
 
 ```
-<div><p>other org-mode
-</p></div>
+<p>other org-mode
+</p>
 
 { title: 'Post title', author: 'Your Name' }
 ```
