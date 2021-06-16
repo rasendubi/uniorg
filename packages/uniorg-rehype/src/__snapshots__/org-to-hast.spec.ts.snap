@@ -264,7 +264,7 @@ exports[`org/org-to-hast special block 1`] = `
 
 exports[`org/org-to-hast src block 1`] = `
 
-<pre class="src-block"><code class="language-c">a = b;
+<pre class="src-block"><code class="language-c">*a = b;
 printf("%d\\n", *a);
 </code></pre>
 
