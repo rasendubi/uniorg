@@ -121,6 +121,21 @@ children:
             value: "paragraph"
 `;
 
+exports[`org/parser blocks #+ escaper in src block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 37
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 37
+    children:
+      - type: "src-block"
+        affiliated: {}
+        language: "org"
+        value: "#+ escaped\\n"
+`;
+
 exports[`org/parser blocks center block 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -142,6 +157,21 @@ children:
             children:
               - type: "text"
                 value: "hello\\n"
+`;
+
+exports[`org/parser blocks comma escaper in src block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 49
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 49
+    children:
+      - type: "src-block"
+        affiliated: {}
+        language: "org"
+        value: ",,* two commas escaped\\n"
 `;
 
 exports[`org/parser blocks comment block 1`] = `
@@ -170,7 +200,7 @@ children:
       - type: "src-block"
         affiliated: {}
         language: "c"
-        value: "a = 0;\\n"
+        value: "*a = 0;\\n"
 `;
 
 exports[`org/parser blocks example block 1`] = `
@@ -278,6 +308,36 @@ children:
             children:
               - type: "text"
                 value: "src"
+`;
+
+exports[`org/parser blocks fake escaper 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 41
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 41
+    children:
+      - type: "src-block"
+        affiliated: {}
+        language: "org"
+        value: ",# nont escaped\\n"
+`;
+
+exports[`org/parser blocks headline escaper in src block 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 44
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 44
+    children:
+      - type: "src-block"
+        affiliated: {}
+        language: "org"
+        value: "* not a headline;\\n"
 `;
 
 exports[`org/parser blocks incomplete block after paragraph 1`] = `

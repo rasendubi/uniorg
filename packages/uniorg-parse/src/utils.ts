@@ -342,7 +342,7 @@ export const greaterElements = new Set([
 ]);
 
 export function unescapeCodeInString(s: string) {
-  return s.replace(/^[ \t]*,*(,)(?:\*|#\+)/gm, '');
+  return s.replace(/^[ \t]*,(,*)(\*|#\+)/gm, '$1$2');
 }
 
 function emphTemplate(s: string) {

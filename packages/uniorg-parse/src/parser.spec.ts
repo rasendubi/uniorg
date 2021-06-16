@@ -352,6 +352,34 @@ hello
     );
 
     itParses(
+      'headline escaper in src block',
+      `#+begin_src org
+,* not a headline;
+#+end_src`
+    );
+
+    itParses(
+      'comma escaper in src block',
+      `#+begin_src org
+,,,* two commas escaped
+#+end_src`
+    );
+
+    itParses(
+      '#+ escaper in src block',
+      `#+begin_src org
+,#+ escaped
+#+end_src`
+    );
+
+    itParses(
+      'fake escaper',
+      `#+begin_src org
+,# nont escaped
+#+end_src`
+    );
+
+    itParses(
       'src in list',
       `
 - example:
