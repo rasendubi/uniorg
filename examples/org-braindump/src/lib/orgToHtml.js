@@ -1,15 +1,17 @@
 import unified from 'unified';
-import inspectUrls from 'rehype-url-inspector';
 
 import orgParse from 'uniorg-parse';
 import org2rehype from 'uniorg-rehype';
 import extractKeywords from 'uniorg-extract-keywords';
+import { uniorgSlug } from 'uniorg-slug';
+import { visitIds } from 'orgast-util-visit-ids';
 
 const processor = unified()
   .use(orgParse)
   .use(extractKeywords)
+  .use(uniorgSlug)
+  .use(extractIds)
   .use(org2rehype)
-  .use(inspectUrls, { inspectEach: processUrl })
   .use(toJson);
 
 export default async function orgToHtml(file) {
@@ -21,33 +23,23 @@ export default async function orgToHtml(file) {
   }
 }
 
-/**
- * Process each link to:
- * 1. Convert file:// links to path used by blog. file://file.org -> /file.org
- * 2. Collect all links to file.data.links, so they can be used later
- * to calculate backlinks.
- */
-function processUrl({ url: urlString, propertyName, node, file }) {
-  // next/link does not handle relative urls properly. Use file.path
-  // (the slug of the file) to normalize link against.
-  try {
-    let url = new URL(urlString, 'file://' + file.path);
+function extractIds() {
+  return transformer;
 
-    if (url.protocol === 'file:') {
-      let href = url.pathname.replace(/\.org$/, '');
-      node.properties[propertyName] = href;
+  function transformer(tree, file) {
+    const data = file.data || (file.data = {});
+    // ids is a map: id => #anchor
+    const ids = data.ids || (data.ids = {});
 
-      file.data.links = file.data.links || [];
-      file.data.links.push(href);
-    }
-  } catch (e) {
-    // This can happen if org file contains an invalid string, that
-    // looks like URL string (e.g., "http://example.com:port/" passes
-    // regexes, but fails to parse as URL).
-    console.warn('Failed to process URL', urlString, e);
-    // No re-throwing: the issue is not critical enough to stop
-    // processing. The document is still valid, it's just link that
-    // isn't.
+    visitIds(tree, (id, node) => {
+      if (node.type === 'org-data') {
+        ids[id] = '';
+      } else if (node.type === 'headline') {
+        if (node.data?.hProperties?.id) {
+          ids[id] = '#' + node.data?.hProperties?.id;
+        }
+      }
+    });
   }
 }
 

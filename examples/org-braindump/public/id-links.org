@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       13e0b822-80a1-4faa-8e13-e768e8cecb65
+:END:
+#+TITLE: Id links
+
+[[#536afe10-a7fe-4067-9523-0c4a41872387][org-roam v2]] uses id links exclusively, and org-braindump template supports that.
+
+You can annotate any headline or file with an id:
+#+begin_src org
+,* My headline
+:PROPERTIES:
+:ID:   13e0b822-80a1-4faa-8e13-e768e8cecb65
+:END:
+#+end_src
+
+and then use this id in links across your braindump:
+#+begin_src org
+link to [[#13e0b822-80a1-4faa-8e13-e768e8cecb65][My headline]]
+#+end_src

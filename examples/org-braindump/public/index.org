@@ -9,10 +9,11 @@ You can use ~create-next-app~ to bootstrap the example for you:
 npx create-next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump
 #+end_src
 
-Browse other pages:
+* Learn about this template
 - [[file:./uniorg.org][uniorg]]
 - [[file:./styling.org][Styling]]
 - [[file:./code-highlight.org][Code highlight]]
 - [[file:./changing-posts-directory.org][Changing posts directory]]
 - [[file:./archive-page][Archive page]]
 - [[file:./org-roam.org][org-roam]]
+- [[file:./id-links.org][Id links]]

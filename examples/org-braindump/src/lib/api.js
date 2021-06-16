@@ -6,6 +6,7 @@ import rename from 'vfile-rename';
 import report from 'vfile-reporter';
 
 import orgToHtml from './orgToHtml';
+import resolveLinks from './resolveLinks';
 
 // We serve posts from "public" directory, so that we don't have to
 // copy assets.
@@ -18,6 +19,7 @@ const pagesDirectory = path.join(process.cwd(), 'public');
 const processor = trough()
   .use(collectFiles)
   .use(processPosts)
+  .use(resolveLinks)
   .use(populateBacklinks);
 
 function collectFiles(root) {
