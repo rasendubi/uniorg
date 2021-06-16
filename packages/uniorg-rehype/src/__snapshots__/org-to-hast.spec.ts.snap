@@ -101,6 +101,13 @@ exports[`org/org-to-hast export block 1`] = ``;
 
 exports[`org/org-to-hast export html block 1`] = `<abbr title="World Health Organization">WHO</abbr> was founded in 1948.`;
 
+exports[`org/org-to-hast export html keyword 1`] = `
+
+<p>hello</p>
+<h1>html tag</h1>
+
+`;
+
 exports[`org/org-to-hast fixed-width 1`] = `
 
 <pre class="fixed-width">hello</pre>

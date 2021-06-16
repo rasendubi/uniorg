@@ -208,6 +208,12 @@ export
   );
 
   hastTest(
+    'export html keyword',
+    `hello
+#+HTML: <h1>html tag</h1>`
+  );
+
+  hastTest(
     'special block',
     `#+begin_blah
 hello

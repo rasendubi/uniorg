@@ -220,6 +220,9 @@ export function orgToHast(
           toHast(org.children)
         );
       case 'keyword':
+        if (org.key === 'HTML') {
+          return u('raw', org.value);
+        }
         return null;
       case 'horizontal-rule':
         return h(org, 'hr', {});
