@@ -35,9 +35,17 @@ function extractIds() {
       if (node.type === 'org-data') {
         ids[id] = '';
       } else if (node.type === 'headline') {
-        if (node.data?.hProperties?.id) {
-          ids[id] = '#' + node.data?.hProperties?.id;
+        if (!node.data?.hProperties?.id) {
+          // The headline doesn't have an html id assigned. (Did you
+          // remove uniorg-slug?)
+          //
+          // Assign an html id property based on org id property.
+          node.data = node.data || {};
+          node.data.hProperties = node.data.hProperties || {};
+          node.data.hProperties.id = id;
         }
+
+        ids[id] = '#' + node.data.hProperties.id;
       }
     });
   }
