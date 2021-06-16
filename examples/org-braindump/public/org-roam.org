@@ -7,4 +7,4 @@
 :ID:       536afe10-a7fe-4067-9523-0c4a41872387
 :END:
 
-If you're using org-roam v2, you should know that [[#13e0b822-80a1-4faa-8e13-e768e8cecb65][id links]] are fully supported in this template.
+If you're using org-roam v2, you should know that [[id:13e0b822-80a1-4faa-8e13-e768e8cecb65][id links]] are fully supported in this template.

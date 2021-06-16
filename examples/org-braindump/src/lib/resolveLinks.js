@@ -26,31 +26,26 @@ export default function resolveLinks(files) {
    *    to calculate backlinks.
    */
   function processUrl({ url: urlString, propertyName, node, file }) {
-    // process id links
-    if (urlString.startsWith('#')) {
-      const id = urlString.slice(1);
-
-      const target = idMap[id];
-      if (target) {
-        node.properties[propertyName] = target.path + target.anchor;
-
-        file.data.links = file.data.links || [];
-        file.data.links.push(target.path);
-      } else {
-        console.warn(`${file.path}: Unresolved id link`, urlString);
-      }
-
-      return;
-    }
-
     try {
       // next/link does not handle relative urls properly. Use
       // file.path (the slug of the file) to normalize link against.
       let url = new URL(urlString, 'file://' + file.path);
 
+      // process id links
+      if (url.protocol === 'id:') {
+        const id = url.pathname;
+        const ref = idMap[id];
+        if (ref) {
+          url = new URL(`file://${ref.path}${ref.anchor}`);
+        } else {
+          console.warn(`${file.path}: Unresolved id link`, urlString);
+        }
+        // fallthrough. id links are re-processed as file links
+      }
+
       if (url.protocol === 'file:') {
         let href = url.pathname.replace(/\.org$/, '');
-        node.properties[propertyName] = href;
+        node.properties[propertyName] = href + url.hash;
 
         file.data.links = file.data.links || [];
         file.data.links.push(href);
