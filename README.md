@@ -8,6 +8,7 @@
 [![uniorg-extract-keywords npm](https://img.shields.io/npm/v/uniorg-extract-keywords?label=uniorg-extract-keywords)](https://www.npmjs.com/package/uniorg-extract-keywords)
 [![uniorg-slug npm](https://img.shields.io/npm/v/uniorg-slug?label=uniorg-slug)](https://www.npmjs.com/package/uniorg-slug)
 [![orgast-util-to-string npm](https://img.shields.io/npm/v/orgast-util-to-string?label=orgast-util-to-string)](https://www.npmjs.com/package/orgast-util-to-string)
+[![orgast-util-visit-ids npm](https://img.shields.io/npm/v/orgast-util-visit-ids?label=orgast-util-visit-ids)](https://www.npmjs.com/package/orgast-util-visit-ids)
 
 **uniorg** is an accurate [Org-mode](https://orgmode.org/) parser compatible with [unified](https://github.com/unifiedjs/unified) ecosystem.
 
@@ -57,8 +58,9 @@ This repository contains the following packages:
 - [`uniorg-parse`][uniorg-parse] — Parse org-mode files to uniorg syntax trees
 - [`uniorg-rehype`][uniorg-rehype] — Transform uniorg syntax trees to [**rehype**](https://github.com/rehypejs/rehype)
 - [`uniorg-extract-keywords`][uniorg-extract-keywords] — Store org-mode keywords to vfile
-- [`uniorg-slug`][uniorg-slug] — Add anchors to headings using GitHub's algorithm.
+- [`uniorg-slug`][uniorg-slug] — Add anchors to headings using GitHub's algorithm
 - [`orgast-util-to-string`][orgast-util-to-string] — Utility to get the plain text content of a node
+- [`orgast-util-visit-ids`][orgast-util-visit-ids] — Utility to visit all org nodes with ids
 
 [uniorg]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg
 [uniorg-parse]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-parse
@@ -66,6 +68,7 @@ This repository contains the following packages:
 [uniorg-extract-keywords]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-extract-keywords
 [uniorg-slug]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-slug
 [orgast-util-to-string]: https://github.com/rasendubi/uniorg/tree/master/packages/orgast-util-to-string
+[orgast-util-visit-ids]: https://github.com/rasendubi/uniorg/tree/master/packages/orgast-util-visit-ids
 
 # unified
 
