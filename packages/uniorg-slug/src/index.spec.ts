@@ -16,7 +16,7 @@ const process = (s: string, options?: Options): Node => {
   return processor.runSync(processor.parse(f), f);
 };
 
-describe('uniorg-extract-keywords', () => {
+describe('uniorg-slug', () => {
   test('does not crash on empty document', () => {
     const document = ``;
 
@@ -80,6 +80,26 @@ describe('uniorg-extract-keywords', () => {
 
     expect(s).toMatchInlineSnapshot(
       `"<h1 id=\\"headline\\">headline</h1><h2 id=\\"blah\\">nested headline</h2><h2 id=\\"headline-1\\">headline</h2><p><code class=\\"inline-code\\">id</code> property is ignored.</p>"`
+    );
+  });
+
+  test('preserves data.hProperties.id', () => {
+    const processor = unified()
+      .use(uniorg)
+      .use(() => (node) => {
+        const headline: any = find(node, { type: 'headline' });
+        headline.data = { hProperties: { id: 'my-custom-id' } };
+      })
+      .use(uniorgSlug)
+      .use(uniorg2rehype)
+      .use(html);
+
+    const document = `* some headline`;
+
+    const s = processor.processSync(document).contents;
+
+    expect(s).toMatchInlineSnapshot(
+      `"<h1 id=\\"my-custom-id\\">some headline</h1>"`
     );
   });
 });

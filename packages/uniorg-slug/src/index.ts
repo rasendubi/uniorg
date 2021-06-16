@@ -19,9 +19,10 @@ export const uniorgSlug: Plugin<[Options?]> = (options: Options = {}) => {
       const data: any = (node.data = node.data || {});
       const props = (data.hProperties = data.hProperties || {});
 
-      const id = customId(node) ?? slugger.slug(toString(node.title));
-
-      props.id = id;
+      if (!props.id) {
+        const id = customId(node) ?? slugger.slug(toString(node.title));
+        props.id = id;
+      }
     });
   }
 };
