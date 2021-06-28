@@ -50,6 +50,37 @@ exports[`org/org-to-hast description list 1`] = `
 
 `;
 
+exports[`org/org-to-hast description list with complex tags 1`] = `
+
+<dl>
+  <dt><a href="https://example.com">Example</a></dt>
+  <dd>
+    <p>Hello there!</p>
+  </dd>
+  <dt><a href="https://github.com">GitHub</a></dt>
+  <dd>
+    <p>This is GitHub, your hub for Git repos.</p>
+  </dd>
+  <dt><strong>Gitlab</strong></dt>
+  <dd>
+    <p>Alternative to GitHub</p>
+  </dd>
+  <dt><em>Sourcehut</em></dt>
+  <dd>
+    <p>Another alternative to GitHub that primarily uses email-based workflows.</p>
+  </dd>
+  <dt><em>Codeberg</em></dt>
+  <dd>
+    <p><strong>ANOTHER ALTERNATIVE</strong></p>
+  </dd>
+  <dt><em><strong>self-hosting Git server</strong></em></dt>
+  <dd>
+    <p><em><strong>The ultimate Git solution for privacy-oriented individuals!</strong></em></p>
+  </dd>
+</dl>
+
+`;
+
 exports[`org/org-to-hast diary sexp 1`] = ``;
 
 exports[`org/org-to-hast do not double-escape urls 1`] = `

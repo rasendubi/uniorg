@@ -168,8 +168,8 @@ export function orgToHast(
       case 'item':
         if (org.tag !== null) {
           return [
-            h(org, 'dt', {}, org.tag),
-            h(org, 'dd', toHast(org.children)),
+            h(org, 'dt', {}, toHast(org.tag)),
+            h(org, 'dd', {}, toHast(org.children)),
           ];
         } else {
           return h(org, 'li', {}, toHast(org.children));

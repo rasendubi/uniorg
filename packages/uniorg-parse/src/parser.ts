@@ -1297,10 +1297,27 @@ class Parser {
         }
 
         const fullM = this.r.forceMatch(fullItemRe());
-        const { bullet, counter, checkbox, tag } = fullM.groups as Record<
+        const { bullet, counter, checkbox } = fullM.groups as Record<
           string,
           string
         >;
+
+        // js doesn't have a way to get start offset of a selected
+        // group, so we add lengths of all groups before it.
+        let tag: ObjectType[] | null = null;
+        if (fullM.groups!.tag !== undefined) {
+          const tagStartOffset =
+            this.r.offset() +
+            (fullM.groups!.indent?.length ?? 0) +
+            (fullM.groups!.bullet?.length ?? 0) +
+            (fullM.groups!.counter_group?.length ?? 0) +
+            (fullM.groups!.checkbox_group?.length ?? 0);
+          const tagStopOffset = tagStartOffset + fullM.groups!.tag.length;
+
+          this.r.narrow(tagStartOffset, tagStopOffset);
+          tag = this.parseObjects(restrictionFor('item'));
+          this.r.widen();
+        }
 
         const item = {
           begin: this.r.offset(),
@@ -1308,7 +1325,7 @@ class Parser {
           bullet,
           counter: counter ?? null,
           checkbox: checkbox ?? null,
-          tag: tag ?? null,
+          tag,
           // will be overwritten later
           end: this.r.offset(),
         };
