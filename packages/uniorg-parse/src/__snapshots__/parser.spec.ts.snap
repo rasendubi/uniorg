@@ -2336,21 +2336,27 @@ children:
             bullet: "- "
             counter: null
             checkbox: null
-            tag: "term1"
+            tag:
+              &a1
+              - type: "text"
+                value: "term1"
             end: 25
           - begin: 25
             indent: 0
             bullet: "- "
             counter: null
             checkbox: null
-            tag: "term 2"
+            tag:
+              &a2
+              - type: "text"
+                value: "term 2"
             end: 50
         children:
           - type: "item"
             indent: 0
             bullet: "- "
             checkbox: null
-            tag: "term1"
+            tag: *a1
             contentsBegin: 11
             contentsEnd: 25
             children:
@@ -2365,7 +2371,7 @@ children:
             indent: 0
             bullet: "- "
             checkbox: null
-            tag: "term 2"
+            tag: *a2
             contentsBegin: 37
             contentsEnd: 50
             children:
@@ -2480,6 +2486,224 @@ children:
                 children:
                   - type: "text"
                     value: "1. blah"
+`;
+
+exports[`org/parser list formatting in description list tags 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 389
+children:
+  - type: "section"
+    contentsBegin: 1
+    contentsEnd: 389
+    children:
+      - type: "plain-list"
+        affiliated: {}
+        indent: 0
+        listType: "descriptive"
+        contentsBegin: 1
+        contentsEnd: 389
+        structure:
+          - begin: 1
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag:
+              &a1
+              - type: "link"
+                format: "bracket"
+                linkType: "https"
+                rawLink: "https://example.com"
+                path: "//example.com"
+                contentsBegin: 26
+                contentsEnd: 33
+                children:
+                  - type: "text"
+                    value: "Example"
+            end: 52
+          - begin: 52
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag:
+              &a2
+              - type: "link"
+                format: "bracket"
+                linkType: "https"
+                rawLink: "https://github.com"
+                path: "//github.com"
+                contentsBegin: 76
+                contentsEnd: 82
+                children:
+                  - type: "text"
+                    value: "GitHub"
+            end: 128
+          - begin: 128
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag:
+              &a3
+              - type: "bold"
+                contentsBegin: 131
+                contentsEnd: 137
+                children:
+                  - type: "text"
+                    value: "Gitlab"
+            end: 164
+          - begin: 164
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag:
+              &a4
+              - type: "italic"
+                contentsBegin: 167
+                contentsEnd: 176
+                children:
+                  - type: "text"
+                    value: "Sourcehut"
+            end: 254
+          - begin: 254
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag:
+              &a5
+              - type: "italic"
+                contentsBegin: 257
+                contentsEnd: 265
+                children:
+                  - type: "text"
+                    value: "Codeberg"
+            end: 292
+          - begin: 292
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag:
+              &a6
+              - type: "italic"
+                contentsBegin: 295
+                contentsEnd: 320
+                children:
+                  - type: "bold"
+                    contentsBegin: 296
+                    contentsEnd: 319
+                    children:
+                      - type: "text"
+                        value: "self-hosting Git server"
+            end: 389
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: *a1
+            contentsBegin: 39
+            contentsEnd: 52
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 39
+                contentsEnd: 52
+                children:
+                  - type: "text"
+                    value: "Hello there!\\n"
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: *a2
+            contentsBegin: 88
+            contentsEnd: 128
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 88
+                contentsEnd: 128
+                children:
+                  - type: "text"
+                    value: "This is GitHub, your hub for Git repos.\\n"
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: *a3
+            contentsBegin: 142
+            contentsEnd: 164
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 142
+                contentsEnd: 164
+                children:
+                  - type: "text"
+                    value: "Alternative to GitHub\\n"
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: *a4
+            contentsBegin: 181
+            contentsEnd: 254
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 181
+                contentsEnd: 254
+                children:
+                  - type: "text"
+                    value: "Another alternative to GitHub that primarily uses email-based
+                      workflows.\\n"
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: *a5
+            contentsBegin: 270
+            contentsEnd: 292
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 270
+                contentsEnd: 292
+                children:
+                  - type: "bold"
+                    contentsBegin: 271
+                    contentsEnd: 290
+                    children:
+                      - type: "text"
+                        value: "ANOTHER ALTERNATIVE"
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: *a6
+            contentsBegin: 325
+            contentsEnd: 389
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 325
+                contentsEnd: 389
+                children:
+                  - type: "italic"
+                    contentsBegin: 326
+                    contentsEnd: 387
+                    children:
+                      - type: "bold"
+                        contentsBegin: 327
+                        contentsEnd: 386
+                        children:
+                          - type: "text"
+                            value: "The ultimate Git solution for privacy-oriented individuals!"
 `;
 
 exports[`org/parser list list after paragraph 1`] = `

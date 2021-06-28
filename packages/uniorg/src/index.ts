@@ -191,18 +191,19 @@ export interface List extends GreaterElement {
 
 export type ListStructureItem = {
   begin: number;
+  end: number;
   indent: number;
   bullet: string;
   counter: string | null;
   checkbox: string | null;
-  tag: string | null;
-  end: number;
+  tag: ObjectType[] | null;
 };
 
 export interface Item extends GreaterElement {
   type: 'item';
   indent: number;
-  tag: string | null;
+  tag: ObjectType[] | null;
+  // TODO: add checkbox?
 }
 
 export interface SrcBlock extends Node, WithAffiliatedKeywords {

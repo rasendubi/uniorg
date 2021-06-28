@@ -269,6 +269,19 @@ I have no :END:`
 - term 2 :: description 2`
     );
 
+    // See https://github.com/rasendubi/uniorg/issues/15
+    itParses(
+      'formatting in description list tags',
+      `
+- [[https://example.com][Example]] :: Hello there!
+- [[https://github.com][GitHub]] :: This is GitHub, your hub for Git repos.
+- *Gitlab* :: Alternative to GitHub
+- /Sourcehut/ :: Another alternative to GitHub that primarily uses email-based workflows.
+- /Codeberg/ :: *ANOTHER ALTERNATIVE*
+- /*self-hosting Git server*/ :: /*The ultimate Git solution for privacy-oriented individuals!*/
+`
+    );
+
     itParses(
       'list after paragraph',
       `hello
