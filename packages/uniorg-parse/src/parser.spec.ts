@@ -269,6 +269,11 @@ I have no :END:`
 - term 2 :: description 2`
     );
 
+    itParses(
+      'description list > skips trailing spaces after tag',
+      `- term    :: description`
+    );
+
     // See https://github.com/rasendubi/uniorg/issues/15
     itParses(
       'formatting in description list tags',

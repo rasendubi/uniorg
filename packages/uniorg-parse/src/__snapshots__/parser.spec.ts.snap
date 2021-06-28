@@ -2315,6 +2315,50 @@ children:
                     value: "done"
 `;
 
+exports[`org/parser list description list > skips trailing spaces after tag 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 24
+    children:
+      - type: "plain-list"
+        affiliated: {}
+        indent: 0
+        listType: "descriptive"
+        contentsBegin: 0
+        contentsEnd: 24
+        structure:
+          - begin: 0
+            indent: 0
+            bullet: "- "
+            counter: null
+            checkbox: null
+            tag:
+              &a1
+              - type: "text"
+                value: "term"
+            end: 24
+        children:
+          - type: "item"
+            indent: 0
+            bullet: "- "
+            checkbox: null
+            tag: *a1
+            contentsBegin: 13
+            contentsEnd: 24
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 13
+                contentsEnd: 24
+                children:
+                  - type: "text"
+                    value: "description"
+`;
+
 exports[`org/parser list description list 1`] = `
 type: "org-data"
 contentsBegin: 0

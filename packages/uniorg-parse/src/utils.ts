@@ -223,7 +223,7 @@ export function itemRe(): RegExp {
 /// - checkbox
 /// - tag (description tag)
 export function fullItemRe(): RegExp {
-  return /^(?<indent>[ \t]*)(?<bullet>(?:[-+*]|(?:[0-9]+|[A-Za-z])[.)])(?:[ \t]+|$))(?<counter_group>\[@(?:start:)?(?<counter>[0-9]+|[A-Za-z])\][ \t]*)?(?<checkbox_group>(?<checkbox>\[[ X-]\])(?:[ \t]+|$))?(?:(?<tag>.*)[ \t]+::(?:[ \t]+|$))?/im;
+  return /^(?<indent>[ \t]*)(?<bullet>(?:[-+*]|(?:[0-9]+|[A-Za-z])[.)])(?:[ \t]+|$))(?<counter_group>\[@(?:start:)?(?<counter>[0-9]+|[A-Za-z])\][ \t]*)?(?<checkbox_group>(?<checkbox>\[[ X-]\])(?:[ \t]+|$))?(?:(?<tag>.*?)[ \t]+::(?:[ \t]+|$))?/im;
 }
 
 export function listEndRe(): RegExp {
