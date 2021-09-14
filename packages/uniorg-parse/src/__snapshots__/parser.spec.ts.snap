@@ -1431,6 +1431,26 @@ children:
     children: []
 `;
 
+exports[`org/parser headline custom todo keywords 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 29
+children:
+  - type: "headline"
+    level: 1
+    todoKeyword: "NEXT"
+    priority: null
+    commented: false
+    rawValue: "my custom todo keyword"
+    title:
+      - type: "text"
+        value: "my custom todo keyword"
+    tags: []
+    contentsBegin: 29
+    contentsEnd: 29
+    children: []
+`;
+
 exports[`org/parser headline multiple headlines 1`] = `
 type: "org-data"
 contentsBegin: 0

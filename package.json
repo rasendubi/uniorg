@@ -6,6 +6,7 @@
     "clean": "lerna run clean",
     "build": "lerna run build",
     "publish": "lerna run publish",
+    "dev": "lerna run dev",
     "test": "jest"
   },
   "devDependencies": {

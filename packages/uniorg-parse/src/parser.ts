@@ -48,23 +48,13 @@ import {
 
 import { getOrgEntity } from './entities';
 import {
-  defaultOptions,
-  linkPlainRe,
-  ParseOptions,
-  itemRe,
-  fullItemRe,
-  paragraphSeparateRe,
   restrictionFor,
-  listEndRe,
   greaterElements,
   unescapeCodeInString,
-  emphRe,
-  emphasisRegexpComponents,
-  verbatimRe,
-  linkTypesRe,
   escapeRegExp,
-  subsuperscriptRe,
+  OrgRegexUtils,
 } from './utils';
+import { ParseOptions, defaultOptions } from './parse-options';
 import { Reader } from './reader';
 
 /*
@@ -95,10 +85,12 @@ export function parse(file: VFile | string, options?: Partial<ParseOptions>) {
 class Parser {
   private readonly r: Reader;
   private readonly options: ParseOptions;
+  private readonly re: OrgRegexUtils;
 
   public constructor(file: VFile, options: Partial<ParseOptions> = {}) {
     this.r = new Reader(file);
     this.options = { ...defaultOptions, ...options };
+    this.re = new OrgRegexUtils(this.options);
   }
 
   public parse(): OrgData {
@@ -350,7 +342,7 @@ class Parser {
     }
 
     // List.
-    if (this.r.lookingAt(itemRe())) {
+    if (this.r.lookingAt(this.re.itemRe())) {
       if (structure === undefined) {
         const offset = this.r.offset();
         structure = this.parseListStructure();
@@ -431,47 +423,7 @@ class Parser {
     // 2. Try to parse object at that position.
     // 3. If not a valid object, advance by one char and repeat.
 
-    const objectRe = new RegExp(
-      [
-        // Sub/superscript.
-        '(?:[_^][-{(*+.,\\p{Letter}\\p{Number}])',
-        // Bold, code, italic, strike-through, underline
-        // and verbatim.
-        `[*~=+_/][^${emphasisRegexpComponents.border}]`,
-        // Plain links.
-        linkPlainRe(),
-        // Objects starting with "[": regular link,
-        // footnote reference, statistics cookie,
-        // timestamp (inactive).
-        [
-          '\\[(?:',
-          'fn:',
-          '|',
-          '\\[',
-          '|',
-          '[0-9]{4}-[0-9]{2}-[0-9]{2}',
-          '|',
-          '[0-9]*(?:%|/[0-9]*)\\]',
-          ')',
-        ].join(''),
-        // Objects starting with "@": export snippets.
-        '@@',
-        // Objects starting with "{": macro.
-        '\\{\\{\\{',
-        // Objects starting with "<": timestamp (active, diary),
-        // target, radio target and angular links.
-        `<(?:%%|<|[0-9]|${linkTypesRe()})`,
-        // Objects starting with "$": latex fragment.
-        '\\$',
-        // Objects starting with "\": line break, entity, latex
-        // fragment.
-        '\\\\(?:[a-zA-Z\\[\\(]|\\\\[ \\t]*$|_ +)',
-        // Objects starting with raw text: inline Babel source block,
-        // inline Babel call.
-        '(?:call|src)_',
-      ].join('|'),
-      'mu'
-    );
+    const objectRe = this.re.objectRe();
 
     while (!this.r.eof()) {
       const m = this.r.match(objectRe);
@@ -1032,7 +984,7 @@ class Parser {
     this.r.advance(this.r.line());
 
     let next = null;
-    while ((next = this.r.match(paragraphSeparateRe()))) {
+    while ((next = this.r.match(this.re.paragraphSeparateRe()))) {
       this.r.advance(next.index);
 
       // A matching `paragraphSeparateRe` is not necessarily the end
@@ -1250,7 +1202,7 @@ class Parser {
 
   private parseItem(structure: ListStructureItem[]) {
     const offset = this.r.offset();
-    const m = this.r.advance(this.r.forceMatch(fullItemRe()));
+    const m = this.r.advance(this.r.forceMatch(this.re.fullItemRe()));
     const bullet = m.groups!.bullet;
     const checkbox =
       m.groups!.checkbox === '[ ]'
@@ -1282,11 +1234,11 @@ class Parser {
     const items: ListStructureItem[] = [];
     const struct: ListStructureItem[] = [];
     while (true) {
-      if (this.r.eof() || this.r.match(listEndRe())?.index === 0) {
+      if (this.r.eof() || this.r.match(this.re.listEndRe())?.index === 0) {
         break;
       }
 
-      const m = this.r.match(itemRe());
+      const m = this.r.match(this.re.itemRe());
       if (m) {
         const indent = m.groups!.indent.length;
         // end previous siblings
@@ -1296,7 +1248,7 @@ class Parser {
           struct.push(item);
         }
 
-        const fullM = this.r.forceMatch(fullItemRe());
+        const fullM = this.r.forceMatch(this.re.fullItemRe());
         const { bullet, counter, checkbox } = fullM.groups as Record<
           string,
           string
@@ -1371,7 +1323,7 @@ class Parser {
   private parseSuperscript(): Superscript | null {
     this.r.backoff(1); // backoff by one, to match previous char (should be non-space)
     const start = this.r.offset();
-    const m = this.r.advance(this.r.lookingAt(subsuperscriptRe));
+    const m = this.r.advance(this.r.lookingAt(this.re.subsuperscriptRe()));
     if (!m) return null;
 
     const inside = m.groups!['inBraces'] || m.groups!['inBrackets'];
@@ -1387,7 +1339,7 @@ class Parser {
   private parseSubscript(): Subscript | null {
     this.r.backoff(1); // backoff by one, to match previous char (should be non-space)
     const start = this.r.offset();
-    const m = this.r.advance(this.r.lookingAt(subsuperscriptRe));
+    const m = this.r.advance(this.r.lookingAt(this.re.subsuperscriptRe()));
     if (!m) return null;
 
     const inside = m.groups!['inBraces'] || m.groups!['inBrackets'];
@@ -1403,7 +1355,7 @@ class Parser {
   private parseUnderline(): Underline | null {
     // backoff one char to check border
     this.r.backoff(1);
-    const m = this.r.lookingAt(emphRe());
+    const m = this.r.lookingAt(this.re.emphRe());
     if (!m) return null;
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
@@ -1414,7 +1366,7 @@ class Parser {
   private parseBold(): Bold | null {
     // backoff one char to check border
     this.r.backoff(1);
-    const m = this.r.lookingAt(emphRe());
+    const m = this.r.lookingAt(this.re.emphRe());
     if (!m) return null;
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
@@ -1425,7 +1377,7 @@ class Parser {
   private parseItalic(): Italic | null {
     // backoff one char to check border
     this.r.backoff(1);
-    const m = this.r.lookingAt(emphRe());
+    const m = this.r.lookingAt(this.re.emphRe());
     if (!m) return null;
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
@@ -1436,7 +1388,7 @@ class Parser {
   private parseCode(): Code | null {
     // backoff one char to check border
     this.r.backoff(1);
-    const m = this.r.lookingAt(verbatimRe());
+    const m = this.r.lookingAt(this.re.verbatimRe());
     if (!m) return null;
     const value = m[4];
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
@@ -1447,7 +1399,7 @@ class Parser {
 
   private parseVerbatim(): Verbatim | null {
     this.r.backoff(1);
-    const m = this.r.lookingAt(verbatimRe());
+    const m = this.r.lookingAt(this.re.verbatimRe());
     if (!m) return null;
     const value = m[4];
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
@@ -1459,7 +1411,7 @@ class Parser {
   private parseStrikeThrough(): StrikeThrough | null {
     // backoff one char to check border
     this.r.backoff(1);
-    const m = this.r.lookingAt(emphRe());
+    const m = this.r.lookingAt(this.re.emphRe());
     if (!m) return null;
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
@@ -1622,7 +1574,7 @@ class Parser {
         .replace(/(\\+)([\[\]])/g, (p1, p2) => '\\'.repeat(p1.length / 2) + p2);
       // TODO: org-link-expand-abbrev
 
-      const { linkType, path } = Parser.linkType(rawLink);
+      const { linkType, path } = this.linkType(rawLink);
 
       return u(
         'link',
@@ -1637,9 +1589,10 @@ class Parser {
       );
     }
 
+    // TODO: this is different from OrgRegexUtils.linkPlainRe
     // Type 3: Plain link, e.g., https://orgmode.org
     const linkPlainRe = new RegExp(
-      `\\b${linkTypesRe()}([^\\][ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\p{Punctuation} \\t\\n]|/)))`,
+      `\\b${this.re.linkTypesRe()}([^\\][ \\t\\n()<>]+(?:([\\w0-9_]+)|([^\\p{Punctuation} \\t\\n]|/)))`,
       'u'
     );
     const plainM = this.r.advance(this.r.lookingAt(linkPlainRe));
@@ -1661,7 +1614,7 @@ class Parser {
     // bracket links, follow RFC 3986 and remove any extra whitespace
     // in URI.
     const linkAngleRe = new RegExp(
-      `<${linkTypesRe()}([^>\\n]*(?:\\n[ \\t]*[^> \\t\\n][^>\\n]*)*)>`
+      `<${this.re.linkTypesRe()}([^>\\n]*(?:\\n[ \\t]*[^> \\t\\n][^>\\n]*)*)>`
     );
     const angularM = this.r.advance(this.r.lookingAt(linkAngleRe));
     if (angularM) {
@@ -1679,13 +1632,13 @@ class Parser {
     return null;
   }
 
-  private static linkType(link: string): { linkType: string; path: string } {
+  private linkType(link: string): { linkType: string; path: string } {
     // File type.
     if (link.startsWith('/') || link.match(/^\.\.?\//)) {
       return { linkType: 'file', path: link };
     }
     // Explicit type (http, irc, bbdb...).
-    const m = link.match(new RegExp(linkTypesRe()));
+    const m = link.match(new RegExp(this.re.linkTypesRe()));
     if (m) {
       return { linkType: m[1], path: link.slice(m[0].length) };
     }

@@ -1,6 +1,8 @@
-import { parse } from './parser';
 import YAML from 'yaml';
 import { Type } from 'yaml/util';
+
+import { parse } from './parser';
+import { ParseOptions } from './parse-options';
 
 YAML.scalarOptions.str.defaultType = Type.QUOTE_DOUBLE;
 YAML.scalarOptions.str.defaultKeyType = Type.PLAIN;
@@ -19,9 +21,13 @@ expect.addSnapshotSerializer({
   },
 });
 
-const itParses = (name: string, input: string) => {
+const itParses = (
+  name: string,
+  input: string,
+  options?: Partial<ParseOptions>
+) => {
   it(name, () => {
-    const result = parse(input);
+    const result = parse(input, options);
     expect(result).toMatchSnapshot();
   });
 };
@@ -74,6 +80,10 @@ describe('org/parser', () => {
       `* TODO [#A] COMMENT headline /italic/ title :some:tags:
 `
     );
+
+    itParses('custom todo keywords', '* NEXT my custom todo keyword', {
+      todoKeywords: ['TODO', 'NEXT', 'DONE'],
+    });
 
     itParses(
       'DONE from next line should not capture first headline',
