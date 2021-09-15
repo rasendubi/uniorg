@@ -339,7 +339,8 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
     const s = unified()
       .use(orgParse)
       .use(() => (node: any) => {
-        const headline = node.children[0];
+        // org-data > section > headline
+        const headline = node.children[0].children[0];
         headline.data = { hProperties: { id: 'my-custom-id' } };
       })
       .use(org2rehype)

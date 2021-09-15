@@ -1,7 +1,7 @@
 import u from 'unist-builder';
 import hast from 'hastscript';
 import { Properties, Node, Element } from 'hast';
-import { OrgNode, OrgData, TableRow } from 'uniorg';
+import { OrgNode, OrgData, TableRow, Headline } from 'uniorg';
 
 type Hast = any;
 
@@ -94,15 +94,21 @@ export function orgToHast(
     switch (org.type) {
       case 'org-data':
         return { type: 'root', children: toHast(org.children) };
-      case 'headline': {
+      case 'section': {
+        const headline = org.children[0] as Headline;
         // TODO: support other options that prevent export:
         // - org-export-exclude-tags
         // - #+EXCLUDE_TAGS:
         // TODO: support selective export mode:
         // - org-export-selected-tags
         // - #+SELECTED_TAGS:
-        if (org.commented || org.tags.includes('noexport')) return null;
+        if (headline.commented || headline.tags.includes('noexport')) {
+          return null;
+        }
 
+        return toHast(org.children);
+      }
+      case 'headline': {
         const intersperse = <T extends unknown>(items: T[], sep: T) =>
           items.flatMap((e) => [sep, e]).slice(1);
 
@@ -145,18 +151,13 @@ export function orgToHast(
               ),
             ]
           : null;
-        return [
-          h(
-            org,
-            `h${org.level}`,
-            {},
-            [todo, priority, toHast(org.title), tags].filter((x) => x)
-          ),
-          ...toHast(org.children),
-        ];
+        return h(
+          org,
+          `h${org.level}`,
+          {},
+          [todo, priority, toHast(org.children), tags].filter((x) => x)
+        );
       }
-      case 'section':
-        return toHast(org.children);
       case 'plain-list':
         if (org.listType === 'unordered') {
           return h(org, 'ul', {}, toHast(org.children));

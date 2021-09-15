@@ -1,7 +1,7 @@
 import toString from './';
 
 import { parse } from 'uniorg-parse/lib/parser';
-import { Headline, Link } from 'uniorg';
+import { Headline } from 'uniorg';
 
 describe('orgast-util-to-string', () => {
   test('empty', () => {
@@ -21,11 +21,12 @@ describe('orgast-util-to-string', () => {
   });
 
   test('headline', () => {
-    const document = parse(`* some text`);
-    const headline = document.children[0] as Headline;
+    const document: any = parse(`* some text`);
+    // org-data > section > headline
+    const headline = document.children[0].children[0] as Headline;
     expect(headline.type).toBe('headline');
 
-    const s = toString(headline.title);
+    const s = toString(headline);
 
     expect(s).toBe('some text');
   });

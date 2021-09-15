@@ -298,7 +298,6 @@ export const greaterElements = new Set([
   'drawer',
   'dynamic-block',
   'footnote-definition',
-  'headline',
   'inlinetask',
   'item',
   'plain-list',

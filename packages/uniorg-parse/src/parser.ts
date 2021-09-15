@@ -67,16 +67,36 @@ import { Reader } from './reader';
       (pp (cddr document)))))
  */
 
-type ParseMode =
-  | 'first-section'
-  | 'item'
-  | 'node-property'
-  | 'planning'
-  | 'property-drawer'
-  | 'section'
-  | 'table-row'
-  | 'top-comment'
-  | null;
+/**
+ * `ParseMode` determines what Elements are expected/allowed in the given context.
+ *
+ * By default, all Elements except `Headline`, `Planning`, `PropertyDrawer`, `Item`, `TableRow`, and
+ * `NodeProperty` are supported.
+ *
+ * If the documentation of the mode say “allows”—the specified elements are supported in additional to default
+ * elements.
+ *
+ * If the documentation of the mode says “expecting”—only that elements are allowed (default elements are
+ * not).
+ */
+enum ParseMode {
+  /** Initial parsing mode. Allows property-drawer. */
+  TopComment,
+  /** First inside section. Expecting a headline only. */
+  Headline,
+  /** Right after headline. Allows planning and property-drawer. */
+  Planning,
+  /** After planning or top-commment. Allows property-drawer. */
+  PropertyDrawer,
+  /** Inside a property-drawer. Expecting node-property only. */
+  NodeProperty,
+  /** Inside a list. Expecting item only. */
+  Item,
+  /** Inside a table. Expecting table-row only. */
+  TableRow,
+  /** Default parsing mode. */
+  Default,
+}
 
 export function parse(file: VFile | string, options?: Partial<ParseOptions>) {
   return new Parser(vfile(file), options).parse();
@@ -95,7 +115,7 @@ class Parser {
 
   public parse(): OrgData {
     this.parseEmptyLines();
-    const children = this.parseElements('first-section');
+    const children = this.parseElements(ParseMode.TopComment);
     return u(
       'org-data',
       { contentsBegin: 0, contentsEnd: this.r.endOffset() },
@@ -155,22 +175,22 @@ class Parser {
     parent: boolean
   ): ParseMode {
     if (parent) {
-      if (type === 'headline') return 'section';
-      if (mode === 'first-section' && type === 'section') return 'top-comment';
-      if (type === 'inlinetask') return 'planning';
-      if (type === 'plain-list') return 'item';
-      if (type === 'property-drawer') return 'node-property';
-      if (type === 'section') return 'planning';
-      if (type === 'table') return 'table-row';
+      if (type === 'section') return ParseMode.Headline;
+      if (type === 'inlinetask') return ParseMode.Headline;
+      if (type === 'plain-list') return ParseMode.Item;
+      if (type === 'property-drawer') return ParseMode.NodeProperty;
+      if (type === 'table') return ParseMode.TableRow;
     } else {
-      if (mode === 'item') return 'item';
-      if (mode === 'node-property') return 'node-property';
-      if (mode === 'planning' && type === 'planning') return 'property-drawer';
-      if (mode === 'table-row') return 'table-row';
-      if (mode === 'top-comment' && type === 'comment')
-        return 'property-drawer';
+      if (mode === ParseMode.TopComment && type === 'comment')
+        return ParseMode.PropertyDrawer;
+      if (mode === ParseMode.Headline) return ParseMode.Planning;
+      if (mode === ParseMode.Planning && type === 'planning')
+        return ParseMode.PropertyDrawer;
+      if (mode === ParseMode.Item) return ParseMode.Item;
+      if (mode === ParseMode.TableRow) return ParseMode.TableRow;
+      if (mode === ParseMode.NodeProperty) return ParseMode.NodeProperty;
     }
-    return null;
+    return ParseMode.Default;
   }
 
   private parseElement(
@@ -178,29 +198,19 @@ class Parser {
     structure?: ListStructureItem[]
   ): GreaterElementType | ElementType {
     // Item.
-    if (mode === 'item') return this.parseItem(structure!);
+    if (mode === ParseMode.Item) return this.parseItem(structure!);
 
     // Table Row.
-    if (mode === 'table-row') return this.parseTableRow();
+    if (mode === ParseMode.TableRow) return this.parseTableRow();
 
     // Node Property.
-    if (mode === 'node-property') return this.parseNodeProperty();
+    if (mode === ParseMode.NodeProperty) return this.parseNodeProperty();
 
     // Headline.
-    if (this.atHeading()) return this.parseHeadline();
+    if (mode === ParseMode.Headline) return this.parseHeadline();
 
-    // Sections (must be checked after headline).
-    if (mode === 'section') return this.parseSection();
-    if (mode === 'first-section') {
-      const nextHeading = this.r.match(/^\*+[ \t]/m);
-      this.r.narrow(
-        this.r.offset(),
-        nextHeading ? this.r.offset() + nextHeading.index : this.r.endOffset()
-      );
-      const result = this.parseSection();
-      this.r.widen(true);
-      return result;
-    }
+    // Section.
+    if (this.atHeading()) return this.parseSection();
 
     const isBeginningOfLine =
       this.r.offset() === 0 ||
@@ -213,7 +223,7 @@ class Parser {
 
     // Planning.
     if (
-      mode === 'planning' &&
+      mode === ParseMode.Planning &&
       // TODO: check previous line is headline
       this.r.lookingAt(/^[ \t]*(CLOSED:|DEADLINE:|SCHEDULED:)/)
     ) {
@@ -221,9 +231,9 @@ class Parser {
     }
 
     if (
-      (mode === 'planning' ||
+      (mode === ParseMode.Planning ||
         // && TODO: check previous line is headline
-        ((mode === 'property-drawer' || mode === 'top-comment') &&
+        ((mode === ParseMode.PropertyDrawer || mode === ParseMode.TopComment) &&
           !this.r.lookingAt(/\s*$/m))) &&
       this.r.lookingAt(
         /^[ \t]*:PROPERTIES:[ \t]*\n(?:[ \t]*:\S+:(?: .*)?[ \t]*\n)*?[ \t]*:END:[ \t]*$/m
@@ -562,6 +572,23 @@ class Parser {
 
   // Elements parsers
 
+  private parseSection(): Section {
+    const contentsBegin = this.r.offset();
+
+    const m = this.r.forceLookingAt(/^(\*+)[ \t]/m);
+    const level = m[1].length;
+    this.r.advance(this.r.line());
+
+    const endOfSubtree = this.r.match(
+      new RegExp(`^\\*{1,${level}}[ \\t]`, 'm')
+    );
+    const contentsEnd = endOfSubtree
+      ? this.r.offset() + endOfSubtree.index
+      : this.r.endOffset();
+    this.r.resetOffset(contentsEnd);
+    return u('section', { contentsBegin, contentsEnd }, []);
+  }
+
   private parseHeadline(): Headline {
     const begin = this.r.offset();
     this.r.advance(this.r.line());
@@ -593,23 +620,12 @@ class Parser {
 
     const rawValue = this.r.substring(titleStart, titleEnd);
 
-    this.r.narrow(titleStart, titleEnd);
-    const title = this.parseObjects(restrictionFor('headline'));
-    this.r.widen();
+    const contentsBegin = titleStart;
+    const contentsEnd = titleEnd;
 
-    // Reset line restriction and continue with parsing body.
+    // Reset line restriction.
     this.r.widen();
-
     this.parseEmptyLines();
-    const contentsBegin = this.r.offset();
-
-    const endOfSubtree = this.r.match(
-      new RegExp(`^\\*{1,${level}}[ \\t]`, 'm')
-    );
-    const contentsEnd = endOfSubtree
-      ? contentsBegin + endOfSubtree.index
-      : this.r.endOffset();
-    this.r.resetOffset(contentsEnd);
 
     return u(
       'headline',
@@ -619,7 +635,6 @@ class Parser {
         priority,
         commented,
         rawValue,
-        title,
         tags,
         contentsBegin,
         contentsEnd,
@@ -657,12 +672,15 @@ class Parser {
     return u('planning', { scheduled, deadline, closed });
   }
 
-  private parseSection(): Section {
-    const begin = this.r.offset();
-    const m = this.r.match(/^\*+[ \\t]/m);
-    const end = m ? begin + m.index : this.r.endOffset();
-    this.r.resetOffset(end);
-    return u('section', { contentsBegin: begin, contentsEnd: end }, []);
+  private parsePropertyDrawer(): PropertyDrawer {
+    this.r.advance(this.r.line());
+    const contentsBegin = this.r.offset();
+    const endM = this.r.forceMatch(/^[ \t]*:END:[ \t]*$/m);
+    this.r.advance(endM.index);
+    const contentsEnd = this.r.offset();
+    this.r.advance(this.r.line());
+    this.parseEmptyLines();
+    return u('property-drawer', { contentsBegin, contentsEnd }, []);
   }
 
   private parseBlock<T extends string>(
@@ -924,17 +942,6 @@ class Parser {
     const value = this.r.substring(beginOffset, endOffset);
 
     return u('latex-environment', { affiliated, value });
-  }
-
-  private parsePropertyDrawer(): PropertyDrawer {
-    this.r.advance(this.r.line());
-    const contentsBegin = this.r.offset();
-    const endM = this.r.forceMatch(/^[ \t]*:END:[ \t]*$/m);
-    this.r.advance(endM.index);
-    const contentsEnd = this.r.offset();
-    this.r.advance(this.r.line());
-    this.parseEmptyLines();
-    return u('property-drawer', { contentsBegin, contentsEnd }, []);
   }
 
   private parseDrawer(affiliated: AffiliatedKeywords): Drawer | Paragraph {
@@ -1770,7 +1777,7 @@ class Parser {
   }
 
   private atHeading(): boolean {
-    return this.r.match(/^\*+ /) !== null;
+    return this.r.lookingAt(/^\*+[ \t]/) !== null;
   }
 }
 

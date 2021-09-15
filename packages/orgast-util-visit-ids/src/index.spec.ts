@@ -43,9 +43,11 @@ hi there`);
     expect(f).toBeCalledTimes(1);
     const [id, node] = f.mock.calls[0];
     expect(id).toBe('hi-there');
-    expect(node.type).toBe('headline');
-    expect(node.level).toBe(1);
-    expect(node.rawValue).toBe('hi, there!');
+    expect(node.type).toBe('section');
+    const headline = node.children[0];
+    expect(headline.type).toBe('headline');
+    expect(headline.level).toBe(1);
+    expect(headline.rawValue).toBe('hi, there!');
   });
 
   test('ignores CUSTOM_ID', () => {
@@ -90,12 +92,16 @@ hi there`);
 
     const [id2, node2] = f.mock.calls[1];
     expect(id2).toBe('id-headline');
-    expect(node2.type).toBe('headline');
-    expect(node2.level).toBe(1);
+    expect(node2.type).toBe('section');
+    const headline2 = node2.children[0];
+    expect(headline2.type).toBe('headline');
+    expect(headline2.level).toBe(1);
 
     const [id3, node3] = f.mock.calls[2];
     expect(id3).toBe('id-headline-2');
-    expect(node3.type).toBe('headline');
-    expect(node3.level).toBe(2);
+    expect(node3.type).toBe('section');
+    const headline3 = node3.children[0];
+    expect(headline3.type).toBe('headline');
+    expect(headline3.level).toBe(2);
   });
 });

@@ -24,9 +24,8 @@ export interface Object extends Node {}
 
 export type GreaterElementType =
   | OrgData
-  | Headline
-  | PropertyDrawer
   | Section
+  | PropertyDrawer
   | Drawer
   | List
   | Item
@@ -37,6 +36,7 @@ export type GreaterElementType =
   | FootnoteDefinition
   | Table;
 export type ElementType =
+  | Headline
   | Planning
   | NodeProperty
   | CommentBlock
@@ -73,19 +73,20 @@ export type OrgNode = GreaterElementType | ElementType | ObjectType;
 
 export interface OrgData extends GreaterElement {
   type: 'org-data';
-  children: Array<Section | Headline>;
 }
 
-export interface Headline extends GreaterElement {
+export interface Section extends GreaterElement {
+  type: 'section';
+}
+
+export interface Headline extends Element {
   type: 'headline';
   level: number;
   todoKeyword: string | null;
   priority: string | null;
   commented: boolean;
   rawValue: string;
-  title: ObjectType[];
   tags: string[];
-  children: Array<Section | Headline>;
 }
 
 export interface Planning extends Node {
@@ -102,16 +103,13 @@ export interface Drawer extends GreaterElement, WithAffiliatedKeywords {
 
 export interface PropertyDrawer extends GreaterElement {
   type: 'property-drawer';
+  children: NodeProperty[];
 }
 
 export interface NodeProperty extends Node {
   type: 'node-property';
   key: string;
   value: string;
-}
-
-export interface Section extends GreaterElement {
-  type: 'section';
 }
 
 export interface HorizontalRule extends Node, WithAffiliatedKeywords {
@@ -244,6 +242,7 @@ export interface TableOrg extends GreaterElement {
   /** Formulas associated to the table, if any. */
   tblfm: string | null;
   tableType: 'org';
+  children: TableRow[];
 }
 export interface TableTableEl extends Node {
   type: 'table';
@@ -257,6 +256,7 @@ export interface TableTableEl extends Node {
 export interface TableRow extends Element {
   type: 'table-row';
   rowType: 'standard' | 'rule';
+  children: TableCell[];
 }
 
 export interface TableCell extends RecursiveObject {

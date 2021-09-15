@@ -4,7 +4,7 @@ import { Node } from 'unist';
 import { VFile } from 'vfile';
 import GithubSlugger from 'github-slugger';
 
-import { Headline } from 'uniorg';
+import { Headline, Section } from 'uniorg';
 import { toString } from 'orgast-util-to-string';
 
 export interface Options {}
@@ -15,21 +15,21 @@ export const uniorgSlug: Plugin<[Options?]> = (options: Options = {}) => {
   function transformer(tree: Node, _file: VFile) {
     const slugger = new GithubSlugger();
 
-    visit(tree, 'headline', (node: Headline) => {
-      const data: any = (node.data = node.data || {});
+    visit(tree, 'section', (section: Section) => {
+      const headline = section.children[0] as Headline;
+      const data: any = (headline.data = headline.data || {});
       const props = (data.hProperties = data.hProperties || {});
 
       if (!props.id) {
-        const id = customId(node) ?? slugger.slug(toString(node.title));
+        const id = customId(section) ?? slugger.slug(toString(headline));
         props.id = id;
       }
     });
   }
 };
 
-function customId(headline: Headline): string | null {
-  const section = headline.children[0];
-  const drawer: any = section?.children?.find(
+function customId(section: Section): string | null {
+  const drawer: any = section.children.find(
     (node: any) => node.type === 'property-drawer'
   );
   const property = drawer?.children?.find(
