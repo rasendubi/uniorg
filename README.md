@@ -119,6 +119,19 @@ console.log('uniorg is cool!');
 `).then((file) => console.log(file.contents));
 ```
 
+# A note about ESM
+
+unified ecosystem has just migrated to pure ESM packages. However, the ESM support across JS ecosystem is still immature.
+
+- [Next.js 11.1 has just landed ESM support as an experimental feature](https://nextjs.org/blog/next-11-1#es-modules-support)
+- [Gatsby still does not support ESM](https://github.com/gatsbyjs/gatsby/discussions/31599)
+
+Of course, there are workarounds but I believe that moving to pure ESM packages is more pain to the users at this point. That’s why uniorg is still using commonjs packages. However, **this makes uniorg incompatible with the latest versions of unified packages.**
+
+**If you install packages from unified ecosystem (e.g., unified, vfile, to-vfile), you should pin them to the previous major version as follows:**
+```sh
+npm install unified@9 vfile@4 to-vfile@6
+```
 
 # License
 
