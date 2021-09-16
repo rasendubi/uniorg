@@ -20,6 +20,8 @@ uniorg strives for parsing accuracy rather than speed or ease of writing the par
 
 uniorg follows [Org Syntax][org-syntax] and [Org Element API][org-element-api]. It draws heavily from [org-element.el][org-element], which means uniorg sees org files the same way as org-mode does. The code is full of regexes but that's exactly how org-mode parses files.
 
+Though, there are a couple of [intentional deviations from org-mode](./docs/deviations-from-org-mode.org) that make Uniorg more pleasant or easier to work with.
+
 [org-syntax]: https://orgmode.org/worg/dev/org-syntax.html
 [org-element-api]: https://orgmode.org/worg/dev/org-element-api.html
 [org-element]: http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/org/org-element.el

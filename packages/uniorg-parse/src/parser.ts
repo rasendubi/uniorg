@@ -169,6 +169,8 @@ class Parser {
         );
         this.r.widen();
 
+        // Delete structure from lists. It’s only here to facilitate parsing and should not be exposed to the
+        // user.
         if (elementStructure) {
           delete element.structure;
         }

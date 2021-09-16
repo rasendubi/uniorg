@@ -1,0 +1,61 @@
+* Deviations from org-mode
+
+Uniorg tries to follow [[https://orgmode.org/worg/dev/org-syntax.html][Org Syntax]] and [[https://orgmode.org/worg/dev/org-element-api.html][Org Element API]] as closely as possible. However, there are a couple of intentional deviations that make Uniorg more pleasant or easier to work with.
+
+** Parsing behavior
+*** More permissive emphasis parsing
+Org-mode is quite strict with what is allowed before/after emphasis markers (bold =*=, italic =/=, etc.). For example, the following does not produce a bold in org-mode:
+#+begin_src org
+Not bold—*“word”*
+#+end_src
+
+But the following does:
+#+begin_src org
+Not bold---*"word"*
+#+end_src
+
+Uniorg produces bold in both cases.
+
+To be precise, Uniorg allows the following characters preceding or following emphasis markers: en dash, em dash, quotes.
+: ––“”’
+
+You can tweak ~emphasisRegexpComponent~ parsing option to allow even more characters or restore org-mode defaults.
+
+** AST Structure
+This section is here for completeness, for other Uniorg developers, and those who want to compare Uniorg implementation with [[http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/org/org-element.el][org-element.el]].
+
+If you don't know Org Element API (and you don't have to), this section will provide little valuable information.
+
+*** Section/headline reversal
+In org-element, Headline is a greater element—it contains both data from headline (todo keyword, priority, title, tags) in different fields as well as content of the body (wrapped in Section or as other Headlines) as children.
+
+This structure is inconvenient to use with Unified as unified expects all of children to be inside the =children= field. With this structure, =title= is not technically a children, so different traversing utilities miss it.
+
+Therefore, Uniorg reverses the roles of Headline and Section.
+- Headline represents a heading line only. It has todo keyword, priority, tags, etc. and title is now =children=.
+- Section contains both Headline (always as the first child), Planning (as a possible second child), PropertiesDrawer (as a possible third child), and the rest of content unwrapped.
+- If there is some content before the first headline, it is placed inside OrgData directly (without a Section wrapper).
+
+*** Item is renamed to ListItem
+=Item= is renamed to =ListItem=. “Item” is a too generic of a name, given that they never occur outside of lists.
+
+I believe that =ListItem= is a better name and will help both users and developers to grasp its meaning faster.
+
+*** List structure is not exposed
+org-element exposes a list structure in the list and all its items.
+
+The following list:
+#+begin_src org
+- hello
+  - there
+#+end_src
+…produces the following result:
+#+begin_src lisp
+(plain-list
+ (:type unordered
+  :structure ((1 0 "- " nil nil nil 19)
+              (9 2 "- " nil nil nil 19))
+  …
+#+end_src
+
+This structure is mostly used to facilitate the parsing process, so Uniorg does not expose it.
