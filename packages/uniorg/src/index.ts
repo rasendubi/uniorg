@@ -184,24 +184,17 @@ export interface List extends GreaterElement {
   listType: 'ordered' | 'unordered' | 'descriptive';
   indent: number;
   children: Item[];
-  structure: ListStructureItem[];
 }
 
-export type ListStructureItem = {
-  begin: number;
-  end: number;
-  indent: number;
-  bullet: string;
-  counter: string | null;
-  checkbox: string | null;
-  tag: ObjectType[] | null;
-};
-
+// TODO: rename to ListItem
 export interface Item extends GreaterElement {
   type: 'item';
   indent: number;
+  bullet: string;
+  counter: string | null;
+  checkbox: 'on' | 'off' | 'trans' | null;
+  // TODO: move to children?
   tag: ObjectType[] | null;
-  // TODO: add checkbox?
 }
 
 export interface SrcBlock extends Node, WithAffiliatedKeywords {

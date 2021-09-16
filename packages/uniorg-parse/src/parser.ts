@@ -11,7 +11,6 @@ import {
   ObjectType,
   Link,
   GreaterElementType,
-  ListStructureItem,
   SpecialBlock,
   Keyword,
   SrcBlock,
@@ -102,6 +101,16 @@ export function parse(file: VFile | string, options?: Partial<ParseOptions>) {
   return new Parser(vfile(file), options).parse();
 }
 
+type ListStructureItem = {
+  begin: number;
+  end: number;
+  indent: number;
+  bullet: string;
+  counter: string | null;
+  checkbox: string | null;
+  tag: ObjectType[] | null;
+};
+
 class Parser {
   private readonly r: Reader;
   private readonly options: ParseOptions;
@@ -149,12 +158,20 @@ class Parser {
       if (cbeg === undefined || cend === undefined) {
         // do nothing
       } else if (greaterElements.has(type)) {
+        const elementStructure = element.structure as
+          | ListStructureItem[]
+          | undefined;
+
         this.r.narrow(cbeg, cend);
         element.children = this.parseElements(
           Parser.nextMode(mode, type, true),
-          structure ?? (element?.structure as ListStructureItem[] | undefined)
+          structure ?? elementStructure
         );
         this.r.widen();
+
+        if (elementStructure) {
+          delete element.structure;
+        }
       } else {
         this.r.narrow(cbeg, cend);
         element.children = this.parseObjects(restrictionFor(element.type));
@@ -1202,7 +1219,16 @@ class Parser {
 
     return u(
       'plain-list',
-      { affiliated, indent, listType, contentsBegin, contentsEnd, structure },
+      {
+        affiliated,
+        indent,
+        listType,
+        contentsBegin,
+        contentsEnd,
+        // Exposing structure here is temporary as it gets removed in parseElements(). It is only exposed so
+        // that parseElements() can pick it up and use it for parsing list items.
+        structure,
+      },
       []
     );
   }
@@ -1211,13 +1237,14 @@ class Parser {
     const offset = this.r.offset();
     const m = this.r.advance(this.r.forceMatch(this.re.fullItemRe()));
     const bullet = m.groups!.bullet;
+    const counter = m.groups!.counter ?? null;
     const checkbox =
       m.groups!.checkbox === '[ ]'
-        ? 'off'
+        ? ('off' as const)
         : m.groups!.checkbox?.toLowerCase() === '[x]'
-        ? 'on'
+        ? ('on' as const)
         : m.groups!.checkbox === '[-]'
-        ? 'trans'
+        ? ('trans' as const)
         : null;
     const item = structure.find((x) => x.begin === offset)!;
     const contentsBegin = this.r.offset();
@@ -1228,6 +1255,7 @@ class Parser {
       {
         indent: item.indent,
         bullet,
+        counter,
         checkbox,
         tag: item.tag,
         contentsBegin,

@@ -350,18 +350,11 @@ children:
     listType: "unordered"
     contentsBegin: 1
     contentsEnd: 44
-    structure:
-      - begin: 1
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 44
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 3
@@ -489,18 +482,11 @@ children:
     listType: "unordered"
     contentsBegin: 1
     contentsEnd: 30
-    structure:
-      - begin: 1
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 30
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 3
@@ -695,18 +681,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 13
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 13
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 2
@@ -1892,18 +1871,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 14
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: "[ ]"
-        tag: null
-        end: 14
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: "off"
         tag: null
         contentsBegin: 6
@@ -1929,18 +1901,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 15
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: "[-]"
-        tag: null
-        end: 15
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: "trans"
         tag: null
         contentsBegin: 6
@@ -1966,18 +1931,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 10
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: "[X]"
-        tag: null
-        end: 10
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: "on"
         tag: null
         contentsBegin: 6
@@ -2003,18 +1961,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 10
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: "[x]"
-        tag: null
-        end: 10
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: "on"
         tag: null
         contentsBegin: 6
@@ -2040,23 +1991,15 @@ children:
     listType: "descriptive"
     contentsBegin: 0
     contentsEnd: 24
-    structure:
-      - begin: 0
+    children:
+      - type: "item"
         indent: 0
         bullet: "- "
         counter: null
         checkbox: null
         tag:
-          &a1
           - type: "text"
             value: "term"
-        end: 24
-    children:
-      - type: "item"
-        indent: 0
-        bullet: "- "
-        checkbox: null
-        tag: *a1
         contentsBegin: 13
         contentsEnd: 24
         children:
@@ -2080,33 +2023,15 @@ children:
     listType: "descriptive"
     contentsBegin: 0
     contentsEnd: 50
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag:
-          &a1
-          - type: "text"
-            value: "term1"
-        end: 25
-      - begin: 25
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag:
-          &a2
-          - type: "text"
-            value: "term 2"
-        end: 50
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
-        tag: *a1
+        tag:
+          - type: "text"
+            value: "term1"
         contentsBegin: 11
         contentsEnd: 25
         children:
@@ -2120,8 +2045,11 @@ children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
-        tag: *a2
+        tag:
+          - type: "text"
+            value: "term 2"
         contentsBegin: 37
         contentsEnd: 50
         children:
@@ -2145,25 +2073,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 18
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 10
-      - begin: 10
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 18
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 2
@@ -2179,6 +2093,7 @@ children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 12
@@ -2204,18 +2119,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 9
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 9
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 2
@@ -2241,14 +2149,13 @@ children:
     listType: "descriptive"
     contentsBegin: 1
     contentsEnd: 389
-    structure:
-      - begin: 1
+    children:
+      - type: "item"
         indent: 0
         bullet: "- "
         counter: null
         checkbox: null
         tag:
-          &a1
           - type: "link"
             format: "bracket"
             linkType: "https"
@@ -2259,91 +2166,6 @@ children:
             children:
               - type: "text"
                 value: "Example"
-        end: 52
-      - begin: 52
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag:
-          &a2
-          - type: "link"
-            format: "bracket"
-            linkType: "https"
-            rawLink: "https://github.com"
-            path: "//github.com"
-            contentsBegin: 76
-            contentsEnd: 82
-            children:
-              - type: "text"
-                value: "GitHub"
-        end: 128
-      - begin: 128
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag:
-          &a3
-          - type: "bold"
-            contentsBegin: 131
-            contentsEnd: 137
-            children:
-              - type: "text"
-                value: "Gitlab"
-        end: 164
-      - begin: 164
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag:
-          &a4
-          - type: "italic"
-            contentsBegin: 167
-            contentsEnd: 176
-            children:
-              - type: "text"
-                value: "Sourcehut"
-        end: 254
-      - begin: 254
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag:
-          &a5
-          - type: "italic"
-            contentsBegin: 257
-            contentsEnd: 265
-            children:
-              - type: "text"
-                value: "Codeberg"
-        end: 292
-      - begin: 292
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag:
-          &a6
-          - type: "italic"
-            contentsBegin: 295
-            contentsEnd: 320
-            children:
-              - type: "bold"
-                contentsBegin: 296
-                contentsEnd: 319
-                children:
-                  - type: "text"
-                    value: "self-hosting Git server"
-        end: 389
-    children:
-      - type: "item"
-        indent: 0
-        bullet: "- "
-        checkbox: null
-        tag: *a1
         contentsBegin: 39
         contentsEnd: 52
         children:
@@ -2357,8 +2179,19 @@ children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
-        tag: *a2
+        tag:
+          - type: "link"
+            format: "bracket"
+            linkType: "https"
+            rawLink: "https://github.com"
+            path: "//github.com"
+            contentsBegin: 76
+            contentsEnd: 82
+            children:
+              - type: "text"
+                value: "GitHub"
         contentsBegin: 88
         contentsEnd: 128
         children:
@@ -2372,8 +2205,15 @@ children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
-        tag: *a3
+        tag:
+          - type: "bold"
+            contentsBegin: 131
+            contentsEnd: 137
+            children:
+              - type: "text"
+                value: "Gitlab"
         contentsBegin: 142
         contentsEnd: 164
         children:
@@ -2387,8 +2227,15 @@ children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
-        tag: *a4
+        tag:
+          - type: "italic"
+            contentsBegin: 167
+            contentsEnd: 176
+            children:
+              - type: "text"
+                value: "Sourcehut"
         contentsBegin: 181
         contentsEnd: 254
         children:
@@ -2403,8 +2250,15 @@ children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
-        tag: *a5
+        tag:
+          - type: "italic"
+            contentsBegin: 257
+            contentsEnd: 265
+            children:
+              - type: "text"
+                value: "Codeberg"
         contentsBegin: 270
         contentsEnd: 292
         children:
@@ -2422,8 +2276,19 @@ children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
-        tag: *a6
+        tag:
+          - type: "italic"
+            contentsBegin: 295
+            contentsEnd: 320
+            children:
+              - type: "bold"
+                contentsBegin: 296
+                contentsEnd: 319
+                children:
+                  - type: "text"
+                    value: "self-hosting Git server"
         contentsBegin: 325
         contentsEnd: 389
         children:
@@ -2462,18 +2327,11 @@ children:
     listType: "unordered"
     contentsBegin: 6
     contentsEnd: 12
-    structure:
-      - begin: 6
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 12
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 8
@@ -2499,33 +2357,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 27
-    structure:
-      &a1
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 27
-      - begin: 8
-        indent: 2
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 19
-      - begin: 19
-        indent: 2
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 27
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 2
@@ -2544,11 +2380,11 @@ children:
             listType: "unordered"
             contentsBegin: 8
             contentsEnd: 27
-            structure: *a1
             children:
               - type: "item"
                 indent: 2
                 bullet: "- "
+                counter: null
                 checkbox: null
                 tag: null
                 contentsBegin: 12
@@ -2564,6 +2400,7 @@ children:
               - type: "item"
                 indent: 2
                 bullet: "- "
+                counter: null
                 checkbox: null
                 tag: null
                 contentsBegin: 23
@@ -2589,25 +2426,11 @@ children:
     listType: "ordered"
     contentsBegin: 0
     contentsEnd: 13
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "1. "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 7
-      - begin: 7
-        indent: 0
-        bullet: "2. "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 13
     children:
       - type: "item"
         indent: 0
         bullet: "1. "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 3
@@ -2623,6 +2446,7 @@ children:
       - type: "item"
         indent: 0
         bullet: "2. "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 10
@@ -2648,18 +2472,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 4
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 4
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 2
@@ -2685,18 +2502,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 10
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 10
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 2
@@ -2715,18 +2525,11 @@ children:
     listType: "unordered"
     contentsBegin: 10
     contentsEnd: 18
-    structure:
-      - begin: 10
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 18
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 12
@@ -2752,25 +2555,11 @@ children:
     listType: "unordered"
     contentsBegin: 0
     contentsEnd: 12
-    structure:
-      - begin: 0
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 5
-      - begin: 5
-        indent: 0
-        bullet: "- "
-        counter: null
-        checkbox: null
-        tag: null
-        end: 12
     children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 2
@@ -2786,6 +2575,7 @@ children:
       - type: "item"
         indent: 0
         bullet: "- "
+        counter: null
         checkbox: null
         tag: null
         contentsBegin: 7
