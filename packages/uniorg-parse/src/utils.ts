@@ -59,7 +59,7 @@ export class OrgRegexUtils {
     );
   }
 
-  public itemRe(): RegExp {
+  public listItemRe(): RegExp {
     return new RegExp(
       `^(?<indent> *)(\\*|-|\\+|\\d+\\.|\\d+\\)|\\w\\.|\\w\\))( |\\n)`
     );
@@ -71,7 +71,7 @@ export class OrgRegexUtils {
   /// - counter
   /// - checkbox
   /// - tag (description tag)
-  public fullItemRe(): RegExp {
+  public fullListItemRe(): RegExp {
     return /^(?<indent>[ \t]*)(?<bullet>(?:[-+*]|(?:[0-9]+|[A-Za-z])[.)])(?:[ \t]+|$))(?<counter_group>\[@(?:start:)?(?<counter>[0-9]+|[A-Za-z])\][ \t]*)?(?<checkbox_group>(?<checkbox>\[[ X-]\])(?:[ \t]+|$))?(?:(?<tag>.*?)[ \t]+::(?:[ \t]+|$))?/im;
   }
 
@@ -253,7 +253,7 @@ export function restrictionFor(type: string) {
 
     inlinetask: standardSetNoLineBreak,
     italic: standardSet,
-    item: standardSetNoLineBreak,
+    'list-item': standardSetNoLineBreak,
     keyword: keywordSet,
     // Ignore all links in a link description.  Also ignore
     // radio-targets and line breaks.
@@ -299,7 +299,7 @@ export const greaterElements = new Set([
   'dynamic-block',
   'footnote-definition',
   'inlinetask',
-  'item',
+  'list-item',
   'plain-list',
   'property-drawer',
   'quote-block',

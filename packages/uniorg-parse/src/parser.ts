@@ -69,7 +69,7 @@ import { Reader } from './reader';
 /**
  * `ParseMode` determines what Elements are expected/allowed in the given context.
  *
- * By default, all Elements except `Headline`, `Planning`, `PropertyDrawer`, `Item`, `TableRow`, and
+ * By default, all Elements except `Headline`, `Planning`, `PropertyDrawer`, `ListItem`, `TableRow`, and
  * `NodeProperty` are supported.
  *
  * If the documentation of the mode say “allows”—the specified elements are supported in additional to default
@@ -89,8 +89,8 @@ enum ParseMode {
   PropertyDrawer,
   /** Inside a property-drawer. Expecting node-property only. */
   NodeProperty,
-  /** Inside a list. Expecting item only. */
-  Item,
+  /** Inside a list. Expecting list-item only. */
+  ListItem,
   /** Inside a table. Expecting table-row only. */
   TableRow,
   /** Default parsing mode. */
@@ -194,7 +194,7 @@ class Parser {
     if (parent) {
       if (type === 'section') return ParseMode.Headline;
       if (type === 'inlinetask') return ParseMode.Headline;
-      if (type === 'plain-list') return ParseMode.Item;
+      if (type === 'plain-list') return ParseMode.ListItem;
       if (type === 'property-drawer') return ParseMode.NodeProperty;
       if (type === 'table') return ParseMode.TableRow;
     } else {
@@ -203,7 +203,7 @@ class Parser {
       if (mode === ParseMode.Headline) return ParseMode.Planning;
       if (mode === ParseMode.Planning && type === 'planning')
         return ParseMode.PropertyDrawer;
-      if (mode === ParseMode.Item) return ParseMode.Item;
+      if (mode === ParseMode.ListItem) return ParseMode.ListItem;
       if (mode === ParseMode.TableRow) return ParseMode.TableRow;
       if (mode === ParseMode.NodeProperty) return ParseMode.NodeProperty;
     }
@@ -214,8 +214,8 @@ class Parser {
     mode: ParseMode,
     structure?: ListStructureItem[]
   ): GreaterElementType | ElementType {
-    // Item.
-    if (mode === ParseMode.Item) return this.parseItem(structure!);
+    // List Item.
+    if (mode === ParseMode.ListItem) return this.parseListItem(structure!);
 
     // Table Row.
     if (mode === ParseMode.TableRow) return this.parseTableRow();
@@ -369,7 +369,7 @@ class Parser {
     }
 
     // List.
-    if (this.r.lookingAt(this.re.itemRe())) {
+    if (this.r.lookingAt(this.re.listItemRe())) {
       if (structure === undefined) {
         const offset = this.r.offset();
         structure = this.parseListStructure();
@@ -1233,9 +1233,9 @@ class Parser {
     );
   }
 
-  private parseItem(structure: ListStructureItem[]) {
+  private parseListItem(structure: ListStructureItem[]) {
     const offset = this.r.offset();
-    const m = this.r.advance(this.r.forceMatch(this.re.fullItemRe()));
+    const m = this.r.advance(this.r.forceMatch(this.re.fullListItemRe()));
     const bullet = m.groups!.bullet;
     const counter = m.groups!.counter ?? null;
     const checkbox =
@@ -1251,7 +1251,7 @@ class Parser {
     const contentsEnd = item.end;
     this.r.resetOffset(contentsEnd);
     return u(
-      'item',
+      'list-item',
       {
         indent: item.indent,
         bullet,
@@ -1273,7 +1273,7 @@ class Parser {
         break;
       }
 
-      const m = this.r.match(this.re.itemRe());
+      const m = this.r.match(this.re.listItemRe());
       if (m) {
         const indent = m.groups!.indent.length;
         // end previous siblings
@@ -1283,7 +1283,7 @@ class Parser {
           struct.push(item);
         }
 
-        const fullM = this.r.forceMatch(this.re.fullItemRe());
+        const fullM = this.r.forceMatch(this.re.fullListItemRe());
         const { bullet, counter, checkbox } = fullM.groups as Record<
           string,
           string
@@ -1302,7 +1302,7 @@ class Parser {
           const tagStopOffset = tagStartOffset + fullM.groups!.tag.length;
 
           this.r.narrow(tagStartOffset, tagStopOffset);
-          tag = this.parseObjects(restrictionFor('item'));
+          tag = this.parseObjects(restrictionFor('list-item'));
           this.r.widen();
         }
 

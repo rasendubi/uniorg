@@ -166,7 +166,7 @@ export function orgToHast(
         } else {
           return h(org, 'dl', {}, toHast(org.children));
         }
-      case 'item':
+      case 'list-item':
         if (org.tag !== null) {
           return [
             h(org, 'dt', {}, toHast(org.tag)),

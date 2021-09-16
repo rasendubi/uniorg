@@ -28,7 +28,7 @@ export type GreaterElementType =
   | PropertyDrawer
   | Drawer
   | List
-  | Item
+  | ListItem
   | QuoteBlock
   | VerseBlock
   | CenterBlock
@@ -183,12 +183,11 @@ export interface List extends GreaterElement {
   type: 'plain-list';
   listType: 'ordered' | 'unordered' | 'descriptive';
   indent: number;
-  children: Item[];
+  children: ListItem[];
 }
 
-// TODO: rename to ListItem
-export interface Item extends GreaterElement {
-  type: 'item';
+export interface ListItem extends GreaterElement {
+  type: 'list-item';
   indent: number;
   bullet: string;
   counter: string | null;

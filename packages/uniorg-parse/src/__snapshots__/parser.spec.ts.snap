@@ -351,7 +351,7 @@ children:
     contentsBegin: 1
     contentsEnd: 44
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -483,7 +483,7 @@ children:
     contentsBegin: 1
     contentsEnd: 30
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -682,7 +682,7 @@ children:
     contentsBegin: 0
     contentsEnd: 13
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -1872,7 +1872,7 @@ children:
     contentsBegin: 0
     contentsEnd: 14
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -1902,7 +1902,7 @@ children:
     contentsBegin: 0
     contentsEnd: 15
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -1932,7 +1932,7 @@ children:
     contentsBegin: 0
     contentsEnd: 10
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -1962,7 +1962,7 @@ children:
     contentsBegin: 0
     contentsEnd: 10
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -1992,7 +1992,7 @@ children:
     contentsBegin: 0
     contentsEnd: 24
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2024,7 +2024,7 @@ children:
     contentsBegin: 0
     contentsEnd: 50
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2042,7 +2042,7 @@ children:
             children:
               - type: "text"
                 value: "description 1\\n"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2074,7 +2074,7 @@ children:
     contentsBegin: 0
     contentsEnd: 18
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2090,7 +2090,7 @@ children:
             children:
               - type: "text"
                 value: "item 1\\n"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2120,7 +2120,7 @@ children:
     contentsBegin: 0
     contentsEnd: 9
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2150,7 +2150,7 @@ children:
     contentsBegin: 1
     contentsEnd: 389
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2176,7 +2176,7 @@ children:
             children:
               - type: "text"
                 value: "Hello there!\\n"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2202,7 +2202,7 @@ children:
             children:
               - type: "text"
                 value: "This is GitHub, your hub for Git repos.\\n"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2224,7 +2224,7 @@ children:
             children:
               - type: "text"
                 value: "Alternative to GitHub\\n"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2247,7 +2247,7 @@ children:
               - type: "text"
                 value: "Another alternative to GitHub that primarily uses email-based
                   workflows.\\n"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2273,7 +2273,7 @@ children:
                 children:
                   - type: "text"
                     value: "ANOTHER ALTERNATIVE"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2328,7 +2328,7 @@ children:
     contentsBegin: 6
     contentsEnd: 12
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2358,7 +2358,7 @@ children:
     contentsBegin: 0
     contentsEnd: 27
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2381,7 +2381,7 @@ children:
             contentsBegin: 8
             contentsEnd: 27
             children:
-              - type: "item"
+              - type: "list-item"
                 indent: 2
                 bullet: "- "
                 counter: null
@@ -2397,7 +2397,7 @@ children:
                     children:
                       - type: "text"
                         value: "nested\\n"
-              - type: "item"
+              - type: "list-item"
                 indent: 2
                 bullet: "- "
                 counter: null
@@ -2427,7 +2427,7 @@ children:
     contentsBegin: 0
     contentsEnd: 13
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "1. "
         counter: null
@@ -2443,7 +2443,7 @@ children:
             children:
               - type: "text"
                 value: "one\\n"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "2. "
         counter: null
@@ -2473,7 +2473,7 @@ children:
     contentsBegin: 0
     contentsEnd: 4
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2503,7 +2503,7 @@ children:
     contentsBegin: 0
     contentsEnd: 10
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2526,7 +2526,7 @@ children:
     contentsBegin: 10
     contentsEnd: 18
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2556,7 +2556,7 @@ children:
     contentsBegin: 0
     contentsEnd: 12
     children:
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
@@ -2572,7 +2572,7 @@ children:
             children:
               - type: "text"
                 value: "hi\\n"
-      - type: "item"
+      - type: "list-item"
         indent: 0
         bullet: "- "
         counter: null
