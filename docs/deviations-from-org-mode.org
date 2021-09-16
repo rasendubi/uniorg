@@ -17,7 +17,7 @@ Not bold---*"word"*
 Uniorg produces bold in both cases.
 
 To be precise, Uniorg allows the following characters preceding or following emphasis markers: en dash, em dash, quotes.
-: ––“”’
+: –—“”’
 
 You can tweak ~emphasisRegexpComponent~ parsing option to allow even more characters or restore org-mode defaults.
 
