@@ -167,10 +167,10 @@ export function orgToHast(
           return h(org, 'dl', {}, toHast(org.children));
         }
       case 'list-item':
-        if (org.tag !== null) {
+        if (org.children[0]?.type === 'list-item-tag') {
           return [
-            h(org, 'dt', {}, toHast(org.tag)),
-            h(org, 'dd', {}, toHast(org.children)),
+            h(org, 'dt', {}, toHast(org.children[0].children)),
+            h(org, 'dd', {}, toHast(org.children.slice(1))),
           ];
         } else {
           return h(org, 'li', {}, toHast(org.children));

@@ -36,6 +36,13 @@ Therefore, Uniorg reverses the roles of Headline and Section.
 - Section contains both Headline (always as the first child), Planning (as a possible second child), PropertiesDrawer (as a possible third child), and the rest of content unwrapped.
 - If there is some content before the first headline, it is placed inside OrgData directly (without a Section wrapper).
 
+*** ListItemTag is nested inside =ListItem.children= instead of =tag= field
+In org-element, item tag is stored in a =:tag= field; Uniorg stores it as a first child instead.
+
+Having a separate =tag= field brings the same drawback as =title= field in a headline—this field is not considered a children by unified utilities and thus is skipped during traversal.
+
+Moving it to children makes traversal work as expected.
+
 *** Item is renamed to ListItem
 =Item= is renamed to =ListItem=. “Item” is a too generic of a name, given that they never occur outside of lists.
 

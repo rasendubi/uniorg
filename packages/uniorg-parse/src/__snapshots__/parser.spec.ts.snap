@@ -356,7 +356,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 3
         contentsEnd: 44
         children:
@@ -488,7 +487,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 3
         contentsEnd: 30
         children:
@@ -687,7 +685,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 2
         contentsEnd: 13
         children:
@@ -1877,7 +1874,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: "off"
-        tag: null
         contentsBegin: 6
         contentsEnd: 14
         children:
@@ -1907,7 +1903,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: "trans"
-        tag: null
         contentsBegin: 6
         contentsEnd: 15
         children:
@@ -1937,7 +1932,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: "on"
-        tag: null
         contentsBegin: 6
         contentsEnd: 10
         children:
@@ -1967,7 +1961,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: "on"
-        tag: null
         contentsBegin: 6
         contentsEnd: 10
         children:
@@ -1997,12 +1990,13 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "text"
-            value: "term"
         contentsBegin: 13
         contentsEnd: 24
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "text"
+                value: "term"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 13
@@ -2029,12 +2023,13 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "text"
-            value: "term1"
         contentsBegin: 11
         contentsEnd: 25
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "text"
+                value: "term1"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 11
@@ -2047,12 +2042,13 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "text"
-            value: "term 2"
         contentsBegin: 37
         contentsEnd: 50
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "text"
+                value: "term 2"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 37
@@ -2079,7 +2075,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 2
         contentsEnd: 10
         children:
@@ -2095,7 +2090,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 12
         contentsEnd: 18
         children:
@@ -2125,7 +2119,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 2
         contentsEnd: 9
         children:
@@ -2155,20 +2148,21 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "link"
-            format: "bracket"
-            linkType: "https"
-            rawLink: "https://example.com"
-            path: "//example.com"
-            contentsBegin: 26
-            contentsEnd: 33
-            children:
-              - type: "text"
-                value: "Example"
         contentsBegin: 39
         contentsEnd: 52
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "link"
+                format: "bracket"
+                linkType: "https"
+                rawLink: "https://example.com"
+                path: "//example.com"
+                contentsBegin: 26
+                contentsEnd: 33
+                children:
+                  - type: "text"
+                    value: "Example"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 39
@@ -2181,20 +2175,21 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "link"
-            format: "bracket"
-            linkType: "https"
-            rawLink: "https://github.com"
-            path: "//github.com"
-            contentsBegin: 76
-            contentsEnd: 82
-            children:
-              - type: "text"
-                value: "GitHub"
         contentsBegin: 88
         contentsEnd: 128
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "link"
+                format: "bracket"
+                linkType: "https"
+                rawLink: "https://github.com"
+                path: "//github.com"
+                contentsBegin: 76
+                contentsEnd: 82
+                children:
+                  - type: "text"
+                    value: "GitHub"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 88
@@ -2207,16 +2202,17 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "bold"
-            contentsBegin: 131
-            contentsEnd: 137
-            children:
-              - type: "text"
-                value: "Gitlab"
         contentsBegin: 142
         contentsEnd: 164
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "bold"
+                contentsBegin: 131
+                contentsEnd: 137
+                children:
+                  - type: "text"
+                    value: "Gitlab"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 142
@@ -2229,16 +2225,17 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "italic"
-            contentsBegin: 167
-            contentsEnd: 176
-            children:
-              - type: "text"
-                value: "Sourcehut"
         contentsBegin: 181
         contentsEnd: 254
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "italic"
+                contentsBegin: 167
+                contentsEnd: 176
+                children:
+                  - type: "text"
+                    value: "Sourcehut"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 181
@@ -2252,16 +2249,17 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "italic"
-            contentsBegin: 257
-            contentsEnd: 265
-            children:
-              - type: "text"
-                value: "Codeberg"
         contentsBegin: 270
         contentsEnd: 292
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "italic"
+                contentsBegin: 257
+                contentsEnd: 265
+                children:
+                  - type: "text"
+                    value: "Codeberg"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 270
@@ -2278,20 +2276,21 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag:
-          - type: "italic"
-            contentsBegin: 295
-            contentsEnd: 320
-            children:
-              - type: "bold"
-                contentsBegin: 296
-                contentsEnd: 319
-                children:
-                  - type: "text"
-                    value: "self-hosting Git server"
         contentsBegin: 325
         contentsEnd: 389
         children:
+          - type: "list-item-tag"
+            children:
+              - type: "italic"
+                contentsBegin: 295
+                contentsEnd: 320
+                children:
+                  - type: "bold"
+                    contentsBegin: 296
+                    contentsEnd: 319
+                    children:
+                      - type: "text"
+                        value: "self-hosting Git server"
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 325
@@ -2333,7 +2332,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 8
         contentsEnd: 12
         children:
@@ -2363,7 +2361,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 2
         contentsEnd: 27
         children:
@@ -2386,7 +2383,6 @@ children:
                 bullet: "- "
                 counter: null
                 checkbox: null
-                tag: null
                 contentsBegin: 12
                 contentsEnd: 19
                 children:
@@ -2402,7 +2398,6 @@ children:
                 bullet: "- "
                 counter: null
                 checkbox: null
-                tag: null
                 contentsBegin: 23
                 contentsEnd: 27
                 children:
@@ -2432,7 +2427,6 @@ children:
         bullet: "1. "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 3
         contentsEnd: 7
         children:
@@ -2448,7 +2442,6 @@ children:
         bullet: "2. "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 10
         contentsEnd: 13
         children:
@@ -2478,7 +2471,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 2
         contentsEnd: 4
         children:
@@ -2508,7 +2500,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 2
         contentsEnd: 10
         children:
@@ -2531,7 +2522,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 12
         contentsEnd: 18
         children:
@@ -2561,7 +2551,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 2
         contentsEnd: 5
         children:
@@ -2577,7 +2566,6 @@ children:
         bullet: "- "
         counter: null
         checkbox: null
-        tag: null
         contentsBegin: 7
         contentsEnd: 12
         children:

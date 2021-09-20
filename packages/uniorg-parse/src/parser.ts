@@ -43,6 +43,7 @@ import {
   DiarySexp,
   Entity,
   LatexFragment,
+  ListItemTag,
 } from 'uniorg';
 
 import { getOrgEntity } from './entities';
@@ -108,7 +109,7 @@ type ListStructureItem = {
   bullet: string;
   counter: string | null;
   checkbox: string | null;
-  tag: ObjectType[] | null;
+  tag: ListItemTag | null;
 };
 
 class Parser {
@@ -163,20 +164,26 @@ class Parser {
           | undefined;
 
         this.r.narrow(cbeg, cend);
-        element.children = this.parseElements(
-          Parser.nextMode(mode, type, true),
-          structure ?? elementStructure
+        appendChildren(
+          element,
+          this.parseElements(
+            Parser.nextMode(mode, type, true),
+            structure ?? elementStructure
+          )
         );
         this.r.widen();
 
-        // Delete structure from lists. It’s only here to facilitate parsing and should not be exposed to the
-        // user.
+        // Delete structure from lists. It’s only here to facilitate
+        // parsing and should not be exposed to the user.
         if (elementStructure) {
           delete element.structure;
         }
       } else {
         this.r.narrow(cbeg, cend);
-        element.children = this.parseObjects(restrictionFor(element.type));
+        appendChildren(
+          element,
+          this.parseObjects(restrictionFor(element.type))
+        );
         this.r.widen();
       }
 
@@ -421,7 +428,7 @@ class Parser {
       const cend = o.contentsEnd as number | undefined;
       if (cbeg !== undefined && cend !== undefined) {
         this.r.narrow(cbeg, cend);
-        o.children = this.parseObjects(restrictionFor(o.type));
+        appendChildren(o, this.parseObjects(restrictionFor(o.type)));
         this.r.widen();
       }
 
@@ -443,7 +450,7 @@ class Parser {
   }
 
   private parseObject(restriction: Set<string>): [number, ObjectType] | null {
-    // table-cell only allowed inside table-row and always succeed.
+    // table-cell is only allowed inside table-row and always succeed.
     if (restriction.has('table-cell')) {
       return [this.r.offset(), this.parseTableCell()];
     }
@@ -1259,11 +1266,10 @@ class Parser {
         bullet,
         counter,
         checkbox,
-        tag: item.tag,
         contentsBegin,
         contentsEnd,
       },
-      []
+      item.tag ? [item.tag] : []
     );
   }
 
@@ -1293,7 +1299,7 @@ class Parser {
 
         // js doesn't have a way to get start offset of a selected
         // group, so we add lengths of all groups before it.
-        let tag: ObjectType[] | null = null;
+        let tag: ListItemTag | null = null;
         if (fullM.groups!.tag !== undefined) {
           const tagStartOffset =
             this.r.offset() +
@@ -1304,7 +1310,11 @@ class Parser {
           const tagStopOffset = tagStartOffset + fullM.groups!.tag.length;
 
           this.r.narrow(tagStartOffset, tagStopOffset);
-          tag = this.parseObjects(restrictionFor('list-item'));
+          tag = u(
+            'list-item-tag',
+            {},
+            this.parseObjects(restrictionFor('list-item'))
+          );
           this.r.widen();
         }
 
@@ -1870,3 +1880,10 @@ const affiliatedRe = new RegExp(
 const footnoteRe = /\[fn:(?:(?<label_inline>[-_\w]+)?(?<inline>:)|(?<label>[-_\w]+)\])/;
 const footnoteDefinitionRe = /^\[fn:([-_\w]+)\]/;
 const footnoteDefinitionSeparatorRe = /^\*|^\[fn:([-_\w]+)\]|^([ \t]*\n){2,}/m;
+
+function appendChildren<T>(node: { children?: T[] } | {}, children: T[]) {
+  if ('children' in node) {
+    const newChildren = [...(node.children ?? []), ...children];
+    node.children = newChildren;
+  }
+}

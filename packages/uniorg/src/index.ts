@@ -39,6 +39,7 @@ export type ElementType =
   | Headline
   | Planning
   | NodeProperty
+  | ListItemTag
   | CommentBlock
   | SrcBlock
   | ExampleBlock
@@ -192,8 +193,11 @@ export interface ListItem extends GreaterElement {
   bullet: string;
   counter: string | null;
   checkbox: 'on' | 'off' | 'trans' | null;
-  // TODO: move to children?
-  tag: ObjectType[] | null;
+}
+
+/** If present, must always be the first child of `ListItem`. */
+export interface ListItemTag extends Element {
+  type: 'list-item-tag';
 }
 
 export interface SrcBlock extends Node, WithAffiliatedKeywords {
