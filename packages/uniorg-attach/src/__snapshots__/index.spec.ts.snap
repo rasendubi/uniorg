@@ -1,0 +1,514 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`uniorg-attach leaves non-attachment links as is 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 51
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 51
+    children:
+      - type: "link"
+        format: "bracket"
+        linkType: "file"
+        rawLink: "file:./file.org"
+        path: "./file.org"
+        contentsBegin: 19
+        contentsEnd: 29
+        children:
+          - type: "text"
+            value: "Other file"
+      - type: "text"
+        value: " "
+      - type: "link"
+        format: "plain"
+        linkType: "https"
+        rawLink: "https://example.com"
+        path: "//example.com"
+        children: []
+`;
+
+exports[`uniorg-attach options idDir idDir as absolute directory 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 84
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 57
+    children:
+      - type: "node-property"
+        key: "ID"
+        value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 63
+    contentsEnd: 84
+    children:
+      - type: "link"
+        format: "plain"
+        linkType: "file"
+        rawLink: "file:/home/user/data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
+        path: "/home/user/data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
+        children: []
+`;
+
+exports[`uniorg-attach options idDir idDir overrides default id directory 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 84
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 57
+    children:
+      - type: "node-property"
+        key: "ID"
+        value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 63
+    contentsEnd: 84
+    children:
+      - type: "link"
+        format: "plain"
+        linkType: "file"
+        rawLink: "file:attachments/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
+        path: "attachments/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
+        children: []
+`;
+
+exports[`uniorg-attach options idToPath idTsFolderFormat is better suited for timestamp ids 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 68
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 42
+    children:
+      - type: "node-property"
+        key: "ID"
+        value: "20210922T144052.487159"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 48
+    contentsEnd: 68
+    children:
+      - type: "link"
+        format: "plain"
+        linkType: "file"
+        rawLink: "file:data/202109/22T144052.487159/file.txt"
+        path: "data/202109/22T144052.487159/file.txt"
+        children: []
+`;
+
+exports[`uniorg-attach options useInheritance DIR takes precedence even it it’s defined higher up 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 127
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 27
+    children:
+      - type: "node-property"
+        key: "DIR"
+        value: "attach"
+  - type: "section"
+    contentsBegin: 33
+    contentsEnd: 127
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "Headline"
+        tags: []
+        contentsBegin: 35
+        contentsEnd: 43
+        children:
+          - type: "text"
+            value: "Headline"
+      - type: "property-drawer"
+        contentsBegin: 57
+        contentsEnd: 101
+        children:
+          - type: "node-property"
+            key: "ID"
+            value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 107
+        contentsEnd: 127
+        children:
+          - type: "link"
+            format: "plain"
+            linkType: "file"
+            rawLink: "file:attach/text.txt"
+            path: "attach/text.txt"
+            children: []
+`;
+
+exports[`uniorg-attach options useInheritance useInheritance allows looking up DIR 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 64
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 27
+    children:
+      - type: "node-property"
+        key: "DIR"
+        value: "attach"
+  - type: "section"
+    contentsBegin: 33
+    contentsEnd: 64
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "Headline"
+        tags: []
+        contentsBegin: 35
+        contentsEnd: 43
+        children:
+          - type: "text"
+            value: "Headline"
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 44
+        contentsEnd: 64
+        children:
+          - type: "link"
+            format: "plain"
+            linkType: "file"
+            rawLink: "file:attach/text.txt"
+            path: "attach/text.txt"
+            children: []
+`;
+
+exports[`uniorg-attach options useInheritance useInheritance allows looking up ID 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 94
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 57
+    children:
+      - type: "node-property"
+        key: "ID"
+        value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+  - type: "section"
+    contentsBegin: 63
+    contentsEnd: 94
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "Headline"
+        tags: []
+        contentsBegin: 65
+        contentsEnd: 73
+        children:
+          - type: "text"
+            value: "Headline"
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 74
+        contentsEnd: 94
+        children:
+          - type: "link"
+            format: "plain"
+            linkType: "file"
+            rawLink: "file:data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/text.txt"
+            path: "data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/text.txt"
+            children: []
+`;
+
+exports[`uniorg-attach with DIR set DIR has higher precedence than ID 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 73
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 46
+    children:
+      - type: "node-property"
+        key: "ID"
+        value: "hello-id"
+      - type: "node-property"
+        key: "DIR"
+        value: "/directory"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 52
+    contentsEnd: 73
+    children:
+      - type: "link"
+        format: "plain"
+        linkType: "file"
+        rawLink: "file:/directory/attach.png"
+        path: "/directory/attach.png"
+        children: []
+`;
+
+exports[`uniorg-attach with DIR set on top level (absolute link) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 84
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 45
+    children:
+      - type: "node-property"
+        key: "DIR"
+        value: "/home/user/attachment"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 52
+    contentsEnd: 84
+    children:
+      - type: "link"
+        format: "plain"
+        linkType: "file"
+        rawLink: "file:/home/user2/hello.jpg"
+        path: "/home/user2/hello.jpg"
+        children: []
+`;
+
+exports[`uniorg-attach with DIR set on top level (absolute path) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 72
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 45
+    children:
+      - type: "node-property"
+        key: "DIR"
+        value: "/home/user/attachment"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 52
+    contentsEnd: 72
+    children:
+      - type: "link"
+        format: "plain"
+        linkType: "file"
+        rawLink: "file:/home/user/attachment/hello.jpg"
+        path: "/home/user/attachment/hello.jpg"
+        children: []
+`;
+
+exports[`uniorg-attach with DIR set on top level 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 60
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 33
+    children:
+      - type: "node-property"
+        key: "DIR"
+        value: "./attachments"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 40
+    contentsEnd: 60
+    children:
+      - type: "link"
+        format: "plain"
+        linkType: "file"
+        rawLink: "file:attachments/hello.jpg"
+        path: "attachments/hello.jpg"
+        children: []
+`;
+
+exports[`uniorg-attach with ID set on top level 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 84
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 57
+    children:
+      - type: "node-property"
+        key: "ID"
+        value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 63
+    contentsEnd: 84
+    children:
+      - type: "link"
+        format: "plain"
+        linkType: "file"
+        rawLink: "file:data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
+        path: "data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
+        children: []
+`;
+
+exports[`uniorg-attach without ID or DIR set inside headline 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 35
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 35
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "headline"
+        tags: []
+        contentsBegin: 2
+        contentsEnd: 10
+        children:
+          - type: "text"
+            value: "headline"
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 11
+        contentsEnd: 35
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "file"
+            rawLink: "file:hello.org"
+            path: "hello.org"
+            children: []
+`;
+
+exports[`uniorg-attach without ID or DIR set inside headline even if document has an id 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 65
+children:
+  - type: "property-drawer"
+    contentsBegin: 13
+    contentsEnd: 24
+    children:
+      - type: "node-property"
+        key: "ID"
+        value: "hello"
+  - type: "section"
+    contentsBegin: 30
+    contentsEnd: 65
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "headline"
+        tags: []
+        contentsBegin: 32
+        contentsEnd: 40
+        children:
+          - type: "text"
+            value: "headline"
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 41
+        contentsEnd: 65
+        children:
+          - type: "link"
+            format: "bracket"
+            linkType: "file"
+            rawLink: "file:hello.org"
+            path: "hello.org"
+            children: []
+`;
+
+exports[`uniorg-attach without ID or DIR set inside headline even if parent headline has an id 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 84
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 84
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "headline"
+        tags: []
+        contentsBegin: 2
+        contentsEnd: 10
+        children:
+          - type: "text"
+            value: "headline"
+      - type: "property-drawer"
+        contentsBegin: 24
+        contentsEnd: 35
+        children:
+          - type: "node-property"
+            key: "ID"
+            value: "hello"
+      - type: "section"
+        contentsBegin: 41
+        contentsEnd: 84
+        children:
+          - type: "headline"
+            level: 2
+            todoKeyword: null
+            priority: null
+            commented: false
+            rawValue: "nested headline"
+            tags: []
+            contentsBegin: 44
+            contentsEnd: 59
+            children:
+              - type: "text"
+                value: "nested headline"
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 60
+            contentsEnd: 84
+            children:
+              - type: "link"
+                format: "bracket"
+                linkType: "file"
+                rawLink: "file:hello.org"
+                path: "hello.org"
+                children: []
+`;
+
+exports[`uniorg-attach without ID or DIR set top-level 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 24
+    children:
+      - type: "link"
+        format: "bracket"
+        linkType: "file"
+        rawLink: "file:hello.org"
+        path: "hello.org"
+        children: []
+`;
