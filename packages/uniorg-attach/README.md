@@ -32,7 +32,7 @@ import html from 'rehype-stringify';
 
 unified()
   .use(uniorgParse)
-  .use(extractKeywords)
+  .use(uniorgAttach)
   .use(uniorg2rehype)
   .use(html)
   .process(toVFile.readSync('./example.org'), function (err, file) {
