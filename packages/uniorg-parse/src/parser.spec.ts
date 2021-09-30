@@ -114,6 +114,12 @@ hi`
       `* hello
 this is section`
     );
+
+    itParses(
+      'first top-level headline after list',
+      `- list
+* headline`
+    );
   });
 
   itParses(

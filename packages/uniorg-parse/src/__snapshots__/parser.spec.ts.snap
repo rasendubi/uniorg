@@ -3113,6 +3113,51 @@ children:
         value: "hi"
 `;
 
+exports[`org/parser section first top-level headline after list 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 17
+children:
+  - type: "plain-list"
+    affiliated: {}
+    indent: 0
+    listType: "unordered"
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "list-item"
+        indent: 0
+        bullet: "- "
+        counter: null
+        checkbox: null
+        contentsBegin: 2
+        contentsEnd: 7
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 2
+            contentsEnd: 7
+            children:
+              - type: "text"
+                value: "list\\n"
+  - type: "section"
+    contentsBegin: 7
+    contentsEnd: 17
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "headline"
+        tags: []
+        contentsBegin: 9
+        contentsEnd: 17
+        children:
+          - type: "text"
+            value: "headline"
+`;
+
 exports[`org/parser section initial section 1`] = `
 type: "org-data"
 contentsBegin: 0

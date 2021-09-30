@@ -1297,6 +1297,11 @@ class Parser {
           string
         >;
 
+        if (indent === 0 && bullet.startsWith('*')) {
+          // *-bullets cannot start at 0 indent—this is headline, not a bullet
+          break;
+        }
+
         // js doesn't have a way to get start offset of a selected
         // group, so we add lengths of all groups before it.
         let tag: ListItemTag | null = null;
@@ -1332,7 +1337,7 @@ class Parser {
 
         this.r.advance(this.r.line());
       } else if (this.r.match(/^[ \t]*\n/)) {
-        // skip empty lines
+        // skip blank lines
         this.r.advance(this.r.line());
       } else {
         // At some text line. Check if it ends any previous item.
