@@ -330,6 +330,34 @@ I have no :END:`
     itParses('checkbox item [-]', `- [-] half-done`);
     itParses('checkbox item [x]', `- [x] done`);
     itParses('checkbox item [X]', `- [X] done`);
+
+    // two empty lines finish lists but not if inside a block
+    itParses(
+      'long blocks in lists',
+      `
+- list
+  #+begin_src c
+  x
+
+
+  y
+  #+end_src
+`
+    );
+
+    // two empty lines finish lists but not if inside a drawer
+    itParses.only(
+      'long drawer in list',
+      `
+- list
+  :DRAWER:
+  x
+
+
+  y
+  :END:
+`
+    );
   });
 
   describe('links', () => {

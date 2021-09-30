@@ -2344,6 +2344,88 @@ children:
                 value: "list"
 `;
 
+exports[`org/parser list long blocks in lists 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 46
+children:
+  - type: "plain-list"
+    affiliated: {}
+    indent: 0
+    listType: "unordered"
+    contentsBegin: 1
+    contentsEnd: 46
+    children:
+      - type: "list-item"
+        indent: 0
+        bullet: "- "
+        counter: null
+        checkbox: null
+        contentsBegin: 3
+        contentsEnd: 46
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 3
+            contentsEnd: 8
+            children:
+              - type: "text"
+                value: "list\\n"
+          - type: "src-block"
+            affiliated: {}
+            language: "c"
+            value: "  x\\n\\n\\n  y\\n"
+`;
+
+exports[`org/parser list long drawer in list 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 37
+children:
+  - type: "plain-list"
+    affiliated: {}
+    indent: 0
+    listType: "unordered"
+    contentsBegin: 1
+    contentsEnd: 37
+    children:
+      - type: "list-item"
+        indent: 0
+        bullet: "- "
+        counter: null
+        checkbox: null
+        contentsBegin: 3
+        contentsEnd: 37
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 3
+            contentsEnd: 8
+            children:
+              - type: "text"
+                value: "list\\n"
+          - type: "drawer"
+            affiliated: {}
+            name: "DRAWER"
+            contentsBegin: 19
+            contentsEnd: 29
+            children:
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 19
+                contentsEnd: 23
+                children:
+                  - type: "text"
+                    value: "  x\\n"
+              - type: "paragraph"
+                affiliated: {}
+                contentsBegin: 25
+                contentsEnd: 29
+                children:
+                  - type: "text"
+                    value: "  y\\n"
+`;
+
 exports[`org/parser list nested lists 1`] = `
 type: "org-data"
 contentsBegin: 0

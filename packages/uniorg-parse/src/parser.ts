@@ -1353,7 +1353,15 @@ class Parser {
           break;
         }
 
-        // TODO: skip blocks
+        // skip blocks (any type) and drawers contents.
+        const mBlock = this.r.lookingAt(/[ \t]*#\+begin(:|_\S+)/i);
+        if (mBlock) {
+          this.r.advance(
+            this.r.match(new RegExp(`^[ \\t]*#\\+end${mBlock[1]}[ \\t]*`, 'im'))
+          );
+        } else if (this.r.lookingAt(drawerRe)) {
+          this.r.advance(this.r.match(/^[ \t]*:END:[ \t]*$/im));
+        }
 
         this.r.advance(this.r.line());
       }
