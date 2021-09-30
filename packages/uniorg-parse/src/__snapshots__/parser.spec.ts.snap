@@ -510,6 +510,60 @@ children:
     value: "this is comment"
 `;
 
+exports[`org/parser complete drawer after paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 1
+    contentsEnd: 7
+    children:
+      - type: "text"
+        value: "hello\\n"
+  - type: "drawer"
+    affiliated: {}
+    name: "DRAWER"
+    contentsBegin: 16
+    contentsEnd: 22
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 16
+        contentsEnd: 22
+        children:
+          - type: "text"
+            value: "hello\\n"
+`;
+
+exports[`org/parser complete lowercase drawer after paragraph 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 1
+    contentsEnd: 7
+    children:
+      - type: "text"
+        value: "hello\\n"
+  - type: "drawer"
+    affiliated: {}
+    name: "drawer"
+    contentsBegin: 16
+    contentsEnd: 22
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 16
+        contentsEnd: 22
+        children:
+          - type: "text"
+            value: "hello\\n"
+`;
+
 exports[`org/parser custom drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -2658,6 +2712,62 @@ children:
             children:
               - type: "text"
                 value: "there"
+`;
+
+exports[`org/parser lowercase custom drawer 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 30
+children:
+  - type: "drawer"
+    affiliated: {}
+    name: "mydrawer"
+    contentsBegin: 11
+    contentsEnd: 25
+    children:
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 11
+        contentsEnd: 25
+        children:
+          - type: "text"
+            value: "hello "
+          - type: "italic"
+            contentsBegin: 18
+            contentsEnd: 23
+            children:
+              - type: "text"
+                value: "there"
+`;
+
+exports[`org/parser lowercase property drawer 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 62
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 62
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "headline"
+        tags: []
+        contentsBegin: 2
+        contentsEnd: 10
+        children:
+          - type: "text"
+            value: "headline"
+      - type: "property-drawer"
+        contentsBegin: 24
+        contentsEnd: 57
+        children:
+          - type: "node-property"
+            key: "created"
+            value: "[2019-03-13 Wed 23:57]"
 `;
 
 exports[`org/parser multiline \\( \\) fragment 1`] = `

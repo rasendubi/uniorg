@@ -262,7 +262,7 @@ class Parser {
         ((mode === ParseMode.PropertyDrawer || mode === ParseMode.TopComment) &&
           !this.r.lookingAt(/\s*$/m))) &&
       this.r.lookingAt(
-        /^[ \t]*:PROPERTIES:[ \t]*\n(?:[ \t]*:\S+:(?: .*)?[ \t]*\n)*?[ \t]*:END:[ \t]*$/m
+        /^[ \t]*:PROPERTIES:[ \t]*\n(?:[ \t]*:\S+:(?: .*)?[ \t]*\n)*?[ \t]*:END:[ \t]*$/im
       )
     ) {
       return this.parsePropertyDrawer();
@@ -701,7 +701,7 @@ class Parser {
   private parsePropertyDrawer(): PropertyDrawer {
     this.r.advance(this.r.line());
     const contentsBegin = this.r.offset();
-    const endM = this.r.forceMatch(/^[ \t]*:END:[ \t]*$/m);
+    const endM = this.r.forceMatch(/^[ \t]*:END:[ \t]*$/im);
     this.r.advance(endM.index);
     const contentsEnd = this.r.offset();
     this.r.advance(this.r.line());
@@ -971,7 +971,7 @@ class Parser {
   }
 
   private parseDrawer(affiliated: AffiliatedKeywords): Drawer | Paragraph {
-    const endM = this.r.match(/^[ \t]*:END:[ \t]*$/m);
+    const endM = this.r.match(/^[ \t]*:END:[ \t]*$/im);
     if (!endM) {
       this.r.message('incomplete drawer', this.r.offset(), 'uniorg');
       // Incomplete drawer: parse it as a paragraph.
@@ -1039,7 +1039,7 @@ class Parser {
 
       const drawerM = this.r.lookingAt(drawerRe);
       if (drawerM) {
-        const endM = this.r.match(/^[ \t]*:END:[ \t]*$/m);
+        const endM = this.r.match(/^[ \t]*:END:[ \t]*$/im);
         if (!endM) {
           this.r.advance(this.r.line());
           continue;

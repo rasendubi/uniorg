@@ -211,6 +211,13 @@ this is paragraph`
 :END:`
   );
   itParses(
+    'lowercase property drawer',
+    `* headline
+:properties:
+:created: [2019-03-13 Wed 23:57]
+:end:`
+  );
+  itParses(
     'property drawer + section',
     `* headline
 :PROPERTIES:
@@ -234,11 +241,36 @@ hello /there/
   );
 
   itParses(
+    'lowercase custom drawer',
+    `:mydrawer:
+hello /there/
+:end:`
+  );
+
+  itParses(
     'incomplete drawer after paragraph',
     `
 hello
 :NONDRAWER:
 hello`
+  );
+
+  itParses(
+    'complete drawer after paragraph',
+    `
+hello
+:DRAWER:
+hello
+:END:`
+  );
+
+  itParses(
+    'complete lowercase drawer after paragraph',
+    `
+hello
+:drawer:
+hello
+:end:`
   );
 
   itParses(
@@ -346,7 +378,7 @@ I have no :END:`
     );
 
     // two empty lines finish lists but not if inside a drawer
-    itParses.only(
+    itParses(
       'long drawer in list',
       `
 - list
