@@ -1,6 +1,6 @@
 {
   "name": "uniorg-attach",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Uniorg plugin to process org-attach attachment links",
   "keywords": [
     "uniorg",
@@ -43,7 +43,7 @@
     "typescript": "^4.3.2",
     "unified": "^9.2.1",
     "uniorg": "^0.4.0",
-    "uniorg-parse": "^0.4.3",
+    "uniorg-parse": "^0.4.4",
     "vfile": "^4.2.1",
     "yaml": "^2.0.0-1"
   },
