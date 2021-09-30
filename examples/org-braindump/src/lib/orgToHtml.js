@@ -34,18 +34,19 @@ function extractIds() {
     visitIds(tree, (id, node) => {
       if (node.type === 'org-data') {
         ids[id] = '';
-      } else if (node.type === 'headline') {
-        if (!node.data?.hProperties?.id) {
+      } else if (node.type === 'section') {
+        const headline = node.children[0];
+        if (!headline.data?.hProperties?.id) {
           // The headline doesn't have an html id assigned. (Did you
           // remove uniorg-slug?)
           //
           // Assign an html id property based on org id property.
-          node.data = node.data || {};
-          node.data.hProperties = node.data.hProperties || {};
-          node.data.hProperties.id = id;
+          headline.data = headline.data || {};
+          headline.data.hProperties = headline.data.hProperties || {};
+          headline.data.hProperties.id = id;
         }
 
-        ids[id] = '#' + node.data.hProperties.id;
+        ids[id] = '#' + headline.data.hProperties.id;
       }
     });
   }
