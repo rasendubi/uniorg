@@ -2398,6 +2398,62 @@ children:
                 value: "list"
 `;
 
+exports[`org/parser list list inside quite inside list 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 50
+children:
+  - type: "plain-list"
+    affiliated: {}
+    indent: 0
+    listType: "unordered"
+    contentsBegin: 1
+    contentsEnd: 50
+    children:
+      - type: "list-item"
+        indent: 0
+        bullet: "- "
+        counter: null
+        checkbox: null
+        contentsBegin: 3
+        contentsEnd: 50
+        children:
+          - type: "paragraph"
+            affiliated: {}
+            contentsBegin: 3
+            contentsEnd: 10
+            children:
+              - type: "text"
+                value: "list 1\\n"
+          - type: "quote-block"
+            affiliated: {}
+            contentsBegin: 26
+            contentsEnd: 37
+            children:
+              - type: "plain-list"
+                affiliated: {}
+                indent: 2
+                listType: "unordered"
+                contentsBegin: 26
+                contentsEnd: 37
+                children:
+                  - type: "list-item"
+                    indent: 2
+                    bullet: "- "
+                    counter: null
+                    checkbox: null
+                    contentsBegin: 30
+                    contentsEnd: 37
+                    children:
+                      - type: "paragraph"
+                        affiliated: {}
+                        contentsBegin: 30
+                        contentsEnd: 37
+                        children:
+                          - type: "text"
+                            value: "list 2\\n"
+`;
+
 exports[`org/parser list long blocks in lists 1`] = `
 type: "org-data"
 contentsBegin: 0

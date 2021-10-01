@@ -390,6 +390,15 @@ I have no :END:`
   :END:
 `
     );
+
+    itParses(
+      'list inside quite inside list',
+      `
+- list 1
+  #+begin_quote
+  - list 2
+  #+end_quote`
+    );
   });
 
   describe('links', () => {

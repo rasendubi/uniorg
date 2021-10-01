@@ -159,23 +159,21 @@ class Parser {
       if (cbeg === undefined || cend === undefined) {
         // do nothing
       } else if (greaterElements.has(type)) {
-        const elementStructure = element.structure as
-          | ListStructureItem[]
-          | undefined;
-
         this.r.narrow(cbeg, cend);
         appendChildren(
           element,
           this.parseElements(
             Parser.nextMode(mode, type, true),
-            structure ?? elementStructure
+            element.type === 'plain-list' || element.type === 'list-item'
+              ? (element.structure as ListStructureItem[])
+              : undefined
           )
         );
         this.r.widen();
 
         // Delete structure from lists. It’s only here to facilitate
         // parsing and should not be exposed to the user.
-        if (elementStructure) {
+        if (element.structure) {
           delete element.structure;
         }
       } else {
@@ -1268,6 +1266,7 @@ class Parser {
         checkbox,
         contentsBegin,
         contentsEnd,
+        structure,
       },
       item.tag ? [item.tag] : []
     );
