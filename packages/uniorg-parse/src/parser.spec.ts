@@ -286,7 +286,6 @@ I have no :END:`
     itParses('active-range', `<2021-01-07 Thu>--<2021-01-09 Sat>`);
     itParses('with time', `[2021-01-07 Thu 19:36]`);
     itParses('time range', `[2021-01-07 Thu 19:36-20:38]`);
-    itParses.todo('diary');
   });
 
   describe('list', () => {
