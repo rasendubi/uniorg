@@ -332,6 +332,15 @@ hello, world!
   );
 
   hastTest(
+    'table.el table',
+    `
++------+
+| blah |
++------+
+`
+  );
+
+  hastTest(
     'comments',
     `hello
 # comment

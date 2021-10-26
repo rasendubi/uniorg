@@ -318,6 +318,11 @@ export function orgToHast(
         // rehype does not allow html escapes, so we use utf8 value instead.
         return u('text', { value: org.utf8 });
       case 'table': {
+        // table.el tables are not supported for export
+        if (org.tableType === 'table.el') {
+          return null;
+        }
+
         // TODO: support column groups
         // see https://orgmode.org/manual/Column-Groups.html
 
@@ -325,7 +330,7 @@ export function orgToHast(
 
         let hasHead = false;
         let group: TableRow[] = [];
-        (org.children as TableRow[]).forEach((r) => {
+        org.children.forEach((r) => {
           if (r.rowType === 'rule') {
             // rule finishes the group
             if (!hasHead) {

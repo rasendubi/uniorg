@@ -385,6 +385,8 @@ exports[`org/org-to-hast table, multiple body 1`] = `
 
 `;
 
+exports[`org/org-to-hast table.el table 1`] = ``;
+
 exports[`org/org-to-hast timestamps active 1`] = `
 
 <p><span class="timestamp">&#x3C;2021-01-07 Thu></span></p>
