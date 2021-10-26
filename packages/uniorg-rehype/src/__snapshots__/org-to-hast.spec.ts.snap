@@ -421,6 +421,23 @@ exports[`org/org-to-hast timestamps with time 1`] = `
 
 `;
 
+exports[`org/org-to-hast useSections 1`] = `
+
+<p>hello</p>
+<section class="section-level-1">
+  <h1>headline 1</h1>
+  <p>text</p>
+  <section class="section-level-2">
+    <h2>headline 1.1</h2>
+    <p>more text</p>
+  </section>
+</section>
+<section class="section-level-1">
+  <h1>headline 2</h1>
+</section>
+
+`;
+
 exports[`org/org-to-hast verse block 1`] = `
 
 <pre class="verse"> Great clouds overhead

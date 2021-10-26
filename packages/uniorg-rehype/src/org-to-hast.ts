@@ -5,8 +5,12 @@ import { OrgNode, OrgData, TableRow, Headline } from 'uniorg';
 
 type Hast = any;
 
-interface OrgToHastOptions {
+export interface OrgToHastOptions {
   imageFilenameExtensions: string[];
+  /**
+   * Whether to wrap org sections into <section>.
+   */
+  useSections: boolean;
 }
 
 const defaultOptions: OrgToHastOptions = {
@@ -25,6 +29,7 @@ const defaultOptions: OrgToHastOptions = {
     'pnm',
     'svg',
   ],
+  useSections: false,
 };
 
 // `org-html-html5-elements`
@@ -106,7 +111,15 @@ export function orgToHast(
           return null;
         }
 
-        return toHast(org.children);
+        const children = toHast(org.children);
+        return options.useSections
+          ? h(
+              org,
+              'section',
+              { class: `section-level-${headline.level}` },
+              children
+            )
+          : children;
       }
       case 'headline': {
         const intersperse = <T extends unknown>(items: T[], sep: T) =>

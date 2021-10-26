@@ -4,13 +4,18 @@ import org2rehype from '.';
 import raw from 'rehype-raw';
 import format from 'rehype-format';
 import html from 'rehype-stringify';
+import type { OrgToHastOptions } from './org-to-hast';
 
-const processor = unified()
-  .use(orgParse)
-  .use(org2rehype)
-  .use(raw)
-  .use(format)
-  .use(html);
+const process = (input: string, options?: Partial<OrgToHastOptions>) => {
+  const processor = unified()
+    .use(orgParse)
+    .use(org2rehype, options)
+    .use(raw)
+    .use(format)
+    .use(html);
+
+  return processor.processSync(input).contents;
+};
 
 expect.addSnapshotSerializer({
   test(value) {
@@ -21,25 +26,41 @@ expect.addSnapshotSerializer({
   },
 });
 
-const hastTest = (name: string, input: string) => {
+const hastTest = (
+  name: string,
+  input: string,
+  options?: Partial<OrgToHastOptions>
+) => {
   it(name, () => {
-    const result = processor.processSync(input).contents;
+    const result = process(input, options);
     expect(result).toMatchSnapshot();
   });
 };
-hastTest.skip = (name: string, input: string) => {
+hastTest.skip = (
+  name: string,
+  input: string,
+  options?: Partial<OrgToHastOptions>
+) => {
   it.skip(name, () => {
-    const result = processor.processSync(input).contents;
+    const result = process(input, options);
     expect(result).toMatchSnapshot();
   });
 };
-hastTest.only = (name: string, input: string) => {
+hastTest.only = (
+  name: string,
+  input: string,
+  options?: Partial<OrgToHastOptions>
+) => {
   it.only(name, () => {
-    const result = processor.processSync(input).contents;
+    const result = process(input, options);
     expect(result).toMatchSnapshot();
   });
 };
-hastTest.todo = (name: string, _input?: string) => {
+hastTest.todo = (
+  name: string,
+  _input?: string,
+  _options?: Partial<OrgToHastOptions>
+) => {
   it.todo(name);
 };
 
@@ -80,6 +101,17 @@ some text
 * nope :noexport:
 not exported text
 `
+  );
+
+  hastTest(
+    'useSections',
+    `hello
+* headline 1
+text
+** headline 1.1
+more text
+* headline 2`,
+    { useSections: true }
   );
 
   hastTest(
