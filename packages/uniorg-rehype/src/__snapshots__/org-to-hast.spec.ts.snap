@@ -385,7 +385,14 @@ exports[`org/org-to-hast table, multiple body 1`] = `
 
 `;
 
-exports[`org/org-to-hast table.el table 1`] = ``;
+exports[`org/org-to-hast table.el table 1`] = `
+
+<pre class="table-el">+------+
+| blah |
++------+
+</pre>
+
+`;
 
 exports[`org/org-to-hast timestamps active 1`] = `
 

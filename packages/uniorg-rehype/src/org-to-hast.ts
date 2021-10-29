@@ -320,7 +320,7 @@ export function orgToHast(
       case 'table': {
         // table.el tables are not supported for export
         if (org.tableType === 'table.el') {
-          return null;
+          return h(org, 'pre.table-el', {}, org.value);
         }
 
         // TODO: support column groups
