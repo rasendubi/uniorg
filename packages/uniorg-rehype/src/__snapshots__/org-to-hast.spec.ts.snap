@@ -145,6 +145,38 @@ exports[`org/org-to-hast fixed-width 1`] = `
 
 `;
 
+exports[`org/org-to-hast footnote-definition 1`] = `
+
+<p>
+  Some text with a footnote.<sup><a href="#fn.1" class="footnote-reference footnum" id="fnr.1"></a></sup>
+  Another footnote<sup><a href="#fn.2" class="footnote-reference footnum" id="fnr.2"></a></sup>
+</p>
+<h1>Footnotes</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1">1</a></sup>
+  <div class="footdef">
+    <p>A very important footnote.</p>
+  </div>
+</div>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.2" href="#fnr.2">2</a></sup>
+  <div class="footdef">
+    <p>Another stellar footnote.</p>
+  </div>
+</div>
+
+`;
+
+exports[`org/org-to-hast footnote-reference 1`] = `
+
+<p>Some text with a footnote.<sup><a href="#fn.1" class="footnote-reference footnum" id="fnr.1"></a></sup></p>
+<h1>Footnotes</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1">1</a></sup>
+  <div class="footdef">
+    <p>A very important footnote.</p>
+  </div>
+</div>
+
+`;
+
 exports[`org/org-to-hast headline 1`] = `
 
 <h1>hi</h1>

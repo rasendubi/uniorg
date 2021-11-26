@@ -243,9 +243,41 @@ export function orgToHast(
       case 'diary-sexp':
         return null;
       case 'footnote-reference':
+        return h(
+          null,
+          'sup',
+          {},
+          h(
+            org,
+            'a',
+            {
+              href: `#fn.${org.label}`,
+              className: ['footnote-reference', 'footnum'],
+              id: `fnr.${org.label}`,
+            },
+            toHast(org.children)
+          )
+        );
       case 'footnote-definition':
         // TODO: serialize footnotes and footnote definitions.
-        return null;
+        return h(org, 'div', { className: 'footnote-definition' }, [
+          h(
+            null,
+            'sup',
+            {},
+            h(
+              null,
+              'a',
+              {
+                className: 'footnum',
+                id: `fn.${org.label}`,
+                href: `#fnr.${org.label}`,
+              },
+              org.label
+            )
+          ),
+          h(org, '', { className: 'footdef' }, toHast(org.children)),
+        ]);
       case 'paragraph':
         return h(org, 'p', {}, toHast(org.children));
       case 'bold':

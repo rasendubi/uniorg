@@ -369,6 +369,24 @@ some text
   );
 
   hastTest(
+    'footnote-reference',
+    `Some text with a footnote.[fn:1]
+  
+* Footnotes
+[fn:1] A very important footnote.`
+  );
+
+  hastTest(
+    'footnote-definition',
+    `Some text with a footnote.[fn:1]
+Another footnote [fn:2]    
+  
+* Footnotes
+[fn:1] A very important footnote.
+[fn:2] Another stellar footnote.`
+  );
+
+  hastTest(
     'latex-fragment',
     `If $a^2=b$ and \\( b=2 \\), then the solution must be
 either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
