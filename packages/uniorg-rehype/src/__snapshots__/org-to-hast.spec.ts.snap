@@ -145,6 +145,106 @@ exports[`org/org-to-hast fixed-width 1`] = `
 
 `;
 
+exports[`org/org-to-hast footnotes anonymous inline footnote 1`] = `
+
+<p>footnotes<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
+<h1>Footnotes:</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1" role="doc-backlink">1</a></sup>
+  <div class="footdef" role="doc-footnote">inline footnote definition</div>
+</div>
+
+`;
+
+exports[`org/org-to-hast footnotes does not emit unreferenced footnotes 1`] = `
+
+<p>footnote<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
+<h1>Footnotes:</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1" role="doc-backlink">1</a></sup>
+  <div class="footdef" role="doc-footnote">
+    <p>hello</p>
+  </div>
+</div>
+
+`;
+
+exports[`org/org-to-hast footnotes footnote-definition 1`] = `
+
+<p>
+  Some text with a footnote.<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup>
+  Another footnote <sup><a href="#fn.2" class="footref" id="fnr.2" role="doc-backlink">2</a></sup>
+</p>
+<h1>Footnotes:</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1" role="doc-backlink">1</a></sup>
+  <div class="footdef" role="doc-footnote">
+    <p>A very important footnote.</p>
+  </div>
+</div>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.2" href="#fnr.2" role="doc-backlink">2</a></sup>
+  <div class="footdef" role="doc-footnote">
+    <p>Another stellar footnote.</p>
+  </div>
+</div>
+
+`;
+
+exports[`org/org-to-hast footnotes footnote-reference 1`] = `
+
+<p>Some text with a footnote.<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
+<h1>Footnotes:</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1" role="doc-backlink">1</a></sup>
+  <div class="footdef" role="doc-footnote">
+    <p>A very important footnote.</p>
+  </div>
+</div>
+
+`;
+
+exports[`org/org-to-hast footnotes handles missing footnotes 1`] = `
+
+<p>footnote<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
+
+`;
+
+exports[`org/org-to-hast footnotes inline footnote 1`] = `
+
+<p>some text<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
+<h1>Footnotes:</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1" role="doc-backlink">1</a></sup>
+  <div class="footdef" role="doc-footnote">footnote definition</div>
+</div>
+
+`;
+
+exports[`org/org-to-hast footnotes inline footnote 2`] = `
+
+<p>footnotes<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
+<h1>Footnotes:</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1" role="doc-backlink">1</a></sup>
+  <div class="footdef" role="doc-footnote">inline footnote definition</div>
+</div>
+
+`;
+
+exports[`org/org-to-hast footnotes maintains footnotes order 1`] = `
+
+<p>
+  footnote 2<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup>
+  footnote 1<sup><a href="#fn.2" class="footref" id="fnr.2" role="doc-backlink">2</a></sup>
+</p>
+<h1>Footnotes:</h1>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.1" href="#fnr.1" role="doc-backlink">1</a></sup>
+  <div class="footdef" role="doc-footnote">
+    <p>first footnote</p>
+  </div>
+</div>
+<div class="footnote-definition"><sup><a class="footnum" id="fn.2" href="#fnr.2" role="doc-backlink">2</a></sup>
+  <div class="footdef" role="doc-footnote">
+    <p>second footnote</p>
+  </div>
+</div>
+
+`;
+
 exports[`org/org-to-hast headline 1`] = `
 
 <h1>hi</h1>

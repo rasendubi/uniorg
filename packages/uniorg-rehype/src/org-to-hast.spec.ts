@@ -368,6 +368,56 @@ some text
     `%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)`
   );
 
+  describe('footnotes', () => {
+    hastTest(
+      'footnote-reference',
+      `Some text with a footnote.[fn:1]
+  
+[fn:1] A very important footnote.`
+    );
+
+    hastTest(
+      'footnote-definition',
+      `Some text with a footnote.[fn:1]
+Another footnote [fn:2]    
+  
+[fn:1] A very important footnote.
+[fn:2] Another stellar footnote.`
+    );
+
+    hastTest('inline footnote', 'some text[fn:1: footnote definition]');
+
+    hastTest(
+      'maintains footnotes order',
+      // Note that footnotes are emmitted in order of reference
+      `footnote 2[fn:2]
+footnote 1[fn:1]
+
+[fn:1] second footnote
+[fn:2] first footnote`
+    );
+
+    hastTest(
+      'does not emit unreferenced footnotes',
+      `footnote[fn:1]
+
+[fn:1] hello
+[fn:2] unreferenced`
+    );
+
+    hastTest('handles missing footnotes', 'footnote[fn:missing]');
+
+    hastTest(
+      'inline footnote',
+      'footnotes[fn:label: inline footnote definition]'
+    );
+
+    hastTest(
+      'anonymous inline footnote',
+      'footnotes[fn:: inline footnote definition]'
+    );
+  });
+
   hastTest(
     'latex-fragment',
     `If $a^2=b$ and \\( b=2 \\), then the solution must be

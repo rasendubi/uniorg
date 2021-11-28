@@ -1,7 +1,14 @@
 import u from 'unist-builder';
 import hast from 'hastscript';
 import { Properties, Node, Element } from 'hast';
-import { OrgNode, OrgData, TableRow, Headline } from 'uniorg';
+import {
+  OrgNode,
+  OrgData,
+  TableRow,
+  Headline,
+  FootnoteReference,
+  FootnoteDefinition,
+} from 'uniorg';
 
 type Hast = any;
 
@@ -11,6 +18,20 @@ export interface OrgToHastOptions {
    * Whether to wrap org sections into <section>.
    */
   useSections: boolean;
+  /**
+   * A function to wrap footnotes. First argument of the function is
+   * an array of all footnote definitions and the function should
+   * return a new Hast node to be appended to the document.
+   *
+   * Roughly corresponds to `org-html-footnotes-section`.
+   *
+   * Default is:
+   * ```
+   * <h1>Footnotes:</h1>
+   * {...footnotes}
+   * ```
+   */
+  footnotesSection: (footnotes: Node[]) => Node[];
 }
 
 const defaultOptions: OrgToHastOptions = {
@@ -30,6 +51,10 @@ const defaultOptions: OrgToHastOptions = {
     'svg',
   ],
   useSections: false,
+  footnotesSection: (footnotes) => [
+    h(null, 'h1', {}, 'Footnotes:'),
+    ...footnotes,
+  ],
 };
 
 // `org-html-html5-elements`
@@ -74,11 +99,24 @@ function h(
   return element;
 }
 
+type Ctx = {
+  // Labels of footnotes as they occur in footnote-reference.
+  footnotesOrder: Array<string | number>;
+  // map of: label -> footnote div
+  footnotes: Record<string, FootnoteDefinition | FootnoteReference>;
+};
+
 export function orgToHast(
   org: OrgData,
   opts: Partial<OrgToHastOptions> = {}
 ): Hast {
   const options = { ...defaultOptions, ...opts };
+
+  const ctx: Ctx = {
+    footnotesOrder: [],
+    footnotes: {},
+  };
+
   return toHast(org);
 
   function toHast(node: any): Hast {
@@ -98,7 +136,54 @@ export function orgToHast(
 
     switch (org.type) {
       case 'org-data':
-        return { type: 'root', children: toHast(org.children) };
+        const children = toHast(org.children);
+
+        const footnotes = ctx.footnotesOrder
+          .map((name, i) => {
+            const def = ctx.footnotes[name];
+
+            if (!def) {
+              // missing footnote definition
+              return null;
+            }
+
+            return h(org, 'div', { className: 'footnote-definition' }, [
+              h(
+                null,
+                'sup',
+                {},
+                h(
+                  null,
+                  'a',
+                  {
+                    className: 'footnum',
+                    id: `fn.${i + 1}`,
+                    href: `#fnr.${i + 1}`,
+                    role: 'doc-backlink',
+                  },
+                  String(i + 1)
+                )
+              ),
+              h(
+                org,
+                'div',
+                { className: 'footdef', role: 'doc-footnote' },
+                toHast(def.children)
+              ),
+            ]);
+          })
+          .filter((x) => x !== null) as Node[];
+        if (footnotes.length !== 0) {
+          if (opts.useSections) {
+            children.push(
+              h(null, 'section', {}, options.footnotesSection(footnotes))
+            );
+          } else {
+            children.push(...options.footnotesSection(footnotes));
+          }
+        }
+
+        return { type: 'root', children };
       case 'section': {
         const headline = org.children[0] as Headline;
         // TODO: support other options that prevent export:
@@ -243,8 +328,46 @@ export function orgToHast(
       case 'diary-sexp':
         return null;
       case 'footnote-reference':
+        // index of footnote in ctx.footnotesOrder
+        let idx = 0;
+        let id = '';
+        if (org.footnoteType === 'inline') {
+          idx = ctx.footnotesOrder.length;
+          ctx.footnotesOrder.push(idx);
+          ctx.footnotes[idx] = org;
+          id = `fnr.${idx + 1}`;
+        } else if (org.footnoteType === 'standard') {
+          idx = ctx.footnotesOrder.findIndex((label) => label === org.label);
+          if (idx === -1) {
+            idx = ctx.footnotesOrder.length;
+            ctx.footnotesOrder.push(org.label);
+            id = `fnr.${idx + 1}`;
+            // We do not set id in the else branch because that’s a
+            // second reference to this footnote—another reference
+            // with this id exists.
+          }
+        } else {
+          throw new Error(`unknown footnoteType: ${org.footnoteType}`);
+        }
+
+        return h(
+          null,
+          'sup',
+          {},
+          h(
+            org,
+            'a',
+            {
+              href: `#fn.${idx + 1}`,
+              className: ['footref'],
+              id,
+              role: 'doc-backlink',
+            },
+            String(idx + 1)
+          )
+        );
       case 'footnote-definition':
-        // TODO: serialize footnotes and footnote definitions.
+        ctx.footnotes[org.label] = org;
         return null;
       case 'paragraph':
         return h(org, 'p', {}, toHast(org.children));
