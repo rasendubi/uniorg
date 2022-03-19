@@ -68,7 +68,9 @@ export type ObjectType =
   | FootnoteReference
   | LatexFragment
   | Entity
-  | TableCell;
+  | TableCell
+  | Citation
+  | CitationElement;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
 
@@ -312,6 +314,23 @@ export interface Link extends RecursiveObject {
   path: string;
 }
 
+export interface Citation extends RecursiveObject {
+  type: 'cite';
+  style: string;
+  variant: string;
+  commonPrefix: string;
+  commonSuffix: string;
+  rawLink: string;
+  children: CitationElement[];
+}
+
+export interface CitationElement extends RecursiveObject {
+  type: 'citation-element';
+  prefix: string;
+  citeKey: string;
+  locator: string;
+  suffix: string;
+}
 export interface Timestamp extends Object {
   type: 'timestamp';
   timestampType:
