@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ES2020",
     "noImplicitAny": true,
     "noLib": false,
-    "target": "es6",
+    "target": "ES2020",
     "sourceMap": true,
-    "moduleResolution": "node",
     "noEmitOnError": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
@@ -15,9 +14,5 @@
     "isolatedModules": true,
     "lib": ["es2019"]
   },
-  "exclude": [
-    "node_modules",
-    "lib",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["node_modules", "lib", "**/*.spec.ts"]
 }
