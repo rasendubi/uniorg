@@ -1,23 +1,29 @@
 import YAML from 'yaml';
-import { Type } from 'yaml/util';
+//import { Type } from 'yaml/util';
 
 import { parse } from './parser';
 import { ParseOptions } from './parse-options';
 
-YAML.scalarOptions.str.defaultType = Type.QUOTE_DOUBLE;
-YAML.scalarOptions.str.defaultKeyType = Type.PLAIN;
+// YAML.scalarOptions.str.defaultType = Type.QUOTE_DOUBLE;
+// YAML.scalarOptions.str.defaultKeyType = Type.PLAIN;
 
 expect.addSnapshotSerializer({
   test(value) {
     try {
-      YAML.stringify(value);
+      YAML.stringify(value, {
+        defaultStringType: 'QUOTE_DOUBLE',
+        defaultKeyType: 'PLAIN',
+      });
       return true;
     } catch (e) {
       return false;
     }
   },
   print(value) {
-    return YAML.stringify(value).trimEnd();
+    return YAML.stringify(value, {
+      defaultStringType: 'QUOTE_DOUBLE',
+      defaultKeyType: 'PLAIN',
+    }).trimEnd();
   },
 });
 

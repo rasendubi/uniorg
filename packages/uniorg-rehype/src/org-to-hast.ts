@@ -1,5 +1,5 @@
-import u from 'unist-builder';
-import hast from 'hastscript';
+import { u } from 'unist-builder';
+import { h as hast } from 'hastscript';
 import { Properties, Node, Element } from 'hast';
 import {
   OrgNode,

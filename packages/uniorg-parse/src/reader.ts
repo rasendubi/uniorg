@@ -1,6 +1,7 @@
 import { VFile } from 'vfile';
-import vfileLocation, { Location } from 'vfile-location';
+import { location } from 'vfile-location';
 
+export type Location = ReturnType<typeof location>;
 export class Reader {
   readonly #text: string;
   readonly #vfile: VFile;
@@ -26,7 +27,7 @@ export class Reader {
     this.#left = 0;
     this.#right = this.#text.length;
     this.#vfile = vfile;
-    this.#location = vfileLocation(vfile);
+    this.#location = location(vfile);
   }
 
   public message(reason: string, offset?: number, ruleId?: string) {
