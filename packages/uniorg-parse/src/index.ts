@@ -1,3 +1,1 @@
-import uniorgParse from './unified-org-parse';
-
-export = uniorgParse;
+export { default } from './unified-org-parse';

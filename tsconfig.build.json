@@ -12,7 +12,8 @@
     "esModuleInterop": true,
     "declaration": true,
     "isolatedModules": true,
-    "lib": ["es2019"]
+    "allowJs": true,
+    "lib": ["ES2020"]
   },
   "exclude": ["node_modules", "lib", "**/*.spec.ts"]
 }
