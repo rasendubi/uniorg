@@ -35,7 +35,7 @@
     "url": "https://github.com/rasendubi/uniorg/issues"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
+    "@types/jest": "27.4.1",
     "@types/unist": "^2.0.3",
     "@types/vfile": "^4.0.0",
     "jest": "^26.6.3",
