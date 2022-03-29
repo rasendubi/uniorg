@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "rehype-stringify": "^8.0.0",
-    "unified": "^9.2.0",
+    "unified": "10.1.2",
     "unified-stream": "^1.0.6",
     "uniorg-parse": "^0.4.5",
     "uniorg-rehype": "^0.4.8"
