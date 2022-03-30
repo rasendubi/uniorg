@@ -89,7 +89,9 @@ function h(
 ): Element {
   // TODO: hProperties is not respected in text nodes.
 
-  const element = hast(selector, properties || {}, children || []);
+  const element: Element =
+    // @ts-expect-error does not match the expected overloads
+    hast(selector, properties || {}, children || []);
 
   const hProperties = node?.data?.hProperties;
   if (hProperties) {
