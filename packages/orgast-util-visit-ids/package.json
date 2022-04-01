@@ -1,6 +1,7 @@
 {
   "name": "orgast-util-visit-ids",
   "version": "0.4.5",
+  "type": "module",
   "description": "orgast (uniorg) utility to visit all nodes with ids",
   "keywords": [
     "uniorg",
