@@ -61,6 +61,7 @@ describe('uniorg-slug', () => {
       .use(uniorg)
       .use(uniorgSlug)
       .use(uniorg2rehype)
+      //@ts-expect-error Argument of type 'Plugin<[(Options | undefined)?] | void[], Root, string>' is not assignable to parameter of type 'Preset | PluggableList'.ts(2345)
       .use(html);
 
     const s = processor
@@ -92,6 +93,7 @@ describe('uniorg-slug', () => {
       })
       .use(uniorgSlug)
       .use(uniorg2rehype)
+      //@ts-expect-error Argument of type 'Plugin<[(Options | undefined)?] | void[], Root, string>' is not assignable to parameter of type 'Preset | PluggableList'.ts(2345)
       .use(html);
 
     const document = `* some headline`;
