@@ -17,7 +17,9 @@ function stringifyOne(node: Node | string): string {
 
   const result: string[] = [];
 
+  //@ts-expect-error no affiliated property on orgnode
   if (org.affiliated) {
+    //@ts-expect-error no affiliated property on orgnode
     result.push(stringifyAffiliated(org.affiliated as AffiliatedKeywords));
   }
 
