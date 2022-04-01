@@ -1,8 +1,8 @@
 import { Node } from 'unist';
 import find from 'unist-util-find';
-import unified from 'unified';
+import { unified } from 'unified';
 import uniorg from 'uniorg-parse';
-import vfile from 'vfile';
+import { VFile } from 'vfile';
 import uniorg2rehype from 'uniorg-rehype';
 import html from 'rehype-stringify';
 
@@ -11,7 +11,7 @@ import { uniorgSlug, Options } from './';
 const process = (s: string, options?: Options): Node => {
   const processor = unified().use(uniorg).use(uniorgSlug, options);
 
-  const f = vfile(s);
+  const f = new VFile(s);
 
   return processor.runSync(processor.parse(f), f);
 };

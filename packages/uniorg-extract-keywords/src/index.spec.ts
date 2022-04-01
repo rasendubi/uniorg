@@ -1,4 +1,4 @@
-import unified from 'unified';
+import { unified } from 'unified';
 import uniorg from 'uniorg-parse';
 import vfile, { VFile } from 'vfile';
 

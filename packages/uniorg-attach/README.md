@@ -8,10 +8,10 @@
 npm install --save uniorg-attach
 ```
 
-
 ## Use
 
 If we have the following `example.org` file:
+
 ```org
 :PROPERTIES:
 :ID:   eae6a180-58d3-44b9-9c95-d8924849d365
@@ -23,7 +23,7 @@ attachment:file.txt
 and
 
 ```js
-import unified from 'unified';
+import { unified } from 'unified';
 import toVFile from 'to-vfile';
 import uniorgParse from 'uniorg-parse';
 import { uniorgAttach } from 'uniorg-attach';
@@ -37,7 +37,7 @@ unified()
   .use(html)
   .process(toVFile.readSync('./example.org'), function (err, file) {
     console.log(file.toString());
-  })
+  });
 ```
 
 will output

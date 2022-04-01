@@ -1,6 +1,6 @@
 import React from 'react';
 
-import unified from 'unified';
+import { unified } from 'unified';
 import rehype2react from 'rehype-react';
 
 import Link from './Link';
