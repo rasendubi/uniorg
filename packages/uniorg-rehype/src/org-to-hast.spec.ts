@@ -14,7 +14,7 @@ const process = (input: string, options?: Partial<OrgToHastOptions>) => {
     .use(format)
     .use(html);
 
-  return processor.processSync(input).contents;
+  return String(processor.processSync(input));
 };
 
 expect.addSnapshotSerializer({
