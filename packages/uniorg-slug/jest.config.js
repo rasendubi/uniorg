@@ -11,7 +11,7 @@ const config = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   transformIgnorePatterns: [],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'd.ts'],
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',

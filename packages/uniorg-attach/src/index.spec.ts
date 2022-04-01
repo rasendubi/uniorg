@@ -1,25 +1,26 @@
 import { unified } from 'unified';
 import uniorg from 'uniorg-parse';
 
-import YAML from 'yaml';
-import { Type } from 'yaml/util';
-
 import uniorgAttach, { idTsFolderFormat, Options } from './';
-
-YAML.scalarOptions.str.defaultType = Type.QUOTE_DOUBLE;
-YAML.scalarOptions.str.defaultKeyType = Type.PLAIN;
+import YAML from 'yaml';
 
 expect.addSnapshotSerializer({
   test(value) {
     try {
-      YAML.stringify(value);
+      YAML.stringify(value, {
+        defaultStringType: 'QUOTE_DOUBLE',
+        defaultKeyType: 'PLAIN',
+      });
       return true;
     } catch (e) {
       return false;
     }
   },
   print(value) {
-    return YAML.stringify(value).trimEnd();
+    return YAML.stringify(value, {
+      defaultStringType: 'QUOTE_DOUBLE',
+      defaultKeyType: 'PLAIN',
+    }).trimEnd();
   },
 });
 

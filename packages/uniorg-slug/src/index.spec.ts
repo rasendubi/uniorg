@@ -96,7 +96,7 @@ describe('uniorg-slug', () => {
 
     const document = `* some headline`;
 
-    const s = processor.processSync(document).contents;
+    const s = String(processor.processSync(document));
 
     expect(s).toMatchInlineSnapshot(
       `"<h1 id=\\"my-custom-id\\">some headline</h1>"`
