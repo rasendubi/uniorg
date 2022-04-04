@@ -1,7 +1,6 @@
 {
   "name": "blog-starter",
   "version": "0.4.8",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next",

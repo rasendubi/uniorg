@@ -22,7 +22,7 @@ export function getPostBySlug(slug, fields = []) {
       items[field] = realSlug;
     }
     if (field === 'content') {
-      items[field] = org.contents;
+      items[field] = String(org);
     }
     if (org.data[field]) {
       items[field] = org.data[field];
