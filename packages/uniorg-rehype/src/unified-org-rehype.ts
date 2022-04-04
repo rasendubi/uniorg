@@ -16,9 +16,11 @@ type Options = Partial<OrgToHastOptions>;
 
 const org2rehype = function org2rehype(
   options: void | Options | undefined = {}
-): Transformer<OrgNode, Root> {
+): Transformer<OrgData, Root> {
   return (node, file) => {
     const result = orgToHast(node, options) as Root;
     return result;
   };
-} as Plugin<[Options?] | void[], OrgNode, Root>;
+} as Plugin<[Options?] | void[], OrgData, Root>;
+
+export default org2rehype;

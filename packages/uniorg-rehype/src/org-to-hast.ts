@@ -110,7 +110,7 @@ type Ctx = {
 };
 
 export function orgToHast(
-  org: OrgNode,
+  org: OrgData,
   opts: Partial<OrgToHastOptions> = {}
 ): Hast | Root | null {
   const options = { ...defaultOptions, ...opts };

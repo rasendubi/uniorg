@@ -1,4 +1,4 @@
-import { unified } from 'unified';
+import { PluggableList, Preset, unified } from 'unified';
 import orgParse from 'uniorg-parse';
 import org2rehype from '.';
 import raw from 'rehype-raw';
@@ -434,6 +434,7 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
         const headline = node.children[0].children[0];
         headline.data = { hProperties: { id: 'my-custom-id' } };
       })
+      // @ts-ignore for some reason the above does something weird
       .use(org2rehype)
       .use(format)
       .use(html)
