@@ -44,5 +44,8 @@
     "typescript": "4.6.3",
     "uniorg": "^0.4.0",
     "uniorg-parse": "^0.4.5"
+  },
+  "dependencies": {
+    "unist-util-is": "^5.1.1"
   }
 }
