@@ -1460,7 +1460,7 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    return u('code', { value });
+    return u('code', { value }, []);
   }
 
   private parseVerbatim(): Verbatim | null {
