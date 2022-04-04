@@ -22,5 +22,8 @@
   "workspaces": [
     "packages/*",
     "examples/*"
-  ]
+  ],
+  "dependencies": {
+    "ci": "^2.1.1"
+  }
 }
