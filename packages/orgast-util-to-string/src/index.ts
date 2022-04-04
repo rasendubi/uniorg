@@ -1,4 +1,4 @@
-import { Node } from 'unist';
+import { Literal, Node } from 'unist';
 import { convert } from 'unist-util-is';
 import { GreaterElement, Text } from 'uniorg';
 
@@ -13,9 +13,10 @@ export function toString(node: Node | Node[], _options: Options = {}): string {
   return one(node);
 }
 
-const isText = convert<Text>('text');
-type Children = { children: any[] };
-const hasChildren = (node: Node): node is GreaterElement => 'children' in node;
+const isText = (node: any): node is Literal => typeof node.value === 'string';
+
+const hasChildren = (node: any): node is GreaterElement =>
+  node.hasOwnProperty('children');
 
 function one(node: Node | Node[]): string {
   if (!node) {

@@ -20,6 +20,13 @@ describe('orgast-util-to-string', () => {
     expect(s).toBe('Some emphasis, importance, and code.');
   });
 
+  test('code and verbatim', () => {
+    const node = parse(`~code~ and =verbatim=.`);
+
+    const s = toString(node);
+
+    expect(s).toBe('code and verbatim.');
+  });
   test('headline', () => {
     const document: any = parse(`* some text`);
     // org-data > section > headline
