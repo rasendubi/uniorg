@@ -132,7 +132,7 @@ export interface DiarySexp extends Node, WithAffiliatedKeywords {
   value: string;
 }
 
-export interface Paragraph extends Parent {
+export interface Paragraph extends GreaterElement {
   type: 'paragraph';
 }
 

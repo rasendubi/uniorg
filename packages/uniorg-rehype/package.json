@@ -39,8 +39,8 @@
     "url": "https://github.com/rasendubi/uniorg/issues"
   },
   "devDependencies": {
+    "@types/hast": "^2.3.4",
     "@types/jest": "27.4.1",
-    "hast": "^1.0.0",
     "jest": "27.5.1",
     "rehype-format": "4.0.1",
     "rehype-raw": "6.1.1",
