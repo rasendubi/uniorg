@@ -183,7 +183,7 @@ class Parser {
         }
       } else {
         this.r.narrow(cbeg, cend);
-        appendChildren(
+        appendChildren<GreaterElementType | ElementType | ObjectType>(
           element,
           this.parseObjects(restrictionFor(element.type))
         );
