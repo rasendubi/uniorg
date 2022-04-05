@@ -18,8 +18,9 @@
     "paths": {
       "uniorg": ["packages/uniorg/src"],
       "uniorg-parse": ["packages/uniorg-parse/src"],
-      "uniorg-rehype": ["packages/uniorg-rehype/src"]
+      "uniorg-rehype": ["packages/uniorg-rehype/src"],
+      "orgast-util-to-string": ["packages/orgast-util-to-string/src"]
     }
   },
-  "exclude": ["node_modules", "lib", "**/*.spec.ts"]
+  "exclude": ["node_modules", "lib", "**/*.spec.ts", "**/*.config.js"]
 }
