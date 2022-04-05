@@ -16,6 +16,7 @@ jobs:
           node-version: 16.x
       - run: npm ci
       - run: npx lerna@4.0.0 exec -- npm install
+      - run: npx lerna@4.0.0 link
       - run: npx lerna@4.0.0 run build
       - run: npm test -- --coverage
         env:
