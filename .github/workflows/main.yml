@@ -15,8 +15,8 @@ jobs:
         with:
           node-version: 16.x
       - run: npm ci
-      - run: npx lerna@4.0.0 bootstrap
-      - run: npx lerna@4.0.0 run build
+      - run: npx lerna@4.0.0 bootstrap --ci
+      - run: npx lerna@4.0.0 run build --ci
       - run: npm test -- --coverage
         env:
           CI: true
