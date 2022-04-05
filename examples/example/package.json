@@ -10,6 +10,7 @@
     "start": "node ./index.js"
   },
   "dependencies": {
+    "ci": "^2.1.1",
     "rehype-stringify": "9.0.3",
     "unified": "10.1.2",
     "unified-stream": "2.0.0",
