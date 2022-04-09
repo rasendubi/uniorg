@@ -12,20 +12,22 @@ export function toString(node: Node | Node[], _options: Options = {}): string {
 }
 
 function one(node: Node | Node[]): string {
-  if (!node) {
+  const n = node as any;
+
+  if (!n) {
     return '';
   }
 
-  if (Array.isArray(node)) {
-    return all(node);
+  if (Array.isArray(n)) {
+    return all(n);
   }
 
-  if (typeof node.value === 'string') {
-    return node.value;
+  if (typeof n.value === 'string') {
+    return n.value;
   }
 
-  if ('children' in node) {
-    return all(node.children as Node[]);
+  if ('children' in n) {
+    return all(n.children as Node[]);
   }
 
   return '';

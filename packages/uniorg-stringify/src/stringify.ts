@@ -1,4 +1,8 @@
-import type { AffiliatedKeywords, OrgNode } from 'uniorg';
+import type {
+  AffiliatedKeywords,
+  OrgNode,
+  WithAffiliatedKeywords,
+} from 'uniorg';
 import type { Node } from 'unist';
 
 export function stringify(org: string | Node | Node[]): string {
@@ -13,7 +17,7 @@ function stringifyOne(node: Node | string): string {
     return node;
   }
 
-  const org = node as OrgNode;
+  const org = node as OrgNode & Partial<WithAffiliatedKeywords>;
 
   const result: string[] = [];
 

@@ -23,6 +23,7 @@
     "autoprefixer": "^10.2.1",
     "postcss": "^8.2.4",
     "postcss-preset-env": "^6.7.0",
+    "sharp": "^0.30.3",
     "tailwindcss": "^2.0.2"
   },
   "license": "MIT"

@@ -1,23 +1,24 @@
 import YAML from 'yaml';
-import { Type } from 'yaml/util';
 
 import { parse } from './parser';
 import { ParseOptions } from './parse-options';
 
-YAML.scalarOptions.str.defaultType = Type.QUOTE_DOUBLE;
-YAML.scalarOptions.str.defaultKeyType = Type.PLAIN;
+const yamlOptions = {
+  defaultStringType: 'QUOTE_DOUBLE' as const,
+  defaultKeyType: 'PLAIN' as const,
+};
 
 expect.addSnapshotSerializer({
   test(value) {
     try {
-      YAML.stringify(value);
+      YAML.stringify(value, yamlOptions);
       return true;
     } catch (e) {
       return false;
     }
   },
   print(value) {
-    return YAML.stringify(value).trimEnd();
+    return YAML.stringify(value, yamlOptions).trimEnd();
   },
 });
 

@@ -2,7 +2,7 @@
   "name": "uniorg-root",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "npm install && lerna bootstrap",
     "clean": "lerna run clean",
     "build": "lerna run build",
     "publish": "lerna run publish",
