@@ -10,7 +10,7 @@
       in {
         devShell = pkgs.mkShell {
           nativeBuildInputs = [
-            pkgs.nodejs-14_x
+            pkgs.nodejs-16_x
           ];
         };
       });
