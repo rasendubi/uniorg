@@ -1,5 +1,5 @@
-import vfile, { VFile } from 'vfile';
-import u from 'unist-builder';
+import { VFile } from 'vfile';
+import { u } from 'unist-builder';
 import {
   NodeProperty,
   Headline,
@@ -99,7 +99,7 @@ enum ParseMode {
 }
 
 export function parse(file: VFile | string, options?: Partial<ParseOptions>) {
-  return new Parser(vfile(file), options).parse();
+  return new Parser(new VFile(file), options).parse();
 }
 
 type ListStructureItem = {
@@ -153,8 +153,10 @@ class Parser {
 
       const element = this.parseElement(mode, structure);
       const type = element.type;
-      const cbeg = (element as any).contentsBegin as number | undefined;
-      const cend = (element as any).contentsEnd as number | undefined;
+      // @ts-expect-error contentsBegin is not defined for "literals"
+      const cbeg = element.contentsBegin as number | undefined;
+      // @ts-expect-error contentsBegin is not defined for "literals"
+      const cend = element.contentsEnd as number | undefined;
 
       if (cbeg === undefined || cend === undefined) {
         // do nothing
@@ -165,7 +167,8 @@ class Parser {
           this.parseElements(
             Parser.nextMode(mode, type, true),
             element.type === 'plain-list' || element.type === 'list-item'
-              ? ((element as any).structure as ListStructureItem[])
+              ? // @ts-expect-error Property 'structure' does not exist on type 'OrgData'
+                (element.structure as ListStructureItem[])
               : undefined
           )
         );
@@ -173,12 +176,14 @@ class Parser {
 
         // Delete structure from lists. It’s only here to facilitate
         // parsing and should not be exposed to the user.
-        if ((element as any).structure) {
-          delete (element as any).structure;
+        // @ts-expect-error Property 'structure' does not exist on type 'OrgData'
+        if (element.structure) {
+          // @ts-expect-error Property 'structure' does not exist on type 'OrgData'
+          delete element.structure;
         }
       } else {
         this.r.narrow(cbeg, cend);
-        appendChildren(
+        appendChildren<GreaterElementType | ElementType | ObjectType>(
           element,
           this.parseObjects(restrictionFor(element.type))
         );
@@ -422,8 +427,10 @@ class Parser {
         objects.push(u('text', { value }));
       }
 
-      const cbeg = (o as any).contentsBegin as number | undefined;
-      const cend = (o as any).contentsEnd as number | undefined;
+      // @ts-expect-error contentsBegin is not defined for "literals"
+      const cbeg = o.contentsBegin as number | undefined;
+      // @ts-expect-error contentsBegin is not defined for "literals"
+      const cend = o.contentsEnd as number | undefined;
       if (cbeg !== undefined && cend !== undefined) {
         this.r.narrow(cbeg, cend);
         appendChildren(o, this.parseObjects(restrictionFor(o.type)));
@@ -1229,7 +1236,7 @@ class Parser {
       {
         affiliated,
         indent,
-        listType,
+        listType: listType as 'ordered' | 'unordered' | 'descriptive',
         contentsBegin,
         contentsEnd,
         // Exposing structure here is temporary as it gets removed in parseElements(). It is only exposed so

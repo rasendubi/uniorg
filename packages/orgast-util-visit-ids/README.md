@@ -8,17 +8,14 @@ orgast (uniorg) utility to visit all nodes with ids.
 npm install orgast-util-visit-ids
 ```
 
-
 ## Use
 
 ```js
-import unified from 'unified';
+import { unified } from 'unified';
 import uniorgParse from 'uniorg-parse';
 import { visitIds } from 'orgast-util-visit-ids';
 
-const tree = unified()
-      .use(uniorgParse)
-      .parse(`
+const tree = unified().use(uniorgParse).parse(`
 :PROPERTIES:
 :ID: id-org-data
 :END:
@@ -41,9 +38,7 @@ visitIds(tree, (id, node) => {
 //=> id-headline-2 headline Second headline
 ```
 
-
 ## API
-
 
 ### `visitIds(node: OrgData, callback: (id: string, node: OrgData | Headline) => void)`
 

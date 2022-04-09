@@ -1,4 +1,4 @@
-import unified from 'unified';
+import { unified } from 'unified';
 
 import orgParse from 'uniorg-parse';
 import org2rehype from 'uniorg-rehype';

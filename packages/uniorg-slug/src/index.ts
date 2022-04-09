@@ -1,4 +1,4 @@
-import visit from 'unist-util-visit';
+import { visit } from 'unist-util-visit';
 import { Plugin } from 'unified';
 import { Node } from 'unist';
 import { VFile } from 'vfile';

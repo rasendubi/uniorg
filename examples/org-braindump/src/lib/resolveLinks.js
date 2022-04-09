@@ -1,4 +1,4 @@
-import unified from 'unified';
+import { unified } from 'unified';
 import inspectUrls from 'rehype-url-inspector';
 
 export default function resolveLinks(files) {

@@ -1,8 +1,8 @@
 import * as path from 'path';
-import trough from 'trough';
-import toVFile from 'to-vfile';
-import findDown from 'vfile-find-down';
-import rename from 'vfile-rename';
+import { trough } from 'trough';
+import { toVFile } from 'to-vfile';
+import { findDown } from 'vfile-find-down';
+import { rename } from 'vfile-rename';
 import report from 'vfile-reporter';
 
 import orgToHtml from './orgToHtml';
@@ -24,7 +24,7 @@ const processor = trough()
 
 function collectFiles(root) {
   return new Promise((resolve, reject) => {
-    findDown.all(
+    findDown(
       (f, stats) => stats.isFile() && f.basename.endsWith('.org'),
       root,
       (err, files) => {

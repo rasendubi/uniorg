@@ -58,6 +58,7 @@ The rest of the syntax should work fine and exactly the same way as in Emacs (in
 # Packages
 
 This repository contains the following packages:
+
 - [`uniorg`][uniorg] — Typescript definitions of uniorg syntax tree
 - [`uniorg-parse`][uniorg-parse] — Parse org-mode files to uniorg syntax trees
 - [`uniorg-stringify`][uniorg-stringify] — Stringify uniorg syntax tree to org-mode string
@@ -85,15 +86,12 @@ uniorg is compatible with [unified](https://github.com/unifiedjs/unified) ecosys
 For example, here's how you transform an org-mode to html.
 
 ```js
-import unified from 'unified';
+import { unified } from 'unified';
 import parse from 'uniorg-parse';
 import uniorg2rehype from 'uniorg-rehype';
 import stringify from 'rehype-stringify';
 
-const processor = unified()
-  .use(parse)
-  .use(uniorg2rehype)
-  .use(stringify);
+const processor = unified().use(parse).use(uniorg2rehype).use(stringify);
 
 processor
   .process(`* org-mode example\n your text goes here`)
@@ -103,7 +101,7 @@ processor
 Plugins for code syntax highlight ([rehype-highlight](https://github.com/rehypejs/rehype-highlight), [@mapbox/rehype-prism](https://github.com/mapbox/rehype-prism)) and latex-formatting ([rehype-katex](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex), [rehype-mathjax](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-mathjax)) should work out of the box:
 
 ```js
-import unified from 'unified';
+import { unified } from 'unified';
 import parse from 'uniorg-parse';
 import uniorg2rehype from 'uniorg-rehype';
 import highlight from 'rehype-highlight';
@@ -117,14 +115,18 @@ const processor = unified()
   .use(katex)
   .use(stringify);
 
-processor.process(`* org-mode example
+processor
+  .process(
+    `* org-mode example
 When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
 $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
 
 #+begin_src js
 console.log('uniorg is cool!');
 #+end_src
-`).then((file) => console.log(file.contents));
+`
+  )
+  .then((file) => console.log(file.contents));
 ```
 
 # A note about ESM
@@ -137,6 +139,7 @@ unified ecosystem has just migrated to pure ESM packages. However, the ESM suppo
 Of course, there are workarounds but I believe that moving to pure ESM packages is more pain to the users at this point. That’s why uniorg is still using commonjs packages. However, **this makes uniorg incompatible with the latest versions of unified packages.**
 
 **If you install packages from unified ecosystem (e.g., unified, vfile, to-vfile), you should pin them to the previous major version as follows:**
+
 ```sh
 npm install unified@9 vfile@4 to-vfile@6
 ```
