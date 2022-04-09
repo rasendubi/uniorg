@@ -45,7 +45,7 @@
     "uniorg": "^0.4.0",
     "uniorg-parse": "^0.4.5",
     "vfile": "^4.2.1",
-    "yaml": "^2.0.0-1"
+    "yaml": "^2.0.0"
   },
   "dependencies": {
     "unist-util-visit-parents": "^3.1.1"

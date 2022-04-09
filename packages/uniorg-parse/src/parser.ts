@@ -153,8 +153,8 @@ class Parser {
 
       const element = this.parseElement(mode, structure);
       const type = element.type;
-      const cbeg = element.contentsBegin as number | undefined;
-      const cend = element.contentsEnd as number | undefined;
+      const cbeg = (element as any).contentsBegin as number | undefined;
+      const cend = (element as any).contentsEnd as number | undefined;
 
       if (cbeg === undefined || cend === undefined) {
         // do nothing
@@ -165,7 +165,7 @@ class Parser {
           this.parseElements(
             Parser.nextMode(mode, type, true),
             element.type === 'plain-list' || element.type === 'list-item'
-              ? (element.structure as ListStructureItem[])
+              ? ((element as any).structure as ListStructureItem[])
               : undefined
           )
         );
@@ -173,8 +173,8 @@ class Parser {
 
         // Delete structure from lists. It’s only here to facilitate
         // parsing and should not be exposed to the user.
-        if (element.structure) {
-          delete element.structure;
+        if ((element as any).structure) {
+          delete (element as any).structure;
         }
       } else {
         this.r.narrow(cbeg, cend);
@@ -422,8 +422,8 @@ class Parser {
         objects.push(u('text', { value }));
       }
 
-      const cbeg = o.contentsBegin as number | undefined;
-      const cend = o.contentsEnd as number | undefined;
+      const cbeg = (o as any).contentsBegin as number | undefined;
+      const cend = (o as any).contentsEnd as number | undefined;
       if (cbeg !== undefined && cend !== undefined) {
         this.r.narrow(cbeg, cend);
         appendChildren(o, this.parseObjects(restrictionFor(o.type)));
