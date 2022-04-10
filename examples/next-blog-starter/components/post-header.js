@@ -1,7 +1,7 @@
-import Avatar from '../components/avatar';
-import DateFormatter from '../components/date-formatter';
-import CoverImage from '../components/cover-image';
-import PostTitle from '../components/post-title';
+import Avatar from '../components/avatar.js';
+import DateFormatter from '../components/date-formatter.js';
+import CoverImage from '../components/cover-image.js';
+import PostTitle from '../components/post-title.js';
 
 export default function PostHeader({
   title,

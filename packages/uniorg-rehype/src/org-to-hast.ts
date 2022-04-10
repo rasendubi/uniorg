@@ -313,7 +313,7 @@ export function orgToHast(
         return h(org, 'div.exampe', {}, org.value);
       case 'export-block':
         if (org.backend === 'html') {
-          // @ts-expect-error raw is not defined
+          // @ts-ignore raw is not defined
           return u('raw', org.value);
         }
         return null;
@@ -330,7 +330,7 @@ export function orgToHast(
         );
       case 'keyword':
         if (org.key === 'HTML') {
-          // @ts-expect-error raw is not defined
+          // @ts-ignore raw is not defined
           return u('raw', org.value);
         }
         return null;

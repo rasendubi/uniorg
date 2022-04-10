@@ -1,6 +1,7 @@
 {
   "name": "uniorg-root",
   "private": true,
+  "type": "module",
   "scripts": {
     "bootstrap": "npm install && lerna bootstrap --no-ci",
     "clean": "lerna run clean",

@@ -46,16 +46,16 @@ import {
   ListItemTag,
 } from 'uniorg';
 
-import { getOrgEntity } from './entities';
+import { getOrgEntity } from './entities.js';
 import {
   restrictionFor,
   greaterElements,
   unescapeCodeInString,
   escapeRegExp,
   OrgRegexUtils,
-} from './utils';
-import { ParseOptions, defaultOptions } from './parse-options';
-import { Reader } from './reader';
+} from './utils.js';
+import { ParseOptions, defaultOptions } from './parse-options.js';
+import { Reader } from './reader.js';
 
 /*
 (defun rasen/org-debug ()

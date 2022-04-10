@@ -2,6 +2,7 @@
   "name": "example",
   "version": "0.4.8",
   "private": true,
+  "type": "module",
   "description": "Simple example of uniorg usage.",
   "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
   "homepage": "https://github.com/rasendubi/uniorg#readme",
@@ -10,7 +11,6 @@
     "start": "node ./index.js"
   },
   "dependencies": {
-    "ci": "^2.1.1",
     "rehype-stringify": "9.0.3",
     "unified": "10.1.2",
     "unified-stream": "2.0.0",

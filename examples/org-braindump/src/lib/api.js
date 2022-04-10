@@ -5,8 +5,8 @@ import { findDown } from 'vfile-find-down';
 import { rename } from 'vfile-rename';
 import report from 'vfile-reporter';
 
-import orgToHtml from './orgToHtml';
-import resolveLinks from './resolveLinks';
+import orgToHtml from './orgToHtml.js';
+import resolveLinks from './resolveLinks.js';
 
 // We serve posts from "public" directory, so that we don't have to
 // copy assets.

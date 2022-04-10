@@ -1,10 +1,10 @@
 import { join } from 'path';
 import Head from 'next/head';
 
-import { getAllPaths, getPostBySlug } from '../lib/api';
+import { getAllPaths, getPostBySlug } from '../lib/api.js';
 
-import Link from '../components/Link';
-import Rehype from '../components/Rehype';
+import Link from '../components/Link.jsx';
+import Rehype from '../components/Rehype.jsx';
 
 const Note = ({ title, hast, backlinks }) => {
   return (

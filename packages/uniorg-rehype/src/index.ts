@@ -1,1 +1,1 @@
-export { default } from './unified-org-rehype';
+export { default } from './unified-org-rehype.js';

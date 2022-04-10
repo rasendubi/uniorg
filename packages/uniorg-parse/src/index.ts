@@ -1,1 +1,1 @@
-export { default } from './unified-org-parse';
+export { default } from './unified-org-parse.js';
