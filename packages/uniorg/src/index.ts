@@ -130,8 +130,10 @@ export interface DiarySexp extends Node, WithAffiliatedKeywords {
   value: string;
 }
 
-export interface Paragraph extends GreaterElement {
+export interface Paragraph extends Element {
   type: 'paragraph';
+  contentsBegin: number;
+  contentsEnd: number;
 }
 
 export interface Comment extends Node {
