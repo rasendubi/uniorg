@@ -7,8 +7,8 @@ import extractKeywords, { Options } from './';
 const process = (s: string, options?: Options): VFile => {
   const processor = unified().use(uniorg).use(extractKeywords, options);
 
-  // not interested in result
   const f = new VFile(s);
+  // not interested in result
   processor.runSync(processor.parse(f), f);
 
   return f;

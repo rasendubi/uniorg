@@ -21,7 +21,8 @@ const node = unified()
   .use(uniorgParse)
   .use(uniorgSlug)
   .use(uniorg2rehype)
-  .use(html).processSync(`
+  .use(html)
+  .processSync(`
 * headline
 ** nested headline
 :PROPERTIES:

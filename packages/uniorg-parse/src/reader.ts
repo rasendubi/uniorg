@@ -1,7 +1,8 @@
 import { VFile } from 'vfile';
 import { location } from 'vfile-location';
 
-export type Location = ReturnType<typeof location>;
+type Location = ReturnType<typeof location>;
+
 export class Reader {
   readonly #text: string;
   readonly #vfile: VFile;

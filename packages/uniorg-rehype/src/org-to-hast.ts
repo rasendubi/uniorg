@@ -1,7 +1,7 @@
 import { u } from 'unist-builder';
 import { h as hast } from 'hastscript';
-import { Properties, Node, Element, Root, Text } from 'hast';
-import {
+import type { Properties, Node, Element, Root, Text } from 'hast';
+import type {
   OrgNode,
   OrgData,
   TableRow,
@@ -10,8 +10,7 @@ import {
   FootnoteDefinition,
 } from 'uniorg';
 
-type HastNode = Root['children'][number];
-type Hast = HastNode;
+type Hast = Root['children'][number];
 
 export interface OrgToHastOptions {
   imageFilenameExtensions: string[];
@@ -135,7 +134,7 @@ export function orgToHast(
           // toHast(section) returns an array, so without this flatMap
           // `children: toHast(org.children)` could return an array of
           // arrays which then fails to serialize by rehype-stringify.
-          .flatMap((x) => (Array.isArray(x) ? x : [x])) as Hast[]
+          .flatMap((x) => (Array.isArray(x) ? x : [x]) as Hast[])
       );
     }
 

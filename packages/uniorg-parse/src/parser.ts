@@ -1215,10 +1215,10 @@ class Parser {
     }
     const indent = item.indent;
     const listType = item.tag
-      ? 'descriptive'
+      ? ('descriptive' as const)
       : '-+*'.includes(item.bullet[0])
-      ? 'unordered'
-      : 'ordered';
+      ? ('unordered' as const)
+      : ('ordered' as const);
     let pos = item.end;
     while (true) {
       const next = structure.find(
@@ -1236,7 +1236,7 @@ class Parser {
       {
         affiliated,
         indent,
-        listType: listType as 'ordered' | 'unordered' | 'descriptive',
+        listType,
         contentsBegin,
         contentsEnd,
         // Exposing structure here is temporary as it gets removed in parseElements(). It is only exposed so
