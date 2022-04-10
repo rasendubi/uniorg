@@ -23,7 +23,6 @@
     "uniorg-rehype": "^0.4.8",
     "uniorg-slug": "^0.4.8",
     "vfile-find-down": "6.0.0",
-    "vfile-rename": "2.0.0",
     "vfile-reporter": "7.0.4"
   }
 }

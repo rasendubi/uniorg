@@ -2,7 +2,6 @@ import * as path from 'path';
 import { trough } from 'trough';
 import { toVFile } from 'to-vfile';
 import { findDown } from 'vfile-find-down';
-import { rename } from 'vfile-rename';
 import report from 'vfile-reporter';
 
 import orgToHtml from './orgToHtml.js';
@@ -54,7 +53,7 @@ async function processPosts(files) {
       throw e;
     }
 
-    rename(file, { path: file.data.slug });
+    file.path = file.data.slug;
 
     await orgToHtml(file);
 
