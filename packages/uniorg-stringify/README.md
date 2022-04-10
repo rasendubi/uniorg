@@ -8,25 +8,22 @@ uniorg plugin to serialize org-mode.
 npm install uniorg-stringify
 ```
 
-
 ## Use
 
 ```js
-import unified from 'unified';
+import { unified } from 'unified';
 import uniorgParse from 'uniorg-parse';
 import { uniorgStringify } from 'uniorg-stringify';
 
 const result = unified()
-      .use(uniorgParse)
-      .use(uniorgStringify)
-      .processSync('Some /emphasis/, *importance*, and ~code~.');
+  .use(uniorgParse)
+  .use(uniorgStringify)
+  .processSync('Some /emphasis/, *importance*, and ~code~.');
 
-console.log(result.contents); //=> Some /emphasis/, *importance*, and ~code~.
+console.log(String(result)); //=> Some /emphasis/, *importance*, and ~code~.
 ```
 
-
 ## API
-
 
 ### `processor().use(uniorgStringify)`
 
@@ -42,7 +39,6 @@ import { stringify } from 'uniorg-stringify/lib/stringify';
 
 stringify(parse(`* headline`));
 ```
-
 
 ## License
 

@@ -1,6 +1,6 @@
-import Container from './container';
+import Container from './container.js';
 import cn from 'classnames';
-import { EXAMPLE_PATH } from '../lib/constants';
+import { EXAMPLE_PATH } from '../lib/constants.js';
 
 export default function Alert({ preview }) {
   return (

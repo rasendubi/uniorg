@@ -1,4 +1,4 @@
-import visit from 'unist-util-visit';
+import { visit } from 'unist-util-visit';
 
 import { Keyword } from 'uniorg';
 import { Plugin } from 'unified';

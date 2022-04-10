@@ -11,6 +11,7 @@ npm install --save uniorg-extract-keywords
 ## Use
 
 If we have the following `example.org` file:
+
 ```org
 #+TITLE: Post title
 #+AUTHOR: Your Name
@@ -21,7 +22,7 @@ other org-mode
 and
 
 ```js
-import unified from 'unified';
+import { unified } from 'unified';
 import toVFile from 'to-vfile';
 import uniorgParse from 'uniorg-parse';
 import { extractKeywords } from 'uniorg-extract-keywords';
@@ -36,7 +37,7 @@ unified()
   .process(toVFile.readSync('./example.org'), function (err, file) {
     console.log(file.toString());
     console.log(file.data);
-  })
+  });
 ```
 
 will output
@@ -70,7 +71,7 @@ unified()
   .use(html)
   .process('#+TITLE: Example', function (err, file) {
     console.log(file.data);
-  })
+  });
 ```
 
 will output
@@ -97,7 +98,7 @@ unified()
   .use(html)
   .process('#+TITLE: Example', function (err, file) {
     console.log(file.data);
-  })
+  });
 ```
 
 will output

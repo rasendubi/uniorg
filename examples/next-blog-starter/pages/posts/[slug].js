@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
-import Container from '../../components/container';
-import PostBody from '../../components/post-body';
-import Header from '../../components/header';
-import PostHeader from '../../components/post-header';
-import Layout from '../../components/layout';
-import { getPostBySlug, getAllPosts } from '../../lib/api';
-import PostTitle from '../../components/post-title';
+import Container from '../../components/container.js';
+import PostBody from '../../components/post-body.js';
+import Header from '../../components/header.js';
+import PostHeader from '../../components/post-header.js';
+import Layout from '../../components/layout.js';
+import { getPostBySlug, getAllPosts } from '../../lib/api.js';
+import PostTitle from '../../components/post-title.js';
 import Head from 'next/head';
-import { CMS_NAME } from '../../lib/constants';
+import { CMS_NAME } from '../../lib/constants.js';
 
 export default function Post({ post, morePosts, preview }) {
   const router = useRouter();

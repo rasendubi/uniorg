@@ -1,4 +1,4 @@
-import { CMS_NAME } from '../lib/constants';
+import { CMS_NAME } from '../lib/constants.js';
 
 export default function Intro() {
   return (

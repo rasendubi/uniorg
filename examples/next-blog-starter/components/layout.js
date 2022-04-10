@@ -1,6 +1,6 @@
-import Alert from '../components/alert';
-import Footer from '../components/footer';
-import Meta from '../components/meta';
+import Alert from '../components/alert.js';
+import Footer from '../components/footer.js';
+import Meta from '../components/meta.js';
 
 export default function Layout({ preview, children }) {
   return (

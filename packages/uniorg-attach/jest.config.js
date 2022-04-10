@@ -1,3 +1,2 @@
-module.exports = {
-  testMatch: ['**/src/**/*.spec.ts'],
-};
+import config from '../../jest-base.mjs';
+export default { ...config };

@@ -1,3 +1,2 @@
-import uniorg2rehype from './unified-org-rehype';
-
-export = uniorg2rehype;
+export { default } from './unified-org-rehype.js';
+export type { Options } from './unified-org-rehype.js';

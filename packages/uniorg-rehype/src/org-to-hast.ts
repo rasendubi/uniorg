@@ -1,7 +1,7 @@
-import u from 'unist-builder';
-import hast from 'hastscript';
-import { Properties, Node, Element } from 'hast';
-import {
+import { u } from 'unist-builder';
+import { h as hast } from 'hastscript';
+import type { Properties, Node, Element, Root, Text } from 'hast';
+import type {
   OrgNode,
   OrgData,
   TableRow,
@@ -10,7 +10,7 @@ import {
   FootnoteDefinition,
 } from 'uniorg';
 
-type Hast = any;
+type Hast = Root['children'][number];
 
 export interface OrgToHastOptions {
   imageFilenameExtensions: string[];
@@ -31,7 +31,7 @@ export interface OrgToHastOptions {
    * {...footnotes}
    * ```
    */
-  footnotesSection: (footnotes: Node[]) => Node[];
+  footnotesSection: (footnotes: Hast[]) => Hast[];
 }
 
 const defaultOptions: OrgToHastOptions = {
@@ -85,11 +85,13 @@ function h(
   node: OrgNode | null,
   selector?: string,
   properties?: Properties,
-  children?: string | Node | Array<string | Node>
+  children?: string | Node | null | Array<string | Node | null>
 ): Element {
   // TODO: hProperties is not respected in text nodes.
 
-  const element = hast(selector, properties || {}, children || []);
+  const element: Element =
+    // @ts-expect-error does not match the expected overloads
+    hast(selector, properties || {}, children || []);
 
   const hProperties = node?.data?.hProperties;
   if (hProperties) {
@@ -109,7 +111,7 @@ type Ctx = {
 export function orgToHast(
   org: OrgData,
   opts: Partial<OrgToHastOptions> = {}
-): Hast {
+): Hast | Root | null {
   const options = { ...defaultOptions, ...opts };
 
   const ctx: Ctx = {
@@ -119,16 +121,20 @@ export function orgToHast(
 
   return toHast(org);
 
-  function toHast(node: any): Hast {
+  function toHast(node: OrgNode | null): Root | Hast | null;
+  function toHast(node: (OrgNode | null)[]): (Hast | null)[];
+  function toHast(
+    node: OrgNode | null | (OrgNode | null)[]
+  ): Hast | (Hast | null)[] | Root | null {
     if (Array.isArray(node)) {
       return (
         node
-          .map(toHast)
+          .map((node) => toHast(node))
           .filter((x) => x !== null && x !== undefined)
           // toHast(section) returns an array, so without this flatMap
           // `children: toHast(org.children)` could return an array of
           // arrays which then fails to serialize by rehype-stringify.
-          .flatMap((x) => (Array.isArray(x) ? x : [x]))
+          .flatMap((x) => (Array.isArray(x) ? x : [x]) as Hast[])
       );
     }
 
@@ -172,7 +178,7 @@ export function orgToHast(
               ),
             ]);
           })
-          .filter((x) => x !== null) as Node[];
+          .filter((x) => x !== null) as Hast[];
         if (footnotes.length !== 0) {
           if (opts.useSections) {
             children.push(
@@ -183,7 +189,7 @@ export function orgToHast(
           }
         }
 
-        return { type: 'root', children };
+        return { type: 'root', children } as Root;
       case 'section': {
         const headline = org.children[0] as Headline;
         // TODO: support other options that prevent export:
@@ -234,7 +240,7 @@ export function orgToHast(
           : null;
         const tags = org.tags.length
           ? [
-              u('text', { value: '\xa0\xa0\xa0' }),
+              u('text', { value: '\xa0\xa0\xa0' }) as Text,
               h(
                 org,
                 'span.tags',
@@ -253,7 +259,9 @@ export function orgToHast(
           org,
           `h${org.level}`,
           {},
-          [todo, priority, toHast(org.children), tags].filter((x) => x)
+          [todo, priority, ...toHast(org.children), tags].filter(
+            (x) => x
+          ) as Hast[]
         );
       }
       case 'plain-list':
@@ -304,12 +312,13 @@ export function orgToHast(
         return h(org, 'div.exampe', {}, org.value);
       case 'export-block':
         if (org.backend === 'html') {
+          // @ts-ignore raw is not defined
           return u('raw', org.value);
         }
         return null;
       case 'special-block':
         if (html5Elements.has(org.blockType)) {
-          return h(org, org.blockType, toHast(org.children));
+          return h(org, org.blockType, {}, toHast(org.children));
         }
 
         return h(
@@ -320,6 +329,7 @@ export function orgToHast(
         );
       case 'keyword':
         if (org.key === 'HTML') {
+          // @ts-ignore raw is not defined
           return u('raw', org.value);
         }
         return null;
@@ -394,7 +404,7 @@ export function orgToHast(
           toHast(org.children)
         );
       case 'text':
-        return org.value;
+        return u('text', org.value);
       case 'link': {
         let link = org.rawLink;
         // This is where uniorg differs from org-mode. org-html-export
@@ -468,7 +478,7 @@ export function orgToHast(
                       'tr',
                       {},
                       row.children.map((cell) =>
-                        h(cell, 'th', toHast(cell.children))
+                        h(cell, 'th', {}, toHast(cell.children))
                       )
                     )
                   )
@@ -476,7 +486,7 @@ export function orgToHast(
               );
               hasHead = true;
             } else {
-              table.children.push(h(org, 'tbody', toHast(group)));
+              table.children.push(h(org, 'tbody', {}, toHast(group)));
             }
             group = [];
           }
@@ -485,20 +495,21 @@ export function orgToHast(
         });
 
         if (group.length) {
-          table.children.push(h(org, 'tbody', toHast(group)));
+          table.children.push(h(org, 'tbody', {}, toHast(group)));
         }
 
         return table;
       }
       case 'table-row':
         if (org.rowType === 'standard') {
-          return h(org, 'tr', toHast(org.children));
+          return h(org, 'tr', {}, toHast(org.children));
         } else {
           return null;
         }
       case 'table-cell':
-        return h(org, 'td', toHast(org.children));
+        return h(org, 'td', {}, toHast(org.children));
       default:
+        // @ts-expect-error This should happen sometimes and its fine
         return org;
     }
   }

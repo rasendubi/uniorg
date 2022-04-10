@@ -1,5 +1,5 @@
-import Container from './container';
-import { EXAMPLE_PATH } from '../lib/constants';
+import Container from './container.js';
+import { EXAMPLE_PATH } from '../lib/constants.js';
 
 export default function Footer() {
   return (

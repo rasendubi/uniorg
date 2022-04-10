@@ -1,14 +1,13 @@
-import unified from 'unified';
+import { unified } from 'unified';
 import uniorg from 'uniorg-parse';
-import vfile, { VFile } from 'vfile';
+import { VFile } from 'vfile';
 
 import extractKeywords, { Options } from './';
 
 const process = (s: string, options?: Options): VFile => {
   const processor = unified().use(uniorg).use(extractKeywords, options);
 
-  const f = vfile(s);
-
+  const f = new VFile(s);
   // not interested in result
   processor.runSync(processor.parse(f), f);
 

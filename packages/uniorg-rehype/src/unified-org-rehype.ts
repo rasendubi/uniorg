@@ -1,11 +1,17 @@
-import { orgToHast, OrgToHastOptions } from './org-to-hast';
+import type { Root } from 'hast';
+import type { Plugin } from 'unified';
+import type { OrgData } from 'uniorg';
 
-export type { OrgToHastOptions } from './org-to-hast';
+import { orgToHast, type OrgToHastOptions } from './org-to-hast.js';
 
-export default function org2rehype(options?: Partial<OrgToHastOptions>) {
-  return transformer;
+export type Options = Partial<OrgToHastOptions>;
 
-  function transformer(org: any) {
-    return orgToHast(org, options);
-  }
-}
+const org2rehype: Plugin<[Options?], OrgData, Root> = function org2rehype(
+  options: Options = {}
+) {
+  return (node, _file) => {
+    return orgToHast(node, options) as Root;
+  };
+};
+
+export default org2rehype;

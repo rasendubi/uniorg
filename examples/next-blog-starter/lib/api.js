@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { join } from 'path';
-import orgToHtml from './orgToHtml';
+import orgToHtml from './orgToHtml.js';
 
 const postsDirectory = join(process.cwd(), '_posts');
 
@@ -22,7 +22,7 @@ export function getPostBySlug(slug, fields = []) {
       items[field] = realSlug;
     }
     if (field === 'content') {
-      items[field] = org.contents;
+      items[field] = String(org);
     }
     if (org.data[field]) {
       items[field] = org.data[field];

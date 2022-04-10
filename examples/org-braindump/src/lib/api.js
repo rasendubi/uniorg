@@ -1,12 +1,11 @@
 import * as path from 'path';
-import trough from 'trough';
-import toVFile from 'to-vfile';
-import findDown from 'vfile-find-down';
-import rename from 'vfile-rename';
+import { trough } from 'trough';
+import { toVFile } from 'to-vfile';
+import { findDown } from 'vfile-find-down';
 import report from 'vfile-reporter';
 
-import orgToHtml from './orgToHtml';
-import resolveLinks from './resolveLinks';
+import orgToHtml from './orgToHtml.js';
+import resolveLinks from './resolveLinks.js';
 
 // We serve posts from "public" directory, so that we don't have to
 // copy assets.
@@ -24,7 +23,7 @@ const processor = trough()
 
 function collectFiles(root) {
   return new Promise((resolve, reject) => {
-    findDown.all(
+    findDown(
       (f, stats) => stats.isFile() && f.basename.endsWith('.org'),
       root,
       (err, files) => {
@@ -54,7 +53,7 @@ async function processPosts(files) {
       throw e;
     }
 
-    rename(file, { path: file.data.slug });
+    file.path = file.data.slug;
 
     await orgToHtml(file);
 

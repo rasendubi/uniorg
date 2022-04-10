@@ -1,5 +1,5 @@
 import path from 'path';
-import visitParents from 'unist-util-visit-parents';
+import { visitParents } from 'unist-util-visit-parents';
 
 import type { Link, OrgData, PropertyDrawer, Section } from 'uniorg';
 import type { Plugin } from 'unified';

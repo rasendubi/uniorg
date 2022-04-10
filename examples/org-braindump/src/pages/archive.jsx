@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
-import { getAllPosts } from '../lib/api';
-import Link from '../components/Link';
+import { getAllPosts } from '../lib/api.js';
+import Link from '../components/Link.jsx';
 
 const Archive = ({ posts }) => {
   return (

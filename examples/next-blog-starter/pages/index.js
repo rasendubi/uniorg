@@ -1,11 +1,11 @@
-import Container from '../components/container';
-import MoreStories from '../components/more-stories';
-import HeroPost from '../components/hero-post';
-import Intro from '../components/intro';
-import Layout from '../components/layout';
-import { getAllPosts } from '../lib/api';
+import Container from '../components/container.js';
+import MoreStories from '../components/more-stories.js';
+import HeroPost from '../components/hero-post.js';
+import Intro from '../components/intro.js';
+import Layout from '../components/layout.js';
+import { getAllPosts } from '../lib/api.js';
 import Head from 'next/head';
-import { CMS_NAME } from '../lib/constants';
+import { CMS_NAME } from '../lib/constants.js';
 
 export default function Index({ allPosts }) {
   const heroPost = allPosts[0];
