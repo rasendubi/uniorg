@@ -44,6 +44,8 @@ import {
   Entity,
   LatexFragment,
   ListItemTag,
+  Citation,
+  CitationReference,
 } from 'uniorg';
 
 import { getOrgEntity } from './entities.js';
@@ -460,6 +462,13 @@ class Parser {
       return [this.r.offset(), this.parseTableCell()];
     }
 
+    // citation-reference is only allowed inside citation
+    if (restriction.has('citation-reference')) {
+      const offset = this.r.offset();
+      const ref = this.parseCitationReference();
+      return ref ? [offset, ref] : null;
+    }
+
     // 1. Search for pattern that probably starts an object.
     // 2. Try to parse object at that position.
     // 3. If not a valid object, advance by one char and repeat.
@@ -581,14 +590,18 @@ class Parser {
           if (restriction.has('footnote-reference')) {
             return this.parseFootnoteReference();
           }
+        } else if (c[1] === 'c') {
+          if (restriction.has('citation')) {
+            return this.parseCitation();
+          }
+        } else if (c[1] === '%' || c[1] === '/') {
+          // TODO: statistics cookie
         } else {
           const offset = this.r.offset();
 
           const ts = restriction.has('timestamp') && this.parseTimestamp();
           if (ts) return ts;
           this.r.resetOffset(offset);
-
-          // TODO: statistics cookie
         }
 
         break;
@@ -1604,6 +1617,118 @@ class Parser {
     } else {
       return u('footnote-reference', { label, footnoteType }, []);
     }
+  }
+
+  private parseCitation(): Citation | null {
+    let m = this.r.lookingAt(this.re.citationPrefixRe());
+    if (!m) return null;
+
+    const begin = this.r.offset();
+    const style = m.groups!['style'];
+    const start = begin + m[0].length;
+
+    // match ([ and ])
+    const end = this.scanLists();
+    if (end === null) return null;
+    this.r.narrow(begin, end);
+
+    const mKey = this.r.match(this.re.citationKeyRe());
+    if (!mKey) {
+      this.r.widen();
+      return null;
+    }
+
+    const firstKeyEnd = begin + mKey.index + mKey[0].length;
+
+    // common prefix
+    const contentsBegin = this.r.withNarrow(start, firstKeyEnd, () => {
+      const m = this.r.rest().lastIndexOf(';');
+      return m !== -1 ? this.r.offset() + m : start;
+    });
+
+    // common suffix
+    const contentsEnd = this.r.withNarrow(start, firstKeyEnd, () => {
+      const m = this.r.rest().lastIndexOf(';');
+      if (m === -1) return end - 1;
+      this.r.resetOffset(this.r.offset() + m);
+      if (this.r.match(this.re.citationKeyRe())) return end - 1;
+      return this.r.offset();
+    });
+
+    // const prefix = contenstBegin === start ? null :
+    const types = restrictionFor('citation-reference');
+    const prefix = null;
+    const suffix = null;
+
+    const cite: Citation = {
+      type: 'citation',
+      style,
+      begin,
+      end,
+      prefix,
+      suffix,
+      contentsBegin,
+      contentsEnd,
+      children: [],
+    };
+
+    this.r.widen();
+    this.r.resetOffset(end);
+
+    return cite;
+  }
+
+  private parseCitationReference(): CitationReference | null {
+    const begin = this.r.offset();
+
+    const m = this.r.match(this.re.citationKeyRe());
+    if (!m) return null;
+
+    const key = m.groups!['key'];
+    const keyStart = this.r.offset() + m.index;
+    const keyEnd = keyStart + m[0].length;
+
+    const mSeparator = this.r.match(/;/);
+    const separator = mSeparator
+      ? this.r.offset() + mSeparator.index + 1
+      : null;
+    const end = separator ?? this.r.endOffset();
+    const suffixEnd = separator ? end - 1 : end;
+    const types = restrictionFor('citation-reference');
+    const reference: CitationReference = {
+      type: 'citation-reference',
+      key,
+      begin,
+      end,
+    };
+
+    this.r.resetOffset(end);
+
+    return reference;
+  }
+
+  private scanLists(): number | null {
+    const start = this.r.offset();
+
+    let depth = 0;
+    do {
+      const m = this.r.advance(this.r.match(/[()[\]]/g));
+      if (!m) break;
+
+      if (m[0] === '(' || m[0] === '[') {
+        depth += 1;
+      } else {
+        depth -= 1;
+      }
+    } while (depth !== 0);
+
+    const end = this.r.offset();
+    this.r.resetOffset(start);
+
+    return depth === 0
+      ? end
+      : // didn’t find matching closing parenthesis
+        null;
   }
 
   private parseLink(): Link | null {

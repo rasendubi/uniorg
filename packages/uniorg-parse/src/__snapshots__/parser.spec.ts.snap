@@ -392,6 +392,108 @@ children:
           \\    ---AlexSchroeder\\n"
 `;
 
+exports[`org/parser citations multiple citation keys 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 20
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 20
+    children:
+      - type: "citation"
+        begin: 0
+        end: 20
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 19
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 6
+            end: 13
+          - type: "citation-reference"
+            key: "world"
+            begin: 13
+            end: 19
+`;
+
+exports[`org/parser citations simple citation 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 13
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 13
+    children:
+      - type: "citation"
+        begin: 0
+        end: 13
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 12
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 6
+            end: 12
+`;
+
+exports[`org/parser citations simple with style 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 15
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 15
+    children:
+      - type: "citation"
+        style: "s"
+        begin: 0
+        end: 15
+        prefix: null
+        suffix: null
+        contentsBegin: 8
+        contentsEnd: 14
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 8
+            end: 14
+`;
+
+exports[`org/parser citations simple with style and variant 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 17
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 17
+    children:
+      - type: "citation"
+        style: "s/v"
+        begin: 0
+        end: 17
+        prefix: null
+        suffix: null
+        contentsBegin: 10
+        contentsEnd: 16
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 10
+            end: 16
+`;
+
 exports[`org/parser clock clock in progress 1`] = `
 type: "org-data"
 contentsBegin: 0

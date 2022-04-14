@@ -7,6 +7,21 @@ export class OrgRegexUtils {
     this.options = options;
   }
 
+  /**
+   * Regexp matching a citation key. Key is located in match group “key”.
+   */
+  public citationKeyRe(): RegExp {
+    return /@(?<key>[-.:?!`'/*@+|(){}<>&_^$#%~\w]+)/g;
+  }
+
+  /**
+   * Regexp matching a citation prefix. Style, if any, is located in
+   * matching group “style”.
+   */
+  public citationPrefixRe(): RegExp {
+    return /\[cite(?:\/(?<style>[/_a-z0-9-]+))?:[\t\n ]*/gm;
+  }
+
   public linkPlainRe(): string {
     return `${this.linkTypesRe()}([^\\]\\[ \t\\n()<>]+(?:\\([\\w0-9_]+\\)|([^\\W \t\\n]|/)))`;
   }
@@ -15,6 +30,13 @@ export class OrgRegexUtils {
     return '(' + this.options.linkTypes.map(escapeRegExp).join('|') + '):';
   }
 
+  /**
+   * Regexp possibly matching the beginning of an object. This regexp
+   * allows false positives. Dedicated parser (e.g.,
+   * Parser.parseBold()) will take care of further filtering. Radio
+   * links are not matched by this regexp, as they are treated
+   * specially in Parser.parseElement().
+   */
   public objectRe(): RegExp {
     return new RegExp(
       [
@@ -25,18 +47,12 @@ export class OrgRegexUtils {
         `[*~=+_/][^${this.options.emphasisRegexpComponents.border}]`,
         // Plain links.
         this.linkPlainRe(),
-        // Objects starting with "[": regular link,
+        // Objects starting with "[": citations,
         // footnote reference, statistics cookie,
-        // timestamp (inactive).
+        // timestamp (inactive) and regular link.
         [
           '\\[(?:',
-          'fn:',
-          '|',
-          '\\[',
-          '|',
-          '[0-9]{4}-[0-9]{2}-[0-9]{2}',
-          '|',
-          '[0-9]*(?:%|/[0-9]*)\\]',
+          ['cite[:/]', 'fn:', '(?:[0-9]|(?:%|/[0-9]*)\\])', '\\['].join('|'),
           ')',
         ].join(''),
         // Objects starting with "@": export snippets.
@@ -224,6 +240,8 @@ export function restrictionFor(type: string) {
     'timestamp',
     'underline',
     'verbatim',
+    'citation',
+    'citation-reference',
   ]);
 
   const minimalSet = new Set([
@@ -241,6 +259,7 @@ export function restrictionFor(type: string) {
 
   const standardSet = new Set(allObjects);
   standardSet.delete('table-cell');
+  standardSet.delete('citation-reference');
 
   const standardSetNoLineBreak = new Set(standardSet);
   standardSetNoLineBreak.delete('line-break');
@@ -250,6 +269,9 @@ export function restrictionFor(type: string) {
 
   const objectRestrictions: Record<string, Set<string>> = {
     bold: standardSet,
+    citation: new Set(['citation-reference']),
+    'citation-reference': minimalSet,
+
     'footnote-reference': standardSet,
     headline: standardSetNoLineBreak,
 
@@ -278,6 +300,7 @@ export function restrictionFor(type: string) {
     // are possible.  Also ignore line breaks and statistics
     // cookies.
     'table-cell': new Set([
+      'citation',
       'export-snippet',
       'footnote-reference',
       'link',

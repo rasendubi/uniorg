@@ -944,4 +944,12 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
 more text
 `
   );
+  describe('citations', () => {
+    itParses('simple citation', '[cite:@hello]');
+
+    itParses('multiple citation keys', '[cite:@hello;@world]');
+
+    itParses('simple with style', `[cite/s:@hello]`);
+    itParses('simple with style and variant', `[cite/s/v:@hello]`);
+  });
 });

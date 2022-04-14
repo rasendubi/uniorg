@@ -166,4 +166,11 @@ export class Reader {
       }
     }
   }
+
+  public withNarrow<T>(left: number, right: number, f: () => T): T {
+    this.narrow(left, right);
+    const result = f();
+    this.widen();
+    return result;
+  }
 }
