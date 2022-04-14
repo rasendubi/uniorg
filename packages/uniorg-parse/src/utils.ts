@@ -59,9 +59,10 @@ export class OrgRegexUtils {
     );
   }
 
+  // see (org-item-re)
   public listItemRe(): RegExp {
     return new RegExp(
-      `^(?<indent> *)(\\*|-|\\+|\\d+\\.|\\d+\\)|\\w\\.|\\w\\))( |\\n)`
+      `^((?<indent1>[ \\t]+)\\*|(?<indent2>[ \\t]*)(-|\\+|\\d+\\.|\\d+\\)|\\w\\.|\\w\\)))([ \\t]|\\n)`
     );
   }
 
@@ -71,6 +72,7 @@ export class OrgRegexUtils {
   /// - counter
   /// - checkbox
   /// - tag (description tag)
+  // see org-list-full-item-re
   public fullListItemRe(): RegExp {
     return /^(?<indent>[ \t]*)(?<bullet>(?:[-+*]|(?:[0-9]+|[A-Za-z])[.)])(?:[ \t]+|$))(?<counter_group>\[@(?:start:)?(?<counter>[0-9]+|[A-Za-z])\][ \t]*)?(?<checkbox_group>(?<checkbox>\[[ X-]\])(?:[ \t]+|$))?(?:(?<tag>.*?)[ \t]+::(?:[ \t]+|$))?/im;
   }

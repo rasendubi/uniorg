@@ -3480,6 +3480,34 @@ children:
         value: "hi"
 `;
 
+exports[`org/parser single asterisk 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "text"
+        value: "text\\n"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 5
+    contentsEnd: 7
+    children:
+      - type: "text"
+        value: "*\\n"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 8
+    contentsEnd: 18
+    children:
+      - type: "text"
+        value: "more text\\n"
+`;
+
 exports[`org/parser subscript after subscript 1`] = `
 type: "org-data"
 contentsBegin: 0
