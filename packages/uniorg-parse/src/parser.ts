@@ -1289,7 +1289,8 @@ class Parser {
 
       const m = this.r.match(this.re.listItemRe());
       if (m) {
-        const indent = m.groups!.indent.length;
+        const indent =
+          (m.groups!.indent1?.length || 0) + (m.groups!.indent2?.length || 0);
         // end previous siblings
         while (items.length && items[items.length - 1].indent >= indent) {
           const item = items.pop()!;

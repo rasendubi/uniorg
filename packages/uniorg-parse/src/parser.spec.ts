@@ -934,4 +934,14 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
   itParses('entity', `\\Agrave`);
 
   itParses('entity in parentheses', `(\\leq)`);
+
+  // See https://github.com/rasendubi/uniorg/issues/34
+  itParses(
+    'single asterisk',
+    `text
+*
+
+more text
+`
+  );
 });
