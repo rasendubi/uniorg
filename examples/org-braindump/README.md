@@ -25,7 +25,7 @@ Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packag
 ```bash
 npx create-next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump braindump
 # or
-yarn create-next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump braindump
+yarn create next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump braindump
 ```
 
 Your braindump should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/rasendubi/uniorg/discussions).
