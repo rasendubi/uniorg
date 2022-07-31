@@ -219,6 +219,11 @@ exports[`stringify headline simple headline 1`] = `
 "
 `;
 
+exports[`stringify headline statistics cookie 1`] = `
+"* [115%]  headline
+"
+`;
+
 exports[`stringify horizontal rule 1`] = `
 "-----
 "

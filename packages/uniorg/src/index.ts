@@ -298,6 +298,7 @@ export interface StrikeThrough extends RecursiveObject {
 export interface StatisticsCookie extends Object {
   type: 'statistics-cookie';
   value: string;
+  postBlank: number;
 }
 
 export interface Underline extends RecursiveObject {

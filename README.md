@@ -47,7 +47,6 @@ However, there are a couple of places I haven't finished yet:
 - dynamic-block
 - target, radio-target
 - line-break
-- statistics-cookie
 - export-snippet
 - macro
 - switches and parameters in src-block and example-block
