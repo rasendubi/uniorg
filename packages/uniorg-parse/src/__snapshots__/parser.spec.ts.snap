@@ -1454,6 +1454,7 @@ children:
             begin: 12
             end: 17
             value: "[1/2]"
+            postBlank: 1
           - type: "text"
             value: "COMMENT headline "
           - type: "italic"
@@ -1499,6 +1500,7 @@ children:
             begin: 56
             end: 61
             value: "[1/3]"
+            postBlank: 0
 `;
 
 exports[`org/parser headline statistics-cookie complex headline with defined percentage statistics-cookie 1`] = `
@@ -1526,6 +1528,7 @@ children:
             begin: 12
             end: 17
             value: "[50%]"
+            postBlank: 1
           - type: "text"
             value: "COMMENT headline "
           - type: "italic"
@@ -1563,6 +1566,7 @@ children:
             begin: 12
             end: 15
             value: "[/]"
+            postBlank: 1
           - type: "text"
             value: "COMMENT headline "
           - type: "italic"
@@ -1600,6 +1604,7 @@ children:
             begin: 12
             end: 15
             value: "[%]"
+            postBlank: 1
           - type: "text"
             value: "COMMENT headline "
           - type: "italic"
@@ -1635,6 +1640,7 @@ children:
             begin: 2
             end: 9
             value: "[1/100]"
+            postBlank: 1
           - type: "text"
             value: "Something"
 `;
@@ -1662,6 +1668,7 @@ children:
             begin: 2
             end: 5
             value: "[/]"
+            postBlank: 4
           - type: "text"
             value: "hello"
 `;
@@ -1689,6 +1696,7 @@ children:
             begin: 2
             end: 5
             value: "[/]"
+            postBlank: 0
           - type: "text"
             value: "hello"
 `;

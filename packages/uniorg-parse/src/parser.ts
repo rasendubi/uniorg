@@ -1499,9 +1499,9 @@ class Parser {
     const value = this.r.substring(begin, end);
 
     // skip trailing whitespace
-    this.r.advance(this.r.lookingAt(/\s*/));
+    const postBlank = this.r.advance(this.r.forceLookingAt(/\s*/))[0].length;
 
-    return u('statistics-cookie', { begin, end, value });
+    return u('statistics-cookie', { begin, end, value, postBlank });
   }
 
   private parseEntity(): Entity | null {
