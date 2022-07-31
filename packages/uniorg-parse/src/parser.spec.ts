@@ -92,6 +92,36 @@ describe('org/parser', () => {
 
 * DONE Headline 2`
     );
+
+    itParses(
+      'headline starting with fraction statistics-cookie',
+      `* [1/100] Something`
+    );
+
+    itParses(
+      'complex headline with empty percentage statistics-cookie',
+      `* TODO [#A] [%] COMMENT headline /italic/ title :some:tags:`
+    );
+
+    itParses(
+      'complex headline with empty fraction statistics-cookie',
+      `* TODO [#A] [/] COMMENT headline /italic/ title :some:tags:`
+    );
+
+    itParses(
+      'complex headline with defined percentage statistics-cookie',
+      `* TODO [#A] [50%] COMMENT headline /italic/ title :some:tags:`
+    );
+
+    itParses(
+      'complex headline with defined fraction statistics-cookie',
+      `* TODO [#A] [1/2] COMMENT headline /italic/ title :some:tags:`
+    );
+
+    itParses(
+      'complex headline with defined fraction statistics-cookie',
+      `* TODO [#A] COMMENT headline /italic/ title :some:tags: [1/3]`
+    );
   });
 
   describe('section', () => {
