@@ -60,6 +60,7 @@ export type ObjectType =
   | Code
   | Verbatim
   | StrikeThrough
+  | StatisticsCookie
   | Underline
   | Superscript
   | Subscript
@@ -292,6 +293,11 @@ export interface Verbatim extends Object {
 
 export interface StrikeThrough extends RecursiveObject {
   type: 'strike-through';
+}
+
+export interface StatisticsCookie extends Object {
+  type: 'statistics-cookie';
+  value: string;
 }
 
 export interface Underline extends RecursiveObject {

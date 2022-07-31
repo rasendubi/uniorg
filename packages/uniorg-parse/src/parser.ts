@@ -22,6 +22,7 @@ import {
   Code,
   Verbatim,
   StrikeThrough,
+  StatisticsCookie,
   Timestamp,
   Planning,
   PropertyDrawer,
@@ -588,7 +589,11 @@ class Parser {
           if (ts) return ts;
           this.r.resetOffset(offset);
 
-          // TODO: statistics cookie
+          const cookie =
+            restriction.has('statistics-cookie') &&
+            this.parseStatisticsCookie();
+          if (cookie) return cookie;
+          this.r.resetOffset(offset);
         }
 
         break;
@@ -1484,6 +1489,16 @@ class Parser {
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
     return u('strike-through', { contentsBegin, contentsEnd }, []);
+  }
+
+  private parseStatisticsCookie(): StatisticsCookie | null {
+    const m = this.r.lookingAt(/\[[0-9]*(\%|\/[0-9]*)\]/);
+    if (!m) return null;
+    const begin = this.r.offset() + m.index;
+    const end = begin + m[0].length;
+    const value = this.r.substring(begin, end);
+    this.r.resetOffset(end + 1);
+    return u('statistics-cookie', { begin, end, value });
   }
 
   private parseEntity(): Entity | null {
