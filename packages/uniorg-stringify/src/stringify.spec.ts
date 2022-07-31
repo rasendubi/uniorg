@@ -65,6 +65,8 @@ second paragraph`
 * level 1
 *** level 3`
     );
+
+    test('statistics cookie', `* [115%]  headline`);
   });
 
   test(
