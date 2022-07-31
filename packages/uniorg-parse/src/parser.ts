@@ -1492,12 +1492,15 @@ class Parser {
   }
 
   private parseStatisticsCookie(): StatisticsCookie | null {
-    const m = this.r.lookingAt(/\[[0-9]*(\%|\/[0-9]*)\]/);
+    const begin = this.r.offset();
+    const m = this.r.advance(this.r.lookingAt(/\[[0-9]*(\%|\/[0-9]*)\]/));
     if (!m) return null;
-    const begin = this.r.offset() + m.index;
-    const end = begin + m[0].length;
+    const end = this.r.offset();
     const value = this.r.substring(begin, end);
-    this.r.resetOffset(end + 1);
+
+    // skip trailing whitespace
+    this.r.advance(this.r.lookingAt(/\s*/));
+
     return u('statistics-cookie', { begin, end, value });
   }
 

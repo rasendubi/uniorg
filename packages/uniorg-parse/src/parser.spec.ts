@@ -122,6 +122,10 @@ describe('org/parser', () => {
       'complex headline with defined fraction statistics-cookie',
       `* TODO [#A] COMMENT headline /italic/ title :some:tags: [1/3]`
     );
+
+    itParses('statistics cookie without trailing space', `* [/]hello`);
+
+    itParses('statistics cookie with long trailing space', `* [/]    hello`);
   });
 
   describe('section', () => {

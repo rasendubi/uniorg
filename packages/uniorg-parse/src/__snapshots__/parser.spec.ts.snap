@@ -1639,6 +1639,60 @@ children:
             value: "Hello"
 `;
 
+exports[`org/parser headline statistics cookie with long trailing space 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 14
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 14
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "[/]    hello"
+        tags: []
+        contentsBegin: 2
+        contentsEnd: 14
+        children:
+          - type: "statistics-cookie"
+            begin: 2
+            end: 5
+            value: "[/]"
+          - type: "text"
+            value: "hello"
+`;
+
+exports[`org/parser headline statistics cookie without trailing space 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 10
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 10
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "[/]hello"
+        tags: []
+        contentsBegin: 2
+        contentsEnd: 10
+        children:
+          - type: "statistics-cookie"
+            begin: 2
+            end: 5
+            value: "[/]"
+          - type: "text"
+            value: "hello"
+`;
+
 exports[`org/parser horizontal rule 1`] = `
 type: "org-data"
 contentsBegin: 0
