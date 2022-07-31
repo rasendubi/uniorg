@@ -1241,6 +1241,189 @@ children:
             value: " title"
 `;
 
+exports[`org/parser headline complex headline with defined fraction statistics-cookie 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 61
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 61
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: "TODO"
+        priority: "A"
+        commented: false
+        rawValue: "[1/2] COMMENT headline /italic/ title"
+        tags:
+          - "some"
+          - "tags"
+        contentsBegin: 12
+        contentsEnd: 49
+        children:
+          - type: "statistics-cookie"
+            begin: 12
+            end: 17
+            value: "[1/2]"
+          - type: "text"
+            value: "COMMENT headline "
+          - type: "italic"
+            contentsBegin: 36
+            contentsEnd: 42
+            children:
+              - type: "text"
+                value: "italic"
+          - type: "text"
+            value: " title"
+`;
+
+exports[`org/parser headline complex headline with defined fraction statistics-cookie 2`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 61
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 61
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: "TODO"
+        priority: "A"
+        commented: true
+        rawValue: "headline /italic/ title :some:tags: [1/3]"
+        tags: []
+        contentsBegin: 20
+        contentsEnd: 61
+        children:
+          - type: "text"
+            value: "headline "
+          - type: "italic"
+            contentsBegin: 30
+            contentsEnd: 36
+            children:
+              - type: "text"
+                value: "italic"
+          - type: "text"
+            value: " title :some:tags: "
+          - type: "statistics-cookie"
+            begin: 56
+            end: 61
+            value: "[1/3]"
+`;
+
+exports[`org/parser headline complex headline with defined percentage statistics-cookie 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 61
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 61
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: "TODO"
+        priority: "A"
+        commented: false
+        rawValue: "[50%] COMMENT headline /italic/ title"
+        tags:
+          - "some"
+          - "tags"
+        contentsBegin: 12
+        contentsEnd: 49
+        children:
+          - type: "statistics-cookie"
+            begin: 12
+            end: 17
+            value: "[50%]"
+          - type: "text"
+            value: "COMMENT headline "
+          - type: "italic"
+            contentsBegin: 36
+            contentsEnd: 42
+            children:
+              - type: "text"
+                value: "italic"
+          - type: "text"
+            value: " title"
+`;
+
+exports[`org/parser headline complex headline with empty fraction statistics-cookie 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 59
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 59
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: "TODO"
+        priority: "A"
+        commented: false
+        rawValue: "[/] COMMENT headline /italic/ title"
+        tags:
+          - "some"
+          - "tags"
+        contentsBegin: 12
+        contentsEnd: 47
+        children:
+          - type: "statistics-cookie"
+            begin: 12
+            end: 15
+            value: "[/]"
+          - type: "text"
+            value: "COMMENT headline "
+          - type: "italic"
+            contentsBegin: 34
+            contentsEnd: 40
+            children:
+              - type: "text"
+                value: "italic"
+          - type: "text"
+            value: " title"
+`;
+
+exports[`org/parser headline complex headline with empty percentage statistics-cookie 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 59
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 59
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: "TODO"
+        priority: "A"
+        commented: false
+        rawValue: "[%] COMMENT headline /italic/ title"
+        tags:
+          - "some"
+          - "tags"
+        contentsBegin: 12
+        contentsEnd: 47
+        children:
+          - type: "statistics-cookie"
+            begin: 12
+            end: 15
+            value: "[%]"
+          - type: "text"
+            value: "COMMENT headline "
+          - type: "italic"
+            contentsBegin: 34
+            contentsEnd: 40
+            children:
+              - type: "text"
+                value: "italic"
+          - type: "text"
+            value: " title"
+`;
+
 exports[`org/parser headline custom todo keywords 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -1262,6 +1445,33 @@ children:
         children:
           - type: "text"
             value: "my custom todo keyword"
+`;
+
+exports[`org/parser headline headline starting with fraction statistics-cookie 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 19
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 19
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "[1/100] Something"
+        tags: []
+        contentsBegin: 2
+        contentsEnd: 19
+        children:
+          - type: "statistics-cookie"
+            begin: 2
+            end: 9
+            value: "[1/100]"
+          - type: "text"
+            value: "Something"
 `;
 
 exports[`org/parser headline multiple headlines 1`] = `
