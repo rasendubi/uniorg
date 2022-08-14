@@ -408,6 +408,12 @@ printf("%d\\n", *a);
 
 `;
 
+exports[`org/org-to-hast statistics cookie 1`] = `
+
+<h1>hello <span class="statistics-cookie">[2/3]</span></h1>
+
+`;
+
 exports[`org/org-to-hast subscript 1`] = `
 
 <p>hello<sub>there</sub></p>

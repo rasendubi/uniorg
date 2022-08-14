@@ -264,6 +264,8 @@ export function orgToHast(
           ) as Hast[]
         );
       }
+      case 'statistics-cookie':
+        return h(org, 'span', { className: 'statistics-cookie' }, org.value);
       case 'plain-list':
         if (org.listType === 'unordered') {
           return h(org, 'ul', {}, toHast(org.children));

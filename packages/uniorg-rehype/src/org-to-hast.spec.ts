@@ -103,6 +103,8 @@ not exported text
 `
   );
 
+  hastTest('statistics cookie', `* hello [2/3]`);
+
   hastTest(
     'useSections',
     `hello
