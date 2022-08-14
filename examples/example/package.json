@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "private": true,
   "type": "module",
   "description": "Simple example of uniorg usage.",
@@ -15,6 +15,6 @@
     "unified": "10.1.2",
     "unified-stream": "2.0.0",
     "uniorg-parse": "^0.5.3",
-    "uniorg-rehype": "^0.5.3"
+    "uniorg-rehype": "^0.5.4"
   }
 }

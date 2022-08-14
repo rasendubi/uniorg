@@ -1,6 +1,6 @@
 {
   "name": "extract-keywords-example",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "private": true,
   "type": "module",
   "description": "Example of using uniorg-extract-keywords",
@@ -18,6 +18,6 @@
     "unified": "10.1.2",
     "uniorg-extract-keywords": "^0.5.3",
     "uniorg-parse": "^0.5.3",
-    "uniorg-rehype": "^0.5.3"
+    "uniorg-rehype": "^0.5.4"
   }
 }
