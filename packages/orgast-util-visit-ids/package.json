@@ -1,6 +1,6 @@
 {
   "name": "orgast-util-visit-ids",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "type": "module",
   "description": "orgast (uniorg) utility to visit all nodes with ids",
   "keywords": [
@@ -42,8 +42,8 @@
     "@types/unist": "2.0.6",
     "jest": "27.5.1",
     "typescript": "4.6.3",
-    "uniorg": "^0.5.2",
-    "uniorg-parse": "^0.5.2"
+    "uniorg": "^0.5.3",
+    "uniorg-parse": "^0.5.3"
   },
   "dependencies": {
     "unist-util-visit-parents": "5.1.0"
