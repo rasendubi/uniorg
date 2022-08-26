@@ -258,7 +258,7 @@ export function orgToHast(
         return h(
           org,
           `h${org.level}`,
-          {todo ? "todo-item" : ""},
+          { className: todo ? 'todo-headline' : '' },
           [todo, priority, ...toHast(org.children), tags].filter(
             (x) => x
           ) as Hast[]
