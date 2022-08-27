@@ -29,7 +29,7 @@ exports[`org/org-to-hast comments 1`] = `
 
 exports[`org/org-to-hast complex headline 1`] = `
 
-<h1><span class="todo-keyword TODO">TODO</span> <span class="priority priority-A">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
+<h1 class="todo-headline"><span class="todo-keyword TODO">TODO</span> <span class="priority priority-A">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
 
 `;
 
