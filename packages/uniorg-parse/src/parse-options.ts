@@ -25,6 +25,10 @@ export interface ParseOptions {
    * matching. Corresponds to `org-match-sexp-depth` in Emacs.
    */
   matchSexpDepth: number;
+  /**
+   * Add begin/end properties to primitive nodes
+   */
+  positions: boolean;
 }
 
 export const defaultOptions: ParseOptions = {
@@ -167,4 +171,5 @@ export const defaultOptions: ParseOptions = {
     'do',
   ],
   matchSexpDepth: 3,
+  positions: true,
 };

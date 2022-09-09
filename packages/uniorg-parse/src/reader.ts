@@ -1,3 +1,4 @@
+import { Point, Position } from 'unist';
 import { VFile } from 'vfile';
 import { location } from 'vfile-location';
 
@@ -165,5 +166,15 @@ export class Reader {
         this.#offset = narrow.prevOffset;
       }
     }
+  }
+  public toPoint(offset: number): Point {
+    return this.#location.toPoint(offset);
+  }
+
+  public toPosition(begin: number, end: number): Position {
+    return {
+      start: this.toPoint(begin),
+      end: this.toPoint(end),
+    };
   }
 }

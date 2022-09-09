@@ -57,6 +57,7 @@ import {
 } from './utils.js';
 import { ParseOptions, defaultOptions } from './parse-options.js';
 import { Reader } from './reader.js';
+import { Position } from 'unist';
 
 /*
 (defun rasen/org-debug ()
@@ -425,7 +426,10 @@ class Parser {
       if (objectBegin !== prevEnd) {
         // parse text before object
         const value = this.r.substring(prevEnd, objectBegin);
-        objects.push(u('text', { value }));
+        const end = prevEnd + value.length;
+        objects.push(
+          u('text', { value, position: this.getPosition(prevEnd, end) })
+        );
       }
 
       // @ts-expect-error contentsBegin is not defined for "literals"
@@ -447,9 +451,13 @@ class Parser {
 
     // handle text after the last object
     const text = this.r.rest();
+    const [begin, end] = [this.r.offset(), this.r.offset() + text.length];
+
     this.r.advance(text.length);
     if (text.trim().length) {
-      objects.push(u('text', { value: text }));
+      objects.push(
+        u('text', { value: text, position: this.getPosition(begin, end) })
+      );
     }
 
     return objects;
@@ -754,6 +762,8 @@ class Parser {
   private parseComment(): Comment {
     let valueLines = [];
     this.r.advance(this.r.forceLookingAt(/^[ \t]*# ?/));
+    const begin = this.r.offset();
+
     valueLines.push(this.r.advance(this.r.line()));
 
     while (true) {
@@ -762,17 +772,21 @@ class Parser {
 
       valueLines.push(this.r.advance(this.r.line()));
     }
-
     let value = valueLines.join('');
     if (value[value.length - 1] === '\n') {
       value = value.substring(0, value.length - 1);
     }
+    const end = begin + value.length;
 
-    return u('comment', { value: value });
+    return u('comment', {
+      value: value,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseFixedWidth(affiliated: AffiliatedKeywords): FixedWidth {
     let valueLines = [];
+    const begin = this.r.offset();
     while (true) {
       const m = this.r.lookingAt(/^[ \t]*: ?(.*)$/m);
       if (!m) break;
@@ -781,8 +795,13 @@ class Parser {
       valueLines.push(m[1]);
     }
     const value = valueLines.join('\n');
+    const end = this.r.offset();
 
-    return u('fixed-width', { affiliated, value });
+    return u('fixed-width', {
+      affiliated,
+      value,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseCommentBlock(
@@ -794,7 +813,12 @@ class Parser {
       return comment;
     }
     const value = this.r.substring(comment.contentsBegin, comment.contentsEnd);
-    return u('comment-block', { affiliated, value });
+    const [begin, end] = this.getCurrentRange(value);
+    return u('comment-block', {
+      affiliated,
+      value,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseSrcBlock(affiliated: AffiliatedKeywords): SrcBlock | Paragraph {
@@ -821,9 +845,13 @@ class Parser {
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    const _end = this.r.offset();
 
-    return u('src-block', { affiliated, language, value });
+    return u('src-block', {
+      affiliated,
+      language,
+      value,
+      position: this.getPosition(contentsBegin, contentsEnd),
+    });
   }
 
   private parseExampleBlock(
@@ -836,7 +864,11 @@ class Parser {
       return block;
     }
     const value = this.r.substring(block.contentsBegin, block.contentsEnd);
-    return u('example-block', { affiliated, value });
+    return u('example-block', {
+      affiliated,
+      value,
+      position: this.getPosition(block.contentsBegin, block.contentsEnd),
+    });
   }
 
   private parseExportBlock(
@@ -864,7 +896,12 @@ class Parser {
     this.parseEmptyLines();
     const _end = this.r.offset();
 
-    return u('export-block', { affiliated, backend, value });
+    return u('export-block', {
+      affiliated,
+      backend,
+      value,
+      position: this.getPosition(contentsBegin, contentsEnd),
+    });
   }
 
   private parseSpecialBlock(
@@ -952,9 +989,17 @@ class Parser {
     const m = this.r.forceLookingAt(/[ \t]*#\+(\S+):(.*)/);
     const key = m[1].toUpperCase();
     const value = m[2].trim();
+    const [begin, end] = this.getCurrentRange(m[0]);
+
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    return u('keyword', { affiliated, key, value });
+
+    return u('keyword', {
+      affiliated,
+      key,
+      value,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseLatexEnvironment(
@@ -977,7 +1022,11 @@ class Parser {
 
     const value = this.r.substring(beginOffset, endOffset);
 
-    return u('latex-environment', { affiliated, value });
+    return u('latex-environment', {
+      affiliated,
+      value,
+      position: this.getPosition(beginOffset, endOffset),
+    });
   }
 
   private parseDrawer(affiliated: AffiliatedKeywords): Drawer | Paragraph {
@@ -999,9 +1048,12 @@ class Parser {
   }
 
   private parseClock(): Clock {
-    this.r.advance(this.r.forceMatch(/^[ \t]*CLOCK:[ \t]*/));
+    const begin = this.r.offset();
+    const parsedClock = this.r.forceMatch(/^[ \t]*CLOCK:[ \t]*/);
+    this.r.advance(parsedClock);
     const value = this.parseTimestamp();
 
+    const end = begin + parsedClock.input.length;
     this.r.advance(this.r.match(/^[ \t]+=>[ \t]*/));
     const durationM = this.r.advance(this.r.lookingAt(/^(\S+)[ \t]*$/m));
     const duration = durationM ? durationM[1] : null;
@@ -1010,16 +1062,28 @@ class Parser {
 
     this.parseEmptyLines();
 
-    return u('clock', { value, duration, status });
+    return u('clock', {
+      value,
+      duration,
+      status,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseNodeProperty(): NodeProperty {
-    const propertyRe = /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
+    const begin = this.r.offset();
+    const propertyRe =
+      /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
     const m = this.r.forceLookingAt(propertyRe);
     const key = m.groups!['key'];
     const value = m.groups!['value1'] ?? m.groups!['value2'];
     this.r.advance(this.r.line());
-    return u('node-property', { key, value });
+    const end = this.r.offset();
+    return u('node-property', {
+      key,
+      value,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseParagraph(affiliated: AffiliatedKeywords): Paragraph {
@@ -1141,10 +1205,16 @@ class Parser {
   }
 
   private parseDiarySexp(affiliated: AffiliatedKeywords): DiarySexp {
+    const begin = this.r.offset();
     const value = this.r.forceLookingAt(/^(%%\(.*)[ \t]*$/m)[1];
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    return u('diary-sexp', { affiliated, value });
+    const end = begin + value.length;
+    return u('diary-sexp', {
+      affiliated,
+      value,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseTable(affiliated: AffiliatedKeywords): Table {
@@ -1466,7 +1536,8 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    return u('code', { value }, []);
+    const [begin, end] = this.getCurrentRange(value);
+    return u('code', { value, position: this.getPosition(begin, end) }, []);
   }
 
   private parseVerbatim(): Verbatim | null {
@@ -1505,11 +1576,13 @@ class Parser {
   }
 
   private parseEntity(): Entity | null {
+    const begin = this.r.offset();
     const m = this.r.advance(
       this.r.lookingAt(
         /^\\(?:(?<value1>_ +)|(?<value2>there4|sup[123]|frac[13][24]|[a-zA-Z]+)(?<brackets>$|\{\}|\P{Letter}))/mu
       )
     );
+
     if (!m) return null;
     const hasBrackets = m.groups!.brackets === '{}';
     if (!hasBrackets) {
@@ -1520,7 +1593,12 @@ class Parser {
     }
     const value = getOrgEntity(m.groups!.value1 ?? m.groups!.value2);
     if (!value) return null;
-    return u('entity', { useBrackets: hasBrackets, ...value });
+    const end = begin + m[0].length;
+    return u('entity', {
+      useBrackets: hasBrackets,
+      ...value,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseLatexFragment(): LatexFragment | null {
@@ -1574,7 +1652,11 @@ class Parser {
     if (begin === end) return null;
 
     const value = this.r.substring(begin, end);
-    return u('latex-fragment', { value, contents: contents ?? value });
+    return u('latex-fragment', {
+      value,
+      contents: contents ?? value,
+      position: this.getPosition(begin, end),
+    });
   }
 
   private parseFootnoteReference(): FootnoteReference | null {
@@ -1633,7 +1715,8 @@ class Parser {
     // TODO: Type 1: Text targeted from a radio target.
 
     // Type 2: Standard link.
-    const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>[\s\S]+?)\])?\]/m;
+    const linkBracketRe =
+      /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>[\s\S]+?)\])?\]/m;
     const bracketM = this.r.advance(this.r.lookingAt(linkBracketRe));
     if (bracketM) {
       const m = bracketM;
@@ -1741,6 +1824,7 @@ class Parser {
   }
 
   private parseTimestamp(): Timestamp | null {
+    const begin = this.r.offset();
     // org-ts--internal-regexp
     const tsInternalRe = '\\d{4}-\\d{2}-\\d{2}(:? .*?)?';
     // org-ts-regexp-both
@@ -1808,14 +1892,13 @@ class Parser {
       rawValue,
       start,
       end,
+      position: this.getPosition(begin, begin + rawValue.length),
     });
   }
 
   // Helpers
 
-  private static parseDate(
-    s: string
-  ): {
+  private static parseDate(s: string): {
     year: number;
     month: number;
     day: number;
@@ -1856,6 +1939,20 @@ class Parser {
 
   private atHeading(): boolean {
     return this.r.lookingAt(/^\*+[ \t]/) !== null;
+  }
+
+  /*
+   *  Return begin and end positions from current cursor position + val length
+   */
+  private getCurrentRange(val: string): [number, number] {
+    return [this.r.offset(), this.r.offset() + val.length];
+  }
+
+  private getPosition(begin: number, end: number): Position | undefined {
+    if (!this.options.positions) {
+      return;
+    }
+    return this.r.toPosition(begin, end);
   }
 }
 
@@ -1915,7 +2012,8 @@ const affiliatedRe = new RegExp(
   'i'
 );
 
-const footnoteRe = /\[fn:(?:(?<label_inline>[-_\w]+)?(?<inline>:)|(?<label>[-_\w]+)\])/;
+const footnoteRe =
+  /\[fn:(?:(?<label_inline>[-_\w]+)?(?<inline>:)|(?<label>[-_\w]+)\])/;
 const footnoteDefinitionRe = /^\[fn:([-_\w]+)\]/;
 const footnoteDefinitionSeparatorRe = /^\*|^\[fn:([-_\w]+)\]|^([ \t]*\n){2,}/m;
 
