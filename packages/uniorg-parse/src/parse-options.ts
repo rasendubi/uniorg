@@ -28,7 +28,7 @@ export interface ParseOptions {
   /**
    * Add begin/end properties to primitive nodes
    */
-  positions: boolean;
+  position: boolean;
 }
 
 export const defaultOptions: ParseOptions = {
