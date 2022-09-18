@@ -427,9 +427,7 @@ class Parser {
         // parse text before object
         const value = this.r.substring(prevEnd, objectBegin);
         const end = prevEnd + value.length;
-        objects.push(
-          u('text', { value, position: this.getPosition(prevEnd, end) })
-        );
+        objects.push(u('text', { value, ...this.getPosition(prevEnd, end) }));
       }
 
       // @ts-expect-error contentsBegin is not defined for "literals"
@@ -455,9 +453,7 @@ class Parser {
 
     this.r.advance(text.length);
     if (text.trim().length) {
-      objects.push(
-        u('text', { value: text, position: this.getPosition(begin, end) })
-      );
+      objects.push(u('text', { value: text, ...this.getPosition(begin, end) }));
     }
 
     return objects;
@@ -780,7 +776,7 @@ class Parser {
 
     return u('comment', {
       value: value,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -800,7 +796,7 @@ class Parser {
     return u('fixed-width', {
       affiliated,
       value,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -817,7 +813,7 @@ class Parser {
     return u('comment-block', {
       affiliated,
       value,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -850,7 +846,7 @@ class Parser {
       affiliated,
       language,
       value,
-      position: this.getPosition(contentsBegin, contentsEnd),
+      ...this.getPosition(contentsBegin, contentsEnd),
     });
   }
 
@@ -867,7 +863,7 @@ class Parser {
     return u('example-block', {
       affiliated,
       value,
-      position: this.getPosition(block.contentsBegin, block.contentsEnd),
+      ...this.getPosition(block.contentsBegin, block.contentsEnd),
     });
   }
 
@@ -900,7 +896,7 @@ class Parser {
       affiliated,
       backend,
       value,
-      position: this.getPosition(contentsBegin, contentsEnd),
+      ...this.getPosition(contentsBegin, contentsEnd),
     });
   }
 
@@ -998,7 +994,7 @@ class Parser {
       affiliated,
       key,
       value,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -1025,7 +1021,7 @@ class Parser {
     return u('latex-environment', {
       affiliated,
       value,
-      position: this.getPosition(beginOffset, endOffset),
+      ...this.getPosition(beginOffset, endOffset),
     });
   }
 
@@ -1066,7 +1062,7 @@ class Parser {
       value,
       duration,
       status,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -1082,7 +1078,7 @@ class Parser {
     return u('node-property', {
       key,
       value,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -1213,7 +1209,7 @@ class Parser {
     return u('diary-sexp', {
       affiliated,
       value,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -1537,7 +1533,7 @@ class Parser {
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
     const [begin, end] = this.getCurrentRange(value);
-    return u('code', { value, position: this.getPosition(begin, end) }, []);
+    return u('code', { value, ...this.getPosition(begin, end) }, []);
   }
 
   private parseVerbatim(): Verbatim | null {
@@ -1597,7 +1593,7 @@ class Parser {
     return u('entity', {
       useBrackets: hasBrackets,
       ...value,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -1655,7 +1651,7 @@ class Parser {
     return u('latex-fragment', {
       value,
       contents: contents ?? value,
-      position: this.getPosition(begin, end),
+      ...this.getPosition(begin, end),
     });
   }
 
@@ -1892,7 +1888,7 @@ class Parser {
       rawValue,
       start,
       end,
-      position: this.getPosition(begin, begin + rawValue.length),
+      ...this.getPosition(begin, begin + rawValue.length),
     });
   }
 
@@ -1948,11 +1944,11 @@ class Parser {
     return [this.r.offset(), this.r.offset() + val.length];
   }
 
-  private getPosition(begin: number, end: number): Position | undefined {
-    if (!this.options.positions) {
-      return;
+  private getPosition(begin: number, end: number): { position?: Position } {
+    if (!this.options.position) {
+      return {};
     }
-    return this.r.toPosition(begin, end);
+    return { position: this.r.toPosition(begin, end) };
   }
 }
 

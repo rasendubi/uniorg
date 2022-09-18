@@ -171,5 +171,5 @@ export const defaultOptions: ParseOptions = {
     'do',
   ],
   matchSexpDepth: 3,
-  positions: true,
+  position: true,
 };
