@@ -1,4 +1,4 @@
-import { Point, Position } from 'unist';
+import type { Point, Position } from 'unist';
 import { VFile } from 'vfile';
 import { location } from 'vfile-location';
 
