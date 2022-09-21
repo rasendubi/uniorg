@@ -755,9 +755,9 @@ class Parser {
   }
 
   private parseComment(): Comment {
+    const begin = this.r.offset();
     let valueLines = [];
     this.r.advance(this.r.forceLookingAt(/^[ \t]*# ?/));
-    const begin = this.r.offset();
 
     valueLines.push(this.r.advance(this.r.line()));
 
