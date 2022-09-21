@@ -26,7 +26,7 @@ export interface ParseOptions {
    */
   matchSexpDepth: number;
   /**
-   * Add begin/end properties to primitive nodes
+   * Add `position` information to nodes
    */
   position: boolean;
 }
