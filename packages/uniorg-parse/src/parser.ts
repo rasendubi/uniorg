@@ -448,9 +448,9 @@ class Parser {
 
     // handle text after the last object
     const text = this.r.rest();
-    const [begin, end] = [this.r.offset(), this.r.offset() + text.length];
-
+    const begin = this.r.offset();
     this.r.advance(text.length);
+    const end = this.r.offset();
     if (text.trim().length) {
       objects.push(u('text', { value: text, ...this.getPosition(begin, end) }));
     }
