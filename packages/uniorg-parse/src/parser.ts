@@ -426,8 +426,7 @@ class Parser {
       if (objectBegin !== prevEnd) {
         // parse text before object
         const value = this.r.substring(prevEnd, objectBegin);
-        const end = prevEnd + value.length;
-        objects.push(u('text', { value, ...this.getPosition(prevEnd, end) }));
+        objects.push(u('text', { value, ...this.getPosition(prevEnd, objectBegin) }));
       }
 
       // @ts-expect-error contentsBegin is not defined for "literals"
