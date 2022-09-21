@@ -771,7 +771,7 @@ class Parser {
     if (value[value.length - 1] === '\n') {
       value = value.substring(0, value.length - 1);
     }
-    const end = begin + value.length;
+    const end = this.r.offset();
 
     return u('comment', {
       value: value,
