@@ -274,10 +274,13 @@ children:
     value: "hello\\n"
     position:
       start:
-        line: 3
-        column: 14
-        offset: 35
-      end: {}
+        line: 1
+        column: 1
+        offset: 0
+      end:
+        line: 1
+        column: 7
+        offset: 6
 `;
 
 exports[`org/parser blocks escaper in src block 1`] = `
@@ -792,8 +795,8 @@ children:
         offset: 0
       end:
         line: 1
-        column: 63
-        offset: 62
+        column: 54
+        offset: 53
 `;
 
 exports[`org/parser comments does not eat keyword 1`] = `
@@ -806,12 +809,12 @@ children:
     position:
       start:
         line: 1
-        column: 3
-        offset: 2
+        column: 1
+        offset: 0
       end:
-        line: 1
-        column: 18
-        offset: 17
+        line: 2
+        column: 1
+        offset: 18
   - type: "keyword"
     affiliated: {}
     key: "TITLE"
@@ -837,8 +840,8 @@ children:
     position:
       start:
         line: 1
-        column: 2
-        offset: 1
+        column: 1
+        offset: 0
       end:
         line: 1
         column: 2
@@ -855,12 +858,12 @@ children:
     position:
       start:
         line: 1
-        column: 3
-        offset: 2
+        column: 1
+        offset: 0
       end:
         line: 4
-        column: 1
-        offset: 32
+        column: 29
+        offset: 60
 `;
 
 exports[`org/parser comments no comments in list 1`] = `
@@ -904,8 +907,8 @@ children:
             position:
               start:
                 line: 3
-                column: 5
-                offset: 23
+                column: 1
+                offset: 19
               end:
                 line: 3
                 column: 12
@@ -922,8 +925,8 @@ children:
     position:
       start:
         line: 1
-        column: 3
-        offset: 2
+        column: 1
+        offset: 0
       end:
         line: 1
         column: 18
@@ -1452,8 +1455,8 @@ children:
             offset: 1
           end:
             line: 1
-            column: 7
-            offset: 6
+            column: 6
+            offset: 5
       - type: "text"
         value: ")"
         position:

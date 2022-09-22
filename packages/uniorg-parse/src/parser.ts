@@ -426,7 +426,9 @@ class Parser {
       if (objectBegin !== prevEnd) {
         // parse text before object
         const value = this.r.substring(prevEnd, objectBegin);
-        objects.push(u('text', { value, ...this.getPosition(prevEnd, objectBegin) }));
+        objects.push(
+          u('text', { value, ...this.getPosition(prevEnd, objectBegin) })
+        );
       }
 
       // @ts-expect-error contentsBegin is not defined for "literals"
@@ -802,13 +804,17 @@ class Parser {
   private parseCommentBlock(
     affiliated: AffiliatedKeywords
   ): CommentBlock | Paragraph {
+    const begin = this.r.offset();
+
     const comment = this.parseBlock('comment-block', 'comment', affiliated);
     if (comment.type !== 'comment-block') {
       // parsed as paragraph
       return comment;
     }
     const value = this.r.substring(comment.contentsBegin, comment.contentsEnd);
-    const [begin, end] = this.getCurrentRange(value);
+
+    const end = begin + value.length;
+
     return u('comment-block', {
       affiliated,
       value,
@@ -984,10 +990,11 @@ class Parser {
     const m = this.r.forceLookingAt(/[ \t]*#\+(\S+):(.*)/);
     const key = m[1].toUpperCase();
     const value = m[2].trim();
-    const [begin, end] = this.getCurrentRange(m[0]);
+    const begin = this.r.offset();
 
     this.r.advance(this.r.line());
     this.parseEmptyLines();
+    const end = this.r.offset();
 
     return u('keyword', {
       affiliated,
@@ -1065,8 +1072,7 @@ class Parser {
 
   private parseNodeProperty(): NodeProperty {
     const begin = this.r.offset();
-    const propertyRe =
-      /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
+    const propertyRe = /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
     const m = this.r.forceLookingAt(propertyRe);
     const key = m.groups!['key'];
     const value = m.groups!['value1'] ?? m.groups!['value2'];
@@ -1529,7 +1535,9 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    const [begin, end] = this.getCurrentRange(value);
+    const begin = this.r.offset();
+    const end = begin + value.length;
+
     return u('code', { value, ...this.getPosition(begin, end) }, []);
   }
 
@@ -1708,8 +1716,7 @@ class Parser {
     // TODO: Type 1: Text targeted from a radio target.
 
     // Type 2: Standard link.
-    const linkBracketRe =
-      /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>[\s\S]+?)\])?\]/m;
+    const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>[\s\S]+?)\])?\]/m;
     const bracketM = this.r.advance(this.r.lookingAt(linkBracketRe));
     if (bracketM) {
       const m = bracketM;
@@ -1891,7 +1898,9 @@ class Parser {
 
   // Helpers
 
-  private static parseDate(s: string): {
+  private static parseDate(
+    s: string
+  ): {
     year: number;
     month: number;
     day: number;
@@ -1932,13 +1941,6 @@ class Parser {
 
   private atHeading(): boolean {
     return this.r.lookingAt(/^\*+[ \t]/) !== null;
-  }
-
-  /*
-   *  Return begin and end positions from current cursor position + val length
-   */
-  private getCurrentRange(val: string): [number, number] {
-    return [this.r.offset(), this.r.offset() + val.length];
   }
 
   private getPosition(begin: number, end: number): { position?: Position } {
@@ -2005,8 +2007,7 @@ const affiliatedRe = new RegExp(
   'i'
 );
 
-const footnoteRe =
-  /\[fn:(?:(?<label_inline>[-_\w]+)?(?<inline>:)|(?<label>[-_\w]+)\])/;
+const footnoteRe = /\[fn:(?:(?<label_inline>[-_\w]+)?(?<inline>:)|(?<label>[-_\w]+)\])/;
 const footnoteDefinitionRe = /^\[fn:([-_\w]+)\]/;
 const footnoteDefinitionSeparatorRe = /^\*|^\[fn:([-_\w]+)\]|^([ \t]*\n){2,}/m;
 
