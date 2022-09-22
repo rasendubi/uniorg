@@ -1586,7 +1586,7 @@ class Parser {
     }
     const value = getOrgEntity(m.groups!.value1 ?? m.groups!.value2);
     if (!value) return null;
-    const end = begin + m[0].length;
+    const end = this.r.offset();
     return u('entity', {
       useBrackets: hasBrackets,
       ...value,
