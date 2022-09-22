@@ -1044,11 +1044,9 @@ class Parser {
 
   private parseClock(): Clock {
     const begin = this.r.offset();
-    const parsedClock = this.r.forceMatch(/^[ \t]*CLOCK:[ \t]*/);
-    this.r.advance(parsedClock);
+    this.r.advance(this.r.forceMatch(/^[ \t]*CLOCK:[ \t]*/));
     const value = this.parseTimestamp();
-
-    const end = begin + parsedClock.input.length;
+    const end = this.r.offset();
     this.r.advance(this.r.match(/^[ \t]+=>[ \t]*/));
     const durationM = this.r.advance(this.r.lookingAt(/^(\S+)[ \t]*$/m));
     const duration = durationM ? durationM[1] : null;
