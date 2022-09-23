@@ -311,7 +311,7 @@ export function orgToHast(
       case 'comment-block':
         return null;
       case 'example-block':
-        return h(org, 'div.exampe', {}, org.value);
+        return h(org, 'div.example', {}, org.value);
       case 'export-block':
         if (org.backend === 'html') {
           // @ts-ignore raw is not defined
