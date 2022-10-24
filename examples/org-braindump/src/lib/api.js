@@ -72,8 +72,9 @@ function populateBacklinks(files) {
       backlinks[file.data.slug] || new Set();
 
     file.data.links.forEach((other) => {
-      backlinks[other] = backlinks[other] || new Set();
-      backlinks[other].add(file.data.slug);
+      const decodedOther = decodeURIComponent(other);
+      backlinks[decodedOther] = backlinks[decodedOther] || new Set();
+      backlinks[decodedOther].add(file.data.slug);
     });
   });
 }
