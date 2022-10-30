@@ -417,7 +417,7 @@ export function orgToHast(
         }
 
         const imageRe = new RegExp(
-          `\.(${options.imageFilenameExtensions.join('|')})$`
+          `\.(${options.imageFilenameExtensions.join('|')})$`, 'i'
         );
         if (link.match(imageRe)) {
           // TODO: set alt
