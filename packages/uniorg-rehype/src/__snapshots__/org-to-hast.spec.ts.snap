@@ -124,7 +124,7 @@ exports[`org/org-to-hast escape local link with percent 1`] = `
 
 exports[`org/org-to-hast example block 1`] = `
 
-<div class="exampe">example</div>
+<div class="example">example</div>
 
 `;
 
