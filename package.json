@@ -6,7 +6,7 @@
     "bootstrap": "npm install && lerna bootstrap --no-ci",
     "clean": "lerna run clean",
     "build": "lerna run build",
-    "publish": "lerna run publish",
+    "publish": "lerna publish",
     "dev": "lerna run dev",
     "test": "jest"
   },
