@@ -553,7 +553,8 @@ class Parser {
           // TODO: radio target / target
         } else {
           const offset = this.r.offset();
-          const ts = restriction.has('timestamp') && this.parseTimestamp();
+          const ts =
+            restriction.has('timestamp') && this.parseTimestamp(offset);
           if (ts) return ts;
           this.r.resetOffset(offset);
 
@@ -590,7 +591,8 @@ class Parser {
         } else {
           const offset = this.r.offset();
 
-          const ts = restriction.has('timestamp') && this.parseTimestamp();
+          const ts =
+            restriction.has('timestamp') && this.parseTimestamp(offset);
           if (ts) return ts;
           this.r.resetOffset(offset);
 
@@ -691,6 +693,7 @@ class Parser {
     let deadline: Timestamp | null = null;
     let closed: Timestamp | null = null;
     while (true) {
+      const begin = this.r.offset();
       const m = this.r.match(
         /\b(SCHEDULED:|DEADLINE:|CLOSED:) *[\[<]([^\]>]+)[\]>]/
       );
@@ -700,7 +703,7 @@ class Parser {
       this.r.advance(this.r.match(/^[ \t]*/));
 
       const keyword = m[1];
-      const time = this.parseTimestamp();
+      const time = this.parseTimestamp(begin);
       if (keyword === 'SCHEDULED:') scheduled = time;
       if (keyword === 'DEADLINE:') deadline = time;
       if (keyword === 'CLOSED:') closed = time;
@@ -846,18 +849,20 @@ class Parser {
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
     this.parseEmptyLines();
+    const end = this.r.offset();
 
     return u('src-block', {
       affiliated,
       language,
       value,
-      ...this.getPosition(contentsBegin, contentsEnd),
+      ...this.getPosition(begin, end),
     });
   }
 
   private parseExampleBlock(
     affiliated: AffiliatedKeywords
   ): ExampleBlock | Paragraph {
+    const start = this.r.offset();
     // TODO: parse switches
     const block = this.parseBlock('example-block', 'example', affiliated);
     if (block.type !== 'example-block') {
@@ -865,10 +870,11 @@ class Parser {
       return block;
     }
     const value = this.r.substring(block.contentsBegin, block.contentsEnd);
+    const end = this.r.offset();
     return u('example-block', {
       affiliated,
       value,
-      ...this.getPosition(block.contentsBegin, block.contentsEnd),
+      ...this.getPosition(start, end),
     });
   }
 
@@ -901,7 +907,7 @@ class Parser {
       affiliated,
       backend,
       value,
-      ...this.getPosition(contentsBegin, contentsEnd),
+      ...this.getPosition(begin, _end),
     });
   }
 
@@ -1052,14 +1058,14 @@ class Parser {
   private parseClock(): Clock {
     const begin = this.r.offset();
     this.r.advance(this.r.forceMatch(/^[ \t]*CLOCK:[ \t]*/));
-    const value = this.parseTimestamp();
-    const end = this.r.offset();
+    const value = this.parseTimestamp(begin);
     this.r.advance(this.r.match(/^[ \t]+=>[ \t]*/));
     const durationM = this.r.advance(this.r.lookingAt(/^(\S+)[ \t]*$/m));
     const duration = durationM ? durationM[1] : null;
 
     const status: 'closed' | 'running' = duration ? 'closed' : 'running';
 
+    const end = this.r.offset();
     this.parseEmptyLines();
 
     return u('clock', {
@@ -1527,6 +1533,7 @@ class Parser {
   }
 
   private parseCode(): Code | null {
+    const begin = this.r.offset();
     // backoff one char to check border
     this.r.backoff(1);
     const m = this.r.lookingAt(this.re.verbatimRe());
@@ -1534,9 +1541,8 @@ class Parser {
     const value = m[4];
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
-    this.r.resetOffset(contentsEnd + 1);
-    const begin = this.r.offset();
-    const end = begin + value.length;
+    const end = contentsEnd + 1;
+    this.r.resetOffset(end);
 
     return u('code', { value, ...this.getPosition(begin, end) }, []);
   }
@@ -1823,7 +1829,7 @@ class Parser {
     return { linkType: 'fuzzy', path: link };
   }
 
-  private parseTimestamp(): Timestamp | null {
+  private parseTimestamp(timestampBegin: number): Timestamp | null {
     const begin = this.r.offset();
     // org-ts--internal-regexp
     const tsInternalRe = '\\d{4}-\\d{2}-\\d{2}(:? .*?)?';
@@ -1887,12 +1893,13 @@ class Parser {
       ? { ...start, ...timeRange }
       : null;
 
+    const positionEnd = this.r.offset();
     return u('timestamp', {
       timestampType,
       rawValue,
       start,
       end,
-      ...this.getPosition(begin, begin + rawValue.length),
+      ...this.getPosition(timestampBegin, positionEnd),
     });
   }
 
