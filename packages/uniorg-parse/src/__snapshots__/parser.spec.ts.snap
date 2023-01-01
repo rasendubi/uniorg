@@ -1,5 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`org/parser \\_<SPC> 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 4
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 4
+    children:
+      - type: "entity"
+        useBrackets: false
+        name: "_ "
+        latex: "\\\\hspace*{0.5em}"
+        requireLatexMath: false
+        html: "&ensp;"
+        ascii: " "
+        latin1: " "
+        utf8: " "
+      - type: "text"
+        value: "a"
+`;
+
 exports[`org/parser affiliated keyword dual keywords 1`] = `
 type: "org-data"
 contentsBegin: 0

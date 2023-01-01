@@ -980,4 +980,7 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
 more text
 `
   );
+
+  // See https://github.com/rasendubi/uniorg/issues/57
+  itParses('\\_<SPC>', '\\_ a');
 });
