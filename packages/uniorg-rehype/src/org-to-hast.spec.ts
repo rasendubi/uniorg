@@ -294,6 +294,14 @@ hello, world!
 
   hastTest('images', `[[./image.png]]`);
 
+  hastTest(
+    'image with html attributes',
+    `#+ATTR_HTML: :alt Image alt
+#+ATTR_HTML: :style width:320px;
+#+ATTR_HTML: invalid :no-value :x y
+[[./image.png]]`
+  );
+
   describe('timestamps', () => {
     hastTest('inactive', `[2021-01-07 Thu]`);
     hastTest('inactive-range', `[2021-01-07 Thu]--[2021-01-08 Fri]`);
