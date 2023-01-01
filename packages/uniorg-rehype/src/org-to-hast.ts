@@ -78,6 +78,27 @@ const html5Elements = new Set([
   'video',
 ]);
 
+const getAffiliatedAttrs = (node: any) => {
+  const attr_html: string[] =
+    (node as any)?.affiliated?.ATTR_HTML?.flatMap((s: string) =>
+      s
+        .split(/(?:[ \t]+|^):(?<x>[-a-zA-Z0-9_]+(?=[ \t]|$))/u)
+        // first element is before the first key
+        .slice(1)
+    ) ?? [];
+
+  const attrs: Record<string, string> = {};
+  for (let i = 0; i < attr_html.length; i += 2) {
+    const key = attr_html[i];
+    const value = attr_html[i + 1].trim();
+    if (value) {
+      attrs[key] = value;
+    }
+  }
+
+  return attrs;
+};
+
 /**
  * Similar to `hast` but respects `hProperties`.
  */
@@ -93,10 +114,16 @@ function h(
     // @ts-expect-error does not match the expected overloads
     hast(selector, properties || {}, children || []);
 
-  const hProperties = node?.data?.hProperties;
-  if (hProperties) {
-    element.properties = Object.assign({}, element.properties, hProperties);
-  }
+  const attrs = getAffiliatedAttrs(node);
+
+  const hProperties = node?.data?.hProperties ?? {};
+
+  element.properties = Object.assign(
+    {},
+    element.properties,
+    attrs,
+    hProperties
+  );
 
   return element;
 }
@@ -417,7 +444,8 @@ export function orgToHast(
         }
 
         const imageRe = new RegExp(
-          `\.(${options.imageFilenameExtensions.join('|')})$`, 'i'
+          `\.(${options.imageFilenameExtensions.join('|')})$`,
+          'i'
         );
         if (link.match(imageRe)) {
           // TODO: set alt

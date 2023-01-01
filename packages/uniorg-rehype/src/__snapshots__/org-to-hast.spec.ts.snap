@@ -275,6 +275,14 @@ exports[`org/org-to-hast html5 fancy block 1`] = `
 
 `;
 
+exports[`org/org-to-hast image with html attributes 1`] = `
+
+<p alt="Image alt" style="width:320px;" x="y">
+  <img src="./image.png">
+</p>
+
+`;
+
 exports[`org/org-to-hast images 1`] = `
 
 <p>
