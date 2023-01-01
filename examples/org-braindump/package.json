@@ -1,6 +1,6 @@
 {
   "name": "org-braindump",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "next": "^12.0.5",
-    "orgast-util-visit-ids": "^0.5.3",
+    "orgast-util-visit-ids": "^0.5.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "rehype-react": "7.0.4",
@@ -18,10 +18,10 @@
     "to-vfile": "^7.2.3",
     "trough": "2.1.0",
     "unified": "10.1.2",
-    "uniorg-extract-keywords": "^0.5.3",
-    "uniorg-parse": "^0.5.3",
-    "uniorg-rehype": "^0.5.5",
-    "uniorg-slug": "^0.5.5",
+    "uniorg-extract-keywords": "^0.5.6",
+    "uniorg-parse": "^0.5.6",
+    "uniorg-rehype": "^0.5.6",
+    "uniorg-slug": "^0.5.6",
     "vfile-find-down": "6.0.0",
     "vfile-reporter": "7.0.4"
   }
