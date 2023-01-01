@@ -3,6 +3,6 @@
     "packages/*",
     "examples/*"
   ],
-  "version": "0.5.7",
+  "version": "0.5.8",
   "npmClient": "npm"
 }
