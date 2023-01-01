@@ -1512,7 +1512,7 @@ class Parser {
     );
     if (!m) return null;
     const hasBrackets = m.groups!.brackets === '{}';
-    if (!hasBrackets) {
+    if (m.groups!.brackets && !hasBrackets) {
       // The brackets group is not brackets. That means it captured an
       // extra non-letter or a newline. Backoff, so it can be parsed
       // as text later.
