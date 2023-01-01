@@ -1,6 +1,6 @@
 {
   "name": "uniorg-slug",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "type": "module",
   "description": "uniorg plugin to add `id` attributes to headlines",
   "keywords": [
@@ -51,7 +51,7 @@
     "unified": "10.1.2",
     "uniorg": "^0.5.3",
     "uniorg-parse": "^0.5.6",
-    "uniorg-rehype": "^0.5.6",
+    "uniorg-rehype": "^0.5.7",
     "unist-util-find": "^1.0.2",
     "vfile": "5.3.2"
   }
