@@ -294,13 +294,42 @@ hello, world!
 
   hastTest('images', `[[./image.png]]`);
 
-  hastTest(
-    'image with html attributes',
-    `#+ATTR_HTML: :alt Image alt
+  describe('#+ATTR_HTML', () => {
+    // The results might be unexpected in this section, but that's how ox-html works.
+
+    hastTest(
+      'Simple paragraph -> attrs are attached to paragraph',
+      `#+ATTR_HTML: :style color:red;
+This is red paragraph.`
+    );
+
+    hastTest(
+      'Simple image -> attrs are attached to image only',
+      `#+ATTR_HTML: :alt Image alt
 #+ATTR_HTML: :style width:320px;
 #+ATTR_HTML: invalid :no-value :x y
 [[./image.png]]`
-  );
+    );
+
+    hastTest(
+      'Non-image link -> attrs are attached to both paragraph and link',
+      `#+ATTR_HTML: :alt Link alt
+[[./a-link.org]]`
+    );
+
+    hastTest(
+      'Multiple links in a paragraph -> attrs are attached to paragraph and first link',
+      `#+ATTR_HTML: :alt Link A alt
+Some text [[./a-link.org]] [[./b-link.org]]`
+    );
+
+    hastTest(
+      'On results block',
+      `#+ATTR_HTML: :width 300px
+#+RESULTS:
+: sample output`
+    );
+  });
 
   describe('timestamps', () => {
     hastTest('inactive', `[2021-01-07 Thu]`);
