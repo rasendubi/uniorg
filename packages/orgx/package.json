@@ -1,6 +1,6 @@
 {
   "name": "@uniorgjs/orgx",
-  "version": "0.6.0-alpha.0",
+  "version": "0.6.0-alpha.1",
   "description": "Org-mode to JS compiler",
   "type": "module",
   "main": "index.js",
@@ -36,5 +36,6 @@
     "unist-util-stringify-position": "^3.0.0",
     "unist-util-visit": "^4.0.0",
     "vfile": "^5.0.0"
-  }
+  },
+  "gitHead": "0e8b6ca0dc07638b5685bf1d17e6e66819ec7fd2"
 }
