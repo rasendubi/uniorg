@@ -37,5 +37,7 @@
     "unist-util-visit": "^4.0.0",
     "vfile": "^5.0.0"
   },
-  "gitHead": "0e8b6ca0dc07638b5685bf1d17e6e66819ec7fd2"
+  "publishConfig": {
+    "access": "public"
+  }
 }
