@@ -1,0 +1,88 @@
+/**
+ * @typedef {import('unified').Processor} Processor
+ * @typedef {import('unified').PluggableList} PluggableList
+ * @typedef {import('./plugin/recma-document.js').RecmaDocumentOptions} RecmaDocumentOptions
+ * @typedef {import('./plugin/recma-stringify.js').RecmaStringifyOptions} RecmaStringifyOptions
+ * @typedef {import('./plugin/recma-jsx-rewrite.js').RecmaJsxRewriteOptions} RecmaJsxRewriteOptions
+ * @typedef {import('uniorg-rehype').Options} UniorgRehypeOptions
+ *
+ * @typedef BaseProcessorOptions
+ * @property {boolean} [jsx=false]
+ *   Whether to keep JSX.
+ * @property {'program'|'function-body'} [outputFormat='program']
+ *   Whether to compile to a whole program or a function body..
+ * @property {Array<string>} [mdExtensions]
+ *   Extensions (with `.`) for markdown.
+ * @property {Array<string>} [mdxExtensions]
+ *   Extensions (with `.`) for MDX.
+ * @property {PluggableList} [recmaPlugins]
+ *   List of recma (esast, JavaScript) plugins.
+ * @property {PluggableList} [uniorgPlugins]
+ *   List of uniorg (orgast) plugins.
+ * @property {PluggableList} [rehypePlugins]
+ *   List of rehype (hast, HTML) plugins.
+ * @property {UniorgRehypeOptions} [uniorgRehypeOptions]
+ *   Options to pass through to `uniorg-rehype`.
+ *
+ * @typedef {Omit<RecmaDocumentOptions & RecmaStringifyOptions & RecmaJsxRewriteOptions, 'outputFormat'>} PluginOptions
+ * @typedef {BaseProcessorOptions & PluginOptions} ProcessorOptions
+ */
+
+import { unified } from 'unified';
+import uniorgParse from 'uniorg-parse';
+import uniorgRehype from 'uniorg-rehype';
+import { recmaJsxBuild } from './plugin/recma-jsx-build.js';
+import { recmaDocument } from './plugin/recma-document.js';
+import { recmaJsxRewrite } from './plugin/recma-jsx-rewrite.js';
+import { recmaStringify } from './plugin/recma-stringify.js';
+import { rehypeRecma } from './plugin/rehype-recma.js';
+import { nodeTypes } from './node-types.js';
+import { development as defaultDevelopment } from './condition.js';
+
+/**
+ * Pipeline to:
+ *
+ * 1. Parse MDX (serialized markdown with embedded JSX, ESM, and  expressions)
+ * 2. Transform through uniorg (mdast), rehype (hast), and recma (esast)
+ * 3. Serialize as JavaScript
+ *
+ * @param {ProcessorOptions} [options]
+ * @return {Processor}
+ */
+export function createProcessor(options = {}) {
+  const {
+    development = defaultDevelopment,
+    jsx,
+    outputFormat,
+    providerImportSource,
+    recmaPlugins,
+    rehypePlugins,
+    uniorgPlugins,
+    uniorgRehypeOptions = {},
+    SourceMapGenerator,
+    ...rest
+  } = options;
+
+  const pipeline = unified().use(uniorgParse);
+
+  pipeline
+    .use(uniorgPlugins || [])
+    .use(uniorgRehype, {
+      ...uniorgRehypeOptions,
+      allowDangerousHtml: true,
+      /* c8 ignore next */
+      passThrough: [...(uniorgRehypeOptions.passThrough || []), ...nodeTypes],
+    })
+    .use(rehypePlugins || [])
+    .use(rehypeRecma)
+    .use(recmaDocument, { ...rest, outputFormat })
+    .use(recmaJsxRewrite, { development, providerImportSource, outputFormat });
+
+  if (!jsx) {
+    pipeline.use(recmaJsxBuild, { development, outputFormat });
+  }
+
+  pipeline.use(recmaStringify, { SourceMapGenerator }).use(recmaPlugins || []);
+
+  return pipeline;
+}
