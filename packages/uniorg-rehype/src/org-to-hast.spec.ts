@@ -294,6 +294,8 @@ hello, world!
 
   hastTest('images', `[[./image.png]]`);
 
+  hastTest('does not export link as image', `[[./image.png][this is a link]]`);
+
   describe('#+ATTR_HTML', () => {
     // The results might be unexpected in this section, but that's how ox-html works.
 

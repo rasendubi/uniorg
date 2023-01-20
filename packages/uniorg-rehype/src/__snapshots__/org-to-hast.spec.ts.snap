@@ -128,6 +128,12 @@ exports[`org/org-to-hast does not export :noexport: headline 1`] = `
 
 `;
 
+exports[`org/org-to-hast does not export link as image 1`] = `
+
+<p><a href="./image.png">this is a link</a></p>
+
+`;
+
 exports[`org/org-to-hast emphasis 1`] = `
 
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span class="underline" style="text-decoration: underline;">under</span></p>

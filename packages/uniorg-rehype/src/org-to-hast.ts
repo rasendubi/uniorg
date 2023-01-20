@@ -574,5 +574,9 @@ const isImageLink = (node: OrgNode, options: OrgToHastOptions) => {
     `\.(${options.imageFilenameExtensions.join('|')})$`,
     'i'
   );
-  return node.type === 'link' && node.rawLink.match(imageRe);
+  return (
+    node.type === 'link' &&
+    node.children.length === 0 &&
+    node.rawLink.match(imageRe)
+  );
 };
