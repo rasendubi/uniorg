@@ -57,6 +57,7 @@ import {
 } from './utils.js';
 import { ParseOptions, defaultOptions } from './parse-options.js';
 import { Reader } from './reader.js';
+import { Position } from 'unist';
 
 /*
 (defun rasen/org-debug ()
@@ -425,7 +426,9 @@ class Parser {
       if (objectBegin !== prevEnd) {
         // parse text before object
         const value = this.r.substring(prevEnd, objectBegin);
-        objects.push(u('text', { value }));
+        objects.push(
+          u('text', { value, ...this.getPosition(prevEnd, objectBegin) })
+        );
       }
 
       // @ts-expect-error contentsBegin is not defined for "literals"
@@ -447,9 +450,11 @@ class Parser {
 
     // handle text after the last object
     const text = this.r.rest();
+    const begin = this.r.offset();
     this.r.advance(text.length);
+    const end = this.r.offset();
     if (text.trim().length) {
-      objects.push(u('text', { value: text }));
+      objects.push(u('text', { value: text, ...this.getPosition(begin, end) }));
     }
 
     return objects;
@@ -548,7 +553,8 @@ class Parser {
           // TODO: radio target / target
         } else {
           const offset = this.r.offset();
-          const ts = restriction.has('timestamp') && this.parseTimestamp();
+          const ts =
+            restriction.has('timestamp') && this.parseTimestamp(offset);
           if (ts) return ts;
           this.r.resetOffset(offset);
 
@@ -585,7 +591,8 @@ class Parser {
         } else {
           const offset = this.r.offset();
 
-          const ts = restriction.has('timestamp') && this.parseTimestamp();
+          const ts =
+            restriction.has('timestamp') && this.parseTimestamp(offset);
           if (ts) return ts;
           this.r.resetOffset(offset);
 
@@ -686,6 +693,7 @@ class Parser {
     let deadline: Timestamp | null = null;
     let closed: Timestamp | null = null;
     while (true) {
+      const begin = this.r.offset();
       const m = this.r.match(
         /\b(SCHEDULED:|DEADLINE:|CLOSED:) *[\[<]([^\]>]+)[\]>]/
       );
@@ -695,7 +703,7 @@ class Parser {
       this.r.advance(this.r.match(/^[ \t]*/));
 
       const keyword = m[1];
-      const time = this.parseTimestamp();
+      const time = this.parseTimestamp(begin);
       if (keyword === 'SCHEDULED:') scheduled = time;
       if (keyword === 'DEADLINE:') deadline = time;
       if (keyword === 'CLOSED:') closed = time;
@@ -752,8 +760,10 @@ class Parser {
   }
 
   private parseComment(): Comment {
+    const begin = this.r.offset();
     let valueLines = [];
     this.r.advance(this.r.forceLookingAt(/^[ \t]*# ?/));
+
     valueLines.push(this.r.advance(this.r.line()));
 
     while (true) {
@@ -762,17 +772,21 @@ class Parser {
 
       valueLines.push(this.r.advance(this.r.line()));
     }
-
     let value = valueLines.join('');
     if (value[value.length - 1] === '\n') {
       value = value.substring(0, value.length - 1);
     }
+    const end = this.r.offset();
 
-    return u('comment', { value: value });
+    return u('comment', {
+      value: value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseFixedWidth(affiliated: AffiliatedKeywords): FixedWidth {
     let valueLines = [];
+    const begin = this.r.offset();
     while (true) {
       const m = this.r.lookingAt(/^[ \t]*: ?(.*)$/m);
       if (!m) break;
@@ -781,20 +795,34 @@ class Parser {
       valueLines.push(m[1]);
     }
     const value = valueLines.join('\n');
+    const end = this.r.offset();
 
-    return u('fixed-width', { affiliated, value });
+    return u('fixed-width', {
+      affiliated,
+      value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseCommentBlock(
     affiliated: AffiliatedKeywords
   ): CommentBlock | Paragraph {
+    const begin = this.r.offset();
+
     const comment = this.parseBlock('comment-block', 'comment', affiliated);
     if (comment.type !== 'comment-block') {
       // parsed as paragraph
       return comment;
     }
     const value = this.r.substring(comment.contentsBegin, comment.contentsEnd);
-    return u('comment-block', { affiliated, value });
+
+    const end = begin + value.length;
+
+    return u('comment-block', {
+      affiliated,
+      value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseSrcBlock(affiliated: AffiliatedKeywords): SrcBlock | Paragraph {
@@ -821,14 +849,20 @@ class Parser {
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    const _end = this.r.offset();
+    const end = this.r.offset();
 
-    return u('src-block', { affiliated, language, value });
+    return u('src-block', {
+      affiliated,
+      language,
+      value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseExampleBlock(
     affiliated: AffiliatedKeywords
   ): ExampleBlock | Paragraph {
+    const start = this.r.offset();
     // TODO: parse switches
     const block = this.parseBlock('example-block', 'example', affiliated);
     if (block.type !== 'example-block') {
@@ -836,7 +870,12 @@ class Parser {
       return block;
     }
     const value = this.r.substring(block.contentsBegin, block.contentsEnd);
-    return u('example-block', { affiliated, value });
+    const end = this.r.offset();
+    return u('example-block', {
+      affiliated,
+      value,
+      ...this.getPosition(start, end),
+    });
   }
 
   private parseExportBlock(
@@ -864,7 +903,12 @@ class Parser {
     this.parseEmptyLines();
     const _end = this.r.offset();
 
-    return u('export-block', { affiliated, backend, value });
+    return u('export-block', {
+      affiliated,
+      backend,
+      value,
+      ...this.getPosition(begin, _end),
+    });
   }
 
   private parseSpecialBlock(
@@ -952,9 +996,18 @@ class Parser {
     const m = this.r.forceLookingAt(/[ \t]*#\+(\S+):(.*)/);
     const key = m[1].toUpperCase();
     const value = m[2].trim();
+    const begin = this.r.offset();
+
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    return u('keyword', { affiliated, key, value });
+    const end = this.r.offset();
+
+    return u('keyword', {
+      affiliated,
+      key,
+      value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseLatexEnvironment(
@@ -977,7 +1030,11 @@ class Parser {
 
     const value = this.r.substring(beginOffset, endOffset);
 
-    return u('latex-environment', { affiliated, value });
+    return u('latex-environment', {
+      affiliated,
+      value,
+      ...this.getPosition(beginOffset, endOffset),
+    });
   }
 
   private parseDrawer(affiliated: AffiliatedKeywords): Drawer | Paragraph {
@@ -999,27 +1056,39 @@ class Parser {
   }
 
   private parseClock(): Clock {
+    const begin = this.r.offset();
     this.r.advance(this.r.forceMatch(/^[ \t]*CLOCK:[ \t]*/));
-    const value = this.parseTimestamp();
-
+    const value = this.parseTimestamp(begin);
     this.r.advance(this.r.match(/^[ \t]+=>[ \t]*/));
     const durationM = this.r.advance(this.r.lookingAt(/^(\S+)[ \t]*$/m));
     const duration = durationM ? durationM[1] : null;
 
     const status: 'closed' | 'running' = duration ? 'closed' : 'running';
 
+    const end = this.r.offset();
     this.parseEmptyLines();
 
-    return u('clock', { value, duration, status });
+    return u('clock', {
+      value,
+      duration,
+      status,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseNodeProperty(): NodeProperty {
+    const begin = this.r.offset();
     const propertyRe = /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
     const m = this.r.forceLookingAt(propertyRe);
     const key = m.groups!['key'];
     const value = m.groups!['value1'] ?? m.groups!['value2'];
     this.r.advance(this.r.line());
-    return u('node-property', { key, value });
+    const end = this.r.offset();
+    return u('node-property', {
+      key,
+      value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseParagraph(affiliated: AffiliatedKeywords): Paragraph {
@@ -1141,10 +1210,16 @@ class Parser {
   }
 
   private parseDiarySexp(affiliated: AffiliatedKeywords): DiarySexp {
+    const begin = this.r.offset();
     const value = this.r.forceLookingAt(/^(%%\(.*)[ \t]*$/m)[1];
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    return u('diary-sexp', { affiliated, value });
+    const end = begin + value.length;
+    return u('diary-sexp', {
+      affiliated,
+      value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseTable(affiliated: AffiliatedKeywords): Table {
@@ -1458,6 +1533,7 @@ class Parser {
   }
 
   private parseCode(): Code | null {
+    const begin = this.r.offset();
     // backoff one char to check border
     this.r.backoff(1);
     const m = this.r.lookingAt(this.re.verbatimRe());
@@ -1465,8 +1541,10 @@ class Parser {
     const value = m[4];
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
-    this.r.resetOffset(contentsEnd + 1);
-    return u('code', { value }, []);
+    const end = contentsEnd + 1;
+    this.r.resetOffset(end);
+
+    return u('code', { value, ...this.getPosition(begin, end) }, []);
   }
 
   private parseVerbatim(): Verbatim | null {
@@ -1505,11 +1583,13 @@ class Parser {
   }
 
   private parseEntity(): Entity | null {
+    const begin = this.r.offset();
     const m = this.r.advance(
       this.r.lookingAt(
         /^\\(?:(?<value1>_ +)|(?<value2>there4|sup[123]|frac[13][24]|[a-zA-Z]+)(?<brackets>$|\{\}|\P{Letter}))/mu
       )
     );
+
     if (!m) return null;
     const hasBrackets = m.groups!.brackets === '{}';
     if (m.groups!.brackets && !hasBrackets) {
@@ -1520,7 +1600,12 @@ class Parser {
     }
     const value = getOrgEntity(m.groups!.value1 ?? m.groups!.value2);
     if (!value) return null;
-    return u('entity', { useBrackets: hasBrackets, ...value });
+    const end = this.r.offset();
+    return u('entity', {
+      useBrackets: hasBrackets,
+      ...value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseLatexFragment(): LatexFragment | null {
@@ -1574,7 +1659,11 @@ class Parser {
     if (begin === end) return null;
 
     const value = this.r.substring(begin, end);
-    return u('latex-fragment', { value, contents: contents ?? value });
+    return u('latex-fragment', {
+      value,
+      contents: contents ?? value,
+      ...this.getPosition(begin, end),
+    });
   }
 
   private parseFootnoteReference(): FootnoteReference | null {
@@ -1740,7 +1829,8 @@ class Parser {
     return { linkType: 'fuzzy', path: link };
   }
 
-  private parseTimestamp(): Timestamp | null {
+  private parseTimestamp(timestampBegin: number): Timestamp | null {
+    const begin = this.r.offset();
     // org-ts--internal-regexp
     const tsInternalRe = '\\d{4}-\\d{2}-\\d{2}(:? .*?)?';
     // org-ts-regexp-both
@@ -1803,11 +1893,13 @@ class Parser {
       ? { ...start, ...timeRange }
       : null;
 
+    const positionEnd = this.r.offset();
     return u('timestamp', {
       timestampType,
       rawValue,
       start,
       end,
+      ...this.getPosition(timestampBegin, positionEnd),
     });
   }
 
@@ -1856,6 +1948,13 @@ class Parser {
 
   private atHeading(): boolean {
     return this.r.lookingAt(/^\*+[ \t]/) !== null;
+  }
+
+  private getPosition(begin: number, end: number): { position?: Position } {
+    if (!this.options.position) {
+      return {};
+    }
+    return { position: this.r.toPosition(begin, end) };
   }
 }
 

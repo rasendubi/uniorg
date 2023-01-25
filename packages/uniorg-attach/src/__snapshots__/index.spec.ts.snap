@@ -20,8 +20,26 @@ children:
         children:
           - type: "text"
             value: "Other file"
+            position:
+              start:
+                line: 1
+                column: 20
+                offset: 19
+              end:
+                line: 1
+                column: 30
+                offset: 29
       - type: "text"
         value: " "
+        position:
+          start:
+            line: 1
+            column: 32
+            offset: 31
+          end:
+            line: 1
+            column: 33
+            offset: 32
       - type: "link"
         format: "plain"
         linkType: "https"
@@ -42,6 +60,15 @@ children:
       - type: "node-property"
         key: "ID"
         value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 57
   - type: "paragraph"
     affiliated: {}
     contentsBegin: 63
@@ -67,6 +94,15 @@ children:
       - type: "node-property"
         key: "ID"
         value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 57
   - type: "paragraph"
     affiliated: {}
     contentsBegin: 63
@@ -92,6 +128,15 @@ children:
       - type: "node-property"
         key: "ID"
         value: "20210922T144052.487159"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 42
   - type: "paragraph"
     affiliated: {}
     contentsBegin: 48
@@ -117,6 +162,15 @@ children:
       - type: "node-property"
         key: "DIR"
         value: "attach"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 27
   - type: "section"
     contentsBegin: 33
     contentsEnd: 127
@@ -133,6 +187,15 @@ children:
         children:
           - type: "text"
             value: "Headline"
+            position:
+              start:
+                line: 4
+                column: 3
+                offset: 35
+              end:
+                line: 4
+                column: 11
+                offset: 43
       - type: "property-drawer"
         contentsBegin: 57
         contentsEnd: 101
@@ -140,6 +203,15 @@ children:
           - type: "node-property"
             key: "ID"
             value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+            position:
+              start:
+                line: 6
+                column: 1
+                offset: 57
+              end:
+                line: 7
+                column: 1
+                offset: 101
       - type: "paragraph"
         affiliated: {}
         contentsBegin: 107
@@ -165,6 +237,15 @@ children:
       - type: "node-property"
         key: "DIR"
         value: "attach"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 27
   - type: "section"
     contentsBegin: 33
     contentsEnd: 64
@@ -181,6 +262,15 @@ children:
         children:
           - type: "text"
             value: "Headline"
+            position:
+              start:
+                line: 4
+                column: 3
+                offset: 35
+              end:
+                line: 4
+                column: 11
+                offset: 43
       - type: "paragraph"
         affiliated: {}
         contentsBegin: 44
@@ -206,6 +296,15 @@ children:
       - type: "node-property"
         key: "ID"
         value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 57
   - type: "section"
     contentsBegin: 63
     contentsEnd: 94
@@ -222,6 +321,15 @@ children:
         children:
           - type: "text"
             value: "Headline"
+            position:
+              start:
+                line: 4
+                column: 3
+                offset: 65
+              end:
+                line: 4
+                column: 11
+                offset: 73
       - type: "paragraph"
         affiliated: {}
         contentsBegin: 74
@@ -247,9 +355,27 @@ children:
       - type: "node-property"
         key: "ID"
         value: "hello-id"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 28
       - type: "node-property"
         key: "DIR"
         value: "/directory"
+        position:
+          start:
+            line: 3
+            column: 1
+            offset: 28
+          end:
+            line: 4
+            column: 1
+            offset: 46
   - type: "paragraph"
     affiliated: {}
     contentsBegin: 52
@@ -275,6 +401,15 @@ children:
       - type: "node-property"
         key: "DIR"
         value: "/home/user/attachment"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 45
   - type: "paragraph"
     affiliated: {}
     contentsBegin: 52
@@ -300,6 +435,15 @@ children:
       - type: "node-property"
         key: "DIR"
         value: "/home/user/attachment"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 45
   - type: "paragraph"
     affiliated: {}
     contentsBegin: 52
@@ -325,6 +469,15 @@ children:
       - type: "node-property"
         key: "DIR"
         value: "./attachments"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 33
   - type: "paragraph"
     affiliated: {}
     contentsBegin: 40
@@ -350,6 +503,15 @@ children:
       - type: "node-property"
         key: "ID"
         value: "ead7b7db-8aac-4b1f-893f-9e7f5ca6ea2c"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 57
   - type: "paragraph"
     affiliated: {}
     contentsBegin: 63
@@ -384,6 +546,15 @@ children:
         children:
           - type: "text"
             value: "headline"
+            position:
+              start:
+                line: 1
+                column: 3
+                offset: 2
+              end:
+                line: 1
+                column: 11
+                offset: 10
       - type: "paragraph"
         affiliated: {}
         contentsBegin: 11
@@ -409,6 +580,15 @@ children:
       - type: "node-property"
         key: "ID"
         value: "hello"
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 13
+          end:
+            line: 3
+            column: 1
+            offset: 24
   - type: "section"
     contentsBegin: 30
     contentsEnd: 65
@@ -425,6 +605,15 @@ children:
         children:
           - type: "text"
             value: "headline"
+            position:
+              start:
+                line: 4
+                column: 3
+                offset: 32
+              end:
+                line: 4
+                column: 11
+                offset: 40
       - type: "paragraph"
         affiliated: {}
         contentsBegin: 41
@@ -459,6 +648,15 @@ children:
         children:
           - type: "text"
             value: "headline"
+            position:
+              start:
+                line: 1
+                column: 3
+                offset: 2
+              end:
+                line: 1
+                column: 11
+                offset: 10
       - type: "property-drawer"
         contentsBegin: 24
         contentsEnd: 35
@@ -466,6 +664,15 @@ children:
           - type: "node-property"
             key: "ID"
             value: "hello"
+            position:
+              start:
+                line: 3
+                column: 1
+                offset: 24
+              end:
+                line: 4
+                column: 1
+                offset: 35
       - type: "section"
         contentsBegin: 41
         contentsEnd: 84
@@ -482,6 +689,15 @@ children:
             children:
               - type: "text"
                 value: "nested headline"
+                position:
+                  start:
+                    line: 5
+                    column: 4
+                    offset: 44
+                  end:
+                    line: 5
+                    column: 19
+                    offset: 59
           - type: "paragraph"
             affiliated: {}
             contentsBegin: 60
