@@ -134,6 +134,8 @@ hello /there/
 
     still in 1.2`
     );
+
+    test('checkbox list', `- [ ] hello`);
   });
 
   describe('links', () => {

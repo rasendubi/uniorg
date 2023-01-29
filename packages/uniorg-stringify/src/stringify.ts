@@ -84,11 +84,11 @@ function stringifyNode(org: OrgNode): string {
           org.bullet,
           org.counter,
           org.checkbox === 'on'
-            ? '[X]'
+            ? '[X] '
             : org.checkbox === 'off'
-            ? '[ ]'
+            ? '[ ] '
             : org.checkbox === 'trans'
-            ? '[-]'
+            ? '[-] '
             : null,
           indent(
             stringify(org.children),

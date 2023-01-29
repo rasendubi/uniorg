@@ -300,6 +300,11 @@ exports[`stringify links regular link 1`] = `
 "
 `;
 
+exports[`stringify list checkbox list 1`] = `
+"- [ ] hello
+"
+`;
+
 exports[`stringify list description list 1`] = `
 "- term1 :: description 1
 - term 2 :: description 2
