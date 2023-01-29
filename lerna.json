@@ -3,6 +3,6 @@
     "packages/*",
     "examples/*"
   ],
-  "version": "0.5.10-alpha.0",
+  "version": "0.5.10-alpha.1",
   "npmClient": "npm"
 }
