@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-orgx",
-  "version": "0.5.10-alpha.0",
+  "version": "1.0.0",
   "description": "Rollup plugin to transform org-mode files to JS.",
   "type": "module",
   "main": "lib/index.js",
@@ -34,7 +34,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@uniorgjs/orgx": "^0.5.10-alpha.0",
+    "@uniorgjs/orgx": "^1.0.0",
     "rollup-pluginutils": "^2.8.2",
     "vfile": "^5.3.6"
   }

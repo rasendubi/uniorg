@@ -1,6 +1,6 @@
 {
   "name": "astro-org",
-  "version": "0.5.10-alpha.2",
+  "version": "1.0.0",
   "description": "Astro plugin to import org-mode files.",
   "type": "module",
   "main": "lib/index.js",
@@ -29,10 +29,10 @@
   },
   "dependencies": {
     "acorn": "^8.8.2",
-    "orgast-util-visit-ids": "^0.5.6",
-    "rollup-plugin-orgx": "^0.5.10-alpha.0",
-    "uniorg-extract-keywords": "^0.5.6",
-    "uniorg-slug": "^0.5.9"
+    "orgast-util-visit-ids": "^1.0.0",
+    "rollup-plugin-orgx": "^1.0.0",
+    "uniorg-extract-keywords": "^1.0.0",
+    "uniorg-slug": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
