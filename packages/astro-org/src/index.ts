@@ -5,7 +5,7 @@ import { extractKeywords } from 'uniorg-extract-keywords';
 import { uniorgSlug } from 'uniorg-slug';
 import { visitIds } from 'orgast-util-visit-ids';
 
-import { rehypeExportFrontmatter } from './plugin/rehype-export-frontmatter';
+import { rehypeExportFrontmatter } from './plugin/rehype-export-frontmatter.js';
 
 export type Options = OrgPluginOptions;
 
