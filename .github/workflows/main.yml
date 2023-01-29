@@ -1,9 +1,9 @@
 name: main
 
 on:
-- push:
+  push:
     branches: [ master ]
-- pull_request
+  pull_request:
 
 jobs:
   main:
