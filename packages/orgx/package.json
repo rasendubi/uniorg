@@ -3,6 +3,7 @@
   "version": "0.6.0-alpha.2",
   "description": "Org-mode to JS compiler",
   "type": "module",
+  "types": "types/index.d.ts",
   "main": "index.js",
   "browser": {
     "./lib/condition.js": "./lib/condition.browser.js"
@@ -29,7 +30,7 @@
     "estree-util-is-identifier-name": "^2.0.0",
     "estree-util-to-js": "^1.1.0",
     "estree-walker": "^3.0.0",
-    "hast-util-to-estree": "^2.0.0",
+    "hast-util-to-estree": "^2.2.1",
     "periscopic": "^3.0.0",
     "unified": "^10.0.0",
     "unist-util-position-from-estree": "^1.0.0",

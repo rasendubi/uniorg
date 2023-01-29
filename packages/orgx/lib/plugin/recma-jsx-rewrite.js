@@ -14,8 +14,6 @@
  * @typedef {import('estree-jsx').ObjectPattern} ObjectPattern
  * @typedef {import('estree-jsx').Identifier} Identifier
  *
- * @typedef {import('estree-walker').SyncHandler} WalkHandler
- *
  * @typedef {import('periscopic').Scope & {node: Node}} Scope
  *
  * @typedef RecmaJsxRewriteOptions
