@@ -1,6 +1,6 @@
 {
   "name": "uniorg-stringify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "uniorg plugin to serialize org-mode",
   "type": "module",
   "keywords": [
