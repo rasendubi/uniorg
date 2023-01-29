@@ -1,4 +1,4 @@
-# uniorg-stringify
+# uniorg
 
 ## 1.1.0
 
@@ -11,9 +11,3 @@
   If you upgrade uniorg-parse to >=2, you also need to bump uniorg-rehype to >=1.1 and uniorg-stringify to >=1.1 (if you use these). Upgrading uniorg-rehype and uniorg-stringify does not require bumping uniorg-parse.
 
   The default rendering of citations in uniorg-rehype is quite primitive and citations are transformed into `cite:` links (to keep some compatibility with org-ref). The handling can be overridden by specifying your own `handlers`.
-
-## 1.0.1
-
-### Patch Changes
-
-- [#66](https://github.com/rasendubi/uniorg/pull/66) [`4b59881`](https://github.com/rasendubi/uniorg/commit/4b598816b7ee042df4c711c07f74681c092504a8) Thanks [@rasendubi](https://github.com/rasendubi)! - Add missing whitespace stringifying checkboxes in the list. Fixes [#40](https://github.com/rasendubi/uniorg/issues/40).

@@ -1,4 +1,4 @@
-# uniorg-stringify
+# uniorg-rehype
 
 ## 1.1.0
 
@@ -12,8 +12,19 @@
 
   The default rendering of citations in uniorg-rehype is quite primitive and citations are transformed into `cite:` links (to keep some compatibility with org-ref). The handling can be overridden by specifying your own `handlers`.
 
-## 1.0.1
+- [#33](https://github.com/rasendubi/uniorg/pull/33) [`67420e7`](https://github.com/rasendubi/uniorg/commit/67420e7fe05defc99b52aecce75fcc3831d39ff6) Thanks [@rasendubi](https://github.com/rasendubi)! - `OrgToHastOptions` now has `handlers` property. You can override rendering of any org node by passing your own handler.
 
-### Patch Changes
+  For example:
 
-- [#66](https://github.com/rasendubi/uniorg/pull/66) [`4b59881`](https://github.com/rasendubi/uniorg/commit/4b598816b7ee042df4c711c07f74681c092504a8) Thanks [@rasendubi](https://github.com/rasendubi)! - Add missing whitespace stringifying checkboxes in the list. Fixes [#40](https://github.com/rasendubi/uniorg/issues/40).
+  ```js
+  import { h } from 'hastscript';
+  const processor = unified()
+    .use(uniorgParse)
+    .use(uniorg2rehype, {
+      handlers: {
+        comment: (org) => {
+          return h('div.comment', [{ type: 'text', value: org.value }]);
+        },
+      },
+    });
+  ```

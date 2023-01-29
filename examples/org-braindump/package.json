@@ -1,6 +1,6 @@
 {
   "name": "org-braindump",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -19,8 +19,8 @@
     "trough": "2.1.0",
     "unified": "10.1.2",
     "uniorg-extract-keywords": "^1.0.0",
-    "uniorg-parse": "^1.0.0",
-    "uniorg-rehype": "^1.0.0",
+    "uniorg-parse": "^2.0.0",
+    "uniorg-rehype": "^1.1.0",
     "uniorg-slug": "^1.0.0",
     "vfile-find-down": "6.0.0",
     "vfile-reporter": "7.0.4"
