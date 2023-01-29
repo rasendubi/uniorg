@@ -4,6 +4,7 @@
  * @typedef {import('./plugin/recma-document.js').RecmaDocumentOptions} RecmaDocumentOptions
  * @typedef {import('./plugin/recma-stringify.js').RecmaStringifyOptions} RecmaStringifyOptions
  * @typedef {import('./plugin/recma-jsx-rewrite.js').RecmaJsxRewriteOptions} RecmaJsxRewriteOptions
+ * @typedef {import('uniorg-parse/lib/parse-options').ParseOptions} UniorgParseOptions
  * @typedef {import('uniorg-rehype').Options} UniorgRehypeOptions
  *
  * @typedef BaseProcessorOptions
@@ -11,16 +12,14 @@
  *   Whether to keep JSX.
  * @property {'program'|'function-body'} [outputFormat='program']
  *   Whether to compile to a whole program or a function body..
- * @property {Array<string>} [mdExtensions]
- *   Extensions (with `.`) for markdown.
- * @property {Array<string>} [mdxExtensions]
- *   Extensions (with `.`) for MDX.
  * @property {PluggableList} [recmaPlugins]
  *   List of recma (esast, JavaScript) plugins.
  * @property {PluggableList} [uniorgPlugins]
  *   List of uniorg (orgast) plugins.
  * @property {PluggableList} [rehypePlugins]
  *   List of rehype (hast, HTML) plugins.
+ * @property {UniorgParseOptions} [uniorgParseOptions]
+ *   Options to pass to `uniorg-parse`.
  * @property {UniorgRehypeOptions} [uniorgRehypeOptions]
  *   Options to pass through to `uniorg-rehype`.
  *
@@ -42,8 +41,8 @@ import { development as defaultDevelopment } from './condition.js';
 /**
  * Pipeline to:
  *
- * 1. Parse MDX (serialized markdown with embedded JSX, ESM, and  expressions)
- * 2. Transform through uniorg (mdast), rehype (hast), and recma (esast)
+ * 1. Parse Org
+ * 2. Transform through uniorg (orgast), rehype (hast), and recma (esast)
  * 3. Serialize as JavaScript
  *
  * @param {ProcessorOptions} [options]
@@ -55,17 +54,17 @@ export function createProcessor(options = {}) {
     jsx,
     outputFormat,
     providerImportSource,
-    recmaPlugins,
-    rehypePlugins,
+    uniorgParseOptions = {},
     uniorgPlugins,
     uniorgRehypeOptions = {},
+    rehypePlugins,
+    recmaPlugins,
     SourceMapGenerator,
     ...rest
   } = options;
 
-  const pipeline = unified().use(uniorgParse);
-
-  pipeline
+  const pipeline = unified()
+    .use(uniorgParse, uniorgParseOptions)
     .use(uniorgPlugins || [])
     .use(uniorgRehype, {
       ...uniorgRehypeOptions,
