@@ -1038,5 +1038,22 @@ more text
 
     itParses('simple with style', `[cite/s:@hello]`);
     itParses('simple with style and variant', `[cite/s/v:@hello]`);
+
+    itParses('common prefix', `[cite:common prefix;@hello]`);
+    itParses(
+      'common prefix with semicolon',
+      `[cite:common prefix; with semicolon;@hello]`
+    );
+    itParses('rich common prefix', `[cite:*bold*;@hello]`);
+
+    itParses('common suffix', `[cite:@hello; common suffix]`);
+
+    itParses('reference prefix', `[cite:prefi @hello]`);
+    itParses(
+      'reference prefix with semicolon',
+      `[cite:@hello; prefix; continues @world]`
+    );
+
+    itParses('reference suffix', `[cite:@hello p.13]`);
   });
 });

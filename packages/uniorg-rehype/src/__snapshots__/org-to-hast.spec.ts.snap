@@ -48,6 +48,12 @@ exports[`org/org-to-hast center block 1`] = `
 
 `;
 
+exports[`org/org-to-hast citation 1`] = `
+
+<p>common prefix prefix <a href="cite:key">cite:key</a> suffix<a href="cite:key2">cite:key2</a> common suffix</p>
+
+`;
+
 exports[`org/org-to-hast clock 1`] = ``;
 
 exports[`org/org-to-hast comment block 1`] = ``;

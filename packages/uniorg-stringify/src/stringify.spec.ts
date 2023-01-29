@@ -429,4 +429,9 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
 some text
 \\end{hello}`
   );
+
+  test(
+    'citation',
+    `[cite/style:common prefix; prefix @key suffix; @key2; common suffix]`
+  );
 });

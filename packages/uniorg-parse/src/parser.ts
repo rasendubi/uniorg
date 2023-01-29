@@ -47,6 +47,11 @@ import {
   ListItemTag,
   Citation,
   CitationReference,
+  CitationPrefix,
+  CitationCommonPrefix,
+  CitationKey,
+  CitationSuffix,
+  CitationCommonSuffix,
 } from 'uniorg';
 
 import { getOrgEntity } from './entities.js';
@@ -463,11 +468,70 @@ class Parser {
       return [this.r.offset(), this.parseTableCell()];
     }
 
+    // citation-common-prefix is only allowed inside citation as a
+    // first element. We remove citation-common-prefix from the
+    // restriction as soon as we tried to parse it once.
+    if (restriction.has('citation-common-prefix')) {
+      restriction.delete('citation-common-prefix');
+      const begin = this.r.offset();
+      const prefix = this.parseCitationCommonPrefix();
+      if (prefix) {
+        return [begin, prefix];
+      }
+      // fall-through
+    }
     // citation-reference is only allowed inside citation
     if (restriction.has('citation-reference')) {
       const offset = this.r.offset();
       const ref = this.parseCitationReference();
-      return ref ? [offset, ref] : null;
+      if (ref) {
+        return [offset, ref];
+      }
+      // fall-through
+    }
+    // citation-common-prefix is only allowed inside citation as a
+    // first element. We remove citation-common-prefix from the
+    // restriction as soon as we tried to parse it once.
+    if (restriction.has('citation-common-suffix')) {
+      restriction.delete('citation-common-suffix');
+      const begin = this.r.offset();
+      const suffix = this.parseCitationCommonSuffix();
+      if (suffix) {
+        return [begin, suffix];
+      }
+      // fall-through
+    }
+    // citation-prefix is only allowed as the first element inside
+    // citation-reference. We remove it from restriction as soon as we
+    // tried to parse it.
+    if (restriction.has('citation-prefix')) {
+      restriction.delete('citation-prefix');
+      const offset = this.r.offset();
+      const prefix = this.parseCitationPrefix();
+      if (prefix) {
+        return [offset, prefix];
+      }
+      // fall-through
+    }
+    // citation-key can only occur once inside citation-reference
+    if (restriction.has('citation-key')) {
+      restriction.delete('citation-key');
+      const offset = this.r.offset();
+      const key = this.parseCitationKey();
+      if (key) {
+        return [offset, key];
+      }
+      // fall-through
+    }
+    // citation-suffix can only occur once inside citation-reference
+    if (restriction.has('citation-suffix')) {
+      restriction.delete('citation-suffix');
+      const offset = this.r.offset();
+      const suffix = this.parseCitationSuffix();
+      if (suffix) {
+        return [offset, suffix];
+      }
+      // fall-through
     }
 
     // 1. Search for pattern that probably starts an object.
@@ -1663,86 +1727,168 @@ class Parser {
 
     const begin = this.r.offset();
     const style = m.groups!['style'];
-    const start = begin + m[0].length;
+    const contentsBegin = begin + m[0].length;
 
     // match ([ and ])
     const end = this.scanLists();
     if (end === null) return null;
+    const contentsEnd = end - 1;
     this.r.narrow(begin, end);
 
+    // Check that it has at least one citation key
     const mKey = this.r.match(this.re.citationKeyRe());
+    this.r.widen();
     if (!mKey) {
-      this.r.widen();
       return null;
     }
 
-    const firstKeyEnd = begin + mKey.index + mKey[0].length;
-
-    // common prefix
-    const contentsBegin = this.r.withNarrow(start, firstKeyEnd, () => {
-      const m = this.r.rest().lastIndexOf(';');
-      return m !== -1 ? this.r.offset() + m : start;
-    });
-
-    // common suffix
-    const contentsEnd = this.r.withNarrow(start, firstKeyEnd, () => {
-      const m = this.r.rest().lastIndexOf(';');
-      if (m === -1) return end - 1;
-      this.r.resetOffset(this.r.offset() + m);
-      if (this.r.match(this.re.citationKeyRe())) return end - 1;
-      return this.r.offset();
-    });
-
-    // const prefix = contenstBegin === start ? null :
-    const types = restrictionFor('citation-reference');
-    const prefix = null;
-    const suffix = null;
+    this.r.resetOffset(end);
 
     const cite: Citation = {
       type: 'citation',
       style,
       begin,
       end,
-      prefix,
-      suffix,
+      prefix: null,
+      suffix: null,
       contentsBegin,
       contentsEnd,
       children: [],
     };
 
-    this.r.widen();
+    return cite;
+  }
+
+  private parseCitationCommonPrefix(): CitationCommonPrefix | null {
+    const begin = this.r.offset();
+    const contentsBegin = begin;
+    const mKey = this.r.match(this.re.citationKeyRe());
+    if (!mKey) return null;
+
+    const firstKeyEnd = begin + mKey.index + mKey[0].length;
+
+    const contentsEnd = this.r.withNarrow(begin, firstKeyEnd, () => {
+      const m = this.r.rest().lastIndexOf(';');
+      return m !== -1 ? this.r.offset() + m : null;
+    });
+
+    if (contentsEnd === null) {
+      return null;
+    }
+
+    const end = contentsEnd + ';'.length;
+
+    const prefix: CitationCommonPrefix = {
+      type: 'citation-common-prefix',
+      contentsBegin,
+      contentsEnd,
+      children: [],
+    };
+
     this.r.resetOffset(end);
 
-    return cite;
+    return prefix;
   }
 
   private parseCitationReference(): CitationReference | null {
     const begin = this.r.offset();
+    const contentsBegin = begin;
 
     const m = this.r.match(this.re.citationKeyRe());
     if (!m) return null;
 
     const key = m.groups!['key'];
-    const keyStart = this.r.offset() + m.index;
-    const keyEnd = keyStart + m[0].length;
+
+    this.r.advance(m.index);
 
     const mSeparator = this.r.match(/;/);
-    const separator = mSeparator
-      ? this.r.offset() + mSeparator.index + 1
-      : null;
-    const end = separator ?? this.r.endOffset();
-    const suffixEnd = separator ? end - 1 : end;
-    const types = restrictionFor('citation-reference');
+    const separator = mSeparator ? this.r.offset() + mSeparator.index : null;
+    const contentsEnd = separator ?? this.r.endOffset();
+    const end = separator ? separator + 1 : this.r.endOffset();
+
     const reference: CitationReference = {
       type: 'citation-reference',
       key,
       begin,
       end,
+      contentsBegin,
+      contentsEnd,
+      children: [],
     };
 
     this.r.resetOffset(end);
 
     return reference;
+  }
+
+  private parseCitationPrefix(): CitationPrefix | null {
+    const begin = this.r.offset();
+    const contentsBegin = begin;
+
+    const m = this.r.match(this.re.citationKeyRe());
+    if (!m) return null;
+    this.r.advance(m.index);
+
+    const end = this.r.offset();
+    const contentsEnd = end;
+
+    if (begin === end) return null;
+
+    const prefix: CitationPrefix = {
+      type: 'citation-prefix',
+      contentsBegin,
+      contentsEnd,
+      children: [],
+    };
+
+    return prefix;
+  }
+
+  private parseCitationCommonSuffix(): CitationCommonSuffix | null {
+    // this is called at the end, so just parse till the end of
+    // restriction
+    const contentsBegin = this.r.offset();
+    const contentsEnd = this.r.endOffset();
+    if (contentsBegin === contentsEnd) return null;
+
+    this.r.resetOffset(contentsEnd);
+
+    return {
+      type: 'citation-common-suffix',
+      contentsBegin,
+      contentsEnd,
+      children: [],
+    };
+  }
+
+  private parseCitationKey(): CitationKey | null {
+    const m = this.r.match(this.re.citationKeyRe());
+    if (!m) return null;
+    this.r.advance(m);
+
+    const key = m.groups!['key'];
+
+    return {
+      type: 'citation-key',
+      key,
+    };
+  }
+
+  private parseCitationSuffix(): CitationSuffix | null {
+    // this is called after key, so just parse till the end of
+    // restriction
+    const contentsBegin = this.r.offset();
+    const contentsEnd = this.r.endOffset();
+    if (contentsBegin === contentsEnd) return null;
+
+    this.r.resetOffset(contentsEnd);
+
+    return {
+      type: 'citation-suffix',
+      contentsBegin,
+      contentsEnd,
+      children: [],
+    };
   }
 
   private scanLists(): number | null {

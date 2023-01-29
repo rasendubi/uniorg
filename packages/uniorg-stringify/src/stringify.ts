@@ -227,6 +227,24 @@ function stringifyNode(org: OrgNode): string {
         // an extra newline to separate from the possible following paragraph
         '\n'
       );
+
+    case 'citation':
+      return [
+        '[cite',
+        org.style ? '/' + org.style : '',
+        ':',
+        ...org.children.map(stringifyNode).join(';'),
+        ']',
+      ].join('');
+    case 'citation-common-prefix':
+    case 'citation-common-suffix':
+    case 'citation-reference':
+    case 'citation-prefix':
+    case 'citation-suffix':
+      return org.children.map(stringifyNode).join('');
+    case 'citation-key':
+      return '@' + org.key;
+
     case 'link':
       return org.format === 'plain'
         ? org.rawLink

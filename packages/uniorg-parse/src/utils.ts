@@ -283,8 +283,21 @@ export function restrictionFor(type: string) {
 
   const objectRestrictions: Record<string, Set<string>> = {
     bold: standardSet,
-    citation: new Set(['citation-reference']),
-    'citation-reference': minimalSet,
+
+    citation: new Set([
+      'citation-common-prefix',
+      'citation-reference',
+      'citation-common-suffix',
+    ]),
+    'citation-common-prefix': minimalSet,
+    'citation-common-suffix': minimalSet,
+    'citation-reference': new Set([
+      'citation-prefix',
+      'citation-key',
+      'citation-suffix',
+    ]),
+    'citation-prefix': minimalSet,
+    'citation-suffix': minimalSet,
 
     'footnote-reference': standardSet,
     headline: standardSetNoLineBreak,
