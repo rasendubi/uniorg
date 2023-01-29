@@ -145,17 +145,19 @@ export class OrgRegexUtils {
     );
   }
 
-  /** A regular expression matching a sub- or superscript. */
+  /** The regular expression matching a sub- or superscript. */
   // Using \p{L}|\d instead of \w because js's \w matches underscore and
   // Emacs's doesn't.
-  public subsuperscriptRe(): RegExp {
+  //
+  // Adapted from `org-match-substring-regexp`.
+  public matchSubstringRegex(): RegExp {
     return new RegExp(
-      `(\\S)([_^])((?:${multibraceRe(
+      `(\\S)([_^])((?:${this.multibraceRe(
         '\\{',
         '\\}',
         this.options.matchSexpDepth,
         'inBraces'
-      )})|(?:${multibraceRe(
+      )})|(?:${this.multibraceRe(
         '\\(',
         '\\)',
         this.options.matchSexpDepth,
@@ -163,32 +165,44 @@ export class OrgRegexUtils {
       )})|(?:\\*|[+-]?[\\p{L}\\d.,\\\\]*(?:\\p{L}|\\d)))`,
       'u'
     );
+  }
 
-    /**
-     * Compile a regex that matches up to `n` nested groups delimited
-     * with `left` and `right`. The content of the outermost group is
-     * captured in the regex group `name`.
-     *
-     * Adapted from `org-create-multibrace-regexp` emacs function.
-     */
-    function multibraceRe(
-      left: string,
-      right: string,
-      n: number,
-      name = ''
-    ): string {
-      const nothing = `[^${left}${right}]*?`;
+  /** A regular expression matching a sub- or superscript, forcing braces. */
+  // Using \p{L}|\d instead of \w because js's \w matches underscore and
+  // Emacs's doesn't.
+  //
+  // Adapted from `org-match-substring-with-braces-regexp`.
+  public matchSubstringWithBracesRegex(): RegExp {
+    return new RegExp(
+      `(\\S)([_^])(${this.multibraceRe(
+        '\\{',
+        '\\}',
+        this.options.matchSexpDepth,
+        'inBraces'
+      )})`,
+      'u'
+    );
+  }
 
-      let next = `(?:${nothing}${left}${nothing}${right})+${nothing}`;
-      let result = nothing;
-      for (let i = 1; i < n; i++) {
-        result = `${result}|${next}`;
-        next = `(?:${nothing}${left}${next}${right})+${nothing}`;
-      }
+  /**
+   * Compile a regex that matches up to `n` nested groups delimited
+   * with `left` and `right`. The content of the outermost group is
+   * captured in the regex group `name`.
+   *
+   * Adapted from `org-create-multibrace-regexp` emacs function.
+   */
+  multibraceRe(left: string, right: string, n: number, name = ''): string {
+    const nothing = `[^${left}${right}]*?`;
 
-      const nameRe = name ? `?<${name}>` : '';
-      return `${left}(${nameRe}${result})${right}`;
+    let next = `(?:${nothing}${left}${nothing}${right})+${nothing}`;
+    let result = nothing;
+    for (let i = 1; i < n; i++) {
+      result = `${result}|${next}`;
+      next = `(?:${nothing}${left}${next}${right})+${nothing}`;
     }
+
+    const nameRe = name ? `?<${name}>` : '';
+    return `${left}(${nameRe}${result})${right}`;
   }
 
   public emphRe() {

@@ -51,10 +51,7 @@ const defaultOptions: OrgToHastOptions = {
     'svg',
   ],
   useSections: false,
-  footnotesSection: (footnotes) => [
-    h(null, 'h1', {}, 'Footnotes:'),
-    ...footnotes,
-  ],
+  footnotesSection: (footnotes) => [hast('h1', {}, 'Footnotes:'), ...footnotes],
 };
 
 // `org-html-html5-elements`
@@ -78,28 +75,26 @@ const html5Elements = new Set([
   'video',
 ]);
 
-/**
- * Similar to `hast` but respects `hProperties`.
- */
-function h(
-  node: OrgNode | null,
-  selector?: string,
-  properties?: Properties,
-  children?: string | Node | null | Array<string | Node | null>
-): Element {
-  // TODO: hProperties is not respected in text nodes.
+const getAffiliatedAttrs = (node: any) => {
+  const attr_html: string[] =
+    (node as any)?.affiliated?.ATTR_HTML?.flatMap((s: string) =>
+      s
+        .split(/(?:[ \t]+|^):(?<x>[-a-zA-Z0-9_]+(?=[ \t]|$))/u)
+        // first element is before the first key
+        .slice(1)
+    ) ?? [];
 
-  const element: Element =
-    // @ts-expect-error does not match the expected overloads
-    hast(selector, properties || {}, children || []);
-
-  const hProperties = node?.data?.hProperties;
-  if (hProperties) {
-    element.properties = Object.assign({}, element.properties, hProperties);
+  const attrs: Record<string, string> = {};
+  for (let i = 0; i < attr_html.length; i += 2) {
+    const key = attr_html[i];
+    const value = attr_html[i + 1].trim();
+    if (value) {
+      attrs[key] = value;
+    }
   }
 
-  return element;
-}
+  return attrs;
+};
 
 type Ctx = {
   // Labels of footnotes as they occur in footnote-reference.
@@ -119,17 +114,60 @@ export function orgToHast(
     footnotes: {},
   };
 
-  return toHast(org);
+  return toHast(org, null);
 
-  function toHast(node: OrgNode | null): Root | Hast | null;
-  function toHast(node: (OrgNode | null)[]): (Hast | null)[];
+  /**
+   * Similar to `hast` but respects `hProperties`.
+   */
+  function h(
+    node: OrgNode | null,
+    selector?: string,
+    properties?: Properties,
+    children?: string | Node | null | Array<string | Node | null>
+  ): Element {
+    // TODO: hProperties is not respected in text nodes.
+
+    const element: Element =
+      // @ts-expect-error does not match the expected overloads
+      hast(selector, properties || {}, children || []);
+
+    const attrs =
+      node?.type === 'paragraph' &&
+      node.children.length === 1 &&
+      isImageLink(node.children[0], options)
+        ? // If image link is the only child in a paragraph, all attributes
+          // are proxied to it.
+          {}
+        : getAffiliatedAttrs(node);
+
+    const hProperties = node?.data?.hProperties ?? {};
+
+    element.properties = Object.assign(
+      {},
+      element.properties,
+      attrs,
+      hProperties
+    );
+
+    return element;
+  }
+
   function toHast(
-    node: OrgNode | null | (OrgNode | null)[]
+    node: OrgNode | null,
+    parent: OrgNode | null
+  ): Root | Hast | null;
+  function toHast(
+    node: (OrgNode | null)[],
+    parent: OrgNode | null
+  ): (Hast | null)[];
+  function toHast(
+    node: OrgNode | null | (OrgNode | null)[],
+    parent: OrgNode | null
   ): Hast | (Hast | null)[] | Root | null {
     if (Array.isArray(node)) {
       return (
         node
-          .map((node) => toHast(node))
+          .map((node) => toHast(node, parent))
           .filter((x) => x !== null && x !== undefined)
           // toHast(section) returns an array, so without this flatMap
           // `children: toHast(org.children)` could return an array of
@@ -142,7 +180,7 @@ export function orgToHast(
 
     switch (org.type) {
       case 'org-data':
-        const children = toHast(org.children);
+        const children = toHast(org.children, org);
 
         const footnotes = ctx.footnotesOrder
           .map((name, i) => {
@@ -171,10 +209,10 @@ export function orgToHast(
                 )
               ),
               h(
-                org,
+                def,
                 'div',
                 { className: 'footdef', role: 'doc-footnote' },
-                toHast(def.children)
+                toHast(def.children, def)
               ),
             ]);
           })
@@ -202,7 +240,7 @@ export function orgToHast(
           return null;
         }
 
-        const children = toHast(org.children);
+        const children = toHast(org.children, org);
         return options.useSections
           ? h(
               org,
@@ -259,30 +297,32 @@ export function orgToHast(
           org,
           `h${org.level}`,
           {},
-          [todo, priority, ...toHast(org.children), tags].filter(
+          [todo, priority, ...toHast(org.children, org), tags].filter(
             (x) => x
           ) as Hast[]
         );
       }
+      case 'statistics-cookie':
+        return h(org, 'span', { className: 'statistics-cookie' }, org.value);
       case 'plain-list':
         if (org.listType === 'unordered') {
-          return h(org, 'ul', {}, toHast(org.children));
+          return h(org, 'ul', {}, toHast(org.children, org));
         } else if (org.listType === 'ordered') {
-          return h(org, 'ol', {}, toHast(org.children));
+          return h(org, 'ol', {}, toHast(org.children, org));
         } else {
-          return h(org, 'dl', {}, toHast(org.children));
+          return h(org, 'dl', {}, toHast(org.children, org));
         }
       case 'list-item':
         if (org.children[0]?.type === 'list-item-tag') {
           return [
-            h(org, 'dt', {}, toHast(org.children[0].children)),
-            h(org, 'dd', {}, toHast(org.children.slice(1))),
+            h(org, 'dt', {}, toHast(org.children[0].children, org.children[0])),
+            h(org, 'dd', {}, toHast(org.children.slice(1), org)),
           ];
         } else {
-          return h(org, 'li', {}, toHast(org.children));
+          return h(org, 'li', {}, toHast(org.children, org));
         }
       case 'quote-block':
-        return h(org, 'blockquote', {}, toHast(org.children));
+        return h(org, 'blockquote', {}, toHast(org.children, org));
       case 'src-block':
         return h(
           org,
@@ -303,13 +343,13 @@ export function orgToHast(
         // rehype-preset-minify), which drops all spaces and
         // indentation. Serialize verse-block as <pre>, so whitespace
         // is correctly preserved.
-        return h(org, 'pre.verse', {}, toHast(org.children));
+        return h(org, 'pre.verse', {}, toHast(org.children, org));
       case 'center-block':
-        return h(org, 'div.center', {}, toHast(org.children));
+        return h(org, 'div.center', {}, toHast(org.children, org));
       case 'comment-block':
         return null;
       case 'example-block':
-        return h(org, 'div.exampe', {}, org.value);
+        return h(org, 'div.example', {}, org.value);
       case 'export-block':
         if (org.backend === 'html') {
           // @ts-ignore raw is not defined
@@ -318,14 +358,14 @@ export function orgToHast(
         return null;
       case 'special-block':
         if (html5Elements.has(org.blockType)) {
-          return h(org, org.blockType, {}, toHast(org.children));
+          return h(org, org.blockType, {}, toHast(org.children, org));
         }
 
         return h(
           org,
           'div',
           { className: ['special-block', `block-${org.blockType}`] },
-          toHast(org.children)
+          toHast(org.children, org)
         );
       case 'keyword':
         if (org.key === 'HTML') {
@@ -380,28 +420,28 @@ export function orgToHast(
         ctx.footnotes[org.label] = org;
         return null;
       case 'paragraph':
-        return h(org, 'p', {}, toHast(org.children));
+        return h(org, 'p', {}, toHast(org.children, org));
       case 'bold':
-        return h(org, 'strong', {}, toHast(org.children));
+        return h(org, 'strong', {}, toHast(org.children, org));
       case 'italic':
-        return h(org, 'em', {}, toHast(org.children));
+        return h(org, 'em', {}, toHast(org.children, org));
       case 'superscript':
-        return h(org, 'sup', {}, toHast(org.children));
+        return h(org, 'sup', {}, toHast(org.children, org));
       case 'subscript':
-        return h(org, 'sub', {}, toHast(org.children));
+        return h(org, 'sub', {}, toHast(org.children, org));
       case 'code':
         return h(org, 'code.inline-code', {}, org.value);
       case 'verbatim':
         // org-mode renders verbatim as <code>
         return h(org, 'code.inline-verbatim', {}, org.value);
       case 'strike-through':
-        return h(org, 'del', {}, toHast(org.children));
+        return h(org, 'del', {}, toHast(org.children, org));
       case 'underline':
         return h(
           org,
           'span.underline',
           { style: 'text-decoration: underline;' },
-          toHast(org.children)
+          toHast(org.children, org)
         );
       case 'text':
         return u('text', org.value);
@@ -414,19 +454,24 @@ export function orgToHast(
           link = encodeURI(link);
         }
 
-        const imageRe = new RegExp(
-          `\.(${options.imageFilenameExtensions.join('|')})$`
-        );
-        if (link.match(imageRe)) {
-          // TODO: set alt
-          return h(org, 'img', { src: link });
+        const isFirstLink =
+          (parent as any)?.children.find(
+            (org: OrgNode) => org.type === 'link'
+          ) === org;
+        // If link is the first image in a paragraph, extract
+        // ATTR_HTML from paragraph. This is a hack because org does
+        // not have a way to attach ATTR_HTML to image/link directly.
+        const attrs = isFirstLink ? getAffiliatedAttrs(parent) : {};
+
+        if (isImageLink(org, options)) {
+          return h(org, 'img', { ...attrs, src: link });
         }
 
         return h(
           org,
           'a',
-          { href: link },
-          org.children.length ? toHast(org.children) : org.rawLink
+          { ...attrs, href: link },
+          org.children.length ? toHast(org.children, org) : org.rawLink
         );
       }
       case 'timestamp':
@@ -478,7 +523,7 @@ export function orgToHast(
                       'tr',
                       {},
                       row.children.map((cell) =>
-                        h(cell, 'th', {}, toHast(cell.children))
+                        h(cell, 'th', {}, toHast(cell.children, cell))
                       )
                     )
                   )
@@ -486,7 +531,7 @@ export function orgToHast(
               );
               hasHead = true;
             } else {
-              table.children.push(h(org, 'tbody', {}, toHast(group)));
+              table.children.push(h(org, 'tbody', {}, toHast(group, org)));
             }
             group = [];
           }
@@ -495,19 +540,19 @@ export function orgToHast(
         });
 
         if (group.length) {
-          table.children.push(h(org, 'tbody', {}, toHast(group)));
+          table.children.push(h(org, 'tbody', {}, toHast(group, org)));
         }
 
         return table;
       }
       case 'table-row':
         if (org.rowType === 'standard') {
-          return h(org, 'tr', {}, toHast(org.children));
+          return h(org, 'tr', {}, toHast(org.children, org));
         } else {
           return null;
         }
       case 'table-cell':
-        return h(org, 'td', {}, toHast(org.children));
+        return h(org, 'td', {}, toHast(org.children, org));
       default:
         // @ts-expect-error This should happen sometimes and its fine
         return org;
@@ -522,4 +567,16 @@ const removeCommonIndent = (s: string) => {
   );
   const indent = minIndent === Infinity ? 0 : minIndent;
   return lines.map((l) => l.substring(indent)).join('\n');
+};
+
+const isImageLink = (node: OrgNode, options: OrgToHastOptions) => {
+  const imageRe = new RegExp(
+    `\.(${options.imageFilenameExtensions.join('|')})$`,
+    'i'
+  );
+  return (
+    node.type === 'link' &&
+    node.children.length === 0 &&
+    node.rawLink.match(imageRe)
+  );
 };

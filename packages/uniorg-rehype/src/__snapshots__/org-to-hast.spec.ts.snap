@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`org/org-to-hast #+ATTR_HTML Multiple links in a paragraph -> attrs are attached to paragraph and first link 1`] = `
+
+<p alt="Link A alt">Some text <a alt="Link A alt" href="./a-link.org">./a-link.org</a> <a href="./b-link.org">./b-link.org</a></p>
+
+`;
+
+exports[`org/org-to-hast #+ATTR_HTML Non-image link -> attrs are attached to both paragraph and link 1`] = `
+
+<p alt="Link alt"><a alt="Link alt" href="./a-link.org">./a-link.org</a></p>
+
+`;
+
+exports[`org/org-to-hast #+ATTR_HTML On results block 1`] = `
+
+<pre class="fixed-width" width="300px">sample output</pre>
+
+`;
+
+exports[`org/org-to-hast #+ATTR_HTML Simple image -> attrs are attached to image only 1`] = `
+
+<p>
+  <img alt="Image alt" style="width:320px;" x="y" src="./image.png">
+</p>
+
+`;
+
+exports[`org/org-to-hast #+ATTR_HTML Simple paragraph -> attrs are attached to paragraph 1`] = `
+
+<p style="color:red;">This is red paragraph.</p>
+
+`;
+
 exports[`org/org-to-hast blockquote 1`] = `
 
 <blockquote>
@@ -96,6 +128,12 @@ exports[`org/org-to-hast does not export :noexport: headline 1`] = `
 
 `;
 
+exports[`org/org-to-hast does not export link as image 1`] = `
+
+<p><a href="./image.png">this is a link</a></p>
+
+`;
+
 exports[`org/org-to-hast emphasis 1`] = `
 
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span class="underline" style="text-decoration: underline;">under</span></p>
@@ -124,7 +162,7 @@ exports[`org/org-to-hast escape local link with percent 1`] = `
 
 exports[`org/org-to-hast example block 1`] = `
 
-<div class="exampe">example</div>
+<div class="example">example</div>
 
 `;
 
@@ -405,6 +443,12 @@ exports[`org/org-to-hast src block 1`] = `
 <pre class="src-block"><code class="language-c">*a = b;
 printf("%d\\n", *a);
 </code></pre>
+
+`;
+
+exports[`org/org-to-hast statistics cookie 1`] = `
+
+<h1>hello <span class="statistics-cookie">[2/3]</span></h1>
 
 `;
 

@@ -13,6 +13,8 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   extensionsToTreatAsEsm: ['.ts'],
 
+  collectCoverage: !!process.env.CI,
+
   // This re-mapping is required because of
   // https://github.com/microsoft/TypeScript/issues/16577.
   //

@@ -65,6 +65,8 @@ second paragraph`
 * level 1
 *** level 3`
     );
+
+    test('statistics cookie', `* [115%]  headline`);
   });
 
   test(
@@ -132,6 +134,8 @@ hello /there/
 
     still in 1.2`
     );
+
+    test('checkbox list', `- [ ] hello`);
   });
 
   describe('links', () => {

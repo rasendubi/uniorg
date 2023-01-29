@@ -22,6 +22,7 @@ import {
   Code,
   Verbatim,
   StrikeThrough,
+  StatisticsCookie,
   Timestamp,
   Planning,
   PropertyDrawer,
@@ -594,13 +595,17 @@ class Parser {
           if (restriction.has('citation')) {
             return this.parseCitation();
           }
-        } else if (c[1] === '%' || c[1] === '/') {
-          // TODO: statistics cookie
         } else {
           const offset = this.r.offset();
 
           const ts = restriction.has('timestamp') && this.parseTimestamp();
           if (ts) return ts;
+          this.r.resetOffset(offset);
+
+          const cookie =
+            restriction.has('statistics-cookie') &&
+            this.parseStatisticsCookie();
+          if (cookie) return cookie;
           this.r.resetOffset(offset);
         }
 
@@ -1401,9 +1406,19 @@ class Parser {
   // Object parsers.
 
   private parseSuperscript(): Superscript | null {
+    if (!this.options.useSubSuperscripts) {
+      return null;
+    }
+
     this.r.backoff(1); // backoff by one, to match previous char (should be non-space)
     const start = this.r.offset();
-    const m = this.r.advance(this.r.lookingAt(this.re.subsuperscriptRe()));
+    const m = this.r.advance(
+      this.r.lookingAt(
+        this.options.useSubSuperscripts === '{}'
+          ? this.re.matchSubstringWithBracesRegex()
+          : this.re.matchSubstringRegex()
+      )
+    );
     if (!m) return null;
 
     const inside = m.groups!['inBraces'] || m.groups!['inBrackets'];
@@ -1417,9 +1432,19 @@ class Parser {
   }
 
   private parseSubscript(): Subscript | null {
+    if (!this.options.useSubSuperscripts) {
+      return null;
+    }
+
     this.r.backoff(1); // backoff by one, to match previous char (should be non-space)
     const start = this.r.offset();
-    const m = this.r.advance(this.r.lookingAt(this.re.subsuperscriptRe()));
+    const m = this.r.advance(
+      this.r.lookingAt(
+        this.options.useSubSuperscripts === '{}'
+          ? this.re.matchSubstringWithBracesRegex()
+          : this.re.matchSubstringRegex()
+      )
+    );
     if (!m) return null;
 
     const inside = m.groups!['inBraces'] || m.groups!['inBrackets'];
@@ -1499,6 +1524,19 @@ class Parser {
     return u('strike-through', { contentsBegin, contentsEnd }, []);
   }
 
+  private parseStatisticsCookie(): StatisticsCookie | null {
+    const begin = this.r.offset();
+    const m = this.r.advance(this.r.lookingAt(/\[[0-9]*(\%|\/[0-9]*)\]/));
+    if (!m) return null;
+    const end = this.r.offset();
+    const value = this.r.substring(begin, end);
+
+    // skip trailing whitespace
+    const postBlank = this.r.advance(this.r.forceLookingAt(/\s*/))[0].length;
+
+    return u('statistics-cookie', { begin, end, value, postBlank });
+  }
+
   private parseEntity(): Entity | null {
     const m = this.r.advance(
       this.r.lookingAt(
@@ -1507,7 +1545,7 @@ class Parser {
     );
     if (!m) return null;
     const hasBrackets = m.groups!.brackets === '{}';
-    if (!hasBrackets) {
+    if (m.groups!.brackets && !hasBrackets) {
       // The brackets group is not brackets. That means it captured an
       // extra non-letter or a newline. Backoff, so it can be parsed
       // as text later.

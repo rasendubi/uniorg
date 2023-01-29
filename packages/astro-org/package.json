@@ -1,0 +1,42 @@
+{
+  "name": "astro-org",
+  "version": "1.0.0",
+  "description": "Astro plugin to import org-mode files.",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasendubi/uniorg.git"
+  },
+  "keywords": [
+    "astro",
+    "astro-integration",
+    "org-mode",
+    "uniorg"
+  ],
+  "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/rasendubi/uniorg/issues"
+  },
+  "homepage": "https://github.com/rasendubi/uniorg#readme",
+  "scripts": {
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.json",
+    "clean": "rm -rf ./lib",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "acorn": "^8.8.2",
+    "orgast-util-visit-ids": "^1.0.0",
+    "rollup-plugin-orgx": "^1.0.0",
+    "uniorg-extract-keywords": "^1.0.0",
+    "uniorg-slug": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "astro": "^2.0.2",
+    "vfile": "^5.3.6"
+  }
+}

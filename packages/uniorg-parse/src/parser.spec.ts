@@ -92,6 +92,42 @@ describe('org/parser', () => {
 
 * DONE Headline 2`
     );
+
+    describe('statistics-cookie', () => {
+      itParses(
+        'headline starting with fraction statistics-cookie',
+        `* [1/100] Something`
+      );
+
+      itParses(
+        'complex headline with empty percentage statistics-cookie',
+        `* TODO [#A] [%] COMMENT headline /italic/ title :some:tags:`
+      );
+
+      itParses(
+        'complex headline with empty fraction statistics-cookie',
+        `* TODO [#A] [/] COMMENT headline /italic/ title :some:tags:`
+      );
+
+      itParses(
+        'complex headline with defined percentage statistics-cookie',
+        `* TODO [#A] [50%] COMMENT headline /italic/ title :some:tags:`
+      );
+
+      itParses(
+        'complex headline with defined fraction statistics-cookie',
+        `* TODO [#A] [1/2] COMMENT headline /italic/ title :some:tags:`
+      );
+
+      itParses(
+        'complex headline with defined fraction statistics-cookie',
+        `* TODO [#A] COMMENT headline /italic/ title :some:tags: [1/3]`
+      );
+
+      itParses('statistics cookie without trailing space', `* [/]hello`);
+
+      itParses('statistics cookie with long trailing space', `* [/]    hello`);
+    });
   });
 
   describe('section', () => {
@@ -635,6 +671,53 @@ not a block
     });
   });
 
+  describe('options.useSubSuperscript', () => {
+    describe('= true', () => {
+      itParses('parses superscript with number', 'x^2', {
+        useSubSuperscripts: true,
+      });
+      itParses('parses subscript with number', 'x_2', {
+        useSubSuperscripts: true,
+      });
+      itParses('parses superscript with braces', 'x^{2}', {
+        useSubSuperscripts: true,
+      });
+      itParses('parses subscript with braces', 'x_{2}', {
+        useSubSuperscripts: true,
+      });
+    });
+
+    describe('= false', () => {
+      itParses('ignores superscript with number', 'x^2', {
+        useSubSuperscripts: false,
+      });
+      itParses('ignores subscript with number', 'x_2', {
+        useSubSuperscripts: false,
+      });
+      itParses('ignores superscript with braces', 'x^{2}', {
+        useSubSuperscripts: false,
+      });
+      itParses('ignores subscript with braces', 'x_{2}', {
+        useSubSuperscripts: false,
+      });
+    });
+
+    describe('= {}', () => {
+      itParses('ignores superscript with number', 'x^2', {
+        useSubSuperscripts: '{}',
+      });
+      itParses('ignores subscript with number', 'x_2', {
+        useSubSuperscripts: '{}',
+      });
+      itParses('parses superscript with braces', 'x^{2}', {
+        useSubSuperscripts: '{}',
+      });
+      itParses('parses subscript with braces', 'x_{2}', {
+        useSubSuperscripts: '{}',
+      });
+    });
+  });
+
   itParses(
     'table',
     `
@@ -944,6 +1027,10 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
 more text
 `
   );
+
+  // See https://github.com/rasendubi/uniorg/issues/57
+  itParses('\\_<SPC>', '\\_ a');
+
   describe('citations', () => {
     itParses('simple citation', '[cite:@hello]');
 

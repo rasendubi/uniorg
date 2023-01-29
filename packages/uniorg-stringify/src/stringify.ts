@@ -47,6 +47,8 @@ function stringifyNode(org: OrgNode): string {
       ].filter((x) => x !== null);
       return withNewline(components.join(' '));
     }
+    case 'statistics-cookie':
+      return [org.value, ' '.repeat(org.postBlank)].join('');
     case 'planning':
       return withNewline(
         [
@@ -82,11 +84,11 @@ function stringifyNode(org: OrgNode): string {
           org.bullet,
           org.counter,
           org.checkbox === 'on'
-            ? '[X]'
+            ? '[X] '
             : org.checkbox === 'off'
-            ? '[ ]'
+            ? '[ ] '
             : org.checkbox === 'trans'
-            ? '[-]'
+            ? '[-] '
             : null,
           indent(
             stringify(org.children),

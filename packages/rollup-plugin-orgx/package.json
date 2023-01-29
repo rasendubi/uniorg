@@ -1,0 +1,41 @@
+{
+  "name": "rollup-plugin-orgx",
+  "version": "1.0.0",
+  "description": "Rollup plugin to transform org-mode files to JS.",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "uniorg",
+    "org-mode",
+    "rollup",
+    "plugin"
+  ],
+  "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
+  "homepage": "https://github.com/rasendubi/uniorg",
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasendubi/uniorg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rasendubi/uniorg/issues"
+  },
+  "scripts": {
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.json",
+    "clean": "rm -rf ./lib",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@uniorgjs/orgx": "^1.0.0",
+    "rollup-pluginutils": "^2.8.2",
+    "vfile": "^5.3.6"
+  }
+}

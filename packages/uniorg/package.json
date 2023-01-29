@@ -1,6 +1,7 @@
 {
   "name": "uniorg",
-  "version": "0.5.0",
+  "version": "1.0.0",
+  "type": "module",
   "description": "uniorg type definitions",
   "keywords": [
     "uniorg",
