@@ -54,6 +54,13 @@ export type ElementType =
   | DiarySexp
   | Paragraph;
 export type ObjectType =
+  | Citation
+  | CitationCommonPrefix
+  | CitationCommonSuffix
+  | CitationReference
+  | CitationPrefix
+  | CitationSuffix
+  | CitationKey
   | Link
   | Bold
   | Italic
@@ -311,6 +318,39 @@ export interface Superscript extends RecursiveObject {
 
 export interface Subscript extends RecursiveObject {
   type: 'subscript';
+}
+
+export interface Citation extends RecursiveObject {
+  type: 'citation';
+  style: string;
+  prefix: string | null;
+  suffix: string | null;
+  begin: number;
+  end: number;
+}
+
+export interface CitationReference extends RecursiveObject {
+  type: 'citation-reference';
+  key: string;
+  begin: number;
+  end: number;
+}
+
+export interface CitationCommonPrefix extends RecursiveObject {
+  type: 'citation-common-prefix';
+}
+export interface CitationCommonSuffix extends RecursiveObject {
+  type: 'citation-common-suffix';
+}
+export interface CitationPrefix extends RecursiveObject {
+  type: 'citation-prefix';
+}
+export interface CitationSuffix extends RecursiveObject {
+  type: 'citation-suffix';
+}
+export interface CitationKey extends Object {
+  type: 'citation-key';
+  key: string;
 }
 
 export interface Link extends RecursiveObject {

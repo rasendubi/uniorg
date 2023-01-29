@@ -111,6 +111,11 @@ exports[`stringify blocks verse block 1`] = `
 "
 `;
 
+exports[`stringify citation 1`] = `
+"[cite/style:common prefix; prefix @key suffix;@key2; common suffix]
+"
+`;
+
 exports[`stringify clock clock in progress 1`] = `
 "CLOCK: [2021-01-10 Sun 14:36]
 "

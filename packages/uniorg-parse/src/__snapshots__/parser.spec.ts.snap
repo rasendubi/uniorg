@@ -415,6 +415,391 @@ children:
           \\    ---AlexSchroeder\\n"
 `;
 
+exports[`org/parser citations common prefix 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 27
+    children:
+      - type: "citation"
+        begin: 0
+        end: 27
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 26
+        children:
+          - type: "citation-common-prefix"
+            contentsBegin: 6
+            contentsEnd: 19
+            children:
+              - type: "text"
+                value: "common prefix"
+          - type: "citation-reference"
+            key: "hello"
+            begin: 20
+            end: 26
+            contentsBegin: 20
+            contentsEnd: 26
+            children:
+              - type: "citation-key"
+                key: "hello"
+`;
+
+exports[`org/parser citations common prefix with semicolon 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 43
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 43
+    children:
+      - type: "citation"
+        begin: 0
+        end: 43
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 42
+        children:
+          - type: "citation-common-prefix"
+            contentsBegin: 6
+            contentsEnd: 35
+            children:
+              - type: "text"
+                value: "common prefix; with semicolon"
+          - type: "citation-reference"
+            key: "hello"
+            begin: 36
+            end: 42
+            contentsBegin: 36
+            contentsEnd: 42
+            children:
+              - type: "citation-key"
+                key: "hello"
+`;
+
+exports[`org/parser citations common suffix 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "citation"
+        begin: 0
+        end: 28
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 27
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 6
+            end: 13
+            contentsBegin: 6
+            contentsEnd: 12
+            children:
+              - type: "citation-key"
+                key: "hello"
+          - type: "citation-common-suffix"
+            contentsBegin: 13
+            contentsEnd: 27
+            children:
+              - type: "text"
+                value: " common suffix"
+`;
+
+exports[`org/parser citations multiple citation keys 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 20
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 20
+    children:
+      - type: "citation"
+        begin: 0
+        end: 20
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 19
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 6
+            end: 13
+            contentsBegin: 6
+            contentsEnd: 12
+            children:
+              - type: "citation-key"
+                key: "hello"
+          - type: "citation-reference"
+            key: "world"
+            begin: 13
+            end: 19
+            contentsBegin: 13
+            contentsEnd: 19
+            children:
+              - type: "citation-key"
+                key: "world"
+`;
+
+exports[`org/parser citations reference prefix 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 19
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 19
+    children:
+      - type: "citation"
+        begin: 0
+        end: 19
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 18
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 6
+            end: 18
+            contentsBegin: 6
+            contentsEnd: 18
+            children:
+              - type: "citation-prefix"
+                contentsBegin: 6
+                contentsEnd: 12
+                children:
+                  - type: "text"
+                    value: "prefi "
+              - type: "citation-key"
+                key: "hello"
+`;
+
+exports[`org/parser citations reference prefix with semicolon 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 39
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 39
+    children:
+      - type: "citation"
+        begin: 0
+        end: 39
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 38
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 6
+            end: 13
+            contentsBegin: 6
+            contentsEnd: 12
+            children:
+              - type: "citation-key"
+                key: "hello"
+          - type: "citation-reference"
+            key: "world"
+            begin: 13
+            end: 38
+            contentsBegin: 13
+            contentsEnd: 38
+            children:
+              - type: "citation-prefix"
+                contentsBegin: 13
+                contentsEnd: 32
+                children:
+                  - type: "text"
+                    value: " prefix; continues "
+              - type: "citation-key"
+                key: "world"
+`;
+
+exports[`org/parser citations reference suffix 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 18
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 18
+    children:
+      - type: "citation"
+        begin: 0
+        end: 18
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 17
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 6
+            end: 17
+            contentsBegin: 6
+            contentsEnd: 17
+            children:
+              - type: "citation-key"
+                key: "hello"
+              - type: "citation-suffix"
+                contentsBegin: 12
+                contentsEnd: 17
+                children:
+                  - type: "text"
+                    value: " p.13"
+`;
+
+exports[`org/parser citations rich common prefix 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 20
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 20
+    children:
+      - type: "citation"
+        begin: 0
+        end: 20
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 19
+        children:
+          - type: "citation-common-prefix"
+            contentsBegin: 6
+            contentsEnd: 12
+            children:
+              - type: "bold"
+                contentsBegin: 7
+                contentsEnd: 11
+                children:
+                  - type: "text"
+                    value: "bold"
+          - type: "citation-reference"
+            key: "hello"
+            begin: 13
+            end: 19
+            contentsBegin: 13
+            contentsEnd: 19
+            children:
+              - type: "citation-key"
+                key: "hello"
+`;
+
+exports[`org/parser citations simple citation 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 13
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 13
+    children:
+      - type: "citation"
+        begin: 0
+        end: 13
+        prefix: null
+        suffix: null
+        contentsBegin: 6
+        contentsEnd: 12
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 6
+            end: 12
+            contentsBegin: 6
+            contentsEnd: 12
+            children:
+              - type: "citation-key"
+                key: "hello"
+`;
+
+exports[`org/parser citations simple with style 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 15
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 15
+    children:
+      - type: "citation"
+        style: "s"
+        begin: 0
+        end: 15
+        prefix: null
+        suffix: null
+        contentsBegin: 8
+        contentsEnd: 14
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 8
+            end: 14
+            contentsBegin: 8
+            contentsEnd: 14
+            children:
+              - type: "citation-key"
+                key: "hello"
+`;
+
+exports[`org/parser citations simple with style and variant 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 17
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 17
+    children:
+      - type: "citation"
+        style: "s/v"
+        begin: 0
+        end: 17
+        prefix: null
+        suffix: null
+        contentsBegin: 10
+        contentsEnd: 16
+        children:
+          - type: "citation-reference"
+            key: "hello"
+            begin: 10
+            end: 16
+            contentsBegin: 10
+            contentsEnd: 16
+            children:
+              - type: "citation-key"
+                key: "hello"
+`;
+
 exports[`org/parser clock clock in progress 1`] = `
 type: "org-data"
 contentsBegin: 0

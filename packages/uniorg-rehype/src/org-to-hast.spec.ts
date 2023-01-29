@@ -467,6 +467,11 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
 
   hastTest('entity', `\\Agrave`);
 
+  hastTest(
+    'citation',
+    `[cite/style:common prefix; prefix @key suffix; @key2; common suffix]`
+  );
+
   test('respects hProperties', () => {
     const s = unified()
       .use(orgParse)

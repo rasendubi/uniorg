@@ -12,6 +12,12 @@ import type {
 
 type Hast = Root['children'][number];
 
+type Handler<T> = (this: OrgToHast, org: T) => Hast | null | (Hast | null)[];
+
+export type Handlers = {
+  [K in OrgNode['type']]?: Handler<OrgNode & { type: K }>;
+};
+
 export interface OrgToHastOptions {
   imageFilenameExtensions: string[];
   /**
@@ -32,6 +38,8 @@ export interface OrgToHastOptions {
    * ```
    */
   footnotesSection: (footnotes: Hast[]) => Hast[];
+
+  handlers: Handlers;
 }
 
 const defaultOptions: OrgToHastOptions = {
@@ -52,7 +60,27 @@ const defaultOptions: OrgToHastOptions = {
   ],
   useSections: false,
   footnotesSection: (footnotes) => [hast('h1', {}, 'Footnotes:'), ...footnotes],
+  handlers: {},
 };
+
+const defaultHandlers: Handlers = {
+  citation: renderAsChildren,
+  'citation-common-prefix': renderAsChildren,
+  'citation-common-suffix': renderAsChildren,
+  'citation-reference': renderAsChildren,
+  'citation-prefix': renderAsChildren,
+  'citation-suffix': renderAsChildren,
+  'citation-key': function (org) {
+    return this.h(org, 'a', { href: 'cite:' + org.key }, ['cite:' + org.key]);
+  },
+};
+
+function renderAsChildren(
+  this: OrgToHast,
+  org: OrgNode & { children: OrgNode[] }
+) {
+  return this.toHast(org.children, org);
+}
 
 // `org-html-html5-elements`
 const html5Elements = new Set([
@@ -75,95 +103,39 @@ const html5Elements = new Set([
   'video',
 ]);
 
-const getAffiliatedAttrs = (node: any) => {
-  const attr_html: string[] =
-    (node as any)?.affiliated?.ATTR_HTML?.flatMap((s: string) =>
-      s
-        .split(/(?:[ \t]+|^):(?<x>[-a-zA-Z0-9_]+(?=[ \t]|$))/u)
-        // first element is before the first key
-        .slice(1)
-    ) ?? [];
-
-  const attrs: Record<string, string> = {};
-  for (let i = 0; i < attr_html.length; i += 2) {
-    const key = attr_html[i];
-    const value = attr_html[i + 1].trim();
-    if (value) {
-      attrs[key] = value;
-    }
-  }
-
-  return attrs;
-};
-
-type Ctx = {
-  // Labels of footnotes as they occur in footnote-reference.
-  footnotesOrder: Array<string | number>;
-  // map of: label -> footnote div
-  footnotes: Record<string, FootnoteDefinition | FootnoteReference>;
-};
-
 export function orgToHast(
   org: OrgData,
   opts: Partial<OrgToHastOptions> = {}
 ): Hast | Root | null {
-  const options = { ...defaultOptions, ...opts };
+  return new OrgToHast(opts).toHast(org, null);
+}
 
-  const ctx: Ctx = {
-    footnotesOrder: [],
-    footnotes: {},
-  };
+class OrgToHast {
+  private options: OrgToHastOptions;
+  // Labels of footnotes as they occur in footnote-reference.
+  private footnotesOrder: Array<string | number> = [];
+  // map of: label -> footnote div
+  private footnotes: Record<
+    string,
+    FootnoteDefinition | FootnoteReference
+  > = {};
 
-  return toHast(org, null);
+  private handlers: Handlers;
 
-  /**
-   * Similar to `hast` but respects `hProperties`.
-   */
-  function h(
-    node: OrgNode | null,
-    selector?: string,
-    properties?: Properties,
-    children?: string | Node | null | Array<string | Node | null>
-  ): Element {
-    // TODO: hProperties is not respected in text nodes.
-
-    const element: Element =
-      // @ts-expect-error does not match the expected overloads
-      hast(selector, properties || {}, children || []);
-
-    const attrs =
-      node?.type === 'paragraph' &&
-      node.children.length === 1 &&
-      isImageLink(node.children[0], options)
-        ? // If image link is the only child in a paragraph, all attributes
-          // are proxied to it.
-          {}
-        : getAffiliatedAttrs(node);
-
-    const hProperties = node?.data?.hProperties ?? {};
-
-    element.properties = Object.assign(
-      {},
-      element.properties,
-      attrs,
-      hProperties
-    );
-
-    return element;
+  constructor(options: Partial<OrgToHastOptions>) {
+    this.options = { ...defaultOptions, ...options };
+    this.handlers = { ...defaultHandlers, ...this.options.handlers };
   }
 
-  function toHast(
-    node: OrgNode | null,
-    parent: OrgNode | null
-  ): Root | Hast | null;
-  function toHast(
-    node: (OrgNode | null)[],
-    parent: OrgNode | null
-  ): (Hast | null)[];
-  function toHast(
+  toHast(node: OrgNode | null, parent: OrgNode | null): Root | Hast | null;
+  toHast(node: (OrgNode | null)[], parent: OrgNode | null): (Hast | null)[];
+  toHast(
     node: OrgNode | null | (OrgNode | null)[],
     parent: OrgNode | null
   ): Hast | (Hast | null)[] | Root | null {
+    const h = this.h.bind(this);
+    const toHast = this.toHast.bind(this);
+
     if (Array.isArray(node)) {
       return (
         node
@@ -178,13 +150,19 @@ export function orgToHast(
 
     const org = node as OrgNode;
 
+    const handler = this.handlers[org.type];
+    if (handler) {
+      const rendered = (handler as any).call(this, org as any);
+      if (rendered) return rendered;
+    }
+
     switch (org.type) {
       case 'org-data':
         const children = toHast(org.children, org);
 
-        const footnotes = ctx.footnotesOrder
+        const footnotes = this.footnotesOrder
           .map((name, i) => {
-            const def = ctx.footnotes[name];
+            const def = this.footnotes[name];
 
             if (!def) {
               // missing footnote definition
@@ -218,12 +196,12 @@ export function orgToHast(
           })
           .filter((x) => x !== null) as Hast[];
         if (footnotes.length !== 0) {
-          if (opts.useSections) {
+          if (this.options.useSections) {
             children.push(
-              h(null, 'section', {}, options.footnotesSection(footnotes))
+              h(null, 'section', {}, this.options.footnotesSection(footnotes))
             );
           } else {
-            children.push(...options.footnotesSection(footnotes));
+            children.push(...this.options.footnotesSection(footnotes));
           }
         }
 
@@ -241,7 +219,7 @@ export function orgToHast(
         }
 
         const children = toHast(org.children, org);
-        return options.useSections
+        return this.options.useSections
           ? h(
               org,
               'section',
@@ -382,15 +360,15 @@ export function orgToHast(
         let idx = 0;
         let id = '';
         if (org.footnoteType === 'inline') {
-          idx = ctx.footnotesOrder.length;
-          ctx.footnotesOrder.push(idx);
-          ctx.footnotes[idx] = org;
+          idx = this.footnotesOrder.length;
+          this.footnotesOrder.push(idx);
+          this.footnotes[idx] = org;
           id = `fnr.${idx + 1}`;
         } else if (org.footnoteType === 'standard') {
-          idx = ctx.footnotesOrder.findIndex((label) => label === org.label);
+          idx = this.footnotesOrder.findIndex((label) => label === org.label);
           if (idx === -1) {
-            idx = ctx.footnotesOrder.length;
-            ctx.footnotesOrder.push(org.label);
+            idx = this.footnotesOrder.length;
+            this.footnotesOrder.push(org.label);
             id = `fnr.${idx + 1}`;
             // We do not set id in the else branch because that’s a
             // second reference to this footnote—another reference
@@ -417,7 +395,7 @@ export function orgToHast(
           )
         );
       case 'footnote-definition':
-        ctx.footnotes[org.label] = org;
+        this.footnotes[org.label] = org;
         return null;
       case 'paragraph':
         return h(org, 'p', {}, toHast(org.children, org));
@@ -463,7 +441,7 @@ export function orgToHast(
         // not have a way to attach ATTR_HTML to image/link directly.
         const attrs = isFirstLink ? getAffiliatedAttrs(parent) : {};
 
-        if (isImageLink(org, options)) {
+        if (isImageLink(org, this.options)) {
           return h(org, 'img', { ...attrs, src: link });
         }
 
@@ -558,7 +536,71 @@ export function orgToHast(
         return org;
     }
   }
+
+  /**
+   * Similar to `hast` but respects `hProperties`.
+   */
+  h(
+    node: OrgNode | null,
+    selector?: string,
+    properties?: Properties,
+    children?: string | Node | null | Array<string | Node | null>
+  ): Element {
+    // TODO: hProperties is not respected in text nodes.
+
+    const element: Element =
+      // @ts-expect-error does not match the expected overloads
+      hast(selector, properties || {}, children || []);
+
+    const attrs =
+      node?.type === 'paragraph' &&
+      node.children.length === 1 &&
+      isImageLink(node.children[0], this.options)
+        ? // If image link is the only child in a paragraph, all attributes
+          // are proxied to it.
+          {}
+        : getAffiliatedAttrs(node);
+
+    const hProperties = node?.data?.hProperties ?? {};
+
+    element.properties = Object.assign(
+      {},
+      element.properties,
+      attrs,
+      hProperties
+    );
+
+    return element;
+  }
 }
+
+const getAffiliatedAttrs = (node: any) => {
+  const attr_html: string[] =
+    (node as any)?.affiliated?.ATTR_HTML?.flatMap((s: string) =>
+      s
+        .split(/(?:[ \t]+|^):(?<x>[-a-zA-Z0-9_]+(?=[ \t]|$))/u)
+        // first element is before the first key
+        .slice(1)
+    ) ?? [];
+
+  const attrs: Record<string, string> = {};
+  for (let i = 0; i < attr_html.length; i += 2) {
+    const key = attr_html[i];
+    const value = attr_html[i + 1].trim();
+    if (value) {
+      attrs[key] = value;
+    }
+  }
+
+  return attrs;
+};
+
+type Ctx = {
+  // Labels of footnotes as they occur in footnote-reference.
+  footnotesOrder: Array<string | number>;
+  // map of: label -> footnote div
+  footnotes: Record<string, FootnoteDefinition | FootnoteReference>;
+};
 
 const removeCommonIndent = (s: string) => {
   const lines = s.split(/\n/g);
