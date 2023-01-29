@@ -22,6 +22,7 @@ jobs:
     - run: pnpm install
     - uses: changesets/action@v1
       with:
+        title: 'chore: release'
         commit: 'chore: bump version'
         version: pnpm run version
         publish: pnpm run publish
