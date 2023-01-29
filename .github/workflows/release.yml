@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    # fetch all tags, so changeset tag does not create extra tags
+    - run: git fetch --tags origin
     - uses: actions/setup-node@v3
       with:
         node-version: '16'
