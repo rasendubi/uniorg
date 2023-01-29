@@ -1393,9 +1393,19 @@ class Parser {
   // Object parsers.
 
   private parseSuperscript(): Superscript | null {
+    if (!this.options.useSubSuperscripts) {
+      return null;
+    }
+
     this.r.backoff(1); // backoff by one, to match previous char (should be non-space)
     const start = this.r.offset();
-    const m = this.r.advance(this.r.lookingAt(this.re.subsuperscriptRe()));
+    const m = this.r.advance(
+      this.r.lookingAt(
+        this.options.useSubSuperscripts === '{}'
+          ? this.re.matchSubstringWithBracesRegex()
+          : this.re.matchSubstringRegex()
+      )
+    );
     if (!m) return null;
 
     const inside = m.groups!['inBraces'] || m.groups!['inBrackets'];
@@ -1409,9 +1419,19 @@ class Parser {
   }
 
   private parseSubscript(): Subscript | null {
+    if (!this.options.useSubSuperscripts) {
+      return null;
+    }
+
     this.r.backoff(1); // backoff by one, to match previous char (should be non-space)
     const start = this.r.offset();
-    const m = this.r.advance(this.r.lookingAt(this.re.subsuperscriptRe()));
+    const m = this.r.advance(
+      this.r.lookingAt(
+        this.options.useSubSuperscripts === '{}'
+          ? this.re.matchSubstringWithBracesRegex()
+          : this.re.matchSubstringRegex()
+      )
+    );
     if (!m) return null;
 
     const inside = m.groups!['inBraces'] || m.groups!['inBrackets'];

@@ -671,6 +671,53 @@ not a block
     });
   });
 
+  describe('options.useSubSuperscript', () => {
+    describe('= true', () => {
+      itParses('parses superscript with number', 'x^2', {
+        useSubSuperscripts: true,
+      });
+      itParses('parses subscript with number', 'x_2', {
+        useSubSuperscripts: true,
+      });
+      itParses('parses superscript with braces', 'x^{2}', {
+        useSubSuperscripts: true,
+      });
+      itParses('parses subscript with braces', 'x_{2}', {
+        useSubSuperscripts: true,
+      });
+    });
+
+    describe('= false', () => {
+      itParses('ignores superscript with number', 'x^2', {
+        useSubSuperscripts: false,
+      });
+      itParses('ignores subscript with number', 'x_2', {
+        useSubSuperscripts: false,
+      });
+      itParses('ignores superscript with braces', 'x^{2}', {
+        useSubSuperscripts: false,
+      });
+      itParses('ignores subscript with braces', 'x_{2}', {
+        useSubSuperscripts: false,
+      });
+    });
+
+    describe('= {}', () => {
+      itParses('ignores superscript with number', 'x^2', {
+        useSubSuperscripts: '{}',
+      });
+      itParses('ignores subscript with number', 'x_2', {
+        useSubSuperscripts: '{}',
+      });
+      itParses('parses superscript with braces', 'x^{2}', {
+        useSubSuperscripts: '{}',
+      });
+      itParses('parses subscript with braces', 'x_{2}', {
+        useSubSuperscripts: '{}',
+      });
+    });
+  });
+
   itParses(
     'table',
     `
