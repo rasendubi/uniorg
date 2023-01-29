@@ -12,7 +12,8 @@
     "./lib/condition.js": "./lib/condition.browser.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rm -rf ./types && tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
