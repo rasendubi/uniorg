@@ -3,19 +3,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "bootstrap": "npm install && lerna bootstrap --no-ci",
     "clean": "lerna run clean",
-    "build": "lerna run build",
+    "build": "turbo build",
     "publish": "lerna publish",
-    "dev": "lerna run dev",
-    "test": "jest"
+    "dev": "turbo dev",
+    "test": "jest",
+    "ci": "turbo lint build test"
   },
   "devDependencies": {
     "eslint": "^7.17.0",
     "jest": "^27.5.1",
     "lerna": "^4.0.0",
     "prettier": "^2.2.1",
-    "ts-jest": "^27.1.4"
+    "ts-jest": "^27.1.4",
+    "turbo": "^1.7.0",
+    "typescript": "4.6.3"
   },
   "workspaces": [
     "packages/*",
