@@ -5,6 +5,14 @@ export interface ParseOptions {
    */
   todoKeywords: string[];
   /**
+   * Same as `org-use-sub-superscripts` in Emacs.
+   *
+   * - `true` (default) - parse sub-/superscripts
+   * - `false` - do not parse sub-/superscripts
+   * - `'{}'` - only parse sub-/superscripts when enclosed in braces
+   */
+  useSubSuperscripts: true | false | '{}';
+  /**
    * Allows overriding parameters for emphasis regex. Corresponds to
    * `org-emphasis-regex-components` in Emacs.
    */
@@ -29,6 +37,7 @@ export interface ParseOptions {
 
 export const defaultOptions: ParseOptions = {
   todoKeywords: ['TODO', 'DONE'],
+  useSubSuperscripts: true,
   emphasisRegexpComponents: {
     // deviates from org mode default to allow ndash, mdash, and
     // quotes (’“”)

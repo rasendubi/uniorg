@@ -3239,6 +3239,210 @@ children:
         value: "hello\\n#+BLAH[hi]: heh\\nhi\\n"
 `;
 
+exports[`org/parser options.useSubSuperscript = {} ignores subscript with number 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 3
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 3
+    children:
+      - type: "text"
+        value: "x_2"
+`;
+
+exports[`org/parser options.useSubSuperscript = {} ignores superscript with number 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 3
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 3
+    children:
+      - type: "text"
+        value: "x^2"
+`;
+
+exports[`org/parser options.useSubSuperscript = {} parses subscript with braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "text"
+        value: "x"
+      - type: "subscript"
+        contentsBegin: 3
+        contentsEnd: 4
+        children:
+          - type: "text"
+            value: "2"
+`;
+
+exports[`org/parser options.useSubSuperscript = {} parses superscript with braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "text"
+        value: "x"
+      - type: "superscript"
+        contentsBegin: 3
+        contentsEnd: 4
+        children:
+          - type: "text"
+            value: "2"
+`;
+
+exports[`org/parser options.useSubSuperscript = false ignores subscript with braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "text"
+        value: "x_{2}"
+`;
+
+exports[`org/parser options.useSubSuperscript = false ignores subscript with number 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 3
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 3
+    children:
+      - type: "text"
+        value: "x_2"
+`;
+
+exports[`org/parser options.useSubSuperscript = false ignores superscript with braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "text"
+        value: "x^{2}"
+`;
+
+exports[`org/parser options.useSubSuperscript = false ignores superscript with number 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 3
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 3
+    children:
+      - type: "text"
+        value: "x^2"
+`;
+
+exports[`org/parser options.useSubSuperscript = true parses subscript with braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "text"
+        value: "x"
+      - type: "subscript"
+        contentsBegin: 3
+        contentsEnd: 4
+        children:
+          - type: "text"
+            value: "2"
+`;
+
+exports[`org/parser options.useSubSuperscript = true parses subscript with number 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 3
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 3
+    children:
+      - type: "text"
+        value: "x"
+      - type: "subscript"
+        contentsBegin: 2
+        contentsEnd: 3
+        children:
+          - type: "text"
+            value: "2"
+`;
+
+exports[`org/parser options.useSubSuperscript = true parses superscript with braces 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 5
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 5
+    children:
+      - type: "text"
+        value: "x"
+      - type: "superscript"
+        contentsBegin: 3
+        contentsEnd: 4
+        children:
+          - type: "text"
+            value: "2"
+`;
+
+exports[`org/parser options.useSubSuperscript = true parses superscript with number 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 3
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 3
+    children:
+      - type: "text"
+        value: "x"
+      - type: "superscript"
+        contentsBegin: 2
+        contentsEnd: 3
+        children:
+          - type: "text"
+            value: "2"
+`;
+
 exports[`org/parser paragraph split by empty line 1`] = `
 type: "org-data"
 contentsBegin: 0
