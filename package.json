@@ -9,7 +9,7 @@
     "test": "jest",
     "ci": "turbo lint build test",
     "version": "changeset version && pnpm install --frozen-lockfile=false",
-    "publish": "changeset publish"
+    "publish": "turbo build && changeset publish"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",
