@@ -94,7 +94,7 @@ const processor = unified().use(parse).use(uniorg2rehype).use(stringify);
 
 processor
   .process(`* org-mode example\n your text goes here`)
-  .then((file) => console.log(file.contents));
+  .then((file) => console.log(file.value));
 ```
 
 Plugins for code syntax highlight ([rehype-highlight](https://github.com/rehypejs/rehype-highlight), [@mapbox/rehype-prism](https://github.com/mapbox/rehype-prism)) and latex-formatting ([rehype-katex](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex), [rehype-mathjax](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-mathjax)) should work out of the box:
@@ -125,7 +125,7 @@ console.log('uniorg is cool!');
 #+end_src
 `
   )
-  .then((file) => console.log(file.contents));
+  .then((file) => console.log(file.value));
 ```
 
 # License
