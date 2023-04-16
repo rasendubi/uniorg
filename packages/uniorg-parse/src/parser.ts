@@ -725,7 +725,7 @@ class Parser {
 
     const titleStart = this.r.offset();
 
-    const tagsM = this.r.lookingAt(/^(.*?)[ \t]+:([\w@#%:]+):[ \t]*$/m);
+    const tagsM = this.r.lookingAt(/^(.*?)[ \t]+:(.+):[ \t]*$/m);
     const tags = tagsM?.[2].split(':') ?? [];
     const titleEnd = tagsM
       ? titleStart + tagsM.index + tagsM[1].length
