@@ -124,6 +124,11 @@ describe('org/parser', () => {
         `* TODO [#A] COMMENT headline /italic/ title :some:tags: [1/3]`
       );
 
+      itParses(
+        'non-ascii characters in headline tags',
+        `* headline :hello:你好:`
+      );
+
       itParses('statistics cookie without trailing space', `* [/]hello`);
 
       itParses('statistics cookie with long trailing space', `* [/]    hello`);
