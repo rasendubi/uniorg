@@ -2053,6 +2053,31 @@ children:
             value: "Something"
 `;
 
+exports[`org/parser headline statistics-cookie non-ascii characters in headline tags 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 21
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 21
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "headline"
+        tags:
+          - "hello"
+          - "你好"
+        contentsBegin: 2
+        contentsEnd: 10
+        children:
+          - type: "text"
+            value: "headline"
+`;
+
 exports[`org/parser headline statistics-cookie statistics cookie with long trailing space 1`] = `
 type: "org-data"
 contentsBegin: 0
