@@ -1,5 +1,11 @@
 # uniorg-parse
 
+## 2.0.1
+
+### Patch Changes
+
+- [#73](https://github.com/rasendubi/uniorg/pull/73) [`67579ad`](https://github.com/rasendubi/uniorg/commit/67579ad2ae4ea5fad46dc4b26c898913921ae064) Thanks [@xandeer](https://github.com/xandeer)! - Fix parsing unicode characters in headline tags. The regex for parsing tags previously used `\w` (word) class, which does not behave correctly with unicode. Update it to use unicode's Letter and Number character properties instead.
+
 ## 2.0.0
 
 ### Major Changes
