@@ -6,12 +6,20 @@
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
       in {
         devShell = pkgs.mkShell {
-          nativeBuildInputs = [
-            pkgs.nodejs-16_x
+          nativeBuildInputs = [ pkgs.bashInteractive ];
+          buildInputs = with pkgs; [
+            nodejs-18_x
+            nodePackages.pnpm
+            turbo
           ];
+          shellHook = ''
+            export PATH="$PWD/node_modules/.bin/:$PATH"
+            export TURBO_BINARY_PATH="${pkgs.turbo}/bin/turbo"
+          '';
         };
       });
 
