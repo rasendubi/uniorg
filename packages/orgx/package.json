@@ -34,6 +34,8 @@
     "hast-util-to-estree": "^2.2.1",
     "periscopic": "^3.0.0",
     "unified": "^10.0.0",
+    "uniorg-parse": "workspace:^",
+    "uniorg-rehype": "workspace:^",
     "unist-util-position-from-estree": "^1.0.0",
     "unist-util-stringify-position": "^3.0.0",
     "unist-util-visit": "^4.0.0",
