@@ -1,5 +1,11 @@
 # @uniorgjs/orgx
 
+## 1.0.2
+
+### Patch Changes
+
+- [#80](https://github.com/rasendubi/uniorg/pull/80) [`7cd7a83`](https://github.com/rasendubi/uniorg/commit/7cd7a832b030934931c376b372d743ba360f5a9e) Thanks [@venikx](https://github.com/venikx)! - Add missing dependencies (`uniorg-parse` and `uniorg-rehype`) to orgx.
+
 ## 1.0.1
 
 ### Patch Changes
