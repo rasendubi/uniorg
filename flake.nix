@@ -13,13 +13,11 @@
           nativeBuildInputs = with pkgs; [
             nodejs-18_x
             nodePackages.pnpm
-            turbo
-          ];
+          ]
+          # turbo seems to be broken on macOS, so only add it on non-macOS
+          ++ nixpkgs.lib.optional (!pkgs.stdenv.isDarwin) pkgs.turbo;
 
-          shellHook = ''
-            export PATH="$PWD/node_modules/.bin/:$PATH"
-            export TURBO_BINARY_PATH="${pkgs.turbo}/bin/turbo"
-          '';
+          TURBO_BINARY_PATH = if !pkgs.stdenv.isDarwin then "${pkgs.turbo}/bin/turbo" else "";
         };
       });
 
