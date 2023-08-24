@@ -585,6 +585,19 @@ hi
 #+end_export`
     );
 
+    // Adding any parameter to export-block fails backend parsing in
+    // org-element, so the block is not exported. We're preserving
+    // this behavior in Uniorg.
+    //
+    // See https://github.com/rasendubi/uniorg/issues/83 for more
+    // information.
+    itParses(
+      'export block with incorrect header',
+      `#+begin_export html :hello blah
+Hi, there!
+#+end_export`
+    );
+
     itParses(
       'special block',
       `#+begin_blah

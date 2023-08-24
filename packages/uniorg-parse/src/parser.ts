@@ -927,10 +927,10 @@ class Parser {
       return this.parseParagraph(affiliated);
     }
 
-    const headerM = this.r.forceMatch(
+    const headerM = this.r.match(
       /^[ \t]*#\+begin_export(?:[ \t]+(\S+))?[ \t]*$/im
     );
-    const backend = headerM[1] ?? null;
+    const backend = headerM?.[1] ?? null;
 
     const begin = this.r.offset();
     const contentsBegin = begin + this.r.line().length;

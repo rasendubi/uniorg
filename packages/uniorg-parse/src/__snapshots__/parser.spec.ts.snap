@@ -214,6 +214,17 @@ children:
     value: "hi\\n"
 `;
 
+exports[`org/parser blocks export block with incorrect header 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 55
+children:
+  - type: "export-block"
+    affiliated: {}
+    backend: null
+    value: "Hi, there!\\n"
+`;
+
 exports[`org/parser blocks fake block 1`] = `
 type: "org-data"
 contentsBegin: 0
