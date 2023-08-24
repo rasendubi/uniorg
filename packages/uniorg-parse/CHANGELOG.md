@@ -1,5 +1,15 @@
 # uniorg-parse
 
+## 2.0.2
+
+### Patch Changes
+
+- [#84](https://github.com/rasendubi/uniorg/pull/84) [`6c1d090`](https://github.com/rasendubi/uniorg/commit/6c1d0903699f90ebd1dad5102ac9821132e37696) Thanks [@rasendubi](https://github.com/rasendubi)! - Prevent crash when export-block has unexpected parameters.
+
+  When export-block was provided unexpected parameters, uniorg has thrown an exception and stopped parsing. org-element fails to parse export-block backend but otherwise continues to parse. We replicate the same behavior in Uniorg now.
+
+  Fixes [#83](https://github.com/rasendubi/uniorg/issues/83).
+
 ## 2.0.1
 
 ### Patch Changes
