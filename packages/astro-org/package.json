@@ -36,7 +36,10 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
-    "astro": "^2.0.2",
+    "astro": "^3.0.12",
     "vfile": "^5.3.6"
+  },
+  "peerDependencies": {
+    "astro": "^3.0.12"
   }
 }

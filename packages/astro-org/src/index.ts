@@ -1,4 +1,8 @@
 import type { AstroIntegration } from 'astro';
+// This rendered seems to be private and is not explicitly exported.
+// @ts-ignore
+import astroJSXRenderer from 'astro/jsx/renderer.js';
+
 import type { VFile } from 'vfile';
 import orgPlugin, { OrgPluginOptions } from 'rollup-plugin-orgx';
 import { extractKeywords } from 'uniorg-extract-keywords';
@@ -13,12 +17,31 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
   return {
     name: 'astro-org',
     hooks: {
-      'astro:config:setup': async ({ updateConfig }) => {
+      'astro:config:setup': async ({ updateConfig, addRenderer }) => {
+        addRenderer(astroJSXRenderer);
         updateConfig({
           vite: {
             plugins: [
               {
                 enforce: 'pre',
+                configResolved(resolved: any) {
+                  // HACK: move ourselves before Astro's JSX plugin to transform things in the right order
+                  const jsxPluginIndex = resolved.plugins.findIndex(
+                    (p: any) => p.name === 'astro:jsx'
+                  );
+                  if (jsxPluginIndex !== -1) {
+                    const myPluginIndex = resolved.plugins.findIndex(
+                      (p: any) => p.name === 'rollup-plugin-orgx'
+                    );
+                    if (myPluginIndex !== -1) {
+                      const myPlugin = resolved.plugins[myPluginIndex];
+                      // @ts-ignore-error ignore readonly annotation
+                      resolved.plugins.splice(myPluginIndex, 1);
+                      // @ts-ignore-error ignore readonly annotation
+                      resolved.plugins.splice(jsxPluginIndex, 0, myPlugin);
+                    }
+                  }
+                },
                 ...orgPlugin({
                   ...options,
                   uniorgPlugins: [
