@@ -902,7 +902,13 @@ class Parser {
     this.parseEmptyLines();
     const _end = this.r.offset();
 
-    return u('src-block', { affiliated, language, value });
+    return u('src-block', {
+      affiliated,
+      language,
+      switches: switches?.trim(),
+      parameters: parameters?.trim(),
+      value,
+    });
   }
 
   private parseExampleBlock(

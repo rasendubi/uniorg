@@ -532,6 +532,14 @@ hello
   #+end_src`
     );
 
+    itParses.only(
+      'src block with switches and arguments',
+      `
+#+begin_src js +n 10 :exports none
+const t = 10
+#+end_src`
+    );
+
     itParses(
       'quote block',
       `#+begin_quote
