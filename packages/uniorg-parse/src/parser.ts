@@ -906,7 +906,7 @@ class Parser {
       affiliated,
       language,
       switches: switches?.trim(),
-      parameters: parameters?.trim(),
+      parameters: parameters !== '' ? parameters?.trim() : undefined,
       value,
     });
   }

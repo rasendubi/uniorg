@@ -373,16 +373,27 @@ children:
     value: "hello\\n"
 `;
 
-exports[`org/parser blocks src block with switches and arguments 1`] = `
+exports[`org/parser blocks src block with parameters 1`] = `
 type: "org-data"
 contentsBegin: 0
-contentsEnd: 58
+contentsEnd: 52
+children:
+  - type: "src-block"
+    affiliated: {}
+    language: "js"
+    parameters: ":exports none"
+    value: "const t = 10\\n"
+`;
+
+exports[`org/parser blocks src block with switches 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 44
 children:
   - type: "src-block"
     affiliated: {}
     language: "js"
     switches: "+n 10"
-    parameters: ":exports none"
     value: "const t = 10\\n"
 `;
 
