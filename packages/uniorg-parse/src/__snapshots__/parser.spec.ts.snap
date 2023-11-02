@@ -44,6 +44,8 @@ children:
   - type: "src-block"
     affiliated:
       NAME: "hi"
+    switches: null
+    parameters: null
     value: ""
 `;
 
@@ -94,6 +96,8 @@ children:
     affiliated:
       NAME: "source"
     language: "org"
+    switches: null
+    parameters: null
     value: "some paragraph\\n"
 `;
 
@@ -128,6 +132,8 @@ children:
   - type: "src-block"
     affiliated: {}
     language: "org"
+    switches: null
+    parameters: null
     value: "#+ escaped\\n"
 `;
 
@@ -158,6 +164,8 @@ children:
   - type: "src-block"
     affiliated: {}
     language: "org"
+    switches: null
+    parameters: null
     value: ",,* two commas escaped\\n"
 `;
 
@@ -179,6 +187,8 @@ children:
   - type: "src-block"
     affiliated: {}
     language: "c"
+    switches: null
+    parameters: null
     value: "*a = 0;\\n"
 `;
 
@@ -288,6 +298,8 @@ children:
   - type: "src-block"
     affiliated: {}
     language: "org"
+    switches: null
+    parameters: null
     value: ",# nont escaped\\n"
 `;
 
@@ -299,6 +311,8 @@ children:
   - type: "src-block"
     affiliated: {}
     language: "org"
+    switches: null
+    parameters: null
     value: "* not a headline;\\n"
 `;
 
@@ -370,6 +384,8 @@ contentsEnd: 27
 children:
   - type: "src-block"
     affiliated: {}
+    switches: null
+    parameters: null
     value: "hello\\n"
 `;
 
@@ -381,6 +397,7 @@ children:
   - type: "src-block"
     affiliated: {}
     language: "js"
+    switches: null
     parameters: ":exports none"
     value: "const t = 10\\n"
 `;
@@ -394,6 +411,20 @@ children:
     affiliated: {}
     language: "js"
     switches: "+n 10"
+    parameters: null
+    value: "const t = 10\\n"
+`;
+
+exports[`org/parser blocks src block with switches and parameters 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 58
+children:
+  - type: "src-block"
+    affiliated: {}
+    language: "js"
+    switches: "+n 10"
+    parameters: ":exports none"
     value: "const t = 10\\n"
 `;
 
@@ -426,6 +457,8 @@ children:
                 value: "example:\\n"
           - type: "src-block"
             affiliated: {}
+            switches: null
+            parameters: null
             value: "  blah\\n"
 `;
 
@@ -3224,6 +3257,8 @@ children:
           - type: "src-block"
             affiliated: {}
             language: "c"
+            switches: null
+            parameters: null
             value: "  x\\n\\n\\n  y\\n"
 `;
 

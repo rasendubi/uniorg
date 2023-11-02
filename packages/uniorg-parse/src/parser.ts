@@ -905,8 +905,9 @@ class Parser {
     return u('src-block', {
       affiliated,
       language,
-      switches: switches?.trim(),
-      parameters: parameters !== '' ? parameters?.trim() : undefined,
+      switches: switches?.trim() ?? null,
+      // using || to convert empty strings to null as well
+      parameters: parameters.trim() || null,
       value,
     });
   }
