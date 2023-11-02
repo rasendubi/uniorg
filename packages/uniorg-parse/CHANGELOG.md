@@ -1,5 +1,11 @@
 # uniorg-parse
 
+## 2.1.0
+
+### Minor Changes
+
+- [#91](https://github.com/rasendubi/uniorg/pull/91) [`041eb97`](https://github.com/rasendubi/uniorg/commit/041eb9743cbb95bff692eebf821777d2622c09d9) Thanks [@venikx](https://github.com/venikx)! - Add support for switches and parameters in src-blocks.
+
 ## 2.0.2
 
 ### Patch Changes

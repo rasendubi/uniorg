@@ -1,6 +1,6 @@
 {
   "name": "@uniorgjs/orgx",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Org-mode to JS compiler",
   "type": "module",
   "types": "types/index.d.ts",

@@ -1,5 +1,12 @@
 # @uniorgjs/orgx
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`041eb97`](https://github.com/rasendubi/uniorg/commit/041eb9743cbb95bff692eebf821777d2622c09d9)]:
+  - uniorg-parse@2.1.0
+
 ## 1.0.3
 
 ### Patch Changes
