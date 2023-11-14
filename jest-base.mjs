@@ -1,17 +1,25 @@
 export default {
   testMatch: ['**/src/**/*.spec.ts'],
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
-  },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.[tj]sx?$': 'ts-jest',
+    '^.+\\.[tj]sx?$': [
+      'ts-jest',
+      {
+        useESM: true,
+      },
+    ],
   },
   transformIgnorePatterns: [],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   extensionsToTreatAsEsm: ['.ts'],
+
+  // Jest doesn't support prettier-3
+  prettierPath: null,
+  snapshotFormat: {
+    // Jest-29 removed string escaping by default. Enable it back to
+    // keep old snapshots compatible.
+    escapeString: true,
+  },
 
   collectCoverage: !!process.env.CI,
 

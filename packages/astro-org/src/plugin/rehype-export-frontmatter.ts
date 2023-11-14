@@ -1,3 +1,4 @@
+import type { Options } from 'acorn';
 import { parse } from 'acorn';
 
 export const rehypeExportFrontmatter = () => {
@@ -17,7 +18,7 @@ export const rehypeExportFrontmatter = () => {
 
 function jsToTreeNode(
   jsString: string,
-  acornOpts: acorn.Options = {
+  acornOpts: Options = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   }
@@ -27,7 +28,6 @@ function jsToTreeNode(
     value: '',
     data: {
       estree: {
-        body: [],
         ...parse(jsString, acornOpts),
         type: 'Program',
         sourceType: 'module',

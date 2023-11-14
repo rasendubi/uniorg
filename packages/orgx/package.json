@@ -19,27 +19,27 @@
     "type": "git",
     "url": "git+https://github.com/rasendubi/uniorg.git"
   },
-  "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
+  "author": "Oleksii Shmalko <rasen.dubi@gmail.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/rasendubi/uniorg/issues"
   },
   "homepage": "https://github.com/rasendubi/uniorg#readme",
   "dependencies": {
-    "@types/estree-jsx": "^1.0.0",
-    "estree-util-build-jsx": "^2.0.0",
-    "estree-util-is-identifier-name": "^2.0.0",
-    "estree-util-to-js": "^1.1.0",
-    "estree-walker": "^3.0.0",
-    "hast-util-to-estree": "^2.2.1",
-    "periscopic": "^3.0.0",
-    "unified": "^10.0.0",
+    "@types/estree-jsx": "^1.0.3",
+    "estree-util-build-jsx": "^3.0.1",
+    "estree-util-is-identifier-name": "^3.0.0",
+    "estree-util-to-js": "^2.0.0",
+    "estree-walker": "^3.0.3",
+    "hast-util-to-estree": "^3.1.0",
+    "periscopic": "^4.0.2",
+    "unified": "^11.0.4",
     "uniorg-parse": "workspace:^",
     "uniorg-rehype": "workspace:^",
-    "unist-util-position-from-estree": "^1.0.0",
-    "unist-util-stringify-position": "^3.0.0",
-    "unist-util-visit": "^4.0.0",
-    "vfile": "^5.0.0"
+    "unist-util-position-from-estree": "^2.0.0",
+    "unist-util-stringify-position": "^4.0.0",
+    "unist-util-visit": "^5.0.0",
+    "vfile": "^6.0.1"
   },
   "publishConfig": {
     "access": "public"

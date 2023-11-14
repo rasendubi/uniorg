@@ -10,6 +10,12 @@ import type {
   FootnoteDefinition,
 } from 'uniorg';
 
+declare module 'unist' {
+  interface Data {
+    hProperties?: Properties;
+  }
+}
+
 type Hast = Root['children'][number];
 
 type Handler<T> = (this: OrgToHast, org: T) => Hast | null | (Hast | null)[];
@@ -115,10 +121,8 @@ class OrgToHast {
   // Labels of footnotes as they occur in footnote-reference.
   private footnotesOrder: Array<string | number> = [];
   // map of: label -> footnote div
-  private footnotes: Record<
-    string,
-    FootnoteDefinition | FootnoteReference
-  > = {};
+  private footnotes: Record<string, FootnoteDefinition | FootnoteReference> =
+    {};
 
   private handlers: Handlers;
 
