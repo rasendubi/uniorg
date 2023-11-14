@@ -1,24 +1,85 @@
-import type { AstroIntegration } from 'astro';
+import fs from 'node:fs/promises';
+
+import type { AstroIntegration, ContentEntryType, HookParameters } from 'astro';
 // This rendered seems to be private and is not explicitly exported.
 // @ts-ignore
 import astroJSXRenderer from 'astro/jsx/renderer.js';
 
-import type { VFile } from 'vfile';
-import orgPlugin, { OrgPluginOptions } from 'rollup-plugin-orgx';
+import { unified, type PluggableList } from 'unified';
+import { VFile } from 'vfile';
+import uniorg from 'uniorg-parse';
+import orgPlugin, { type OrgPluginOptions } from 'rollup-plugin-orgx';
 import { extractKeywords } from 'uniorg-extract-keywords';
 import { uniorgSlug } from 'uniorg-slug';
 import { visitIds } from 'orgast-util-visit-ids';
 
 import { rehypeExportFrontmatter } from './plugin/rehype-export-frontmatter.js';
 
+declare module 'vfile' {
+  interface DataMap {
+    astro: {
+      frontmatter: Record<string, unknown>;
+    };
+  }
+}
+
 export type Options = OrgPluginOptions;
 
+type SetupHookParams = HookParameters<'astro:config:setup'> & {
+  // `addPageExtension` and `contentEntryType` are not a public APIs
+  // Add type defs here
+  addPageExtension: (extension: string) => void;
+  addContentEntryType: (contentEntryType: ContentEntryType) => void;
+};
+
 export default function org(options: OrgPluginOptions = {}): AstroIntegration {
+  const uniorgPlugins: PluggableList = [
+    initFrontmatter,
+    [extractKeywords, { name: 'keywords' }],
+    keywordsToFrontmatter,
+    uniorgSlug,
+    saveIds,
+    ...(options.uniorgPlugins ?? []),
+  ];
+
   return {
     name: 'astro-org',
     hooks: {
-      'astro:config:setup': async ({ updateConfig, addRenderer }) => {
+      'astro:config:setup': async (params) => {
+        const {
+          updateConfig,
+          addRenderer,
+          addContentEntryType,
+          addPageExtension,
+        } = params as SetupHookParams;
+
         addRenderer(astroJSXRenderer);
+        addPageExtension('.org');
+        addContentEntryType({
+          extensions: ['.org'],
+          async getEntryInfo({ fileUrl, contents }) {
+            const processor = unified().use(uniorg).use(uniorgPlugins);
+
+            const f = new VFile({ path: fileUrl, value: contents });
+            await processor.run(processor.parse(f), f);
+
+            const frontmatter = f.data.astro!.frontmatter;
+            return {
+              data: frontmatter,
+              body: contents,
+              // Astro typing requires slug to be a string, however
+              // I'm pretty sure that mdx integration returns
+              // undefined if slug is not set in frontmatter.
+              slug: frontmatter.slug as any,
+              rawData: contents,
+            };
+          },
+          contentModuleTypes: await fs.readFile(
+            new URL('../template/content-module-types.d.ts', import.meta.url),
+            'utf-8'
+          ),
+          handlePropagation: true,
+        });
         updateConfig({
           vite: {
             plugins: [
@@ -44,14 +105,7 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
                 },
                 ...orgPlugin({
                   ...options,
-                  uniorgPlugins: [
-                    initFrontmatter,
-                    [extractKeywords, { name: 'keywords' }],
-                    keywordsToFrontmatter,
-                    uniorgSlug,
-                    saveIds,
-                    ...(options.uniorgPlugins ?? []),
-                  ],
+                  uniorgPlugins,
                   rehypePlugins: [
                     ...(options.rehypePlugins ?? []),
                     rehypeExportFrontmatter,
@@ -69,6 +123,7 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
 
                   const fileId = id.split('?')[0];
 
+                  code += `\nexport { Content };`;
                   code += `\nexport const file = ${JSON.stringify(fileId)};`;
 
                   return code;
