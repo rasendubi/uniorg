@@ -38,7 +38,7 @@ export class Reader {
   }
 
   public advance<
-    T extends string | number | RegExpExecArray | null | undefined
+    T extends string | number | RegExpExecArray | null | undefined,
   >(n: T): T {
     if (!n) {
       // do nothing

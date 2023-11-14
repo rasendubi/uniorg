@@ -1,5 +1,5 @@
 /** @type {new (code: string, ...args: Array<unknown>) => Function} **/
-const AsyncFunction = Object.getPrototypeOf(run).constructor
+const AsyncFunction = Object.getPrototypeOf(run).constructor;
 
 /**
  * Asynchronously run code.
@@ -12,7 +12,7 @@ const AsyncFunction = Object.getPrototypeOf(run).constructor
 export async function run(file, options) {
   // V8 on Erbium.
   /* c8 ignore next 2 */
-  return new AsyncFunction(String(file))(options)
+  return new AsyncFunction(String(file))(options);
 }
 
 /**
@@ -25,5 +25,5 @@ export async function run(file, options) {
  */
 export function runSync(file, options) {
   // eslint-disable-next-line no-new-func
-  return new Function(String(file))(options)
+  return new Function(String(file))(options);
 }

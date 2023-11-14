@@ -5,9 +5,9 @@
  * @typedef {import('mdx/types').MDXModule} ExportMap
  */
 
-import {compile, compileSync} from './compile.js'
-import {run, runSync} from './run.js'
-import {resolveEvaluateOptions} from './util/resolve-evaluate-options.js'
+import { compile, compileSync } from './compile.js';
+import { run, runSync } from './run.js';
+import { resolveEvaluateOptions } from './util/resolve-evaluate-options.js';
 
 /**
  * Evaluate MDX.
@@ -19,10 +19,10 @@ import {resolveEvaluateOptions} from './util/resolve-evaluate-options.js'
  * @return {Promise<ExportMap>}
  */
 export async function evaluate(vfileCompatible, evaluateOptions) {
-  const {compiletime, runtime} = resolveEvaluateOptions(evaluateOptions)
+  const { compiletime, runtime } = resolveEvaluateOptions(evaluateOptions);
   // V8 on Erbium.
   /* c8 ignore next 2 */
-  return run(await compile(vfileCompatible, compiletime), runtime)
+  return run(await compile(vfileCompatible, compiletime), runtime);
 }
 
 /**
@@ -35,6 +35,6 @@ export async function evaluate(vfileCompatible, evaluateOptions) {
  * @return {ExportMap}
  */
 export function evaluateSync(vfileCompatible, evaluateOptions) {
-  const {compiletime, runtime} = resolveEvaluateOptions(evaluateOptions)
-  return runSync(compileSync(vfileCompatible, compiletime), runtime)
+  const { compiletime, runtime } = resolveEvaluateOptions(evaluateOptions);
+  return runSync(compileSync(vfileCompatible, compiletime), runtime);
 }

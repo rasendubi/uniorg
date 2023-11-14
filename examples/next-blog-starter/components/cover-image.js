@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import Link from 'next/link';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 
 export default function CoverImage({ title, src, slug, height, width }) {
   const image = (

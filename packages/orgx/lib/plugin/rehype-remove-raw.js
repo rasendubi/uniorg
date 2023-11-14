@@ -2,7 +2,7 @@
  * @typedef {import('hast').Root} Root
  */
 
-import {visit} from 'unist-util-visit'
+import { visit } from 'unist-util-visit';
 
 /**
  * A tiny plugin that removes raw HTML.
@@ -15,9 +15,9 @@ export function rehypeRemoveRaw() {
   return (tree) => {
     visit(tree, 'raw', (_, index, parent) => {
       if (parent && typeof index === 'number') {
-        parent.children.splice(index, 1)
-        return index
+        parent.children.splice(index, 1);
+        return index;
       }
-    })
-  }
+    });
+  };
 }

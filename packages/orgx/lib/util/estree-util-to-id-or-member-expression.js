@@ -9,14 +9,14 @@
 import {
   start as esStart,
   cont as esCont,
-  name as isIdentifierName
-} from 'estree-util-is-identifier-name'
+  name as isIdentifierName,
+} from 'estree-util-is-identifier-name';
 
 export const toIdOrMemberExpression = toIdOrMemberExpressionFactory(
   'Identifier',
   'MemberExpression',
   isIdentifierName
-)
+);
 
 export const toJsxIdOrMemberExpression =
   // @ts-expect-error: fine
@@ -27,7 +27,7 @@ export const toJsxIdOrMemberExpression =
       'JSXMemberExpression',
       isJsxIdentifierName
     )
-  )
+  );
 
 /**
  * @param {string} idType
@@ -35,30 +35,32 @@ export const toJsxIdOrMemberExpression =
  * @param {(value: string) => boolean} isIdentifier
  */
 function toIdOrMemberExpressionFactory(idType, memberType, isIdentifier) {
-  return toIdOrMemberExpression
+  return toIdOrMemberExpression;
   /**
    * @param {Array<string|number>} ids
    * @returns {Identifier|MemberExpression}
    */
   function toIdOrMemberExpression(ids) {
-    let index = -1
+    let index = -1;
     /** @type {Identifier|Literal|MemberExpression|undefined} */
-    let object
+    let object;
 
     while (++index < ids.length) {
-      const name = ids[index]
-      const valid = typeof name === 'string' && isIdentifier(name)
+      const name = ids[index];
+      const valid = typeof name === 'string' && isIdentifier(name);
 
       // A value of `asd.123` could be turned into `asd['123']` in the JS form,
       // but JSX does not have a form for it, so throw.
       /* c8 ignore next 3 */
       if (idType === 'JSXIdentifier' && !valid) {
-        throw new Error('Cannot turn `' + name + '` into a JSX identifier')
+        throw new Error('Cannot turn `' + name + '` into a JSX identifier');
       }
 
       /** @type {Identifier|Literal} */
       // @ts-expect-error: JSX is fine.
-      const id = valid ? {type: idType, name} : {type: 'Literal', value: name}
+      const id = valid
+        ? { type: idType, name }
+        : { type: 'Literal', value: name };
       // @ts-expect-error: JSX is fine.
       object = object
         ? {
@@ -66,18 +68,18 @@ function toIdOrMemberExpressionFactory(idType, memberType, isIdentifier) {
             object,
             property: id,
             computed: id.type === 'Literal',
-            optional: false
+            optional: false,
           }
-        : id
+        : id;
     }
 
     // Just for types.
     /* c8 ignore next 3 */
-    if (!object) throw new Error('Expected non-empty `ids` to be passed')
+    if (!object) throw new Error('Expected non-empty `ids` to be passed');
     if (object.type === 'Literal')
-      throw new Error('Expected identifier as left-most value')
+      throw new Error('Expected identifier as left-most value');
 
-    return object
+    return object;
   }
 }
 
@@ -86,17 +88,17 @@ function toIdOrMemberExpressionFactory(idType, memberType, isIdentifier) {
  * @param {string} name
  */
 function isJsxIdentifierName(name) {
-  let index = -1
+  let index = -1;
 
   while (++index < name.length) {
     // We currently receive valid input, but this catches bugs and is needed
     // when externalized.
     /* c8 ignore next */
-    if (!(index ? jsxCont : esStart)(name.charCodeAt(index))) return false
+    if (!(index ? jsxCont : esStart)(name.charCodeAt(index))) return false;
   }
 
   // `false` if `name` is empty.
-  return index > 0
+  return index > 0;
 }
 
 /**
@@ -104,5 +106,5 @@ function isJsxIdentifierName(name) {
  * @param {number} code
  */
 function jsxCont(code) {
-  return code === 45 /* `-` */ || esCont(code)
+  return code === 45 /* `-` */ || esCont(code);
 }

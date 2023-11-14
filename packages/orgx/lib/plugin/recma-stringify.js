@@ -8,7 +8,7 @@
  *   in.
  */
 
-import {toJs, jsx} from 'estree-util-to-js'
+import { toJs, jsx } from 'estree-util-to-js';
 
 /**
  * A plugin that adds an esast compiler: a small wrapper around `astring` to add
@@ -18,9 +18,9 @@ import {toJs, jsx} from 'estree-util-to-js'
  * @type {import('unified').Plugin<[RecmaStringifyOptions]|[], Program, string>}
  */
 export function recmaStringify(options = {}) {
-  const {SourceMapGenerator} = options
+  const { SourceMapGenerator } = options;
 
-  Object.assign(this, {Compiler: compiler})
+  Object.assign(this, { Compiler: compiler });
 
   /** @type {import('unified').CompilerFunction<Program, string>} */
   function compiler(tree, file) {
@@ -28,12 +28,12 @@ export function recmaStringify(options = {}) {
       ? toJs(tree, {
           filePath: file.path || 'unknown.mdx',
           SourceMapGenerator,
-          handlers: jsx
+          handlers: jsx,
         })
-      : toJs(tree, {handlers: jsx})
+      : toJs(tree, { handlers: jsx });
 
-    file.map = result.map
+    file.map = result.map;
 
-    return result.value
+    return result.value;
   }
 }

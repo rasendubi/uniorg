@@ -25,15 +25,22 @@
  * @returns {{compiletime: ProcessorOptions, runtime: RunnerOptions}}
  */
 export function resolveEvaluateOptions(options) {
-  const {development, Fragment, jsx, jsxs, jsxDEV, useMDXComponents, ...rest} =
-    options || {}
+  const {
+    development,
+    Fragment,
+    jsx,
+    jsxs,
+    jsxDEV,
+    useMDXComponents,
+    ...rest
+  } = options || {};
 
-  if (!Fragment) throw new Error('Expected `Fragment` given to `evaluate`')
+  if (!Fragment) throw new Error('Expected `Fragment` given to `evaluate`');
   if (development) {
-    if (!jsxDEV) throw new Error('Expected `jsxDEV` given to `evaluate`')
+    if (!jsxDEV) throw new Error('Expected `jsxDEV` given to `evaluate`');
   } else {
-    if (!jsx) throw new Error('Expected `jsx` given to `evaluate`')
-    if (!jsxs) throw new Error('Expected `jsxs` given to `evaluate`')
+    if (!jsx) throw new Error('Expected `jsx` given to `evaluate`');
+    if (!jsxs) throw new Error('Expected `jsxs` given to `evaluate`');
   }
 
   return {
@@ -41,8 +48,8 @@ export function resolveEvaluateOptions(options) {
       ...rest,
       development,
       outputFormat: 'function-body',
-      providerImportSource: useMDXComponents ? '#' : undefined
+      providerImportSource: useMDXComponents ? '#' : undefined,
     },
-    runtime: {Fragment, jsx, jsxs, jsxDEV, useMDXComponents}
-  }
+    runtime: { Fragment, jsx, jsxs, jsxDEV, useMDXComponents },
+  };
 }
