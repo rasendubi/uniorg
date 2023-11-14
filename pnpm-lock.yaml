@@ -45,10 +45,10 @@ importers:
         specifier: 3.0.0
         version: 3.0.0
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../../packages/uniorg-rehype
 
   examples/extract-keywords-example:
@@ -66,13 +66,13 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg-extract-keywords:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../../packages/uniorg-extract-keywords
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../../packages/uniorg-rehype
 
   examples/next-blog-starter:
@@ -99,13 +99,13 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg-extract-keywords:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../../packages/uniorg-extract-keywords
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../../packages/uniorg-rehype
     devDependencies:
       autoprefixer:
@@ -130,7 +130,7 @@ importers:
         specifier: ^14.0.2
         version: 14.0.2(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
       orgast-util-visit-ids:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../../packages/orgast-util-visit-ids
       react:
         specifier: 18.2.0
@@ -157,16 +157,16 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg-extract-keywords:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../../packages/uniorg-extract-keywords
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../../packages/uniorg-rehype
       uniorg-slug:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../../packages/uniorg-slug
       vfile-find-down:
         specifier: 7.1.0
@@ -181,16 +181,16 @@ importers:
         specifier: ^8.11.2
         version: 8.11.2
       orgast-util-visit-ids:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../orgast-util-visit-ids
       rollup-plugin-orgx:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../rollup-plugin-orgx
       uniorg-extract-keywords:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../uniorg-extract-keywords
       uniorg-slug:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../uniorg-slug
     devDependencies:
       '@types/node':
@@ -221,10 +221,10 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
       uniorg:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../uniorg-parse
 
   packages/orgast-util-visit-ids:
@@ -246,10 +246,10 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
       uniorg:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../uniorg-parse
 
   packages/orgx:
@@ -300,7 +300,7 @@ importers:
   packages/rollup-plugin-orgx:
     dependencies:
       '@uniorgjs/orgx':
-        specifier: ^1.0.0
+        specifier: ^1.0.5
         version: link:../orgx
       rollup-pluginutils:
         specifier: ^2.8.2
@@ -343,10 +343,10 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../uniorg-parse
       vfile:
         specifier: 6.0.1
@@ -377,10 +377,10 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../uniorg-parse
       vfile:
         specifier: ^6.0.1
@@ -420,7 +420,7 @@ importers:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg
       yaml:
         specifier: ^2.3.4
@@ -466,10 +466,10 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../uniorg-parse
 
   packages/uniorg-slug:
@@ -478,7 +478,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       orgast-util-to-string:
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../orgast-util-to-string
       unist-util-visit:
         specifier: 5.0.0
@@ -503,13 +503,13 @@ importers:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../uniorg-parse
       uniorg-rehype:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg-rehype
       unist-util-find:
         specifier: ^3.0.0
@@ -536,10 +536,10 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg:
-        specifier: ^1.1.0
+        specifier: ^1.1.1
         version: link:../uniorg
       uniorg-parse:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: link:../uniorg-parse
       vfile:
         specifier: 6.0.1
