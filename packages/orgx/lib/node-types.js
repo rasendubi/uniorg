@@ -7,5 +7,5 @@ export const nodeTypes = [
   'mdxJsxFlowElement',
   'mdxJsxTextElement',
   'mdxTextExpression',
-  'mdxjsEsm'
-]
+  'mdxjsEsm',
+];

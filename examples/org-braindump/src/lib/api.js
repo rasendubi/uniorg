@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { trough } from 'trough';
-import { toVFile } from 'to-vfile';
-import { findDown } from 'vfile-find-down';
+import { read } from 'to-vfile';
+import { findDownAll } from 'vfile-find-down';
 import report from 'vfile-reporter';
 
 import orgToHtml from './orgToHtml.js';
@@ -21,25 +21,13 @@ const processor = trough()
   .use(resolveLinks)
   .use(populateBacklinks);
 
-function collectFiles(root) {
-  return new Promise((resolve, reject) => {
-    findDown(
-      (f, stats) => stats.isFile() && f.basename.endsWith('.org'),
-      root,
-      (err, files) => {
-        if (err) {
-          reject(err);
-        } else {
-          files.forEach((f) => {
-            const slug =
-              '/' + path.relative(root, f.path).replace(/\.org$/, '');
-            f.data.slug = slug;
-          });
-          resolve(files);
-        }
-      }
-    );
+async function collectFiles(root) {
+  const files = await findDownAll('.org', root);
+  files.forEach((f) => {
+    const slug = '/' + path.relative(root, f.path).replace(/\.org$/, '');
+    f.data.slug = slug;
   });
+  return files;
 }
 
 async function processPosts(files) {
@@ -47,7 +35,7 @@ async function processPosts(files) {
 
   async function processPost(file) {
     try {
-      await toVFile.read(file, 'utf8');
+      await read(file, 'utf8');
     } catch (e) {
       console.error('Error reading file', file, e);
       throw e;

@@ -3,7 +3,7 @@
  * @typedef {import('hast').Root} Root
  */
 
-import {toEstree} from 'hast-util-to-estree'
+import { toEstree } from 'hast-util-to-estree';
 
 /**
  * A plugin to transform an HTML (hast) tree to a JS (estree).
@@ -12,5 +12,5 @@ import {toEstree} from 'hast-util-to-estree'
  * @type {import('unified').Plugin<Array<void>, Root, Program>}
  */
 export function rehypeRecma() {
-  return (tree) => toEstree(tree)
+  return (tree) => toEstree(tree);
 }

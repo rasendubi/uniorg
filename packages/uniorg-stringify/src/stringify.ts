@@ -86,10 +86,10 @@ function stringifyNode(org: OrgNode): string {
           org.checkbox === 'on'
             ? '[X] '
             : org.checkbox === 'off'
-            ? '[ ] '
-            : org.checkbox === 'trans'
-            ? '[-] '
-            : null,
+              ? '[ ] '
+              : org.checkbox === 'trans'
+                ? '[-] '
+                : null,
           indent(
             stringify(org.children),
             org.indent + org.bullet.length
@@ -249,10 +249,10 @@ function stringifyNode(org: OrgNode): string {
       return org.format === 'plain'
         ? org.rawLink
         : org.format === 'bracket'
-        ? `[[${org.rawLink}]${
-            org.children.length ? '[' + stringify(org.children) + ']' : ''
-          }]`
-        : `<${org.rawLink}>`;
+          ? `[[${org.rawLink}]${
+              org.children.length ? '[' + stringify(org.children) + ']' : ''
+            }]`
+          : `<${org.rawLink}>`;
     case 'superscript':
       return `^{${stringify(org.children)}}`;
     case 'subscript':

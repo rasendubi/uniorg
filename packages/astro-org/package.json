@@ -15,7 +15,7 @@
     "org-mode",
     "uniorg"
   ],
-  "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
+  "author": "Oleksii Shmalko <rasen.dubi@gmail.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/rasendubi/uniorg/issues"
@@ -28,16 +28,17 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "acorn": "^8.8.2",
+    "acorn": "^8.11.2",
     "orgast-util-visit-ids": "^1.0.0",
     "rollup-plugin-orgx": "^1.0.0",
     "uniorg-extract-keywords": "^1.0.0",
     "uniorg-slug": "^1.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "astro": "^3.0.12",
-    "vfile": "^5.3.6"
+    "@types/node": "^20.9.0",
+    "astro": "^3.5.3",
+    "typescript": "^5.2.2",
+    "vfile": "^6.0.1"
   },
   "peerDependencies": {
     "astro": "^3.0.12"

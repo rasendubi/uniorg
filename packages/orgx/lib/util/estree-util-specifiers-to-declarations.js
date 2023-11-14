@@ -9,7 +9,7 @@
  * @typedef {import('estree-jsx').Expression} Expression
  */
 
-import {create} from './estree-util-create.js'
+import { create } from './estree-util-create.js';
 
 /**
  * @param {Array<ImportSpecifier|ImportDefaultSpecifier|ImportNamespaceSpecifier|ExportSpecifier>} specifiers
@@ -17,22 +17,22 @@ import {create} from './estree-util-create.js'
  * @returns {Array<VariableDeclarator>}
  */
 export function specifiersToDeclarations(specifiers, init) {
-  let index = -1
+  let index = -1;
   /** @type {Array<VariableDeclarator>} */
-  const declarations = []
+  const declarations = [];
   /** @type {Array<ImportSpecifier|ImportDefaultSpecifier|ExportSpecifier>} */
-  const otherSpecifiers = []
+  const otherSpecifiers = [];
   // Can only be one according to JS syntax.
   /** @type {ImportNamespaceSpecifier|undefined} */
-  let importNamespaceSpecifier
+  let importNamespaceSpecifier;
 
   while (++index < specifiers.length) {
-    const specifier = specifiers[index]
+    const specifier = specifiers[index];
 
     if (specifier.type === 'ImportNamespaceSpecifier') {
-      importNamespaceSpecifier = specifier
+      importNamespaceSpecifier = specifier;
     } else {
-      otherSpecifiers.push(specifier)
+      otherSpecifiers.push(specifier);
     }
   }
 
@@ -41,9 +41,9 @@ export function specifiersToDeclarations(specifiers, init) {
       create(importNamespaceSpecifier, {
         type: 'VariableDeclarator',
         id: importNamespaceSpecifier.local,
-        init
+        init,
       })
-    )
+    );
   }
 
   declarations.push({
@@ -56,14 +56,14 @@ export function specifiersToDeclarations(specifiers, init) {
           specifier.type === 'ImportSpecifier'
             ? specifier.imported
             : specifier.type === 'ExportSpecifier'
-            ? specifier.exported
-            : {type: 'Identifier', name: 'default'}
-        let value = specifier.local
+              ? specifier.exported
+              : { type: 'Identifier', name: 'default' };
+        let value = specifier.local;
 
         // Switch them around if we’re exporting.
         if (specifier.type === 'ExportSpecifier') {
-          value = key
-          key = specifier.local
+          value = key;
+          key = specifier.local;
         }
 
         return create(specifier, {
@@ -73,14 +73,14 @@ export function specifiersToDeclarations(specifiers, init) {
           method: false,
           computed: false,
           key,
-          value
-        })
-      })
+          value,
+        });
+      }),
     },
     init: importNamespaceSpecifier
-      ? {type: 'Identifier', name: importNamespaceSpecifier.local.name}
-      : init
-  })
+      ? { type: 'Identifier', name: importNamespaceSpecifier.local.name }
+      : init,
+  });
 
-  return declarations
+  return declarations;
 }

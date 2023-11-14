@@ -6,18 +6,20 @@
  * @param {Array<Expression>} expressions
  */
 export function toBinaryAddition(expressions) {
-  let index = -1
+  let index = -1;
   /** @type {Expression|undefined} */
-  let left
+  let left;
 
   while (++index < expressions.length) {
-    const right = expressions[index]
-    left = left ? {type: 'BinaryExpression', left, operator: '+', right} : right
+    const right = expressions[index];
+    left = left
+      ? { type: 'BinaryExpression', left, operator: '+', right }
+      : right;
   }
 
   // Just for types.
   /* c8 ignore next */
-  if (!left) throw new Error('Expected non-empty `expressions` to be passed')
+  if (!left) throw new Error('Expected non-empty `expressions` to be passed');
 
-  return left
+  return left;
 }

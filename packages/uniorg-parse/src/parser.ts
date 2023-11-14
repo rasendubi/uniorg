@@ -1100,7 +1100,8 @@ class Parser {
   }
 
   private parseNodeProperty(): NodeProperty {
-    const propertyRe = /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
+    const propertyRe =
+      /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
     const m = this.r.forceLookingAt(propertyRe);
     const key = m.groups!['key'];
     const value = m.groups!['value1'] ?? m.groups!['value2'];
@@ -1308,8 +1309,8 @@ class Parser {
     const listType = item.tag
       ? ('descriptive' as const)
       : '-+*'.includes(item.bullet[0])
-      ? ('unordered' as const)
-      : ('ordered' as const);
+        ? ('unordered' as const)
+        : ('ordered' as const);
     let pos = item.end;
     while (true) {
       const next = structure.find(
@@ -1347,10 +1348,10 @@ class Parser {
       m.groups!.checkbox === '[ ]'
         ? ('off' as const)
         : m.groups!.checkbox?.toLowerCase() === '[x]'
-        ? ('on' as const)
-        : m.groups!.checkbox === '[-]'
-        ? ('trans' as const)
-        : null;
+          ? ('on' as const)
+          : m.groups!.checkbox === '[-]'
+            ? ('trans' as const)
+            : null;
     const item = structure.find((x) => x.begin === offset)!;
     const contentsBegin = this.r.offset();
     const contentsEnd = item.end;
@@ -1933,7 +1934,8 @@ class Parser {
     // TODO: Type 1: Text targeted from a radio target.
 
     // Type 2: Standard link.
-    const linkBracketRe = /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>[\s\S]+?)\])?\]/m;
+    const linkBracketRe =
+      /\[\[(?<link>([^\[\]]|\\(\\\\)*[\[\]]|\\+[^\[\]])+)\](\[(?<text>[\s\S]+?)\])?\]/m;
     const bracketM = this.r.advance(this.r.lookingAt(linkBracketRe));
     if (bracketM) {
       const m = bracketM;
@@ -2084,12 +2086,12 @@ class Parser {
       | 'diary' = diary
       ? 'diary'
       : active && (dateEnd || timeRange)
-      ? 'active-range'
-      : active
-      ? 'active'
-      : dateEnd || timeRange
-      ? 'inactive-range'
-      : 'inactive';
+        ? 'active-range'
+        : active
+          ? 'active'
+          : dateEnd || timeRange
+            ? 'inactive-range'
+            : 'inactive';
 
     // TODO: repeater props
     // TODO: warning props
@@ -2098,10 +2100,10 @@ class Parser {
     const end = !start
       ? null
       : dateEnd
-      ? Parser.parseDate(dateEnd)
-      : timeRange
-      ? { ...start, ...timeRange }
-      : null;
+        ? Parser.parseDate(dateEnd)
+        : timeRange
+          ? { ...start, ...timeRange }
+          : null;
 
     return u('timestamp', {
       timestampType,
@@ -2113,9 +2115,7 @@ class Parser {
 
   // Helpers
 
-  private static parseDate(
-    s: string
-  ): {
+  private static parseDate(s: string): {
     year: number;
     month: number;
     day: number;
@@ -2215,7 +2215,8 @@ const affiliatedRe = new RegExp(
   'i'
 );
 
-const footnoteRe = /\[fn:(?:(?<label_inline>[-_\w]+)?(?<inline>:)|(?<label>[-_\w]+)\])/;
+const footnoteRe =
+  /\[fn:(?:(?<label_inline>[-_\w]+)?(?<inline>:)|(?<label>[-_\w]+)\])/;
 const footnoteDefinitionRe = /^\[fn:([-_\w]+)\]/;
 const footnoteDefinitionSeparatorRe = /^\*|^\[fn:([-_\w]+)\]|^([ \t]*\n){2,}/m;
 

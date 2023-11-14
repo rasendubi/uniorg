@@ -17,7 +17,7 @@
     "rollup",
     "plugin"
   ],
-  "author": "Alexey Shmalko <rasen.dubi@gmail.com>",
+  "author": "Oleksii Shmalko <rasen.dubi@gmail.com>",
   "homepage": "https://github.com/rasendubi/uniorg",
   "license": "GPL-3.0-or-later",
   "repository": {
@@ -36,6 +36,6 @@
   "dependencies": {
     "@uniorgjs/orgx": "^1.0.0",
     "rollup-pluginutils": "^2.8.2",
-    "vfile": "^5.3.6"
+    "vfile": "^6.0.1"
   }
 }

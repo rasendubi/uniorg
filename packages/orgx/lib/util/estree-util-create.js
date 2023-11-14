@@ -11,17 +11,17 @@
 export function create(template, node) {
   /** @type {Array<keyof template>} */
   // @ts-expect-error: `start`, `end`, `comments` are custom Acorn fields.
-  const fields = ['start', 'end', 'loc', 'range', 'comments']
-  let index = -1
+  const fields = ['start', 'end', 'loc', 'range', 'comments'];
+  let index = -1;
 
   while (++index < fields.length) {
-    const field = fields[index]
+    const field = fields[index];
 
     if (field in template) {
       // @ts-expect-error: assume they’re settable.
-      node[field] = template[field]
+      node[field] = template[field];
     }
   }
 
-  return node
+  return node;
 }

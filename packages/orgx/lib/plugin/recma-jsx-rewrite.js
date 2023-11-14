@@ -79,9 +79,9 @@ export function recmaJsxRewrite(options = {}) {
     walk(tree, {
       enter(_node) {
         const node = /** @type {Node} */ (_node);
-        const newScope = /** @type {Scope|undefined} */ (scopeInfo.map.get(
-          node
-        ));
+        const newScope = /** @type {Scope|undefined} */ (
+          scopeInfo.map.get(node)
+        );
 
         if (
           node.type === 'FunctionDeclaration' ||
@@ -142,7 +142,9 @@ export function recmaJsxRewrite(options = {}) {
             const isInScope = inScope(currentScope, id);
 
             if (!own.call(fnScope.references, fullId)) {
-              const parentScope = /** @type {Scope|null} */ (currentScope.parent);
+              const parentScope = /** @type {Scope|null} */ (
+                currentScope.parent
+              );
               if (
                 !isInScope ||
                 // If the parent scope is `_createContent`, then this
@@ -198,9 +200,8 @@ export function recmaJsxRewrite(options = {}) {
             /** @type {Array<string | number>} */
             let jsxIdExpression = ['_components', id];
             if (isIdentifierName(id) === false) {
-              let invalidComponentName = fnScope.idToInvalidComponentName.get(
-                id
-              );
+              let invalidComponentName =
+                fnScope.idToInvalidComponentName.get(id);
               if (invalidComponentName === undefined) {
                 invalidComponentName = `_component${fnScope.idToInvalidComponentName.size}`;
                 fnScope.idToInvalidComponentName.set(id, invalidComponentName);
@@ -209,14 +210,12 @@ export function recmaJsxRewrite(options = {}) {
               jsxIdExpression = [invalidComponentName];
             }
 
-            node.openingElement.name = toJsxIdOrMemberExpression(
-              jsxIdExpression
-            );
+            node.openingElement.name =
+              toJsxIdOrMemberExpression(jsxIdExpression);
 
             if (node.closingElement) {
-              node.closingElement.name = toJsxIdOrMemberExpression(
-                jsxIdExpression
-              );
+              node.closingElement.name =
+                toJsxIdOrMemberExpression(jsxIdExpression);
             }
           }
         }
@@ -315,15 +314,15 @@ export function recmaJsxRewrite(options = {}) {
                     optional: false,
                   }
                 : parameters[0].type === 'MemberExpression'
-                ? // If we’re only getting components from `props.components`,
-                  // make sure it’s defined.
-                  {
-                    type: 'LogicalExpression',
-                    operator: '||',
-                    left: parameters[0],
-                    right: { type: 'ObjectExpression', properties: [] },
-                  }
-                : parameters[0];
+                  ? // If we’re only getting components from `props.components`,
+                    // make sure it’s defined.
+                    {
+                      type: 'LogicalExpression',
+                      operator: '||',
+                      left: parameters[0],
+                      right: { type: 'ObjectExpression', properties: [] },
+                    }
+                  : parameters[0];
 
             /** @type {ObjectPattern|undefined} */
             let componentsPattern;

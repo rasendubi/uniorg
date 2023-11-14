@@ -1,5 +1,5 @@
-import { Node } from 'unist';
-import find from 'unist-util-find';
+import type { Node } from 'unist';
+import { find } from 'unist-util-find';
 import { unified } from 'unified';
 import uniorg from 'uniorg-parse';
 import { VFile } from 'vfile';
