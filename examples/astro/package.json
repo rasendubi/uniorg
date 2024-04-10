@@ -17,6 +17,7 @@
     "astro": "^4.5.17",
     "astro-org": "workspace:^",
     "typescript": "^5.2.2",
+    "uniorg-rehype": "workspace:^",
     "unist-util-visit": "^5.0.0"
   }
 }

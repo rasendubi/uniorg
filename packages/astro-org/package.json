@@ -29,11 +29,14 @@
   },
   "dependencies": {
     "acorn": "^8.11.2",
+    "hast-util-to-html": "^9.0.1",
     "orgast-util-visit-ids": "^1.0.0",
+    "rehype-stringify": "10.0.0",
     "rollup-plugin-orgx": "^1.0.0",
     "unified": "^11.0.4",
     "uniorg-extract-keywords": "^1.0.0",
     "uniorg-parse": "^2.1.1",
+    "uniorg-rehype": "workspace:^",
     "uniorg-slug": "^1.0.0",
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.1"
@@ -44,6 +47,6 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "astro": "^3.0.12"
+    "astro": "^4.5.17"
   }
 }

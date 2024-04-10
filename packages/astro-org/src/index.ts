@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import type { AstroIntegration, ContentEntryType, HookParameters } from 'astro';
-import { emitESMImage } from '../node_modules/astro/dist/assets/utils/emitAsset.js';
+import { emitESMImage } from 'astro/assets/utils';
 // This rendered seems to be private and is not explicitly exported.
 // @ts-ignore
 import astroJSXRenderer from 'astro/jsx/renderer.js';
@@ -16,7 +16,11 @@ import { extractKeywords } from 'uniorg-extract-keywords';
 import { uniorgSlug } from 'uniorg-slug';
 import { visitIds } from 'orgast-util-visit-ids';
 import { visit } from 'unist-util-visit';
-import { parse } from 'uniorg-parse/lib/parser';
+import { parse } from 'uniorg-parse/lib/parser.js';
+import { orgToHast } from 'uniorg-rehype/lib/org-to-hast.js';
+import uniorg2rehype from 'uniorg-rehype';
+import html from 'rehype-stringify';
+import { toHtml } from 'hast-util-to-html';
 
 import { rehypeExportFrontmatter } from './plugin/rehype-export-frontmatter.js';
 
@@ -85,6 +89,7 @@ export default function orgModeIntegration(
             const pluginContext = this;
             const astroConfig = params.config;
             const ast = parse(contents);
+
             const filePath = fileURLToPath(fileUrl);
             await emitOptimizedImages(ast.children, {
               astroConfig,
@@ -92,11 +97,14 @@ export default function orgModeIntegration(
               filePath,
             });
 
-            const html = JSON.stringify('<div>Hello</div>');
+            const testAst = orgToHast(ast);
+            const rawHTML = toHtml(testAst as any);
+            console.log(rawHTML);
+
             const code = `
 import { jsx, Fragment } from 'astro/jsx-runtime';
 
-export const html = ${JSON.stringify(html)}
+export const html = ${JSON.stringify(rawHTML)}
 
 export async function Content(props) {
     return jsx(Fragment, { 'set:html': html });
@@ -147,7 +155,6 @@ async function emitOptimizedImages(
       node.rawLink.includes('.jpg') &&
       shouldOptimizeImage(node.rawLink)
     ) {
-      console.log(node);
       const resolved = await ctx.pluginContext.resolve(
         node.rawLink,
         ctx.filePath
@@ -165,6 +172,7 @@ async function emitOptimizedImages(
         const fsPath = resolved.id;
 
         if (src) {
+          console.log(src, node);
           // We cannot track images in Markdoc, Markdoc rendering always strips out the proxy. As such, we'll always
           // assume that the image is referenced elsewhere, to be on safer side.
           if (ctx.astroConfig.output === 'static') {
@@ -174,6 +182,7 @@ async function emitOptimizedImages(
 
           //node.attributes['src'] = { ...src, fsPath };
         }
+        console.log(src, globalThis.astroAsset);
       }
     }
     if (node.children && node.children.length > 1) {
