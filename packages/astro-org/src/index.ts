@@ -52,13 +52,10 @@ export default function orgModeIntegration(
     name: 'astro-org',
     hooks: {
       'astro:config:setup': async (params) => {
-        const {
-          updateConfig,
-          //addRenderer,
-          addContentEntryType,
-        } = params as SetupHookParams;
+        const { updateConfig, addRenderer, addContentEntryType } =
+          params as SetupHookParams;
 
-        //addRenderer(astroJSXRenderer);
+        addRenderer(astroJSXRenderer);
 
         addContentEntryType({
           extensions: ['.org'],
