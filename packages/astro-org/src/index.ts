@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 
 import type { AstroIntegration, ContentEntryType, HookParameters } from 'astro';
 import { emitESMImage } from 'astro/assets/utils';
@@ -35,14 +35,14 @@ declare module 'vfile' {
 export type Options = OrgPluginOptions;
 
 type SetupHookParams = HookParameters<'astro:config:setup'> & {
+  // `addPageExtension` and `contentEntryType` are not a public APIs
   // `contentEntryType` is not a public API
   // Add type defs here
+  addPageExtension: (extension: string) => void;
   addContentEntryType: (contentEntryType: ContentEntryType) => void;
 };
 
-export default function orgModeIntegration(
-  options: OrgPluginOptions = {}
-): AstroIntegration {
+export default function org(options: OrgPluginOptions = {}): AstroIntegration {
   const uniorgPlugins: PluggableList = [
     initFrontmatter,
     [extractKeywords, { name: 'keywords' }],
@@ -56,11 +56,16 @@ export default function orgModeIntegration(
     name: 'astro-org',
     hooks: {
       'astro:config:setup': async (params) => {
-        const { updateConfig, addRenderer, addContentEntryType } =
-          params as SetupHookParams;
+        const {
+          updateConfig,
+          addRenderer,
+          addContentEntryType,
+          addPageExtension,
+          config: astroConfig,
+        } = params as SetupHookParams;
 
         addRenderer(astroJSXRenderer);
-
+        addPageExtension('.org');
         addContentEntryType({
           extensions: ['.org'],
           async getEntryInfo({ fileUrl, contents }) {
@@ -84,28 +89,21 @@ export default function orgModeIntegration(
               rawData: contents,
             };
           },
-
-          async getRenderModule({ contents, fileUrl, viteId }) {
+          async getRenderModule({ fileUrl, contents, viteId }) {
             const pluginContext = this;
-            const astroConfig = params.config;
-            const ast = parse(contents);
-            const testAst = orgToHast(ast);
-
+            //const entry = getEntryInfo({ contents, fileUrl });
+            //const orgAst = parse(entry.body);
+            const orgAst = parse(contents);
+            const hast = orgToHast(orgAst);
             const filePath = fileURLToPath(fileUrl);
-            await emitOptimizedImages(
-              ast.children,
-              {
-                astroConfig,
-                pluginContext,
-                filePath,
-              },
-              testAst as any
-            );
-            console.log(testAst);
 
-            const rawHTML = toHtml(testAst as any);
-            console.log(JSON.stringify(testAst, null, 2));
+            await emitOptimizedImages(hast as any, {
+              astroConfig,
+              pluginContext,
+              filePath,
+            });
 
+            const rawHTML = toHtml(hast as any);
             const code = `
 import { jsx, Fragment } from 'astro/jsx-runtime';
 
@@ -146,17 +144,16 @@ function prependForwardSlash(str: string) {
 }
 
 async function emitOptimizedImages(
-  tree: any[],
+  tree: any,
   ctx: {
     pluginContext: any;
     filePath: string;
     astroConfig: any;
-  },
-  stree: any
+  }
 ) {
   const images: any[] = [];
 
-  visit(stree, 'element', function (node: any) {
+  visit(tree, 'element', function (node: any) {
     if (
       node.tagName === 'img' &&
       node.properties &&
