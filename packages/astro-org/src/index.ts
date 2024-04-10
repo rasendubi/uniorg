@@ -1,6 +1,9 @@
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import type { AstroIntegration, ContentEntryType, HookParameters } from 'astro';
+import { emitESMImage } from '../node_modules/astro/dist/assets/utils/emitAsset.js';
 // This rendered seems to be private and is not explicitly exported.
 // @ts-ignore
 import astroJSXRenderer from 'astro/jsx/renderer.js';
@@ -12,6 +15,8 @@ import orgPlugin, { type OrgPluginOptions } from 'rollup-plugin-orgx';
 import { extractKeywords } from 'uniorg-extract-keywords';
 import { uniorgSlug } from 'uniorg-slug';
 import { visitIds } from 'orgast-util-visit-ids';
+import { visit } from 'unist-util-visit';
+import { parse } from 'uniorg-parse/lib/parser';
 
 import { rehypeExportFrontmatter } from './plugin/rehype-export-frontmatter.js';
 
@@ -26,13 +31,14 @@ declare module 'vfile' {
 export type Options = OrgPluginOptions;
 
 type SetupHookParams = HookParameters<'astro:config:setup'> & {
-  // `addPageExtension` and `contentEntryType` are not a public APIs
+  // `contentEntryType` is not a public API
   // Add type defs here
-  addPageExtension: (extension: string) => void;
   addContentEntryType: (contentEntryType: ContentEntryType) => void;
 };
 
-export default function org(options: OrgPluginOptions = {}): AstroIntegration {
+export default function orgModeIntegration(
+  options: OrgPluginOptions = {}
+): AstroIntegration {
   const uniorgPlugins: PluggableList = [
     initFrontmatter,
     [extractKeywords, { name: 'keywords' }],
@@ -48,89 +54,68 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
       'astro:config:setup': async (params) => {
         const {
           updateConfig,
-          addRenderer,
+          //addRenderer,
           addContentEntryType,
-          addPageExtension,
         } = params as SetupHookParams;
 
-        addRenderer(astroJSXRenderer);
-        addPageExtension('.org');
+        //addRenderer(astroJSXRenderer);
+
         addContentEntryType({
           extensions: ['.org'],
           async getEntryInfo({ fileUrl, contents }) {
-            const processor = unified().use(uniorg).use(uniorgPlugins);
+            const ast = parse(contents);
+            const keywords: Record<string, string> = {};
 
-            const f = new VFile({ path: fileUrl, value: contents });
-            await processor.run(processor.parse(f), f);
-
-            const frontmatter = f.data.astro!.frontmatter;
+            visit(ast, 'keyword', (node: any) => {
+              Object.assign(keywords, { [node.key]: node.value });
+            });
             return {
-              data: frontmatter,
+              data: {
+                title: keywords.TITLE,
+                description: keywords.DESCRIPTION,
+                date: keywords.DATE,
+              },
               body: contents,
               // Astro typing requires slug to be a string, however
               // I'm pretty sure that mdx integration returns
               // undefined if slug is not set in frontmatter.
-              slug: frontmatter.slug as any,
+              slug: keywords.SLUG,
               rawData: contents,
             };
           },
-          contentModuleTypes: await fs.readFile(
+
+          async getRenderModule({ contents, fileUrl, viteId }) {
+            const pluginContext = this;
+            const astroConfig = params.config;
+            const ast = parse(contents);
+            const filePath = fileURLToPath(fileUrl);
+            await emitOptimizedImages(ast.children, {
+              astroConfig,
+              pluginContext,
+              filePath,
+            });
+
+            const html = JSON.stringify('<div>Hello</div>');
+            const code = `
+import { jsx, Fragment } from 'astro/jsx-runtime';
+
+export const html = ${JSON.stringify(html)}
+
+export async function Content(props) {
+    return jsx(Fragment, { 'set:html': html });
+}
+
+export default Content;
+
+`;
+            return { code };
+          },
+
+          contentModuleTypes: fs.readFileSync(
             new URL('../template/content-module-types.d.ts', import.meta.url),
             'utf-8'
           ),
           handlePropagation: true,
-        });
-        updateConfig({
-          vite: {
-            plugins: [
-              {
-                enforce: 'pre',
-                configResolved(resolved: any) {
-                  // HACK: move ourselves before Astro's JSX plugin to transform things in the right order
-                  const jsxPluginIndex = resolved.plugins.findIndex(
-                    (p: any) => p.name === 'astro:jsx'
-                  );
-                  if (jsxPluginIndex !== -1) {
-                    const myPluginIndex = resolved.plugins.findIndex(
-                      (p: any) => p.name === 'rollup-plugin-orgx'
-                    );
-                    if (myPluginIndex !== -1) {
-                      const myPlugin = resolved.plugins[myPluginIndex];
-                      // @ts-ignore-error ignore readonly annotation
-                      resolved.plugins.splice(myPluginIndex, 1);
-                      // @ts-ignore-error ignore readonly annotation
-                      resolved.plugins.splice(jsxPluginIndex, 0, myPlugin);
-                    }
-                  }
-                },
-                ...orgPlugin({
-                  ...options,
-                  uniorgPlugins,
-                  rehypePlugins: [
-                    ...(options.rehypePlugins ?? []),
-                    rehypeExportFrontmatter,
-                  ],
-                  development: false,
-                  jsxImportSource: 'astro',
-                }),
-              },
-              {
-                name: 'astro-org/postprocess',
-                transform: (code: string, id: string) => {
-                  if (!id.endsWith('.org')) {
-                    return;
-                  }
-
-                  const fileId = id.split('?')[0];
-
-                  code += `\nexport { Content };`;
-                  code += `\nexport const file = ${JSON.stringify(fileId)};`;
-
-                  return code;
-                },
-              },
-            ],
-          },
         });
       },
     },
@@ -140,10 +125,85 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
 function initFrontmatter() {
   return transformer;
 
-  function transformer(_tree: any, file: VFile) {
+  function transformer(_tree: any, file: any) {
     if (!file.data.astro) {
       file.data.astro = { frontmatter: {} };
     }
+  }
+}
+function prependForwardSlash(str: string) {
+  return str[0] === '/' ? str : '/' + str;
+}
+
+async function emitOptimizedImages(
+  tree: any[],
+  ctx: {
+    pluginContext: any;
+    filePath: string;
+    astroConfig: any;
+  }
+) {
+  for (const node of tree) {
+    if (
+      node &&
+      node.rawLink &&
+      node.rawLink.includes('.jpg') &&
+      shouldOptimizeImage(node.rawLink)
+    ) {
+      console.log(node);
+      const resolved = await ctx.pluginContext.resolve(
+        node.rawLink,
+        ctx.filePath
+      );
+
+      if (
+        resolved?.id &&
+        fs.existsSync(new URL(prependForwardSlash(resolved.id), 'file://'))
+      ) {
+        const src = await emitESMImage(
+          resolved.id,
+          ctx.pluginContext.meta.watchMode,
+          ctx.pluginContext.emitFile
+        );
+        const fsPath = resolved.id;
+
+        if (src) {
+          // We cannot track images in Markdoc, Markdoc rendering always strips out the proxy. As such, we'll always
+          // assume that the image is referenced elsewhere, to be on safer side.
+          if (ctx.astroConfig.output === 'static') {
+            if (globalThis.astroAsset.referencedImages)
+              globalThis.astroAsset.referencedImages.add(fsPath);
+          }
+
+          //node.attributes['src'] = { ...src, fsPath };
+        }
+      }
+    }
+    if (node.children && node.children.length > 1) {
+      await emitOptimizedImages(node.children, ctx);
+    }
+  }
+}
+
+function isValidUrl(str: string): boolean {
+  try {
+    new URL(str);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function shouldOptimizeImage(src: string) {
+  // Optimize anything that is NOT external or an absolute path to `public/`
+  return !isValidUrl(src) && !src.startsWith('/');
+}
+
+function extractImages() {
+  return transformer;
+
+  function transformer(tree: any, file: any) {
+    //emitOptimizedImages(tree, file);
   }
 }
 
