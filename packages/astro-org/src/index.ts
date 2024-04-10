@@ -89,17 +89,22 @@ export default function orgModeIntegration(
             const pluginContext = this;
             const astroConfig = params.config;
             const ast = parse(contents);
+            const testAst = orgToHast(ast);
 
             const filePath = fileURLToPath(fileUrl);
-            await emitOptimizedImages(ast.children, {
-              astroConfig,
-              pluginContext,
-              filePath,
-            });
+            await emitOptimizedImages(
+              ast.children,
+              {
+                astroConfig,
+                pluginContext,
+                filePath,
+              },
+              testAst as any
+            );
+            console.log(testAst);
 
-            const testAst = orgToHast(ast);
             const rawHTML = toHtml(testAst as any);
-            console.log(rawHTML);
+            console.log(JSON.stringify(testAst, null, 2));
 
             const code = `
 import { jsx, Fragment } from 'astro/jsx-runtime';
@@ -146,47 +151,50 @@ async function emitOptimizedImages(
     pluginContext: any;
     filePath: string;
     astroConfig: any;
-  }
+  },
+  stree: any
 ) {
-  for (const node of tree) {
+  const images: any[] = [];
+
+  visit(stree, 'element', function (node: any) {
     if (
-      node &&
-      node.rawLink &&
-      node.rawLink.includes('.jpg') &&
-      shouldOptimizeImage(node.rawLink)
+      node.tagName === 'img' &&
+      node.properties &&
+      node.properties.src &&
+      shouldOptimizeImage(node.properties.src)
     ) {
-      const resolved = await ctx.pluginContext.resolve(
-        node.rawLink,
-        ctx.filePath
-      );
-
-      if (
-        resolved?.id &&
-        fs.existsSync(new URL(prependForwardSlash(resolved.id), 'file://'))
-      ) {
-        const src = await emitESMImage(
-          resolved.id,
-          ctx.pluginContext.meta.watchMode,
-          ctx.pluginContext.emitFile
-        );
-        const fsPath = resolved.id;
-
-        if (src) {
-          console.log(src, node);
-          // We cannot track images in Markdoc, Markdoc rendering always strips out the proxy. As such, we'll always
-          // assume that the image is referenced elsewhere, to be on safer side.
-          if (ctx.astroConfig.output === 'static') {
-            if (globalThis.astroAsset.referencedImages)
-              globalThis.astroAsset.referencedImages.add(fsPath);
-          }
-
-          //node.attributes['src'] = { ...src, fsPath };
-        }
-        console.log(src, globalThis.astroAsset);
-      }
+      images.push(node);
     }
-    if (node.children && node.children.length > 1) {
-      await emitOptimizedImages(node.children, ctx);
+  });
+
+  for (const node of images) {
+    const resolved = await ctx.pluginContext.resolve(
+      node.properties.src,
+      ctx.filePath
+    );
+
+    if (
+      resolved?.id &&
+      fs.existsSync(new URL(prependForwardSlash(resolved.id), 'file://'))
+    ) {
+      const src = await emitESMImage(
+        resolved.id,
+        ctx.pluginContext.meta.watchMode,
+        ctx.pluginContext.emitFile
+      );
+      const fsPath = resolved.id;
+
+      if (src) {
+        // We cannot track images in Markdoc, Markdoc rendering always strips out the proxy. As such, we'll always
+        // assume that the image is referenced elsewhere, to be on safer side.
+        //if (ctx.astroConfig.output === 'static') {
+        //  if (globalThis.astroAsset.referencedImages)
+        //    globalThis.astroAsset.referencedImages.add(fsPath);
+        //}
+        node.properties.src = src.src;
+
+        //node.properties['__optimizedSrc'] = { ...src, fsPath };
+      }
     }
   }
 }
