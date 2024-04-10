@@ -9,12 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/rasendubi/uniorg.git"
   },
-  "keywords": [
-    "astro",
-    "astro-integration",
-    "org-mode",
-    "uniorg"
-  ],
+  "keywords": ["astro", "astro-integration", "org-mode", "uniorg"],
   "author": "Oleksii Shmalko <rasen.dubi@gmail.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
@@ -28,25 +23,25 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "acorn": "^8.11.2",
+    "acorn": "^8.11.3",
     "hast-util-to-html": "^9.0.1",
-    "orgast-util-visit-ids": "^1.0.0",
+    "orgast-util-visit-ids": "workspace:^",
     "rehype-stringify": "10.0.0",
-    "rollup-plugin-orgx": "^1.0.0",
+    "rollup-plugin-orgx": "workspace:^",
     "unified": "^11.0.4",
-    "uniorg-extract-keywords": "^1.0.0",
-    "uniorg-parse": "^2.1.1",
+    "uniorg-extract-keywords": "workspace:^",
+    "uniorg-parse": "workspace:^",
     "uniorg-rehype": "workspace:^",
-    "uniorg-slug": "^1.0.0",
+    "uniorg-slug": "workspace:^",
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.9.0",
-    "astro": "^4.5.17",
-    "typescript": "^5.2.2"
+    "@types/node": "^20.12.7",
+    "astro": "^4.5.18",
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "astro": "^4.5.17"
+    "astro": "^4.5.18"
   }
 }
