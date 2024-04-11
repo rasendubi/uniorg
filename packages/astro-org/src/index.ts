@@ -12,17 +12,18 @@ import { unified, type PluggableList } from 'unified';
 import { VFile } from 'vfile';
 import uniorg from 'uniorg-parse';
 import orgPlugin, { type OrgPluginOptions } from 'rollup-plugin-orgx';
-import { extractKeywords } from 'uniorg-extract-keywords';
-import { uniorgSlug } from 'uniorg-slug';
+//import { extractKeywords } from 'uniorg-extract-keywords';
+//import { uniorgSlug } from 'uniorg-slug';
 import { visitIds } from 'orgast-util-visit-ids';
 import { visit } from 'unist-util-visit';
 import { parse } from 'uniorg-parse/lib/parser.js';
-import { orgToHast } from 'uniorg-rehype/lib/org-to-hast.js';
+//import { orgToHast } from 'uniorg-rehype/lib/org-to-hast.js';
 import uniorg2rehype from 'uniorg-rehype';
-import html from 'rehype-stringify';
-import { toHtml } from 'hast-util-to-html';
+//import { toHtml } from 'hast-util-to-html';
+import rehypeParse from 'rehype-parse';
+import rehypeStringify from 'rehype-stringify';
 
-import { rehypeExportFrontmatter } from './plugin/rehype-export-frontmatter.js';
+//import { rehypeExportFrontmatter } from './plugin/rehype-export-frontmatter.js';
 
 declare module 'vfile' {
   interface DataMap {
@@ -42,15 +43,25 @@ type SetupHookParams = HookParameters<'astro:config:setup'> & {
   addContentEntryType: (contentEntryType: ContentEntryType) => void;
 };
 
+function getKeywords(contents: string): Record<string, string> {
+  const keywords: Record<string, string> = {};
+  const ast = parse(contents);
+
+  visit(ast, 'keyword', (node: { key: string; value: string }) => {
+    Object.assign(keywords, { [node.key]: node.value });
+  });
+
+  return keywords;
+}
+
 export default function org(options: OrgPluginOptions = {}): AstroIntegration {
   const uniorgPlugins: PluggableList = [
-    initFrontmatter,
-    [extractKeywords, { name: 'keywords' }],
-    keywordsToFrontmatter,
-    uniorgSlug,
-    saveIds,
+    //uniorgSlug,
+    //saveIds,
     ...(options.uniorgPlugins ?? []),
   ];
+
+  const rehypePlugins: PluggableList = [...(options.rehypePlugins ?? [])];
 
   return {
     name: 'astro-org',
@@ -69,33 +80,42 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
         addContentEntryType({
           extensions: ['.org'],
           async getEntryInfo({ fileUrl, contents }) {
-            const ast = parse(contents);
-            const keywords: Record<string, string> = {};
+            const frontmatter = getKeywords(contents);
 
-            visit(ast, 'keyword', (node: any) => {
-              Object.assign(keywords, { [node.key]: node.value });
-            });
             return {
               data: {
-                title: keywords.TITLE,
-                description: keywords.DESCRIPTION,
-                date: keywords.DATE,
+                // TODO(Kevin): These are kinda fucked
+                title: frontmatter.TITLE,
+                description: frontmatter.DESCRIPTION,
+                date: frontmatter.DATE,
               },
               body: contents,
-              // Astro typing requires slug to be a string, however
-              // I'm pretty sure that mdx integration returns
-              // undefined if slug is not set in frontmatter.
-              slug: keywords.SLUG,
+              // NOTE: Astro typing requires slug to be a string, however I'm
+              // pretty sure that mdx integration returns undefined if slug is
+              // not set in frontmatter.
+              slug: frontmatter.SLUG,
               rawData: contents,
             };
           },
           async getRenderModule({ fileUrl, contents, viteId }) {
             const pluginContext = this;
-            //const entry = getEntryInfo({ contents, fileUrl });
-            //const orgAst = parse(entry.body);
-            const orgAst = parse(contents);
-            const hast = orgToHast(orgAst);
             const filePath = fileURLToPath(fileUrl);
+            //const entry = getEntryInfo({ contents, fileUrl });
+            //const orgAst = parse(contents);
+            //const hast = orgToHast(orgAst) as any;
+            const uniorgToHast = unified()
+              .use(uniorg)
+              .use(uniorgPlugins)
+              .use(uniorg2rehype);
+
+            const htmlToHtml = unified()
+              .use(rehypeParse)
+              .use(rehypePlugins)
+              .use(rehypeStringify);
+
+            const hast = await uniorgToHast.run(
+              uniorgToHast.parse(contents) as any
+            );
 
             await emitOptimizedImages(hast as any, {
               astroConfig,
@@ -103,7 +123,9 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
               filePath,
             });
 
-            const rawHTML = toHtml(hast as any);
+            //const rawHTML = toHtml(hast.children as any);
+            const rawHTML = htmlToHtml.stringify(hast as any);
+
             const code = `
 import { jsx, Fragment } from 'astro/jsx-runtime';
 
@@ -130,15 +152,6 @@ export default Content;
   };
 }
 
-function initFrontmatter() {
-  return transformer;
-
-  function transformer(_tree: any, file: any) {
-    if (!file.data.astro) {
-      file.data.astro = { frontmatter: {} };
-    }
-  }
-}
 function prependForwardSlash(str: string) {
   return str[0] === '/' ? str : '/' + str;
 }
@@ -179,18 +192,9 @@ async function emitOptimizedImages(
         ctx.pluginContext.meta.watchMode,
         ctx.pluginContext.emitFile
       );
-      const fsPath = resolved.id;
 
       if (src) {
-        // We cannot track images in Markdoc, Markdoc rendering always strips out the proxy. As such, we'll always
-        // assume that the image is referenced elsewhere, to be on safer side.
-        //if (ctx.astroConfig.output === 'static') {
-        //  if (globalThis.astroAsset.referencedImages)
-        //    globalThis.astroAsset.referencedImages.add(fsPath);
-        //}
         node.properties.src = src.src;
-
-        //node.properties['__optimizedSrc'] = { ...src, fsPath };
       }
     }
   }
@@ -208,25 +212,6 @@ function isValidUrl(str: string): boolean {
 function shouldOptimizeImage(src: string) {
   // Optimize anything that is NOT external or an absolute path to `public/`
   return !isValidUrl(src) && !src.startsWith('/');
-}
-
-function extractImages() {
-  return transformer;
-
-  function transformer(tree: any, file: any) {
-    //emitOptimizedImages(tree, file);
-  }
-}
-
-function keywordsToFrontmatter() {
-  return transformer;
-
-  function transformer(_tree: any, file: any) {
-    file.data.astro.frontmatter = {
-      ...file.data.astro.frontmatter,
-      ...file.data.keywords,
-    };
-  }
 }
 
 function saveIds() {
