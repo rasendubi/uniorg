@@ -12,8 +12,8 @@ import { unified, type PluggableList } from 'unified';
 import { VFile } from 'vfile';
 import uniorg from 'uniorg-parse';
 import orgPlugin, { type OrgPluginOptions } from 'rollup-plugin-orgx';
-//import { extractKeywords } from 'uniorg-extract-keywords';
-//import { uniorgSlug } from 'uniorg-slug';
+import { extractKeywords } from 'uniorg-extract-keywords';
+import { uniorgSlug } from 'uniorg-slug';
 import { visitIds } from 'orgast-util-visit-ids';
 import { visit } from 'unist-util-visit';
 import { parse } from 'uniorg-parse/lib/parser.js';
@@ -56,8 +56,11 @@ function getKeywords(contents: string): Record<string, string> {
 
 export default function org(options: OrgPluginOptions = {}): AstroIntegration {
   const uniorgPlugins: PluggableList = [
-    //uniorgSlug,
-    //saveIds,
+    initFrontmatter,
+    [extractKeywords, { name: 'keywords' }],
+    keywordsToFrontmatter,
+    uniorgSlug,
+    saveIds,
     ...(options.uniorgPlugins ?? []),
   ];
 
@@ -104,18 +107,15 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
             //const entry = getEntryInfo({ contents, fileUrl });
             //const orgAst = parse(contents);
             //const hast = orgToHast(orgAst) as any;
+            const f = new VFile({ path: fileUrl, value: contents });
             const uniorgToHast = unified()
               .use(uniorg)
               .use(uniorgPlugins)
               .use(uniorg2rehype);
 
-            const htmlToHtml = unified()
-              .use(rehypeParse)
-              .use(rehypePlugins)
-              .use(rehypeStringify);
-
             const hast = await uniorgToHast.run(
-              uniorgToHast.parse(contents) as any
+              uniorgToHast.parse(f as any) as any,
+              f as any
             );
 
             await emitOptimizedImages(hast as any, {
@@ -124,13 +124,22 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
               filePath,
             });
 
+            const htmlToHtml = unified()
+              .use(rehypeParse)
+              .use(rehypePlugins)
+              .use(rehypeStringify);
+
             //const rawHTML = toHtml(hast.children as any);
-            const rawHTML = htmlToHtml.stringify(hast as any);
+            const rawHTML = htmlToHtml.stringify(hast as any, f as any);
+            const keywords = f.data!.keywords;
+            const forAstro = f.data.astro;
 
             const code = `
 import { jsx, Fragment } from 'astro/jsx-runtime';
 
 export const html = ${JSON.stringify(rawHTML)}
+export const keywords = ${JSON.stringify(keywords)}
+export const forAstro = ${JSON.stringify(forAstro)}
 
 export async function Content(props) {
     return jsx(Fragment, { 'set:html': html });
@@ -139,7 +148,7 @@ export async function Content(props) {
 export default Content;
 
 `;
-            return { code };
+            return { code, hello: 'world' };
           },
 
           contentModuleTypes: fs.readFileSync(
@@ -213,6 +222,27 @@ function isValidUrl(str: string): boolean {
 function shouldOptimizeImage(src: string) {
   // Optimize anything that is NOT external or an absolute path to `public/`
   return !isValidUrl(src) && !src.startsWith('/');
+}
+
+function initFrontmatter() {
+  return transformer;
+
+  function transformer(_tree: any, file: VFile) {
+    if (!file.data.astro) {
+      file.data.astro = { frontmatter: {} };
+    }
+  }
+}
+
+function keywordsToFrontmatter() {
+  return transformer;
+
+  function transformer(_tree: any, file: any) {
+    file.data.astro.frontmatter = {
+      ...file.data.astro.frontmatter,
+      ...file.data.keywords,
+    };
+  }
 }
 
 function saveIds() {
