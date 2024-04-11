@@ -43,17 +43,6 @@ type SetupHookParams = HookParameters<'astro:config:setup'> & {
   addContentEntryType: (contentEntryType: ContentEntryType) => void;
 };
 
-function getKeywords(contents: string): Record<string, string> {
-  const keywords: Record<string, string> = {};
-  const ast = parse(contents);
-
-  visit(ast, 'keyword', (node: { key: string; value: string }) => {
-    Object.assign(keywords, { [node.key]: node.value });
-  });
-
-  return keywords;
-}
-
 export default function org(options: OrgPluginOptions = {}): AstroIntegration {
   const uniorgPlugins: PluggableList = [
     initFrontmatter,
@@ -78,41 +67,44 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
           config: astroConfig,
         } = params as SetupHookParams;
 
+        const uniorgToHast = unified()
+          .use(uniorg)
+          .use(uniorgPlugins)
+          .use(uniorg2rehype);
+
+        const htmlToHtml = unified()
+          .use(rehypeParse)
+          .use(rehypePlugins)
+          .use(rehypeStringify);
+
         addRenderer(astroJSXRenderer);
         addPageExtension('.org');
         addContentEntryType({
           extensions: ['.org'],
           async getEntryInfo({ fileUrl, contents }) {
-            const frontmatter = getKeywords(contents);
+            const f = new VFile({ path: fileUrl, value: contents });
+
+            await uniorgToHast.run(uniorgToHast.parse(f) as any, f);
+            const frontmatter = f.data.astro!.frontmatter;
 
             return {
               data: {
-                // TODO(Kevin): These are kinda fucked
-                title: frontmatter.TITLE,
-                description: frontmatter.DESCRIPTION,
-                date: frontmatter.DATE,
-                hero_image: frontmatter.HERO_IMAGE,
+                ...frontmatter,
+                metadata: f.data.astro,
               },
               body: contents,
               // NOTE: Astro typing requires slug to be a string, however I'm
               // pretty sure that mdx integration returns undefined if slug is
               // not set in frontmatter.
-              slug: frontmatter.SLUG,
+              slug: frontmatter.slug as string,
               rawData: contents,
             };
           },
           async getRenderModule({ fileUrl, contents, viteId }) {
             const pluginContext = this;
             const filePath = fileURLToPath(fileUrl);
-            //const entry = getEntryInfo({ contents, fileUrl });
-            //const orgAst = parse(contents);
-            //const hast = orgToHast(orgAst) as any;
-            const f = new VFile({ path: fileUrl, value: contents });
-            const uniorgToHast = unified()
-              .use(uniorg)
-              .use(uniorgPlugins)
-              .use(uniorg2rehype);
 
+            const f = new VFile({ path: fileUrl, value: contents });
             const hast = await uniorgToHast.run(
               uniorgToHast.parse(f as any) as any,
               f as any
@@ -124,31 +116,17 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
               filePath,
             });
 
-            const htmlToHtml = unified()
-              .use(rehypeParse)
-              .use(rehypePlugins)
-              .use(rehypeStringify);
-
-            //const rawHTML = toHtml(hast.children as any);
             const rawHTML = htmlToHtml.stringify(hast as any, f as any);
-            const keywords = f.data!.keywords;
-            const forAstro = f.data.astro;
 
             const code = `
 import { jsx, Fragment } from 'astro/jsx-runtime';
 
-export const html = ${JSON.stringify(rawHTML)}
-export const keywords = ${JSON.stringify(keywords)}
-export const forAstro = ${JSON.stringify(forAstro)}
-
 export async function Content(props) {
-    return jsx(Fragment, { 'set:html': html });
+    return jsx(Fragment, { 'set:html': ${JSON.stringify(rawHTML)} });
 }
-
 export default Content;
-
 `;
-            return { code, hello: 'world' };
+            return { code };
           },
 
           contentModuleTypes: fs.readFileSync(
