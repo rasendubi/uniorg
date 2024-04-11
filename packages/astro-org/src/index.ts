@@ -2,28 +2,29 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import type { AstroIntegration, ContentEntryType, HookParameters } from 'astro';
+import type { Rollup } from 'vite';
+import type {
+  AstroConfig,
+  AstroIntegration,
+  ContentEntryModule,
+  ContentEntryType,
+  HookParameters,
+} from 'astro';
 import { emitESMImage } from 'astro/assets/utils';
-// This rendered seems to be private and is not explicitly exported.
-// @ts-ignore
 import astroJSXRenderer from 'astro/jsx/renderer.js';
-
-import { unified, type PluggableList } from 'unified';
-import { VFile } from 'vfile';
-import uniorg from 'uniorg-parse';
-import orgPlugin, { type OrgPluginOptions } from 'rollup-plugin-orgx';
-import { extractKeywords } from 'uniorg-extract-keywords';
-import { uniorgSlug } from 'uniorg-slug';
-import { visitIds } from 'orgast-util-visit-ids';
+import type { Root as AstRoot, Element as AstElement } from 'hast';
 import { visit } from 'unist-util-visit';
-import { parse } from 'uniorg-parse/lib/parser.js';
-//import { orgToHast } from 'uniorg-rehype/lib/org-to-hast.js';
-import uniorg2rehype from 'uniorg-rehype';
-//import { toHtml } from 'hast-util-to-html';
+import { VFile } from 'vfile';
+import { unified, type PluggableList } from 'unified';
 import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
 
-//import { rehypeExportFrontmatter } from './plugin/rehype-export-frontmatter.js';
+import uniorg from 'uniorg-parse';
+import uniorg2rehype from 'uniorg-rehype';
+import { extractKeywords } from 'uniorg-extract-keywords';
+import { uniorgSlug } from 'uniorg-slug';
+import { visitIds } from 'orgast-util-visit-ids';
+import { OrgData } from 'uniorg';
 
 declare module 'vfile' {
   interface DataMap {
@@ -33,17 +34,19 @@ declare module 'vfile' {
   }
 }
 
-export type Options = OrgPluginOptions;
+export type Options = {
+  uniorgPlugins?: PluggableList;
+  rehypePlugins?: PluggableList;
+};
 
 type SetupHookParams = HookParameters<'astro:config:setup'> & {
-  // `addPageExtension` and `contentEntryType` are not a public APIs
-  // `contentEntryType` is not a public API
+  // NOTE: `addPageExtension` and `contentEntryType` are not a public APIs
   // Add type defs here
   addPageExtension: (extension: string) => void;
   addContentEntryType: (contentEntryType: ContentEntryType) => void;
 };
 
-export default function org(options: OrgPluginOptions = {}): AstroIntegration {
+export default function org(options: Options = {}): AstroIntegration {
   const uniorgPlugins: PluggableList = [
     initFrontmatter,
     [extractKeywords, { name: 'keywords' }],
@@ -84,7 +87,7 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
           async getEntryInfo({ fileUrl, contents }) {
             const f = new VFile({ path: fileUrl, value: contents });
 
-            await uniorgToHast.run(uniorgToHast.parse(f) as any, f);
+            await uniorgToHast.run(uniorgToHast.parse(f) as OrgData, f);
             const frontmatter = f.data.astro!.frontmatter;
 
             return {
@@ -100,29 +103,31 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
               rawData: contents,
             };
           },
-          async getRenderModule({ fileUrl, contents, viteId }) {
+          async getRenderModule({ fileUrl, contents }) {
             const pluginContext = this;
             const filePath = fileURLToPath(fileUrl);
 
             const f = new VFile({ path: fileUrl, value: contents });
             const hast = await uniorgToHast.run(
-              uniorgToHast.parse(f as any) as any,
-              f as any
+              uniorgToHast.parse(f) as OrgData,
+              f
             );
 
-            await emitOptimizedImages(hast as any, {
+            await emitOptimizedImages(hast, {
               astroConfig,
               pluginContext,
               filePath,
             });
 
-            const rawHTML = htmlToHtml.stringify(hast as any, f as any);
+            // TODO(Kevin): Typescript mismatch about the same packag?
+            const htmlStr = htmlToHtml.stringify(hast as any, f);
 
             const code = `
 import { jsx, Fragment } from 'astro/jsx-runtime';
+const html = ${JSON.stringify(htmlStr)}
 
 export async function Content(props) {
-    return jsx(Fragment, { 'set:html': ${JSON.stringify(rawHTML)} });
+    return jsx(Fragment, { 'set:html': html });
 }
 export default Content;
 `;
@@ -140,51 +145,52 @@ export default Content;
   };
 }
 
-function prependForwardSlash(str: string) {
-  return str[0] === '/' ? str : '/' + str;
+function initFrontmatter() {
+  return transformer;
+
+  function transformer(_tree: unknown, file: VFile) {
+    if (!file.data.astro) {
+      file.data.astro = { frontmatter: {} };
+    }
+  }
 }
 
-async function emitOptimizedImages(
-  tree: any,
-  ctx: {
-    pluginContext: any;
-    filePath: string;
-    astroConfig: any;
+function keywordsToFrontmatter() {
+  return transformer;
+
+  function transformer(_tree: unknown, file: any) {
+    file.data.astro.frontmatter = {
+      ...file.data.astro.frontmatter,
+      ...file.data.keywords,
+    };
   }
-) {
-  const images: any[] = [];
+}
 
-  visit(tree, 'element', function (node: any) {
-    if (
-      node.tagName === 'img' &&
-      node.properties &&
-      node.properties.src &&
-      shouldOptimizeImage(node.properties.src)
-    ) {
-      images.push(node);
-    }
-  });
+function saveIds() {
+  return transformer;
 
-  for (const node of images) {
-    const resolved = await ctx.pluginContext.resolve(
-      node.properties.src,
-      ctx.filePath
-    );
+  function transformer(tree: OrgData, file: any) {
+    const astro = file.data.astro;
+    const ids = astro.ids || (astro.ids = {});
 
-    if (
-      resolved?.id &&
-      fs.existsSync(new URL(prependForwardSlash(resolved.id), 'file://'))
-    ) {
-      const src = await emitESMImage(
-        resolved.id,
-        ctx.pluginContext.meta.watchMode,
-        ctx.pluginContext.emitFile
-      );
+    visitIds(tree, (id, node) => {
+      if (node.type === 'org-data') {
+        ids['id:' + id] = '';
+      } else if (node.type === 'section') {
+        const headline = node.children[0];
+        const data: any = (headline.data = headline.data || {});
+        if (!data?.hProperties?.id) {
+          // NOTE: The headline doesn't have an html id assigned.
+          //
+          // Assign an html id property based on org id property, so the links
+          // are not broken.
+          data.hProperties = data.hProperties || {};
+          data.hProperties.id = id;
+        }
 
-      if (src) {
-        node.properties.src = src.src;
+        ids['id:' + id] = '#' + data?.hProperties?.id;
       }
-    }
+    });
   }
 }
 
@@ -198,55 +204,51 @@ function isValidUrl(str: string): boolean {
 }
 
 function shouldOptimizeImage(src: string) {
-  // Optimize anything that is NOT external or an absolute path to `public/`
+  // NOTE(Kevin): Optimize anything that is NOT external or an absolute path to
+  // `public/`
   return !isValidUrl(src) && !src.startsWith('/');
 }
 
-function initFrontmatter() {
-  return transformer;
+async function emitOptimizedImages(
+  tree: AstRoot,
+  ctx: {
+    pluginContext: Rollup.PluginContext;
+    filePath: string;
+    astroConfig: AstroConfig;
+  }
+) {
+  const images: AstElement[] = [];
 
-  function transformer(_tree: any, file: VFile) {
-    if (!file.data.astro) {
-      file.data.astro = { frontmatter: {} };
+  visit(tree, 'element', function (node) {
+    if (
+      node.tagName === 'img' &&
+      node.properties &&
+      node.properties.src &&
+      typeof node.properties.src === 'string' &&
+      shouldOptimizeImage(node.properties.src)
+    ) {
+      images.push(node);
     }
-  }
-}
+  });
 
-function keywordsToFrontmatter() {
-  return transformer;
+  for (const node of images) {
+    if (typeof node.properties.src === 'string') {
+      const resolved = await ctx.pluginContext.resolve(
+        node.properties.src,
+        ctx.filePath
+      );
 
-  function transformer(_tree: any, file: any) {
-    file.data.astro.frontmatter = {
-      ...file.data.astro.frontmatter,
-      ...file.data.keywords,
-    };
-  }
-}
+      if (resolved?.id && fs.existsSync(new URL(resolved.id, 'file://'))) {
+        const src = await emitESMImage(
+          resolved.id,
+          ctx.pluginContext.meta.watchMode,
+          ctx.pluginContext.emitFile
+        );
 
-function saveIds() {
-  return transformer;
-
-  function transformer(tree: any, file: any) {
-    const astro = file.data.astro;
-    const ids = astro.ids || (astro.ids = {});
-
-    visitIds(tree, (id, node) => {
-      if (node.type === 'org-data') {
-        ids['id:' + id] = '';
-      } else if (node.type === 'section') {
-        const headline = node.children[0];
-        const data: any = (headline.data = headline.data || {});
-        if (!data?.hProperties?.id) {
-          // The headline doesn't have an html id assigned.
-          //
-          // Assign an html id property based on org id property, so
-          // the links are not broken.
-          data.hProperties = data.hProperties || {};
-          data.hProperties.id = id;
+        if (src) {
+          node.properties.src = src.src;
         }
-
-        ids['id:' + id] = '#' + data?.hProperties?.id;
       }
-    });
+    }
   }
 }

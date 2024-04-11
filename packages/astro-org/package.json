@@ -43,9 +43,12 @@
     "vfile": "^6.0.1"
   },
   "devDependencies": {
+    "@types/hast": "3.0.3",
     "@types/node": "^20.12.7",
     "astro": "^4.5.18",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "uniorg": "workspace:^1.1.1",
+    "vite": "^5.2.8"
   },
   "peerDependencies": {
     "astro": "^4.5.18"
