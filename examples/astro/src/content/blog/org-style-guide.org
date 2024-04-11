@@ -36,9 +36,10 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
 #+end_src
 
 **** Output
-
-+Absolute: [[/blog-placeholder-about.jpg]]
-+Relative: [[./inline-placeholder.jpg]]
+***** Absolute
+[[/blog-placeholder-about.jpg]]
+***** Relative
+[[./inline-placeholder.jpg]]
 
 ** Blockquotes
 
