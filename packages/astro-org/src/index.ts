@@ -88,6 +88,7 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
                 title: frontmatter.TITLE,
                 description: frontmatter.DESCRIPTION,
                 date: frontmatter.DATE,
+                hero_image: frontmatter.HERO_IMAGE,
               },
               body: contents,
               // NOTE: Astro typing requires slug to be a string, however I'm
