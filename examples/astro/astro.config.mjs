@@ -10,6 +10,13 @@ export default defineConfig({
 	integrations: [
 		org({
 			rehypePlugins: [[rehypeShiftHeading, { shift: 1 }]],
+			uniorgRehypeOptions: {
+				handlers: {
+					'example-block': (org) => {
+						return h('pre.example', [{ type: 'text', value: org.value }]);
+					},
+				},
+			},
 		}),
 		sitemap(),
 	],

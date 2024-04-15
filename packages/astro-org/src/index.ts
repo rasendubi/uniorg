@@ -18,7 +18,9 @@ import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
 
 import uniorg from 'uniorg-parse';
-import uniorg2rehype from 'uniorg-rehype';
+import uniorg2rehype, {
+  type Options as UniorgRehypeOptions,
+} from 'uniorg-rehype';
 import { extractKeywords } from 'uniorg-extract-keywords';
 import { uniorgSlug } from 'uniorg-slug';
 import { visitIds } from 'orgast-util-visit-ids';
@@ -34,6 +36,7 @@ declare module 'vfile' {
 
 export type Options = {
   uniorgPlugins?: PluggableList;
+  uniorgRehypeOptions?: UniorgRehypeOptions;
   rehypePlugins?: PluggableList;
 };
 
@@ -70,7 +73,7 @@ export default function org(options: Options = {}): AstroIntegration {
         const uniorgToHast = unified()
           .use(uniorg)
           .use(uniorgPlugins)
-          .use(uniorg2rehype);
+          .use(uniorg2rehype, options.uniorgRehypeOptions ?? {});
 
         const htmlToHtml = unified()
           .use(rehypeParse)
