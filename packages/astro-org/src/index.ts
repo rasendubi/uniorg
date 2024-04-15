@@ -1,12 +1,10 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import type { Rollup } from 'vite';
 import type {
   AstroConfig,
   AstroIntegration,
-  ContentEntryModule,
   ContentEntryType,
   HookParameters,
 } from 'astro';
@@ -24,7 +22,7 @@ import uniorg2rehype from 'uniorg-rehype';
 import { extractKeywords } from 'uniorg-extract-keywords';
 import { uniorgSlug } from 'uniorg-slug';
 import { visitIds } from 'orgast-util-visit-ids';
-import { OrgData } from 'uniorg';
+import type { OrgData } from 'uniorg';
 
 declare module 'vfile' {
   interface DataMap {
@@ -63,7 +61,6 @@ export default function org(options: Options = {}): AstroIntegration {
     hooks: {
       'astro:config:setup': async (params) => {
         const {
-          updateConfig,
           addRenderer,
           addContentEntryType,
           addPageExtension,
@@ -120,6 +117,7 @@ export default function org(options: Options = {}): AstroIntegration {
             });
 
             // TODO(Kevin): Typescript mismatch about the same packag?
+            await htmlToHtml.run(hast);
             const htmlStr = htmlToHtml.stringify(hast as any, f);
 
             const code = `
@@ -177,7 +175,7 @@ function saveIds() {
       if (node.type === 'org-data') {
         ids['id:' + id] = '';
       } else if (node.type === 'section') {
-        const headline = node.children[0];
+        const headline = node.children[0] as any;
         const data: any = (headline.data = headline.data || {});
         if (!data?.hProperties?.id) {
           // NOTE: The headline doesn't have an html id assigned.
