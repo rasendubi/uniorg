@@ -1,5 +1,13 @@
 # uniorg-stringify
 
+## 1.2.0
+
+### Minor Changes
+
+- [#107](https://github.com/rasendubi/uniorg/pull/107) [`53bc625`](https://github.com/rasendubi/uniorg/commit/53bc6253193a8bd4e67193d6812fe276c6064b25) Thanks [@Delapouite](https://github.com/Delapouite)! - Allow overriding handlers.
+
+  `uniorgStringify` now accepts an optional handlers configuration.
+
 ## 1.1.1
 
 ### Patch Changes
