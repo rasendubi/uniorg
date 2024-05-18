@@ -1,12 +1,16 @@
 import { parse } from 'uniorg-parse/lib/parser';
 
-import { Options, stringify } from './stringify';
+import { StringifyOptions, stringify } from './stringify';
 
-const process = (input: string, options: Options) => {
+const process = (input: string, options: Partial<StringifyOptions>) => {
   return stringify(parse(input), options);
 };
 
-const test = (name: string, input: string, options: Options = {}) => {
+const test = (
+  name: string,
+  input: string,
+  options: Partial<StringifyOptions> = {}
+) => {
   it(name, () => {
     const result = process(input, options);
     expect(result).toMatchSnapshot();
@@ -17,7 +21,11 @@ const test = (name: string, input: string, options: Options = {}) => {
     expect(result2).toEqual(result1);
   });
 };
-test.skip = (name: string, input: string, options: Options = {}) => {
+test.skip = (
+  name: string,
+  input: string,
+  options: Partial<StringifyOptions> = {}
+) => {
   it.skip(name, () => {
     const result = process(input, options);
     expect(result).toMatchSnapshot();
@@ -28,7 +36,11 @@ test.skip = (name: string, input: string, options: Options = {}) => {
     expect(result2).toEqual(result1);
   });
 };
-test.only = (name: string, input: string, options: Options = {}) => {
+test.only = (
+  name: string,
+  input: string,
+  options: Partial<StringifyOptions> = {}
+) => {
   it.only(name, () => {
     const result = process(input, options);
     expect(result).toMatchSnapshot();

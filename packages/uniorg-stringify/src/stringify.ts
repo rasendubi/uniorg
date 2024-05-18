@@ -5,7 +5,7 @@ import type {
 } from 'uniorg';
 import type { Node } from 'unist';
 
-type Handler<T> = (org: T, options: Options) => string;
+type Handler<T> = (org: T, options: StringifyOptions) => string;
 
 export type Handlers = {
   [K in OrgNode['type']]?: Handler<OrgNode & { type: K }>;
@@ -15,19 +15,36 @@ export type StringifyOptions = {
   handlers: Handlers;
 };
 
-export type Options = Partial<StringifyOptions>;
+const defaultOptions: StringifyOptions = {
+  handlers: {},
+};
+
+function normalizeOptions(
+  options: Partial<StringifyOptions>
+): StringifyOptions {
+  return {
+    ...defaultOptions,
+    ...options,
+    // Merging handlers separately to allow overriding it partially.
+    handlers: {
+      ...defaultOptions.handlers,
+      ...options.handlers,
+    },
+  };
+}
 
 export function stringify(
   org: string | Node | Node[],
-  options: Options = {}
+  options: Partial<StringifyOptions> = {}
 ): string {
+  const fullOptions = normalizeOptions(options);
   const result = Array.isArray(org)
-    ? org.map((o) => stringify(o, options)).join('')
-    : stringifyOne(org, options);
+    ? org.map((o) => stringify(o, fullOptions)).join('')
+    : stringifyOne(org, fullOptions);
   return result;
 }
 
-function stringifyOne(node: Node | string, options: Options): string {
+function stringifyOne(node: Node | string, options: StringifyOptions): string {
   if (typeof node === 'string') {
     return node;
   }
@@ -47,7 +64,7 @@ function stringifyOne(node: Node | string, options: Options): string {
   return result.join('');
 }
 
-function stringifyNode(org: OrgNode, options: Options): string {
+function stringifyNode(org: OrgNode, options: StringifyOptions): string {
   const handler = options.handlers?.[org.type];
   if (handler) {
     const rendered = (handler as any)(org, options);
@@ -326,7 +343,7 @@ function stringifyNode(org: OrgNode, options: Options): string {
 
 function stringifyAffiliated(
   keywords: AffiliatedKeywords,
-  options: Options
+  options: StringifyOptions
 ): string {
   return Object.entries(keywords)
     .map(([key, values]) => {
