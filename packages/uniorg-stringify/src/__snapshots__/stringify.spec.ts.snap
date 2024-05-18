@@ -143,6 +143,11 @@ exports[`stringify emphasis marks bold 1`] = `
 "
 `;
 
+exports[`stringify emphasis marks bold with custom char 1`] = `
+"$hello$
+"
+`;
+
 exports[`stringify emphasis marks emphasis 1`] = `
 "/Consider/ ~t*h*e~ *following* =example= +strike+
 "
@@ -216,6 +221,17 @@ exports[`stringify headline nested headline 1`] = `
 ** level 2
 * level 1
 *** level 3
+"
+`;
+
+exports[`stringify headline nested simple headlines separated by new-lines 1`] = `
+"* level 1
+
+** level 2
+
+*** level 3
+
+**** level 4
 "
 `;
 
@@ -394,6 +410,14 @@ exports[`stringify property drawer 1`] = `
 :PROPERTIES:
 :CREATED: [2019-03-13 Wed 23:57]
 :END:
+"
+`;
+
+exports[`stringify property drawer forced to lower-case 1`] = `
+"* headline
+:properties:
+:created: [2019-03-13 Wed 23:57]
+:end:
 "
 `;
 

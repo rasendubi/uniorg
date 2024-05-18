@@ -5,14 +5,26 @@ import type {
 } from 'uniorg';
 import type { Node } from 'unist';
 
-export function stringify(org: string | Node | Node[]): string {
+type Handler<T> = (org: T, options: Options) => string;
+
+export type Handlers = {
+  [K in OrgNode['type']]?: Handler<OrgNode & { type: K }>;
+};
+
+export type StringifyOptions = {
+  handlers: Handlers
+}
+
+export type Options = Partial<StringifyOptions>
+
+export function stringify(org: string | Node | Node[], options: Options = {}): string {
   const result = Array.isArray(org)
-    ? org.map(stringify).join('')
-    : stringifyOne(org);
+    ? org.map(o => stringify(o, options)).join('')
+    : stringifyOne(org, options);
   return result;
 }
 
-function stringifyOne(node: Node | string): string {
+function stringifyOne(node: Node | string, options: Options): string {
   if (typeof node === 'string') {
     return node;
   }
@@ -22,27 +34,33 @@ function stringifyOne(node: Node | string): string {
   const result: string[] = [];
 
   if (org.affiliated) {
-    result.push(stringifyAffiliated(org.affiliated as AffiliatedKeywords));
+    result.push(stringifyAffiliated(org.affiliated as AffiliatedKeywords, options));
   }
 
-  result.push(stringifyNode(org));
+  result.push(stringifyNode(org, options));
 
   return result.join('');
 }
 
-function stringifyNode(org: OrgNode): string {
+function stringifyNode(org: OrgNode, options: Options): string {
+  const handler = options.handlers?.[org.type];
+  if (handler) {
+    const rendered = (handler as any)(org, options);
+    if (rendered) return rendered;
+  }
+
   switch (org.type) {
     case 'org-data':
-      return withNewline(stringify(org.children));
+      return withNewline(stringify(org.children, options));
     case 'section':
-      return withNewline(stringify(org.children));
+      return withNewline(stringify(org.children, options));
     case 'headline': {
       const components = [
         '*'.repeat(org.level),
         org.todoKeyword,
         org.priority ? `[#${org.priority}]` : null,
         org.commented ? 'COMMENT' : null,
-        stringify(org.children),
+        stringify(org.children, options),
         org.tags.length ? `:${org.tags.join(':')}:` : null,
       ].filter((x) => x !== null);
       return withNewline(components.join(' '));
@@ -52,16 +70,16 @@ function stringifyNode(org: OrgNode): string {
     case 'planning':
       return withNewline(
         [
-          org.closed ? `CLOSED: ${stringify(org.closed)}` : null,
-          org.scheduled ? `SCHEDULED: ${stringify(org.scheduled)}` : null,
-          org.deadline ? `DEADLINE: ${stringify(org.deadline)}` : null,
+          org.closed ? `CLOSED: ${stringify(org.closed, options)}` : null,
+          org.scheduled ? `SCHEDULED: ${stringify(org.scheduled, options)}` : null,
+          org.deadline ? `DEADLINE: ${stringify(org.deadline, options)}` : null,
         ]
           .filter((x) => x !== null)
           .join(' ')
       );
     case 'property-drawer':
       return withNewline(
-        [':PROPERTIES:\n', ...org.children.map(stringify), ':END:'].join('')
+        [':PROPERTIES:\n', ...org.children.map(c => stringify(c, options)), ':END:'].join('')
       );
     case 'node-property':
       return withNewline([':', org.key, ': ', org.value].join(''));
@@ -70,13 +88,13 @@ function stringifyNode(org: OrgNode): string {
         ':',
         org.name,
         ':\n',
-        withNewline(stringify(org.children)),
+        withNewline(stringify(org.children, options)),
         ':END:\n',
       ].join('');
     case 'keyword':
       return withNewline(`#+${org.key}: ${org.value}`);
     case 'plain-list':
-      return withNewline(stringify(org.children));
+      return withNewline(stringify(org.children, options));
     case 'list-item':
       return withNewline(
         [
@@ -91,7 +109,7 @@ function stringifyNode(org: OrgNode): string {
                 ? '[-] '
                 : null,
           indent(
-            stringify(org.children),
+            stringify(org.children, options),
             org.indent + org.bullet.length
           ).trimStart(),
         ]
@@ -99,23 +117,23 @@ function stringifyNode(org: OrgNode): string {
           .join('')
       );
     case 'list-item-tag':
-      return `${stringify(org.children[0])} :: ${stringify(
-        org.children.slice(1)
+      return `${stringify(org.children[0], options)} :: ${stringify(
+        org.children.slice(1), options
       )}`;
     case 'table':
       const value =
-        org.tableType === 'table.el' ? org.value : stringify(org.children);
+        org.tableType === 'table.el' ? org.value : stringify(org.children, options);
       return (
         withNewline(value) + (org.tblfm ? '#+TBLFM: ' + org.tblfm + '\n' : '')
       );
     case 'table-row':
       if (org.rowType === 'standard') {
-        return '| ' + org.children.map(stringify).join(' | ') + ' |\n';
+        return '| ' + org.children.map(c => stringify(c, options)).join(' | ') + ' |\n';
       } else {
         return '|-|\n';
       }
     case 'table-cell':
-      return stringify(org.children);
+      return stringify(org.children, options);
     case 'comment':
       return withNewline(
         org.value
@@ -134,7 +152,7 @@ function stringifyNode(org: OrgNode): string {
       return withNewline(
         [
           'CLOCK: ',
-          org.value ? stringify(org.value) : null,
+          org.value ? stringify(org.value, options) : null,
           org.duration ? ' =>  ' + org.duration : null,
         ]
           .filter((x) => x !== null)
@@ -145,12 +163,12 @@ function stringifyNode(org: OrgNode): string {
     case 'horizontal-rule':
       return withNewline('-----');
     case 'footnote-definition':
-      return withNewline(`[fn:${org.label}] ${stringify(org.children)}`);
+      return withNewline(`[fn:${org.label}] ${stringify(org.children, options)}`);
     case 'footnote-reference':
       return [
         '[fn:',
         org.label,
-        org.footnoteType === 'inline' ? ':' + stringify(org.children) : null,
+        org.footnoteType === 'inline' ? ':' + stringify(org.children, options) : null,
         ']',
       ]
         .filter((x) => x !== null)
@@ -170,7 +188,7 @@ function stringifyNode(org: OrgNode): string {
     case 'quote-block':
       return [
         '#+begin_quote\n',
-        withNewline(stringify(org.children)),
+        withNewline(stringify(org.children, options)),
         '#+end_quote\n',
       ]
         .filter((x) => x !== null)
@@ -178,7 +196,7 @@ function stringifyNode(org: OrgNode): string {
     case 'verse-block':
       return [
         '#+begin_verse\n',
-        withNewline(stringify(org.children)),
+        withNewline(stringify(org.children, options)),
         '#+end_verse\n',
       ]
         .filter((x) => x !== null)
@@ -186,7 +204,7 @@ function stringifyNode(org: OrgNode): string {
     case 'center-block':
       return [
         '#+begin_center\n',
-        withNewline(stringify(org.children)),
+        withNewline(stringify(org.children, options)),
         '#+end_center\n',
       ]
         .filter((x) => x !== null)
@@ -214,7 +232,7 @@ function stringifyNode(org: OrgNode): string {
         '#+begin_',
         org.blockType,
         '\n',
-        withNewline(stringify(org.children)),
+        withNewline(stringify(org.children, options)),
         '#+end_',
         org.blockType,
         '\n',
@@ -223,7 +241,7 @@ function stringifyNode(org: OrgNode): string {
         .join('');
     case 'paragraph':
       return (
-        withNewline(stringify(org.children)) +
+        withNewline(stringify(org.children, options)) +
         // an extra newline to separate from the possible following paragraph
         '\n'
       );
@@ -233,7 +251,7 @@ function stringifyNode(org: OrgNode): string {
         '[cite',
         org.style ? '/' + org.style : '',
         ':',
-        ...org.children.map(stringifyNode).join(';'),
+        ...org.children.map(c => stringifyNode(c, options)).join(';'),
         ']',
       ].join('');
     case 'citation-common-prefix':
@@ -241,7 +259,7 @@ function stringifyNode(org: OrgNode): string {
     case 'citation-reference':
     case 'citation-prefix':
     case 'citation-suffix':
-      return org.children.map(stringifyNode).join('');
+      return org.children.map(c => stringifyNode(c, options)).join('');
     case 'citation-key':
       return '@' + org.key;
 
@@ -250,21 +268,21 @@ function stringifyNode(org: OrgNode): string {
         ? org.rawLink
         : org.format === 'bracket'
           ? `[[${org.rawLink}]${
-              org.children.length ? '[' + stringify(org.children) + ']' : ''
+              org.children.length ? '[' + stringify(org.children, options) + ']' : ''
             }]`
           : `<${org.rawLink}>`;
     case 'superscript':
-      return `^{${stringify(org.children)}}`;
+      return `^{${stringify(org.children, options)}}`;
     case 'subscript':
-      return `_{${stringify(org.children)}}`;
+      return `_{${stringify(org.children, options)}}`;
     case 'bold':
-      return `*${stringify(org.children)}*`;
+      return `*${stringify(org.children, options)}*`;
     case 'italic':
-      return `/${stringify(org.children)}/`;
+      return `/${stringify(org.children, options)}/`;
     case 'strike-through':
-      return `+${stringify(org.children)}+`;
+      return `+${stringify(org.children, options)}+`;
     case 'underline':
-      return `_${stringify(org.children)}_`;
+      return `_${stringify(org.children, options)}_`;
     case 'code':
       return `~${org.value}~`;
     case 'verbatim':
@@ -282,7 +300,7 @@ function stringifyNode(org: OrgNode): string {
   }
 }
 
-function stringifyAffiliated(keywords: AffiliatedKeywords): string {
+function stringifyAffiliated(keywords: AffiliatedKeywords, options: Options): string {
   return Object.entries(keywords)
     .map(([key, values]) => {
       const dualKeyword = Array.isArray(values) ? values[1] : null;
@@ -291,10 +309,10 @@ function stringifyAffiliated(keywords: AffiliatedKeywords): string {
         '#+',
         key,
         // TODO: "as any" here is incorrect
-        dualKeyword ? `[${stringify(dualKeyword as any)}]` : null,
+        dualKeyword ? `[${stringify(dualKeyword as any, options)}]` : null,
         ': ',
         // TODO: "as any" here is incorrect
-        stringify(value as any).trimEnd(),
+        stringify(value as any, options).trimEnd(),
         '\n',
       ].join('');
     })

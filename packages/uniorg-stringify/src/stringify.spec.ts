@@ -1,41 +1,41 @@
 import { parse } from 'uniorg-parse/lib/parser';
 
-import { stringify } from './stringify';
+import { Options, stringify } from './stringify';
 
-const process = (input: string) => {
-  return stringify(parse(input));
+const process = (input: string, options: Options) => {
+  return stringify(parse(input), options);
 };
 
-const test = (name: string, input: string) => {
+const test = (name: string, input: string, options: Options = {}) => {
   it(name, () => {
-    const result = process(input);
+    const result = process(input, options);
     expect(result).toMatchSnapshot();
   });
   it(name + ' (second pass)', () => {
-    const result1 = process(input);
-    const result2 = process(result1);
+    const result1 = process(input, options);
+    const result2 = process(result1, options);
     expect(result2).toEqual(result1);
   });
 };
-test.skip = (name: string, input: string) => {
+test.skip = (name: string, input: string, options: Options = {}) => {
   it.skip(name, () => {
-    const result = process(input);
+    const result = process(input, options);
     expect(result).toMatchSnapshot();
   });
   it.skip(name + ' (second pass)', () => {
-    const result1 = process(input);
-    const result2 = process(result1);
+    const result1 = process(input, options);
+    const result2 = process(result1, options);
     expect(result2).toEqual(result1);
   });
 };
-test.only = (name: string, input: string) => {
+test.only = (name: string, input: string, options: Options = {}) => {
   it.only(name, () => {
-    const result = process(input);
+    const result = process(input, options);
     expect(result).toMatchSnapshot();
   });
   it.only(name + ' (second pass)', () => {
-    const result1 = process(input);
-    const result2 = process(result1);
+    const result1 = process(input, options);
+    const result2 = process(result1, options);
     expect(result2).toEqual(result1);
   });
 };
@@ -65,6 +65,27 @@ second paragraph`
 * level 1
 *** level 3`
     );
+    test(
+      'nested simple headlines separated by new-lines',
+      `* level 1
+
+** level 2
+
+*** level 3
+
+**** level 4`,
+      {
+        handlers: {
+          headline: (org, options) => {
+            const components = [
+              '*'.repeat(org.level),
+              stringify(org.children, options),
+            ].filter((x) => x !== null);
+            return `${components.join(' ')}\n\n`;
+          },
+        },
+      }
+    );
 
     test('statistics cookie', `* [115%]  headline`);
   });
@@ -87,6 +108,29 @@ CLOSED: SCHEDULED: [2021-05-31 Mon]
 :PROPERTIES:
 :CREATED: [2019-03-13 Wed 23:57]
 :END:`
+  );
+  test(
+    'property drawer forced to lower-case',
+    `* headline
+:PROPERTIES:
+:CREATED: [2019-03-13 Wed 23:57]
+:END:`,
+    {
+      handlers: {
+        'property-drawer': (org, options) => {
+          return (
+            [
+              ':properties:\n',
+              ...org.children.map((c) => stringify(c, options)),
+              ':end:',
+            ].join('') + `\n`
+          );
+        },
+        'node-property': (org) => {
+          return [':', org.key.toLowerCase(), ': ', org.value].join('') + '\n';
+        },
+      },
+    }
   );
   test(
     'file property drawer',
@@ -350,6 +394,13 @@ footnote
 
   describe('emphasis marks', () => {
     test('bold', '*hello*');
+    test('bold with custom char', '*hello*', {
+      handlers: {
+        bold: (org, options) => {
+          return `$${stringify(org.children, options)}$`;
+        },
+      },
+    });
     test('emphasis', `/Consider/ ~t*h*e~ *following* =example= +strike+`);
     test('underline', `_hello_`);
   });
