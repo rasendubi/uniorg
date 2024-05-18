@@ -12,14 +12,17 @@ export type Handlers = {
 };
 
 export type StringifyOptions = {
-  handlers: Handlers
-}
+  handlers: Handlers;
+};
 
-export type Options = Partial<StringifyOptions>
+export type Options = Partial<StringifyOptions>;
 
-export function stringify(org: string | Node | Node[], options: Options = {}): string {
+export function stringify(
+  org: string | Node | Node[],
+  options: Options = {}
+): string {
   const result = Array.isArray(org)
-    ? org.map(o => stringify(o, options)).join('')
+    ? org.map((o) => stringify(o, options)).join('')
     : stringifyOne(org, options);
   return result;
 }
@@ -34,7 +37,9 @@ function stringifyOne(node: Node | string, options: Options): string {
   const result: string[] = [];
 
   if (org.affiliated) {
-    result.push(stringifyAffiliated(org.affiliated as AffiliatedKeywords, options));
+    result.push(
+      stringifyAffiliated(org.affiliated as AffiliatedKeywords, options)
+    );
   }
 
   result.push(stringifyNode(org, options));
@@ -71,7 +76,9 @@ function stringifyNode(org: OrgNode, options: Options): string {
       return withNewline(
         [
           org.closed ? `CLOSED: ${stringify(org.closed, options)}` : null,
-          org.scheduled ? `SCHEDULED: ${stringify(org.scheduled, options)}` : null,
+          org.scheduled
+            ? `SCHEDULED: ${stringify(org.scheduled, options)}`
+            : null,
           org.deadline ? `DEADLINE: ${stringify(org.deadline, options)}` : null,
         ]
           .filter((x) => x !== null)
@@ -79,7 +86,11 @@ function stringifyNode(org: OrgNode, options: Options): string {
       );
     case 'property-drawer':
       return withNewline(
-        [':PROPERTIES:\n', ...org.children.map(c => stringify(c, options)), ':END:'].join('')
+        [
+          ':PROPERTIES:\n',
+          ...org.children.map((c) => stringify(c, options)),
+          ':END:',
+        ].join('')
       );
     case 'node-property':
       return withNewline([':', org.key, ': ', org.value].join(''));
@@ -118,17 +129,24 @@ function stringifyNode(org: OrgNode, options: Options): string {
       );
     case 'list-item-tag':
       return `${stringify(org.children[0], options)} :: ${stringify(
-        org.children.slice(1), options
+        org.children.slice(1),
+        options
       )}`;
     case 'table':
       const value =
-        org.tableType === 'table.el' ? org.value : stringify(org.children, options);
+        org.tableType === 'table.el'
+          ? org.value
+          : stringify(org.children, options);
       return (
         withNewline(value) + (org.tblfm ? '#+TBLFM: ' + org.tblfm + '\n' : '')
       );
     case 'table-row':
       if (org.rowType === 'standard') {
-        return '| ' + org.children.map(c => stringify(c, options)).join(' | ') + ' |\n';
+        return (
+          '| ' +
+          org.children.map((c) => stringify(c, options)).join(' | ') +
+          ' |\n'
+        );
       } else {
         return '|-|\n';
       }
@@ -163,12 +181,16 @@ function stringifyNode(org: OrgNode, options: Options): string {
     case 'horizontal-rule':
       return withNewline('-----');
     case 'footnote-definition':
-      return withNewline(`[fn:${org.label}] ${stringify(org.children, options)}`);
+      return withNewline(
+        `[fn:${org.label}] ${stringify(org.children, options)}`
+      );
     case 'footnote-reference':
       return [
         '[fn:',
         org.label,
-        org.footnoteType === 'inline' ? ':' + stringify(org.children, options) : null,
+        org.footnoteType === 'inline'
+          ? ':' + stringify(org.children, options)
+          : null,
         ']',
       ]
         .filter((x) => x !== null)
@@ -251,7 +273,7 @@ function stringifyNode(org: OrgNode, options: Options): string {
         '[cite',
         org.style ? '/' + org.style : '',
         ':',
-        ...org.children.map(c => stringifyNode(c, options)).join(';'),
+        ...org.children.map((c) => stringifyNode(c, options)).join(';'),
         ']',
       ].join('');
     case 'citation-common-prefix':
@@ -259,7 +281,7 @@ function stringifyNode(org: OrgNode, options: Options): string {
     case 'citation-reference':
     case 'citation-prefix':
     case 'citation-suffix':
-      return org.children.map(c => stringifyNode(c, options)).join('');
+      return org.children.map((c) => stringifyNode(c, options)).join('');
     case 'citation-key':
       return '@' + org.key;
 
@@ -268,7 +290,9 @@ function stringifyNode(org: OrgNode, options: Options): string {
         ? org.rawLink
         : org.format === 'bracket'
           ? `[[${org.rawLink}]${
-              org.children.length ? '[' + stringify(org.children, options) + ']' : ''
+              org.children.length
+                ? '[' + stringify(org.children, options) + ']'
+                : ''
             }]`
           : `<${org.rawLink}>`;
     case 'superscript':
@@ -300,7 +324,10 @@ function stringifyNode(org: OrgNode, options: Options): string {
   }
 }
 
-function stringifyAffiliated(keywords: AffiliatedKeywords, options: Options): string {
+function stringifyAffiliated(
+  keywords: AffiliatedKeywords,
+  options: Options
+): string {
   return Object.entries(keywords)
     .map(([key, values]) => {
       const dualKeyword = Array.isArray(values) ? values[1] : null;
