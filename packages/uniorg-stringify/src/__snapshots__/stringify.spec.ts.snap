@@ -211,6 +211,16 @@ exports[`stringify footnotes starting on next line 1`] = `
 "
 `;
 
+exports[`stringify handlers allow handlers to return empty string to suppress output 1`] = `
+"hello,  world
+"
+`;
+
+exports[`stringify handlers allow handlers to return null to fallback to default processing 1`] = `
+"hello, +Dave+ world
+"
+`;
+
 exports[`stringify headline complex headline 1`] = `
 "* TODO [#A] COMMENT headline /italic/ title :some:tags:
 "

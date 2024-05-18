@@ -5,7 +5,7 @@ import type {
 } from 'uniorg';
 import type { Node } from 'unist';
 
-type Handler<T> = (org: T, options: StringifyOptions) => string;
+type Handler<T> = (org: T, options: StringifyOptions) => string | null;
 
 export type Handlers = {
   [K in OrgNode['type']]?: Handler<OrgNode & { type: K }>;
@@ -68,7 +68,9 @@ function stringifyNode(org: OrgNode, options: StringifyOptions): string {
   const handler = options.handlers?.[org.type];
   if (handler) {
     const rendered = (handler as any)(org, options);
-    if (rendered) return rendered;
+    if (rendered !== null && rendered !== undefined) {
+      return rendered;
+    }
   }
 
   switch (org.type) {

@@ -497,4 +497,19 @@ some text
     'citation',
     `[cite/style:common prefix; prefix @key suffix; @key2; common suffix]`
   );
+
+  describe('handlers', () => {
+    test(
+      'allow handlers to return empty string to suppress output',
+      `hello, +Dave+ world`,
+      { handlers: { 'strike-through': () => '' } }
+    );
+
+    // This usage is currently not guaranteed and may change in the future.
+    test.skip(
+      'allow handlers to return null to fallback to default processing',
+      `hello, +Dave+ world`,
+      { handlers: { 'strike-through': () => null } }
+    );
+  });
 });
