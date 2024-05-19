@@ -1,6 +1,6 @@
 {
   "name": "astro-org",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Astro plugin to import org-mode files.",
   "type": "module",
   "main": "lib/index.js",
