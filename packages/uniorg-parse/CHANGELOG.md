@@ -1,5 +1,11 @@
 # uniorg-parse
 
+## 3.0.1
+
+### Patch Changes
+
+- [#112](https://github.com/rasendubi/uniorg/pull/112) [`0e1d4b7`](https://github.com/rasendubi/uniorg/commit/0e1d4b7143495fefdbbfc0096a8e8706d5df30de) Thanks [@rasendubi](https://github.com/rasendubi)! - Allow Zero-Width Space as emphasis separator.
+
 ## 3.0.0
 
 ### Major Changes
