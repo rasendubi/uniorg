@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/rasendubi/uniorg#readme",
   "dependencies": {
-    "@types/estree-jsx": "^1.0.3",
+    "@types/estree-jsx": "^1.0.5",
     "estree-util-build-jsx": "^3.0.1",
     "estree-util-is-identifier-name": "^3.0.0",
     "estree-util-to-js": "^2.0.0",
