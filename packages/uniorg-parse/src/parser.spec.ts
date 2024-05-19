@@ -1127,4 +1127,7 @@ line break`
 not next line`
     );
   });
+
+  // See https://github.com/rasendubi/uniorg/issues/98
+  itParses('zero-width whitespace as emphasis separator', `~code~\u200bhello`);
 });

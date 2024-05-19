@@ -5343,3 +5343,20 @@ children:
           minute: 36
         end: null
 `;
+
+exports[`org/parser zero-width whitespace as emphasis separator 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 12
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 12
+    children:
+      - type: "code"
+        value: "code"
+        children: []
+      - type: "text"
+        value: "​hello"
+`;
