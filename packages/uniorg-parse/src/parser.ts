@@ -53,6 +53,7 @@ import {
   CitationSuffix,
   CitationCommonSuffix,
   ExportSnippet,
+  LineBreak,
 } from 'uniorg';
 
 import { getOrgEntity } from './entities.js';
@@ -638,7 +639,9 @@ class Parser {
         break;
       case '\\':
         if (c[1] === '\\') {
-          // TODO: line break parser
+          if (restriction.has('line-break')) {
+            return this.parseLineBreak();
+          }
         } else {
           const offset = this.r.offset();
           const entity = restriction.has('entity') && this.parseEntity();
@@ -1705,6 +1708,19 @@ class Parser {
 
     const value = this.r.substring(begin, end);
     return u('latex-fragment', { value, contents: contents ?? value });
+  }
+
+  private parseLineBreak(): LineBreak | null {
+    const m = this.r.lookingAt(/\\\\[ \t]*$/m);
+    if (!m) return null;
+
+    // check character before linebreak
+    this.r.backoff(1);
+    if (this.r.peek(1) === '\\') return null;
+
+    this.r.advance(this.r.line());
+
+    return u('line-break');
   }
 
   private parseFootnoteReference(): FootnoteReference | null {

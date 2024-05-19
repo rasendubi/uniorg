@@ -77,6 +77,7 @@ export type ObjectType =
   | LatexFragment
   | Entity
   | ExportSnippet
+  | LineBreak
   | TableCell;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
@@ -195,6 +196,10 @@ export interface ExportSnippet extends Node {
   type: 'export-snippet';
   backEnd: string;
   value: string;
+}
+
+export interface LineBreak extends Node {
+  type: 'line-break';
 }
 
 export interface List extends GreaterElement {

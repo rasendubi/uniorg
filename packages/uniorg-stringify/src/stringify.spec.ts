@@ -514,4 +514,11 @@ some text
   });
 
   test('handle export-snippet', `@@backend:custom value@@`);
+
+  test(
+    'line-break',
+    `hello\\\\
+world!`
+  );
+  test('line-break with trailing whitespace', `hello\\\\  \nworld!`);
 });

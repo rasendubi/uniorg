@@ -295,6 +295,18 @@ either $$ a=+\\\\sqrt{2} $$ or \\\\[ a=-\\\\sqrt{2} \\\\].
 "
 `;
 
+exports[`stringify line-break 1`] = `
+"hello\\\\\\\\
+world!
+"
+`;
+
+exports[`stringify line-break with trailing whitespace 1`] = `
+"hello\\\\\\\\
+world!
+"
+`;
+
 exports[`stringify links angle link 1`] = `
 "<http://example.com>
 "

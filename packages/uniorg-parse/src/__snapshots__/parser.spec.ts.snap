@@ -2438,6 +2438,79 @@ children:
         value: "."
 `;
 
+exports[`org/parser line-break fake line break (must be at end of line) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 27
+    children:
+      - type: "text"
+        value: "some text\\\\"
+      - type: "entity"
+        useBrackets: false
+        name: "not"
+        latex: "\\\\textlnot{}"
+        requireLatexMath: false
+        html: "&not;"
+        ascii: "[angled dash]"
+        latin1: "¬"
+        utf8: "¬"
+      - type: "text"
+        value: " a line break"
+`;
+
+exports[`org/parser line-break fake line break (triple backslash) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 26
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 26
+    children:
+      - type: "text"
+        value: "some text\\\\\\\\\\\\\\nnot next line"
+`;
+
+exports[`org/parser line-break valid line break 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 22
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 22
+    children:
+      - type: "text"
+        value: "some text"
+      - type: "line-break"
+      - type: "text"
+        value: "line break"
+`;
+
+exports[`org/parser line-break whitespace after \\\\ 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 24
+    children:
+      - type: "text"
+        value: "some text"
+      - type: "line-break"
+      - type: "text"
+        value: "line break"
+`;
+
 exports[`org/parser links ./ as start of file link 1`] = `
 type: "org-data"
 contentsBegin: 0

@@ -1106,4 +1106,25 @@ more text
 
     itParses('fake export snippet, missing backend', '@@<b>@@');
   });
+
+  describe('line-break', () => {
+    itParses(
+      'valid line break',
+      `some text\\\\
+line break`
+    );
+
+    itParses('whitespace after \\\\', `some text\\\\  \nline break`);
+
+    itParses(
+      'fake line break (must be at end of line)',
+      `some text\\\\not a line break`
+    );
+
+    itParses(
+      'fake line break (triple backslash)',
+      `some text\\\\\\
+not next line`
+    );
+  });
 });
