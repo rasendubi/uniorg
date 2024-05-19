@@ -260,6 +260,8 @@ export
 #+HTML: <h1>html tag</h1>`
   );
 
+  hastTest('export snippet', `@@html:<b>@@Hello, world!@@html:</b>@@`);
+
   hastTest(
     'special block',
     `#+begin_blah

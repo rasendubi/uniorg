@@ -183,6 +183,12 @@ exports[`org/org-to-hast export html keyword 1`] = `
 
 `;
 
+exports[`org/org-to-hast export snippet 1`] = `
+
+<p><b>Hello, world!</b></p>
+
+`;
+
 exports[`org/org-to-hast fixed-width 1`] = `
 
 <pre class="fixed-width">hello</pre>

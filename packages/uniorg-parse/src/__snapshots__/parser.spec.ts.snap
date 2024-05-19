@@ -1280,6 +1280,54 @@ children:
         value: ")"
 `;
 
+exports[`org/parser export-snippet fake export snippet, missing backend 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 7
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 7
+    children:
+      - type: "text"
+        value: "@@<b>@@"
+`;
+
+exports[`org/parser export-snippet html export snippet 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 38
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 38
+    children:
+      - type: "export-snippet"
+        backEnd: "html"
+        value: "<b>"
+      - type: "text"
+        value: "hello, world!"
+      - type: "export-snippet"
+        backEnd: "html"
+        value: "</b>"
+`;
+
+exports[`org/parser export-snippet incomplete export snippet 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 27
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 27
+    children:
+      - type: "text"
+        value: "@@html:fake export snippet@"
+`;
+
 exports[`org/parser fake keyword 1`] = `
 type: "org-data"
 contentsBegin: 0

@@ -16,7 +16,9 @@ export type StringifyOptions = {
 };
 
 const defaultOptions: StringifyOptions = {
-  handlers: {},
+  handlers: {
+    'export-snippet': (org) => `@@${org.backEnd}:${org.value}@@`,
+  },
 };
 
 function normalizeOptions(

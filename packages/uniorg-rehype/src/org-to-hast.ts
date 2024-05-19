@@ -79,6 +79,11 @@ const defaultHandlers: Handlers = {
   'citation-key': function (org) {
     return this.h(org, 'a', { href: 'cite:' + org.key }, ['cite:' + org.key]);
   },
+
+  'export-snippet': function (org) {
+    if (org.backEnd !== 'html') return null;
+    return u('raw', org.value) as any;
+  },
 };
 
 function renderAsChildren(
