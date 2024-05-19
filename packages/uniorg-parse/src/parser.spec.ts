@@ -1098,4 +1098,12 @@ more text
 
     itParses('reference suffix', `[cite:@hello p.13]`);
   });
+
+  describe('export-snippet', () => {
+    itParses('html export snippet', '@@html:<b>@@hello, world!@@html:</b>@@');
+
+    itParses('incomplete export snippet', '@@html:fake export snippet@');
+
+    itParses('fake export snippet, missing backend', '@@<b>@@');
+  });
 });

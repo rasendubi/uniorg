@@ -211,6 +211,11 @@ exports[`stringify footnotes starting on next line 1`] = `
 "
 `;
 
+exports[`stringify handle export-snippet 1`] = `
+"@@backend:custom value@@
+"
+`;
+
 exports[`stringify handlers allow handlers to return empty string to suppress output 1`] = `
 "hello,  world
 "

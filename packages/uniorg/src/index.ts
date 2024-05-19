@@ -76,6 +76,7 @@ export type ObjectType =
   | FootnoteReference
   | LatexFragment
   | Entity
+  | ExportSnippet
   | TableCell;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
@@ -188,6 +189,12 @@ export interface Entity extends Node {
   ascii: string;
   latin1: string;
   utf8: string;
+}
+
+export interface ExportSnippet extends Node {
+  type: 'export-snippet';
+  backEnd: string;
+  value: string;
 }
 
 export interface List extends GreaterElement {

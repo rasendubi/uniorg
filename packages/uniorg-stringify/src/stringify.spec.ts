@@ -512,4 +512,6 @@ some text
       { handlers: { 'strike-through': () => null } }
     );
   });
+
+  test('handle export-snippet', `@@backend:custom value@@`);
 });

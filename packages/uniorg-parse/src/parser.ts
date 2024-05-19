@@ -52,6 +52,7 @@ import {
   CitationKey,
   CitationSuffix,
   CitationCommonSuffix,
+  ExportSnippet,
 } from 'uniorg';
 
 import { getOrgEntity } from './entities.js';
@@ -609,6 +610,11 @@ class Parser {
       case '+':
         if (restriction.has('strike-through')) {
           return this.parseStrikeThrough();
+        }
+        break;
+      case '@':
+        if (restriction.has('export-snippet')) {
+          return this.parseExportSnippet();
         }
         break;
       case '$':
@@ -1628,6 +1634,23 @@ class Parser {
     const value = getOrgEntity(m.groups!.value1 ?? m.groups!.value2);
     if (!value) return null;
     return u('entity', { useBrackets: hasBrackets, ...value });
+  }
+
+  private parseExportSnippet(): ExportSnippet | null {
+    const m = this.r.advance(this.r.lookingAt(/@@([-A-Za-z0-9]+):/));
+    if (!m) return null;
+
+    const backEnd = m[1];
+    const contentsBegin = this.r.offset();
+
+    const mend = this.r.advance(this.r.match(/@@/));
+    if (!mend) return null;
+
+    const contentsEnd = this.r.offset() - 2; // exclude @@
+
+    const value = this.r.substring(contentsBegin, contentsEnd);
+
+    return u('export-snippet', { backEnd, value });
   }
 
   private parseLatexFragment(): LatexFragment | null {
