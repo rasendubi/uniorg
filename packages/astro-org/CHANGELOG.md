@@ -1,5 +1,13 @@
 # astro-org
 
+## 2.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`dbf6452`](https://github.com/rasendubi/uniorg/commit/dbf6452921ad03120bb9df87746aef52ac72b5fb), [`b45baf9`](https://github.com/rasendubi/uniorg/commit/b45baf992db4659e2732e888bd3860b9eff25504)]:
+  - uniorg-parse@3.0.0
+  - rollup-plugin-orgx@1.0.2
+
 ## 2.1.0
 
 ### Minor Changes

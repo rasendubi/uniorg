@@ -1,6 +1,6 @@
 {
   "name": "uniorg-rehype",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "type": "module",
   "description": "uniorg plugin to transform to rehype",
   "keywords": [
@@ -49,8 +49,8 @@
     "ts-jest": "^29.1.1",
     "typescript": "5.2.2",
     "unified": "11.0.4",
-    "uniorg": "^1.1.1",
-    "uniorg-parse": "^2.1.1"
+    "uniorg": "^1.2.0",
+    "uniorg-parse": "^3.0.0"
   },
   "dependencies": {
     "hastscript": "8.0.0",

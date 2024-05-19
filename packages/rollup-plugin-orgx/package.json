@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-orgx",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Rollup plugin to transform org-mode files to JS.",
   "type": "module",
   "main": "lib/index.js",

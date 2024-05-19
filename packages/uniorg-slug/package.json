@@ -48,9 +48,9 @@
     "rehype-stringify": "10.0.0",
     "typescript": "5.2.2",
     "unified": "^11.0.4",
-    "uniorg": "^1.1.1",
-    "uniorg-parse": "^2.1.1",
-    "uniorg-rehype": "^1.1.1",
+    "uniorg": "^1.2.0",
+    "uniorg-parse": "^3.0.0",
+    "uniorg-rehype": "^1.2.0",
     "unist-util-find": "^3.0.0",
     "vfile": "^6.0.1"
   }
