@@ -18,6 +18,7 @@ export type StringifyOptions = {
 const defaultOptions: StringifyOptions = {
   handlers: {
     'export-snippet': (org) => `@@${org.backEnd}:${org.value}@@`,
+    'line-break': () => `\\\\\n`,
   },
 };
 

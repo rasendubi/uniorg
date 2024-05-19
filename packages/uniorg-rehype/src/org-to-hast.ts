@@ -84,6 +84,9 @@ const defaultHandlers: Handlers = {
     if (org.backEnd !== 'html') return null;
     return u('raw', org.value) as any;
   },
+  'line-break': function (org) {
+    return this.h(org, 'br');
+  },
 };
 
 function renderAsChildren(

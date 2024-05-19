@@ -474,6 +474,12 @@ either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].`
     `[cite/style:common prefix; prefix @key suffix; @key2; common suffix]`
   );
 
+  hastTest(
+    'line-break',
+    `hello\\\\
+world`
+  );
+
   test('respects hProperties', () => {
     const s = unified()
       .use(orgParse)

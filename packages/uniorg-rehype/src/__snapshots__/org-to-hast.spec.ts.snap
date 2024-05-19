@@ -354,6 +354,12 @@ exports[`org/org-to-hast latex-fragment 1`] = `
 
 `;
 
+exports[`org/org-to-hast line-break 1`] = `
+
+<p>hello<br>world</p>
+
+`;
+
 exports[`org/org-to-hast link 1`] = `
 
 <p><a href="https://example.com">https://example.com</a></p>

@@ -46,8 +46,6 @@ However, there are a couple of places I haven't finished yet:
 - babel-call, inline-babel-call, inline-src-block
 - dynamic-block
 - target, radio-target
-- line-break
-- export-snippet
 - macro
 - switches and parameters in src-block and example-block
 - repeater/warning props in timestamp
