@@ -1,5 +1,11 @@
 # astro-org
 
+## 2.1.2
+
+### Patch Changes
+
+- [#114](https://github.com/rasendubi/uniorg/pull/114) [`3af18d6`](https://github.com/rasendubi/uniorg/commit/3af18d630f64f11afda88b93c31f4779473d8e61) Thanks [@rasendubi](https://github.com/rasendubi)! - Bump astro version.
+
 ## 2.1.1
 
 ### Patch Changes
