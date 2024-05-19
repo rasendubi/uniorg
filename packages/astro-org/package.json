@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "acorn": "^8.11.2",
+    "acorn": "^8.11.3",
     "orgast-util-visit-ids": "^1.0.0",
     "rollup-plugin-orgx": "^1.0.2",
     "unified": "^11.0.4",
@@ -38,11 +38,11 @@
     "vfile": "^6.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.9.0",
-    "astro": "^3.5.3",
-    "typescript": "^5.2.2"
+    "@types/node": "^20.12.12",
+    "astro": "^4.8.6",
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "astro": "^3.0.12"
+    "astro": "^3.0.12 || ^4.0.0"
   }
 }

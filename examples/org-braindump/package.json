@@ -8,21 +8,21 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "^14.0.2",
+    "next": "^14.2.3",
     "orgast-util-visit-ids": "^1.0.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "rehype-react": "8.0.0",
     "rehype-url-inspector": "^2.0.2",
-    "sharp": "^0.32.6",
+    "sharp": "^0.33.4",
     "to-vfile": "^8.0.0",
-    "trough": "2.1.0",
+    "trough": "2.2.0",
     "unified": "11.0.4",
     "uniorg-extract-keywords": "^1.0.1",
     "uniorg-parse": "^3.0.0",
     "uniorg-rehype": "^1.2.0",
     "uniorg-slug": "^1.0.1",
     "vfile-find-down": "7.1.0",
-    "vfile-reporter": "8.1.0"
+    "vfile-reporter": "8.1.1"
   }
 }
