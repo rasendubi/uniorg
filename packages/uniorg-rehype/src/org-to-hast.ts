@@ -63,6 +63,7 @@ const defaultOptions: OrgToHastOptions = {
     'ppm',
     'pnm',
     'svg',
+    'webp',
   ],
   useSections: false,
   footnotesSection: (footnotes) => [hast('h1', {}, 'Footnotes:'), ...footnotes],
