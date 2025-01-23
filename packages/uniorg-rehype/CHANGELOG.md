@@ -1,5 +1,11 @@
 # uniorg-rehype
 
+## 1.3.0
+
+### Minor Changes
+
+- [#117](https://github.com/rasendubi/uniorg/pull/117) [`ebc6ab0`](https://github.com/rasendubi/uniorg/commit/ebc6ab04f1fa9da3a4f9774c6ad2626505166f5f) Thanks [@Eliot00](https://github.com/Eliot00)! - Recognize `.webp` and `.avif` extensions as images.
+
 ## 1.2.0
 
 ### Minor Changes
