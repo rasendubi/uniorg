@@ -1,5 +1,12 @@
 # @uniorgjs/orgx
 
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies [[`ebc6ab0`](https://github.com/rasendubi/uniorg/commit/ebc6ab04f1fa9da3a4f9774c6ad2626505166f5f)]:
+  - uniorg-rehype@1.3.0
+
 ## 1.0.7
 
 ### Patch Changes
