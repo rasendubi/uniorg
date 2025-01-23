@@ -2,4 +2,4 @@
 'uniorg-rehype': minor
 ---
 
-Support WebP image format
+Recognize `.webp` and `.avif` extensions as images.
