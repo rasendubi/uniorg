@@ -3,8 +3,12 @@
   "version": "2.1.2",
   "description": "Astro plugin to import org-mode files.",
   "type": "module",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./server.js": "./dist/server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rasendubi/uniorg.git"
@@ -22,8 +26,8 @@
   },
   "homepage": "https://github.com/rasendubi/uniorg#readme",
   "scripts": {
-    "build": "rm -rf ./lib && tsc -p tsconfig.build.json",
-    "clean": "rm -rf ./lib",
+    "build": "rm -rf ./dist && tsc -p tsconfig.build.json",
+    "clean": "rm -rf ./dist",
     "compile": "tsc -p tsconfig.build.json",
     "prepublishOnly": "npm run build"
   },
@@ -39,10 +43,10 @@
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
-    "astro": "^4.8.6",
+    "astro": "^5.0.0",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "astro": "^3.0.12 || ^4.0.0"
+    "astro": "^5.0.0"
   }
 }

@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
     "skipLibCheck": true,
-    "outDir": "./lib"
+    "outDir": "./dist",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext"
   },
   "include": ["./src"]
 }
