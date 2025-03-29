@@ -1,5 +1,12 @@
 # @uniorgjs/astro-example
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`12d0768`](https://github.com/rasendubi/uniorg/commit/12d076891ef1d643cd3712e6845e0c45d38c98cb)]:
+  - astro-org@3.0.0
+
 ## 0.0.4
 
 ### Patch Changes
