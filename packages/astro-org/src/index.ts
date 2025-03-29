@@ -1,9 +1,7 @@
 import fs from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 
-import type { AstroIntegration, ContentEntryType, HookParameters } from 'astro';
-// This rendered seems to be private and is not explicitly exported.
-// @ts-ignore
-import astroJSXRenderer from 'astro/jsx/renderer.js';
+import type { AstroIntegration, ContainerRenderer, ContentEntryType, HookParameters } from 'astro';
 
 import { unified, type PluggableList } from 'unified';
 import { VFile } from 'vfile';
@@ -32,6 +30,13 @@ type SetupHookParams = HookParameters<'astro:config:setup'> & {
   addContentEntryType: (contentEntryType: ContentEntryType) => void;
 };
 
+export function getContainerRenderer(): ContainerRenderer {
+  return {
+    name: 'astro:jsx',
+    serverEntrypoint: 'astro-org/server.js',
+  };
+}
+
 export default function org(options: OrgPluginOptions = {}): AstroIntegration {
   const uniorgPlugins: PluggableList = [
     initFrontmatter,
@@ -53,24 +58,24 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
           addPageExtension,
         } = params as SetupHookParams;
 
-        addRenderer(astroJSXRenderer);
+        addRenderer({
+          name: 'astro:jsx',
+          serverEntrypoint: new URL('../dist/server.js', import.meta.url),
+        });
         addPageExtension('.org');
         addContentEntryType({
           extensions: ['.org'],
           async getEntryInfo({ fileUrl, contents }) {
             const processor = unified().use(uniorg).use(uniorgPlugins);
 
-            const f = new VFile({ path: fileUrl, value: contents });
+            const f = new VFile({ path: fileURLToPath(fileUrl), value: contents });
             await processor.run(processor.parse(f), f);
 
             const frontmatter = f.data.astro!.frontmatter;
             return {
               data: frontmatter,
               body: contents,
-              // Astro typing requires slug to be a string, however
-              // I'm pretty sure that mdx integration returns
-              // undefined if slug is not set in frontmatter.
-              slug: frontmatter.slug as any,
+              slug: frontmatter.slug as string,
               rawData: contents,
             };
           },
