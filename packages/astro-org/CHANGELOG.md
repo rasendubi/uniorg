@@ -1,5 +1,13 @@
 # astro-org
 
+## 3.0.0
+
+### Major Changes
+
+- [#121](https://github.com/rasendubi/uniorg/pull/121) [`12d0768`](https://github.com/rasendubi/uniorg/commit/12d076891ef1d643cd3712e6845e0c45d38c98cb) Thanks [@rasendubi](https://github.com/rasendubi)! - Breaking change: Updated to support Astro 5.x (no longer compatible with Astro 4.x or earlier).
+
+  If you're upgrading, make sure you've upgraded Astro to version 5.x
+
 ## 2.1.2
 
 ### Patch Changes
