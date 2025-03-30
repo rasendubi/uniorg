@@ -41,7 +41,7 @@
   },
   "peerDependencies": {
     "uniorg-parse": ">=1.0.0 <4.0.0",
-    "uniorg-rehype": ">=1.0.0 <2.0.0"
+    "uniorg-rehype": ">=1.0.0 <3.0.0"
   },
   "devDependencies": {
     "uniorg-parse": "workspace:*",
