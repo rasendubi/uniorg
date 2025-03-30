@@ -34,12 +34,18 @@
     "hast-util-to-estree": "^3.1.0",
     "periscopic": "^4.0.2",
     "unified": "^11.0.4",
-    "uniorg-parse": "workspace:^",
-    "uniorg-rehype": "workspace:^",
     "unist-util-position-from-estree": "^2.0.0",
     "unist-util-stringify-position": "^4.0.0",
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.1"
+  },
+  "peerDependencies": {
+    "uniorg-parse": ">=1.0.0 <4.0.0",
+    "uniorg-rehype": ">=1.0.0 <2.0.0"
+  },
+  "devDependencies": {
+    "uniorg-parse": "workspace:*",
+    "uniorg-rehype": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

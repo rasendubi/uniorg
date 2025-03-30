@@ -34,19 +34,22 @@
   "dependencies": {
     "acorn": "^8.11.3",
     "orgast-util-visit-ids": "^1.0.0",
-    "rollup-plugin-orgx": "^1.0.2",
+    "rollup-plugin-orgx": "workspace:^1.0.2",
     "unified": "^11.0.4",
-    "uniorg-extract-keywords": "^1.0.0",
-    "uniorg-parse": "^3.0.0",
-    "uniorg-slug": "^1.0.0",
+    "uniorg-extract-keywords": "workspace:^1.0.0",
+    "uniorg-slug": "workspace:^1.0.0",
     "vfile": "^6.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
     "astro": "^5.0.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "uniorg-parse": "workspace:*",
+    "uniorg-rehype": "workspace:*"
   },
   "peerDependencies": {
-    "astro": "^5.0.0"
+    "astro": "^5.0.0",
+    "uniorg-parse": ">=1.0.0 <4.0.0",
+    "uniorg-rehype": ">=1.0.0 <2.0.0"
   }
 }

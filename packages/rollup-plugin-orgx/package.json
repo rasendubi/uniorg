@@ -34,8 +34,16 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@uniorgjs/orgx": "workspace:*",
+    "@uniorgjs/orgx": "workspace:^1.0.0",
     "rollup-pluginutils": "^2.8.2",
     "vfile": "^6.0.1"
+  },
+  "peerDependencies": {
+    "uniorg-parse": ">=1.0.0 <4.0.0",
+    "uniorg-rehype": ">=1.0.0 <2.0.0"
+  },
+  "devDependencies": {
+    "uniorg-parse": "workspace:*",
+    "uniorg-rehype": "workspace:*"
   }
 }

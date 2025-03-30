@@ -12,7 +12,7 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1
       '@changesets/cli':
-        specifier: ^2.28.1
+        specifier: 2.28.1
         version: 2.28.1
       eslint:
         specifier: ^9.23.0
@@ -70,7 +70,7 @@ importers:
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
         specifier: ^1.2.0
-        version: link:../../packages/uniorg-rehype
+        version: 1.3.0
 
   examples/extract-keywords-example:
     dependencies:
@@ -94,7 +94,7 @@ importers:
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
         specifier: ^1.2.0
-        version: link:../../packages/uniorg-rehype
+        version: 1.3.0
 
   examples/next-blog-starter:
     dependencies:
@@ -127,7 +127,7 @@ importers:
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
         specifier: ^1.2.0
-        version: link:../../packages/uniorg-rehype
+        version: 1.3.0
     devDependencies:
       autoprefixer:
         specifier: ^10.4.19
@@ -185,7 +185,7 @@ importers:
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
         specifier: ^1.2.0
-        version: link:../../packages/uniorg-rehype
+        version: 1.3.0
       uniorg-slug:
         specifier: ^1.0.1
         version: link:../../packages/uniorg-slug
@@ -205,19 +205,16 @@ importers:
         specifier: ^1.0.0
         version: link:../orgast-util-visit-ids
       rollup-plugin-orgx:
-        specifier: ^1.0.2
+        specifier: workspace:^1.0.2
         version: link:../rollup-plugin-orgx
       unified:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg-extract-keywords:
-        specifier: ^1.0.0
+        specifier: workspace:^1.0.0
         version: link:../uniorg-extract-keywords
-      uniorg-parse:
-        specifier: ^3.0.0
-        version: link:../uniorg-parse
       uniorg-slug:
-        specifier: ^1.0.0
+        specifier: workspace:^1.0.0
         version: link:../uniorg-slug
       vfile:
         specifier: ^6.0.1
@@ -232,6 +229,12 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
+      uniorg-parse:
+        specifier: workspace:*
+        version: link:../uniorg-parse
+      uniorg-rehype:
+        specifier: workspace:*
+        version: link:../uniorg-rehype
 
   packages/orgast-util-to-string:
     devDependencies:
@@ -305,12 +308,6 @@ importers:
       unified:
         specifier: ^11.0.4
         version: 11.0.4
-      uniorg-parse:
-        specifier: workspace:^
-        version: link:../uniorg-parse
-      uniorg-rehype:
-        specifier: workspace:^
-        version: link:../uniorg-rehype
       unist-util-position-from-estree:
         specifier: ^2.0.0
         version: 2.0.0
@@ -323,11 +320,18 @@ importers:
       vfile:
         specifier: ^6.0.1
         version: 6.0.1
+    devDependencies:
+      uniorg-parse:
+        specifier: workspace:*
+        version: link:../uniorg-parse
+      uniorg-rehype:
+        specifier: workspace:*
+        version: link:../uniorg-rehype
 
   packages/rollup-plugin-orgx:
     dependencies:
       '@uniorgjs/orgx':
-        specifier: workspace:*
+        specifier: workspace:^1.0.0
         version: link:../orgx
       rollup-pluginutils:
         specifier: ^2.8.2
@@ -335,6 +339,13 @@ importers:
       vfile:
         specifier: ^6.0.1
         version: 6.0.1
+    devDependencies:
+      uniorg-parse:
+        specifier: workspace:*
+        version: link:../uniorg-parse
+      uniorg-rehype:
+        specifier: workspace:*
+        version: link:../uniorg-rehype
 
   packages/uniorg:
     devDependencies:
@@ -493,10 +504,10 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg:
-        specifier: ^1.2.0
+        specifier: workspace:^1.2.0
         version: link:../uniorg
       uniorg-parse:
-        specifier: ^3.0.0
+        specifier: workspace:^3.0.0
         version: link:../uniorg-parse
 
   packages/uniorg-slug:
@@ -4278,6 +4289,9 @@ packages:
 
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
+
+  uniorg-rehype@1.3.0:
+    resolution: {integrity: sha512-VLK6h8IEzd2MTl2fR6EyG0e3ltCpFDVu2sJyUidOcaxYu1zRh0Ip8WUlTesAkT7TeboTrXTjrLHUvie5y0UrTA==}
 
   unist-builder@4.0.0:
     resolution: {integrity: sha512-wmRFnH+BLpZnTKpc5L7O67Kac89s9HMrtELpnNaE6TAobq5DTZZs5YaTQfAZBA9bFPECx2uVAPO31c+GVug8mg==}
@@ -9449,6 +9463,11 @@ snapshots:
       is-plain-obj: 4.1.0
       trough: 2.2.0
       vfile: 6.0.1
+
+  uniorg-rehype@1.3.0:
+    dependencies:
+      hastscript: 9.0.0
+      unist-builder: 4.0.0
 
   unist-builder@4.0.0:
     dependencies:
