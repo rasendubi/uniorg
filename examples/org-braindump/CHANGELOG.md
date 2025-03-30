@@ -1,5 +1,12 @@
 # org-braindump
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`40ff5c5`](https://github.com/rasendubi/uniorg/commit/40ff5c5331c47f408484ba84daa2c18d81ba554d)]:
+  - uniorg-rehype@2.1.0
+
 ## 1.0.3
 
 ### Patch Changes
