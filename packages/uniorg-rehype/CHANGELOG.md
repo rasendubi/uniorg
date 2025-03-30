@@ -1,5 +1,11 @@
 # uniorg-rehype
 
+## 2.1.0
+
+### Minor Changes
+
+- [#128](https://github.com/rasendubi/uniorg/pull/128) [`40ff5c5`](https://github.com/rasendubi/uniorg/commit/40ff5c5331c47f408484ba84daa2c18d81ba554d) Thanks [@rasendubi](https://github.com/rasendubi)! - Updated verse block handling to match ox-html's behavior by stripping common indentation from all lines.
+
 ## 2.0.0
 
 ### Major Changes
