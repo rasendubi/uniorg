@@ -4380,6 +4380,190 @@ children:
             value: "this is paragraph"
 `;
 
+exports[`org/parser position tracking adds position information when trackPosition is enabled 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 56
+position:
+  start:
+    line: 1
+    column: 1
+    offset: 0
+  end:
+    line: 2
+    column: 46
+    offset: 56
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 56
+    position:
+      start:
+        line: 1
+        column: 1
+        offset: 0
+      end:
+        line: 2
+        column: 46
+        offset: 56
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "Headline"
+        tags: []
+        contentsBegin: 2
+        contentsEnd: 10
+        position:
+          start:
+            line: 1
+            column: 1
+            offset: 0
+          end:
+            line: 1
+            column: 11
+            offset: 10
+        children:
+          - type: "text"
+            value: "Headline"
+            position:
+              start:
+                line: 1
+                column: 3
+                offset: 2
+              end:
+                line: 1
+                column: 11
+                offset: 10
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 11
+        contentsEnd: 56
+        position:
+          start:
+            line: 2
+            column: 1
+            offset: 11
+          end:
+            line: 2
+            column: 46
+            offset: 56
+        children:
+          - type: "text"
+            value: "Some paragraph text with "
+            position:
+              start:
+                line: 2
+                column: 1
+                offset: 11
+              end:
+                line: 2
+                column: 26
+                offset: 36
+          - type: "bold"
+            contentsBegin: 37
+            contentsEnd: 41
+            position:
+              start:
+                line: 2
+                column: 26
+                offset: 36
+              end:
+                line: 2
+                column: 32
+                offset: 42
+            children:
+              - type: "text"
+                value: "bold"
+                position:
+                  start:
+                    line: 2
+                    column: 27
+                    offset: 37
+                  end:
+                    line: 2
+                    column: 31
+                    offset: 41
+          - type: "text"
+            value: " and "
+            position:
+              start:
+                line: 2
+                column: 32
+                offset: 42
+              end:
+                line: 2
+                column: 37
+                offset: 47
+          - type: "italic"
+            contentsBegin: 48
+            contentsEnd: 54
+            position:
+              start:
+                line: 2
+                column: 37
+                offset: 47
+              end:
+                line: 2
+                column: 45
+                offset: 55
+            children:
+              - type: "text"
+                value: "italic"
+                position:
+                  start:
+                    line: 2
+                    column: 38
+                    offset: 48
+                  end:
+                    line: 2
+                    column: 44
+                    offset: 54
+          - type: "text"
+            value: "."
+            position:
+              start:
+                line: 2
+                column: 45
+                offset: 55
+              end:
+                line: 2
+                column: 46
+                offset: 56
+`;
+
+exports[`org/parser position tracking does not add position information when trackPosition is disabled 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 31
+children:
+  - type: "section"
+    contentsBegin: 0
+    contentsEnd: 31
+    children:
+      - type: "headline"
+        level: 1
+        todoKeyword: null
+        priority: null
+        commented: false
+        rawValue: "Headline"
+        tags: []
+        contentsBegin: 2
+        contentsEnd: 10
+        children:
+          - type: "text"
+            value: "Headline"
+      - type: "paragraph"
+        affiliated: {}
+        contentsBegin: 11
+        contentsEnd: 31
+        children:
+          - type: "text"
+            value: "Some paragraph text."
+`;
+
 exports[`org/parser property drawer + section 1`] = `
 type: "org-data"
 contentsBegin: 0

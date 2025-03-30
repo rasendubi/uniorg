@@ -1,3 +1,4 @@
+import type { Point, Position } from 'unist';
 import { VFile } from 'vfile';
 import { location } from 'vfile-location';
 
@@ -172,5 +173,22 @@ export class Reader {
     const result = f();
     this.widen();
     return result;
+  }
+
+  /**
+   * Converts start and end offsets to a position object according to the unist spec.
+   */
+  public positionFromOffsets(
+    startOffset: number,
+    endOffset: number
+  ): Position | null {
+    const start = this.#location.toPoint(startOffset);
+    const end = this.#location.toPoint(endOffset);
+
+    if (!start || !end) {
+      return null;
+    }
+
+    return { start, end };
   }
 }

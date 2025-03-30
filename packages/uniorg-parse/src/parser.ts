@@ -55,6 +55,7 @@ import {
   ExportSnippet,
   LineBreak,
 } from 'uniorg';
+import type { Position } from 'unist';
 
 import { getOrgEntity } from './entities.js';
 import {
@@ -83,10 +84,10 @@ import { Reader } from './reader.js';
  * By default, all Elements except `Headline`, `Planning`, `PropertyDrawer`, `ListItem`, `TableRow`, and
  * `NodeProperty` are supported.
  *
- * If the documentation of the mode say “allows”—the specified elements are supported in additional to default
+ * If the documentation of the mode say "allows"—the specified elements are supported in additional to default
  * elements.
  *
- * If the documentation of the mode says “expecting”—only that elements are allowed (default elements are
+ * If the documentation of the mode says "expecting"—only that elements are allowed (default elements are
  * not).
  */
 enum ParseMode {
@@ -133,12 +134,42 @@ class Parser {
     this.re = new OrgRegexUtils(this.options);
   }
 
+  /**
+   * Adds position information to node data when trackPosition is enabled
+   */
+  private addPosition<T extends object>(
+    data: T,
+    startOffset: number,
+    endOffset: number
+  ): T {
+    if (!this.options.trackPosition) {
+      return data;
+    }
+
+    const position = this.r.positionFromOffsets(startOffset, endOffset);
+    if (!position) {
+      return data;
+    }
+
+    return {
+      ...data,
+      position,
+    };
+  }
+
   public parse(): OrgData {
     this.parseEmptyLines();
+    const startOffset = 0;
     const children = this.parseElements(ParseMode.TopComment);
+    const endOffset = this.r.endOffset();
+
     return u(
       'org-data',
-      { contentsBegin: 0, contentsEnd: this.r.endOffset() },
+      this.addPosition(
+        { contentsBegin: startOffset, contentsEnd: endOffset },
+        startOffset,
+        endOffset
+      ),
       children as any
     );
   }
@@ -157,7 +188,9 @@ class Parser {
           'rest:',
           JSON.stringify(this.r.rest())
         );
-        throw new Error('no progress (elements)');
+        throw new Error(
+          'no progress (elements), if you see this, please report an issue to https://github.com/rasendubi/uniorg/issues'
+        );
       }
       prevOffset = offset;
 
@@ -184,7 +217,7 @@ class Parser {
         );
         this.r.widen();
 
-        // Delete structure from lists. It’s only here to facilitate
+        // Delete structure from lists. It's only here to facilitate
         // parsing and should not be exposed to the user.
         // @ts-expect-error Property 'structure' does not exist on type 'OrgData'
         if (element.structure) {
@@ -420,7 +453,7 @@ class Parser {
       // infinite loop here.
       if (this.r.offset() === prevOffset) {
         throw new Error(
-          `no progress (parseObject): ${JSON.stringify(
+          `no progress (parseObject). If you see this, please report an issue to https://github.com/rasendubi/uniorg/issues with the following information: ${JSON.stringify(
             mobject
           )}, text: ${JSON.stringify(this.r.rest())}, objects: ${JSON.stringify(
             objects,
@@ -434,7 +467,9 @@ class Parser {
       if (objectBegin !== prevEnd) {
         // parse text before object
         const value = this.r.substring(prevEnd, objectBegin);
-        objects.push(u('text', { value }));
+        objects.push(
+          u('text', this.addPosition({ value }, prevEnd, objectBegin))
+        );
       }
 
       // @ts-expect-error contentsBegin is not defined for "literals"
@@ -458,7 +493,9 @@ class Parser {
     const text = this.r.rest();
     this.r.advance(text.length);
     if (text.trim().length) {
-      objects.push(u('text', { value: text }));
+      objects.push(
+        u('text', this.addPosition({ value: text }, prevEnd, this.r.offset()))
+      );
     }
 
     return objects;
@@ -552,7 +589,9 @@ class Parser {
       const o = this.tryParseObject(restriction);
       if (o) {
         if (begin === this.r.offset()) {
-          throw new Error('no progress (tryParseObject)');
+          throw new Error(
+            'no progress (tryParseObject). If you see this, please report an issue to https://github.com/rasendubi/uniorg/issues.'
+          );
         }
         return [begin, o];
       }
@@ -708,7 +747,15 @@ class Parser {
       ? this.r.offset() + endOfSubtree.index
       : this.r.endOffset();
     this.r.resetOffset(contentsEnd);
-    return u('section', { contentsBegin, contentsEnd }, []);
+    return u(
+      'section',
+      this.addPosition(
+        { contentsBegin, contentsEnd },
+        contentsBegin,
+        contentsEnd
+      ),
+      []
+    );
   }
 
   private parseHeadline(): Headline {
@@ -753,22 +800,29 @@ class Parser {
 
     return u(
       'headline',
-      {
-        level,
-        todoKeyword,
-        priority,
-        commented,
-        rawValue,
-        tags,
-        contentsBegin,
-        contentsEnd,
-      },
+      this.addPosition(
+        {
+          level,
+          todoKeyword,
+          priority,
+          commented,
+          rawValue,
+          tags,
+          contentsBegin,
+          contentsEnd,
+        },
+        begin,
+        titleEnd
+      ),
       []
     );
   }
 
   private parsePlanning(): Planning {
     this.r.narrow(this.r.offset(), this.r.offset() + this.r.line().length);
+
+    this.r.advance(this.r.match(/^[ \t]*/));
+    const begin = this.r.offset();
 
     let scheduled: Timestamp | null = null;
     let deadline: Timestamp | null = null;
@@ -789,22 +843,33 @@ class Parser {
       if (keyword === 'CLOSED:') closed = time;
     }
 
+    const end = this.r.offset();
+
     this.r.widen();
     this.r.advance(this.r.line());
     this.parseEmptyLines();
 
-    return u('planning', { scheduled, deadline, closed });
+    return u(
+      'planning',
+      this.addPosition({ scheduled, deadline, closed }, begin, end)
+    );
   }
 
   private parsePropertyDrawer(): PropertyDrawer {
+    const begin = this.r.offset();
     this.r.advance(this.r.line());
     const contentsBegin = this.r.offset();
     const endM = this.r.forceMatch(/^[ \t]*:END:[ \t]*$/im);
     this.r.advance(endM.index);
     const contentsEnd = this.r.offset();
     this.r.advance(this.r.line());
+    const end = this.r.offset();
     this.parseEmptyLines();
-    return u('property-drawer', { contentsBegin, contentsEnd }, []);
+    return u(
+      'property-drawer',
+      this.addPosition({ contentsBegin, contentsEnd }, begin, end),
+      []
+    );
   }
 
   private parseBlock<T extends string>(
@@ -818,6 +883,7 @@ class Parser {
         contentsBegin: number;
         contentsEnd: number;
         children: never[];
+        position?: Position;
       }
     | Paragraph {
     const endM = this.r.match(
@@ -833,15 +899,20 @@ class Parser {
     const contentsEnd = begin + endM.index;
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
+    const end = this.r.offset();
     this.parseEmptyLines();
-    const _end = this.r.offset();
 
-    return u(type, { affiliated, contentsBegin, contentsEnd }, []);
+    return u(
+      type,
+      this.addPosition({ affiliated, contentsBegin, contentsEnd }, begin, end),
+      []
+    );
   }
 
   private parseComment(): Comment {
     let valueLines = [];
     this.r.advance(this.r.forceLookingAt(/^[ \t]*# ?/));
+    const start = this.r.offset();
     valueLines.push(this.r.advance(this.r.line()));
 
     while (true) {
@@ -851,16 +922,22 @@ class Parser {
       valueLines.push(this.r.advance(this.r.line()));
     }
 
+    let end = this.r.offset();
+    if (this.r.substring(end - 1, end) === '\n') {
+      end -= 1;
+    }
+
     let value = valueLines.join('');
     if (value[value.length - 1] === '\n') {
       value = value.substring(0, value.length - 1);
     }
 
-    return u('comment', { value: value });
+    return u('comment', this.addPosition({ value }, start, end));
   }
 
   private parseFixedWidth(affiliated: AffiliatedKeywords): FixedWidth {
     let valueLines = [];
+    const begin = this.r.offset();
     while (true) {
       const m = this.r.lookingAt(/^[ \t]*: ?(.*)$/m);
       if (!m) break;
@@ -870,7 +947,15 @@ class Parser {
     }
     const value = valueLines.join('\n');
 
-    return u('fixed-width', { affiliated, value });
+    let end = this.r.offset();
+    if (this.r.substring(end - 1, end) === '\n') {
+      end -= 1;
+    }
+
+    return u(
+      'fixed-width',
+      this.addPosition({ affiliated, value }, begin, end)
+    );
   }
 
   private parseCommentBlock(
@@ -881,8 +966,9 @@ class Parser {
       // parsed as paragraph
       return comment;
     }
-    const value = this.r.substring(comment.contentsBegin, comment.contentsEnd);
-    return u('comment-block', { affiliated, value });
+    const { type: _, contentsBegin, contentsEnd, children, ...rest } = comment;
+    const value = this.r.substring(contentsBegin, contentsEnd);
+    return u('comment-block', { ...rest, value, affiliated });
   }
 
   private parseSrcBlock(affiliated: AffiliatedKeywords): SrcBlock | Paragraph {
@@ -908,17 +994,24 @@ class Parser {
     );
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
+    const end = begin + endM.index + endM[0].length;
     this.parseEmptyLines();
-    const _end = this.r.offset();
 
-    return u('src-block', {
-      affiliated,
-      language,
-      switches: switches?.trim() ?? null,
-      // using || to convert empty strings to null as well
-      parameters: parameters.trim() || null,
-      value,
-    });
+    return u(
+      'src-block',
+      this.addPosition(
+        {
+          affiliated,
+          language,
+          switches: switches?.trim() ?? null,
+          // using || to convert empty strings to null as well
+          parameters: parameters.trim() || null,
+          value,
+        },
+        begin,
+        end
+      )
+    );
   }
 
   private parseExampleBlock(
@@ -930,8 +1023,9 @@ class Parser {
       // parsed as paragraph
       return block;
     }
-    const value = this.r.substring(block.contentsBegin, block.contentsEnd);
-    return u('example-block', { affiliated, value });
+    const { type: _, contentsBegin, contentsEnd, children, ...rest } = block;
+    const value = this.r.substring(contentsBegin, contentsEnd);
+    return u('example-block', { ...rest, value, affiliated });
   }
 
   private parseExportBlock(
@@ -957,9 +1051,12 @@ class Parser {
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    const _end = this.r.offset();
 
-    return u('export-block', { affiliated, backend, value });
+    const end = begin + endM.index + endM[0].length;
+    return u(
+      'export-block',
+      this.addPosition({ affiliated, backend, value }, begin, end)
+    );
   }
 
   private parseSpecialBlock(
@@ -981,11 +1078,15 @@ class Parser {
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    const _end = this.r.offset();
+    const end = begin + endM.index + endM[0].length;
 
     return u(
       'special-block',
-      { affiliated, blockType, contentsBegin, contentsEnd },
+      this.addPosition(
+        { affiliated, blockType, contentsBegin, contentsEnd },
+        begin,
+        end
+      ),
       []
     );
   }
@@ -1017,7 +1118,7 @@ class Parser {
       this.r.advance(this.r.line());
 
       const isDual = dualKeywords.has(keyword);
-      const dualValue = isDual ? keywordM.groups!.dualValue ?? null : null;
+      const dualValue = isDual ? (keywordM.groups!.dualValue ?? null) : null;
 
       const value = dualValue === null ? mainValue : [mainValue, dualValue];
 
@@ -1047,9 +1148,14 @@ class Parser {
     const m = this.r.forceLookingAt(/[ \t]*#\+(\S+):(.*)/);
     const key = m[1].toUpperCase();
     const value = m[2].trim();
+    const begin = this.r.offset();
     this.r.advance(this.r.line());
+    const end = this.r.offset();
     this.parseEmptyLines();
-    return u('keyword', { affiliated, key, value });
+    return u(
+      'keyword',
+      this.addPosition({ affiliated, key, value }, begin, end)
+    );
   }
 
   private parseLatexEnvironment(
@@ -1072,16 +1178,21 @@ class Parser {
 
     const value = this.r.substring(beginOffset, endOffset);
 
-    return u('latex-environment', { affiliated, value });
+    return u(
+      'latex-environment',
+      this.addPosition({ affiliated, value }, beginOffset, endOffset)
+    );
   }
 
   private parseDrawer(affiliated: AffiliatedKeywords): Drawer | Paragraph {
+    const start = this.r.offset();
     const endM = this.r.match(/^[ \t]*:END:[ \t]*$/im);
     if (!endM) {
       this.r.message('incomplete drawer', this.r.offset(), 'uniorg');
       // Incomplete drawer: parse it as a paragraph.
       return this.parseParagraph(affiliated);
     }
+    const end = start + endM.index + endM[0].length;
     const contentsEnd = this.r.offset() + endM.index;
 
     const name = this.r.forceLookingAt(drawerRe)[1];
@@ -1090,10 +1201,19 @@ class Parser {
     this.r.resetOffset(contentsEnd);
     this.r.advance(this.r.line());
     this.parseEmptyLines();
-    return u('drawer', { affiliated, name, contentsBegin, contentsEnd }, []);
+    return u(
+      'drawer',
+      this.addPosition(
+        { affiliated, name, contentsBegin, contentsEnd },
+        start,
+        end
+      ),
+      []
+    );
   }
 
   private parseClock(): Clock {
+    const start = this.r.offset();
     this.r.advance(this.r.forceMatch(/^[ \t]*CLOCK:[ \t]*/));
     const value = this.parseTimestamp();
 
@@ -1103,23 +1223,30 @@ class Parser {
 
     const status: 'closed' | 'running' = duration ? 'closed' : 'running';
 
+    const end = this.r.offset();
     this.parseEmptyLines();
 
-    return u('clock', { value, duration, status });
+    return u(
+      'clock',
+      this.addPosition({ value, duration, status }, start, end)
+    );
   }
 
   private parseNodeProperty(): NodeProperty {
+    const start = this.r.offset();
     const propertyRe =
       /^[ \t]*:(?<key>\S+):(?:(?<value1>$)|[ \t]+(?<value2>.*?))[ \t]*$/m;
     const m = this.r.forceLookingAt(propertyRe);
     const key = m.groups!['key'];
     const value = m.groups!['value1'] ?? m.groups!['value2'];
+    const end = this.r.offset() + m.index + m[0].length;
     this.r.advance(this.r.line());
-    return u('node-property', { key, value });
+    return u('node-property', this.addPosition({ key, value }, start, end));
   }
 
   private parseParagraph(affiliated: AffiliatedKeywords): Paragraph {
-    const contentsBegin = this.r.offset();
+    const begin = this.r.offset();
+    const contentsBegin = begin;
     this.r.advance(this.r.line());
 
     let next = null;
@@ -1178,16 +1305,22 @@ class Parser {
     }
 
     const contentsEnd = next ? this.r.offset() : this.r.endOffset();
+    const end = contentsEnd;
 
     this.r.resetOffset(contentsEnd);
     this.parseEmptyLines();
 
-    return u('paragraph', { affiliated, contentsBegin, contentsEnd }, []);
+    return u(
+      'paragraph',
+      this.addPosition({ affiliated, contentsBegin, contentsEnd }, begin, end),
+      []
+    );
   }
 
   private parseFootnoteDefinition(
     affiliated: AffiliatedKeywords
   ): FootnoteDefinition {
+    const start = this.r.offset();
     const m = this.r.forceLookingAt(footnoteDefinitionRe);
     const label = m[1];
 
@@ -1216,6 +1349,7 @@ class Parser {
       contentsEnd = this.r.offset();
     }
 
+    const end = contentsEnd;
     this.r.narrow(begin, contentsEnd);
     this.r.advance(this.r.forceMatch(/\][ \r\t\n]*/m));
     const contentsBegin = this.r.offset();
@@ -1225,25 +1359,34 @@ class Parser {
 
     return u(
       'footnote-definition',
-      { affiliated, label, contentsBegin, contentsEnd },
+      this.addPosition(
+        { affiliated, label, contentsBegin, contentsEnd },
+        start,
+        end
+      ),
       []
     );
   }
 
   private parseHorizontalRule(affiliated: AffiliatedKeywords): HorizontalRule {
+    const start = this.r.offset();
     this.r.advance(this.r.line());
+    const end = this.r.offset();
     this.parseEmptyLines();
-    return u('horizontal-rule', { affiliated });
+    return u('horizontal-rule', this.addPosition({ affiliated }, start, end));
   }
 
   private parseDiarySexp(affiliated: AffiliatedKeywords): DiarySexp {
+    const start = this.r.offset();
     const value = this.r.forceLookingAt(/^(%%\(.*)[ \t]*$/m)[1];
     this.r.advance(this.r.line());
+    const end = this.r.offset();
     this.parseEmptyLines();
-    return u('diary-sexp', { affiliated, value });
+    return u('diary-sexp', this.addPosition({ affiliated, value }, start, end));
   }
 
   private parseTable(affiliated: AffiliatedKeywords): Table {
+    const start = this.r.offset();
     const contentsBegin = this.r.offset();
     const tableType: 'org' | 'table.el' = this.r.lookingAt(/^[ \t]*\|/)
       ? 'org'
@@ -1262,46 +1405,75 @@ class Parser {
       tblfm = tblfm + tblfmM[1];
       this.r.advance(this.r.line());
     }
+    const end = this.r.offset();
     this.parseEmptyLines();
 
     if (tableType === 'org') {
-      return u('table', { tableType, tblfm, contentsBegin, contentsEnd }, []);
+      return u(
+        'table',
+        this.addPosition(
+          { tableType, tblfm, contentsBegin, contentsEnd },
+          start,
+          end
+        ),
+        []
+      );
     } else {
-      return u('table', {
-        affiliated,
-        tableType,
-        tblfm,
-        value: this.r.substring(contentsBegin, contentsEnd),
-      });
+      return u(
+        'table',
+        this.addPosition(
+          {
+            affiliated,
+            tableType,
+            tblfm,
+            value: this.r.substring(contentsBegin, contentsEnd),
+          },
+          start,
+          end
+        )
+      );
     }
   }
 
   private parseTableRow(): TableRow {
+    const start = this.r.offset();
     const rowType: 'rule' | 'standard' = this.r.lookingAt(/^[ \t]*\|-/)
       ? 'rule'
       : 'standard';
     this.r.advance(this.r.forceMatch(/\|/));
     const contentsBegin = this.r.offset();
     this.r.advance(this.r.forceMatch(/^.*?[ \t]*$/m));
+    const end = this.r.offset();
     // A table rule has no contents. In that case, ensure
     // contentsBegin matches contentsEnd.
     const contentsEnd = rowType === 'rule' ? contentsBegin : this.r.offset();
     this.r.advance(this.r.line());
-    return u('table-row', { rowType, contentsBegin, contentsEnd }, []);
+    return u(
+      'table-row',
+      this.addPosition({ rowType, contentsBegin, contentsEnd }, start, end),
+      []
+    );
   }
 
   private parseTableCell(): TableCell {
+    const start = this.r.offset();
     this.r.advance(this.r.forceLookingAt(/^[ \t]*/));
     const contentsBegin = this.r.offset();
     const m = this.r.advance(this.r.forceLookingAt(/(.*?)[ \t]*(?:\||$)/m));
     const contentsEnd = contentsBegin + m[1].length;
-    return u('table-cell', { contentsBegin, contentsEnd }, []);
+    const end = contentsBegin + m[0].length;
+    return u(
+      'table-cell',
+      this.addPosition({ contentsBegin, contentsEnd }, start, end),
+      []
+    );
   }
 
   private parseList(
     structure: ListStructureItem[],
     affiliated: AffiliatedKeywords
   ): List {
+    const start = this.r.offset();
     const contentsBegin = this.r.offset();
 
     const item = structure.find((x) => x.begin === contentsBegin);
@@ -1331,25 +1503,30 @@ class Parser {
     const contentsEnd = pos;
 
     this.r.resetOffset(contentsEnd);
+    const end = this.r.offset();
 
     return u(
       'plain-list',
-      {
-        affiliated,
-        indent,
-        listType,
-        contentsBegin,
-        contentsEnd,
-        // Exposing structure here is temporary as it gets removed in parseElements(). It is only exposed so
-        // that parseElements() can pick it up and use it for parsing list items.
-        structure,
-      },
+      this.addPosition(
+        {
+          affiliated,
+          indent,
+          listType,
+          contentsBegin,
+          contentsEnd,
+          // Exposing structure here is temporary as it gets removed in parseElements(). It is only exposed so
+          // that parseElements() can pick it up and use it for parsing list items.
+          structure,
+        },
+        start,
+        end
+      ),
       []
     );
   }
 
   private parseListItem(structure: ListStructureItem[]) {
-    const offset = this.r.offset();
+    const start = this.r.offset();
     const m = this.r.advance(this.r.forceMatch(this.re.fullListItemRe()));
     const bullet = m.groups!.bullet;
     const counter = m.groups!.counter ?? null;
@@ -1361,21 +1538,26 @@ class Parser {
           : m.groups!.checkbox === '[-]'
             ? ('trans' as const)
             : null;
-    const item = structure.find((x) => x.begin === offset)!;
+    const item = structure.find((x) => x.begin === start)!;
     const contentsBegin = this.r.offset();
     const contentsEnd = item.end;
     this.r.resetOffset(contentsEnd);
+    const end = this.r.offset();
     return u(
       'list-item',
-      {
-        indent: item.indent,
-        bullet,
-        counter,
-        checkbox,
-        contentsBegin,
-        contentsEnd,
-        structure,
-      },
+      this.addPosition(
+        {
+          indent: item.indent,
+          bullet,
+          counter,
+          checkbox,
+          contentsBegin,
+          contentsEnd,
+          structure,
+        },
+        start,
+        end
+      ),
       item.tag ? [item.tag] : []
     );
   }
@@ -1509,9 +1691,13 @@ class Parser {
     const begin = start + m[1].length;
     const contentsBegin = begin + m[2].length + (inside ? 1 : 0);
     const contentsEnd = begin + m[2].length + m[3].length - (inside ? 1 : 0);
-    const _end = this.r.offset();
+    const end = this.r.offset();
 
-    return u('superscript', { contentsBegin, contentsEnd, children: [] });
+    return u(
+      'superscript',
+      this.addPosition({ contentsBegin, contentsEnd }, begin, end),
+      []
+    );
   }
 
   private parseSubscript(): Subscript | null {
@@ -1535,12 +1721,17 @@ class Parser {
     const begin = start + m[1].length;
     const contentsBegin = begin + m[2].length + (inside ? 1 : 0);
     const contentsEnd = begin + m[2].length + m[3].length - (inside ? 1 : 0);
-    const _end = this.r.offset();
+    const end = this.r.offset();
 
-    return u('subscript', { contentsBegin, contentsEnd, children: [] });
+    return u(
+      'subscript',
+      this.addPosition({ contentsBegin, contentsEnd }, begin, end),
+      []
+    );
   }
 
   private parseUnderline(): Underline | null {
+    const start = this.r.offset();
     // backoff one char to check border
     this.r.backoff(1);
     const m = this.r.lookingAt(this.re.emphRe());
@@ -1548,10 +1739,16 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    return u('underline', { contentsBegin, contentsEnd }, []);
+    const end = this.r.offset();
+    return u(
+      'underline',
+      this.addPosition({ contentsBegin, contentsEnd }, start, end),
+      []
+    );
   }
 
   private parseBold(): Bold | null {
+    const start = this.r.offset();
     // backoff one char to check border
     this.r.backoff(1);
     const m = this.r.lookingAt(this.re.emphRe());
@@ -1559,10 +1756,16 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    return u('bold', { contentsBegin, contentsEnd }, []);
+    const end = this.r.offset();
+    return u(
+      'bold',
+      this.addPosition({ contentsBegin, contentsEnd }, start, end),
+      []
+    );
   }
 
   private parseItalic(): Italic | null {
+    const start = this.r.offset();
     // backoff one char to check border
     this.r.backoff(1);
     const m = this.r.lookingAt(this.re.emphRe());
@@ -1570,10 +1773,16 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    return u('italic', { contentsBegin, contentsEnd }, []);
+    const end = this.r.offset();
+    return u(
+      'italic',
+      this.addPosition({ contentsBegin, contentsEnd }, start, end),
+      []
+    );
   }
 
   private parseCode(): Code | null {
+    const start = this.r.offset();
     // backoff one char to check border
     this.r.backoff(1);
     const m = this.r.lookingAt(this.re.verbatimRe());
@@ -1582,10 +1791,12 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    return u('code', { value }, []);
+    const end = this.r.offset();
+    return u('code', this.addPosition({ value }, start, end), []);
   }
 
   private parseVerbatim(): Verbatim | null {
+    const start = this.r.offset();
     this.r.backoff(1);
     const m = this.r.lookingAt(this.re.verbatimRe());
     if (!m) return null;
@@ -1593,10 +1804,12 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    return u('verbatim', { value }, []);
+    const end = this.r.offset();
+    return u('verbatim', this.addPosition({ value }, start, end), []);
   }
 
   private parseStrikeThrough(): StrikeThrough | null {
+    const start = this.r.offset();
     // backoff one char to check border
     this.r.backoff(1);
     const m = this.r.lookingAt(this.re.emphRe());
@@ -1604,7 +1817,12 @@ class Parser {
     const contentsBegin = this.r.offset() + m.index + m[1].length + m[3].length;
     const contentsEnd = contentsBegin + m[4].length;
     this.r.resetOffset(contentsEnd + 1);
-    return u('strike-through', { contentsBegin, contentsEnd }, []);
+    const end = this.r.offset();
+    return u(
+      'strike-through',
+      this.addPosition({ contentsBegin, contentsEnd }, start, end),
+      []
+    );
   }
 
   private parseStatisticsCookie(): StatisticsCookie | null {
@@ -1617,10 +1835,14 @@ class Parser {
     // skip trailing whitespace
     const postBlank = this.r.advance(this.r.forceLookingAt(/\s*/))[0].length;
 
-    return u('statistics-cookie', { begin, end, value, postBlank });
+    return u(
+      'statistics-cookie',
+      this.addPosition({ begin, end, value, postBlank }, begin, end)
+    );
   }
 
   private parseEntity(): Entity | null {
+    const start = this.r.offset();
     const m = this.r.advance(
       this.r.lookingAt(
         /^\\(?:(?<value1>_ +)|(?<value2>there4|sup[123]|frac[13][24]|[a-zA-Z]+)(?<brackets>$|\{\}|\P{Letter}))/mu
@@ -1634,12 +1856,17 @@ class Parser {
       // as text later.
       this.r.backoff(m.groups!.brackets.length);
     }
+    const end = this.r.offset();
     const value = getOrgEntity(m.groups!.value1 ?? m.groups!.value2);
     if (!value) return null;
-    return u('entity', { useBrackets: hasBrackets, ...value });
+    return u(
+      'entity',
+      this.addPosition({ useBrackets: hasBrackets, ...value }, start, end)
+    );
   }
 
   private parseExportSnippet(): ExportSnippet | null {
+    const start = this.r.offset();
     const m = this.r.advance(this.r.lookingAt(/@@([-A-Za-z0-9]+):/));
     if (!m) return null;
 
@@ -1649,11 +1876,15 @@ class Parser {
     const mend = this.r.advance(this.r.match(/@@/));
     if (!mend) return null;
 
-    const contentsEnd = this.r.offset() - 2; // exclude @@
+    const end = this.r.offset();
+    const contentsEnd = end - 2; // exclude @@
 
     const value = this.r.substring(contentsBegin, contentsEnd);
 
-    return u('export-snippet', { backEnd, value });
+    return u(
+      'export-snippet',
+      this.addPosition({ backEnd, value }, start, end)
+    );
   }
 
   private parseLatexFragment(): LatexFragment | null {
@@ -1707,10 +1938,15 @@ class Parser {
     if (begin === end) return null;
 
     const value = this.r.substring(begin, end);
-    return u('latex-fragment', { value, contents: contents ?? value });
+    return u(
+      'latex-fragment',
+      this.addPosition({ value, contents: contents ?? value }, begin, end)
+    );
   }
 
   private parseLineBreak(): LineBreak | null {
+    const start = this.r.offset();
+
     const m = this.r.lookingAt(/\\\\[ \t]*$/m);
     if (!m) return null;
 
@@ -1718,9 +1954,10 @@ class Parser {
     this.r.backoff(1);
     if (this.r.peek(1) === '\\') return null;
 
+    const end = start + m[0].length;
     this.r.advance(this.r.line());
 
-    return u('line-break');
+    return u('line-break', this.addPosition({}, start, end));
   }
 
   private parseFootnoteReference(): FootnoteReference | null {
@@ -1752,25 +1989,29 @@ class Parser {
       : 'standard';
     const label =
       footnoteType === 'inline'
-        ? m.groups!.label_inline ?? null
+        ? (m.groups!.label_inline ?? null)
         : m.groups!.label;
     if (footnoteType === 'inline') {
       return u(
         'footnote-reference',
-        {
-          label,
-          footnoteType,
-          contentsBegin,
-          contentsEnd,
-        },
+        this.addPosition(
+          { label, footnoteType, contentsBegin, contentsEnd },
+          begin,
+          end
+        ),
         []
       );
     } else {
-      return u('footnote-reference', { label, footnoteType }, []);
+      return u(
+        'footnote-reference',
+        this.addPosition({ label, footnoteType }, begin, end),
+        []
+      );
     }
   }
 
   private parseCitation(): Citation | null {
+    const start = this.r.offset();
     let m = this.r.lookingAt(this.re.citationPrefixRe());
     if (!m) return null;
 
@@ -1793,17 +2034,21 @@ class Parser {
 
     this.r.resetOffset(end);
 
-    const cite: Citation = {
-      type: 'citation',
-      style,
-      begin,
-      end,
-      prefix: null,
-      suffix: null,
-      contentsBegin,
-      contentsEnd,
-      children: [],
-    };
+    const cite: Citation = this.addPosition(
+      {
+        type: 'citation',
+        style,
+        begin,
+        end,
+        prefix: null,
+        suffix: null,
+        contentsBegin,
+        contentsEnd,
+        children: [],
+      },
+      start,
+      end
+    );
 
     return cite;
   }
@@ -1827,12 +2072,16 @@ class Parser {
 
     const end = contentsEnd + ';'.length;
 
-    const prefix: CitationCommonPrefix = {
-      type: 'citation-common-prefix',
-      contentsBegin,
-      contentsEnd,
-      children: [],
-    };
+    const prefix: CitationCommonPrefix = this.addPosition(
+      {
+        type: 'citation-common-prefix',
+        contentsBegin,
+        contentsEnd,
+        children: [],
+      },
+      begin,
+      end
+    );
 
     this.r.resetOffset(end);
 
@@ -1855,15 +2104,19 @@ class Parser {
     const contentsEnd = separator ?? this.r.endOffset();
     const end = separator ? separator + 1 : this.r.endOffset();
 
-    const reference: CitationReference = {
-      type: 'citation-reference',
-      key,
+    const reference: CitationReference = this.addPosition(
+      {
+        type: 'citation-reference',
+        key,
+        begin,
+        end,
+        contentsBegin,
+        contentsEnd,
+        children: [],
+      },
       begin,
-      end,
-      contentsBegin,
-      contentsEnd,
-      children: [],
-    };
+      end
+    );
 
     this.r.resetOffset(end);
 
@@ -1883,12 +2136,16 @@ class Parser {
 
     if (begin === end) return null;
 
-    const prefix: CitationPrefix = {
-      type: 'citation-prefix',
-      contentsBegin,
-      contentsEnd,
-      children: [],
-    };
+    const prefix: CitationPrefix = this.addPosition(
+      {
+        type: 'citation-prefix',
+        contentsBegin,
+        contentsEnd,
+        children: [],
+      },
+      begin,
+      end
+    );
 
     return prefix;
   }
@@ -1902,25 +2159,35 @@ class Parser {
 
     this.r.resetOffset(contentsEnd);
 
-    return {
-      type: 'citation-common-suffix',
+    return this.addPosition<CitationCommonSuffix>(
+      {
+        type: 'citation-common-suffix',
+        contentsBegin,
+        contentsEnd,
+        children: [],
+      },
       contentsBegin,
-      contentsEnd,
-      children: [],
-    };
+      contentsEnd
+    );
   }
 
   private parseCitationKey(): CitationKey | null {
+    const start = this.r.offset();
     const m = this.r.match(this.re.citationKeyRe());
     if (!m) return null;
     this.r.advance(m);
+    const end = this.r.offset();
 
     const key = m.groups!['key'];
 
-    return {
-      type: 'citation-key',
-      key,
-    };
+    return this.addPosition<CitationKey>(
+      {
+        type: 'citation-key',
+        key,
+      },
+      start,
+      end
+    );
   }
 
   private parseCitationSuffix(): CitationSuffix | null {
@@ -1932,12 +2199,16 @@ class Parser {
 
     this.r.resetOffset(contentsEnd);
 
-    return {
-      type: 'citation-suffix',
+    return this.addPosition<CitationSuffix>(
+      {
+        type: 'citation-suffix',
+        contentsBegin,
+        contentsEnd,
+        children: [],
+      },
       contentsBegin,
-      contentsEnd,
-      children: [],
-    };
+      contentsEnd
+    );
   }
 
   private scanLists(): number | null {
@@ -1960,7 +2231,7 @@ class Parser {
 
     return depth === 0
       ? end
-      : // didn’t find matching closing parenthesis
+      : // didn't find matching closing parenthesis
         null;
   }
 
@@ -2004,13 +2275,17 @@ class Parser {
 
       return u(
         'link',
-        {
-          format: 'bracket' as 'bracket',
-          linkType,
-          rawLink,
-          path,
-          ...contents,
-        },
+        this.addPosition(
+          {
+            format: 'bracket' as const,
+            linkType,
+            rawLink,
+            path,
+            ...contents,
+          },
+          initialOffset,
+          this.r.offset()
+        ),
         []
       );
     }
@@ -2026,12 +2301,16 @@ class Parser {
       const m = plainM;
       return u(
         'link',
-        {
-          format: 'plain' as 'plain',
-          linkType: m[1],
-          rawLink: m[0],
-          path: m[2],
-        },
+        this.addPosition(
+          {
+            format: 'plain' as const,
+            linkType: m[1],
+            rawLink: m[0],
+            path: m[2],
+          },
+          initialOffset,
+          this.r.offset()
+        ),
         []
       );
     }
@@ -2050,7 +2329,11 @@ class Parser {
       const path = m[2].replace(/[ \t]*\n[ \t]*/g, '');
       return u(
         'link',
-        { format: 'angle' as 'angle', linkType, rawLink, path },
+        this.addPosition(
+          { format: 'angle' as const, linkType, rawLink, path },
+          initialOffset,
+          this.r.offset()
+        ),
         []
       );
     }
@@ -2095,6 +2378,8 @@ class Parser {
       ].join('|')
     );
     if (!this.r.lookingAt(timestampRe)) return null;
+
+    const contentsBegin = this.r.offset();
 
     const active =
       this.r.substring(this.r.offset(), this.r.offset() + 1) === '<';
@@ -2144,12 +2429,21 @@ class Parser {
           ? { ...start, ...timeRange }
           : null;
 
-    return u('timestamp', {
-      timestampType,
-      rawValue,
-      start,
-      end,
-    });
+    const contentsEnd = this.r.offset();
+
+    return u(
+      'timestamp',
+      this.addPosition(
+        {
+          timestampType,
+          rawValue,
+          start,
+          end,
+        },
+        contentsBegin,
+        contentsEnd
+      )
+    );
   }
 
   // Helpers
