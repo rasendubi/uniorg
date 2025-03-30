@@ -44,7 +44,7 @@
     "ts-jest": "^29.1.2",
     "typescript": "5.4.5",
     "unified": "^11.0.4",
-    "uniorg": "^1.2.0",
+    "uniorg": "workspace:^1.2.0",
     "yaml": "^2.4.2"
   },
   "dependencies": {

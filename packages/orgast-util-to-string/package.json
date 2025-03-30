@@ -42,7 +42,7 @@
     "@types/unist": "3.0.2",
     "jest": "29.7.0",
     "typescript": "5.4.5",
-    "uniorg": "^1.2.0",
-    "uniorg-parse": "^3.0.0"
+    "uniorg": "workspace:^1.2.0",
+    "uniorg-parse": "workspace:^3.0.0"
   }
 }

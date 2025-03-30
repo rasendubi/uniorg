@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "github-slugger": "^2.0.0",
-    "orgast-util-to-string": "^1.0.1",
+    "orgast-util-to-string": "workspace:^1.0.1",
     "unist-util-visit": "5.0.0"
   },
   "devDependencies": {
@@ -48,9 +48,9 @@
     "rehype-stringify": "10.0.0",
     "typescript": "5.4.5",
     "unified": "^11.0.4",
-    "uniorg": "^1.2.0",
-    "uniorg-parse": "^3.0.0",
-    "uniorg-rehype": "^1.2.0",
+    "uniorg": "workspace:^1.2.0",
+    "uniorg-parse": "workspace:^3.0.0",
+    "uniorg-rehype": "workspace:^1.2.0",
     "unist-util-find": "^3.0.0",
     "vfile": "^6.0.1"
   }
