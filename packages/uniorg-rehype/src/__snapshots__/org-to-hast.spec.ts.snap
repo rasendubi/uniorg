@@ -619,13 +619,38 @@ exports[`org/org-to-hast useSections 1`] = `
 
 `;
 
-exports[`org/org-to-hast verse block 1`] = `
+exports[`org/org-to-hast verse block emacs example 1`] = `
 
-<pre class="verse"> Great clouds overhead
- Tiny black birds rise and fall
- Snow covers Emacs
+<pre class="verse">Great clouds overhead
+Tiny black birds rise and fall
+Snow covers Emacs
 
-    ---AlexSchroeder
+   ---AlexSchroeder
+</pre>
+
+`;
+
+exports[`org/org-to-hast verse block line break inside bold 1`] = `
+
+<pre class="verse">  some text <strong>and
+bold</strong> overflowing on the next line
+</pre>
+
+`;
+
+exports[`org/org-to-hast verse block simple 1`] = `
+
+<pre class="verse">some text
+</pre>
+
+`;
+
+exports[`org/org-to-hast verse block varied indentation 1`] = `
+
+<pre class="verse">   first line
+ second line
+     third line with more indentation
+fourth line with less indentation
 </pre>
 
 `;

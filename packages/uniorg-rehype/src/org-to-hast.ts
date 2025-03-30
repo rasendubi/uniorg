@@ -8,6 +8,7 @@ import type {
   Headline,
   FootnoteReference,
   FootnoteDefinition,
+  VerseBlock,
 } from 'uniorg';
 
 declare module 'unist' {
@@ -329,13 +330,19 @@ class OrgToHast {
             removeCommonIndent(org.value)
           )
         );
-      case 'verse-block':
+      case 'verse-block': {
+        // ox-html strips common indentation in verse blocks. We do the same here here by
+        // calculating the common indentation on the raw text first, converting children to hast,
+        // and then stripping the common indentation from hast nodes.
+        const commonIndent = calculateCommonIndent(org);
         // org-html exports verse-block as <p>. However, <p> might not
         // survive minification (and does not if you use
         // rehype-preset-minify), which drops all spaces and
         // indentation. Serialize verse-block as <pre>, so whitespace
         // is correctly preserved.
-        return h(org, 'pre.verse', {}, toHast(org.children, org));
+        const hast = h(org, 'pre.verse', {}, toHast(org.children, org));
+        return stripCommonIndent(hast, commonIndent);
+      }
       case 'center-block':
         return h(org, 'div.center', {}, toHast(org.children, org));
       case 'comment-block':
@@ -384,7 +391,7 @@ class OrgToHast {
             idx = this.footnotesOrder.length;
             this.footnotesOrder.push(org.label);
             id = `fnr.${idx + 1}`;
-            // We do not set id in the else branch because that’s a
+            // We do not set id in the else branch because that's a
             // second reference to this footnote—another reference
             // with this id exists.
           }
@@ -650,3 +657,87 @@ const isImageLink = (node: OrgNode, options: OrgToHastOptions) => {
     node.rawLink.match(imageRe)
   );
 };
+
+function calculateCommonIndent(org: VerseBlock) {
+  const textParts: string[] = [];
+  const collect = (n: OrgNode): void => {
+    if (n.type === 'text') {
+      textParts.push(n.value);
+    } else if ('children' in n && n.children) {
+      for (const child of n.children) {
+        collect(child);
+      }
+    }
+  };
+  collect(org);
+
+  const rawText = textParts.join('');
+  const lines = rawText.split('\n').filter((line) => line.trim());
+
+  let commonIndent = 0;
+  if (lines.length > 0) {
+    commonIndent = Math.min(
+      ...lines.map((line) => {
+        const match = line.match(/^[ \t]*/);
+        return match ? match[0].length : 0;
+      })
+    );
+  }
+  return commonIndent;
+}
+
+function stripCommonIndent(element: Element, commonIndent: number): Element {
+  let isLineStart = true;
+  const handleElement = (element: Element): Element => {
+    if (!('children' in element)) {
+      return element;
+    }
+
+    const newChildren: any[] = [];
+    for (const child of element.children) {
+      if (!child) continue;
+
+      if (child.type === 'text') {
+        const lines = child.value.split('\n');
+
+        for (let i = 0; i < lines.length; i++) {
+          // Add line break before all but first line
+          if (i > 0) {
+            newChildren.push(u('text', '\n'));
+            isLineStart = true;
+          }
+
+          let text = lines[i];
+          if (isLineStart) {
+            text = text.substring(commonIndent);
+          }
+          newChildren.push(u('text', text));
+
+          isLineStart = false;
+        }
+      } else if ('children' in child) {
+        // For element nodes, recursively process
+        const processedChild = handleElement(child);
+        newChildren.push(processedChild);
+
+        // If the last node was a <br>, we're at line start now
+        if (
+          'children' in processedChild &&
+          processedChild.children.length > 0
+        ) {
+          const lastNode =
+            processedChild.children[processedChild.children.length - 1];
+          isLineStart =
+            lastNode.type === 'element' && lastNode.tagName === 'br';
+        }
+      } else {
+        // For any other node type, just add it
+        newChildren.push(child);
+      }
+    }
+
+    return { ...element, children: newChildren };
+  };
+
+  return handleElement(element);
+}
