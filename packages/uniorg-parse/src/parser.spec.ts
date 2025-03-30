@@ -672,6 +672,8 @@ not a block
     itParses('spaces in braces', `H^{hello world}`);
     itParses('multiple nesting groups', `H^{hello{there}and{there}}`);
 
+    itParses('after zero-width space', `\u200b^{super}`);
+
     describe('no superscript', () => {
       itParses('begginning of line', `^hello`);
       itParses('pre whitespace', `hello ^there`);
@@ -698,6 +700,8 @@ not a block
     itParses('after subscript', `H_12_22`);
 
     itParses('trailing _', `f_f_`);
+
+    itParses('after zero-width space', `\u200b_{subscript}`);
 
     describe('no superscript', () => {
       itParses('begginning of line', `_hello`);

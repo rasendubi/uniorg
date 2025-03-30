@@ -4660,6 +4660,26 @@ children:
             value: "22"
 `;
 
+exports[`org/parser subscript after zero-width space 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 13
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 13
+    children:
+      - type: "text"
+        value: "​"
+      - type: "subscript"
+        contentsBegin: 3
+        contentsEnd: 12
+        children:
+          - type: "text"
+            value: "subscript"
+`;
+
 exports[`org/parser subscript braces 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -4884,6 +4904,26 @@ children:
             value: "f"
       - type: "text"
         value: "_"
+`;
+
+exports[`org/parser superscript after zero-width space 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 9
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 9
+    children:
+      - type: "text"
+        value: "​"
+      - type: "superscript"
+        contentsBegin: 3
+        contentsEnd: 8
+        children:
+          - type: "text"
+            value: "super"
 `;
 
 exports[`org/parser superscript braces 1`] = `
