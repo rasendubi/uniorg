@@ -412,6 +412,20 @@ class OrgToHast {
         this.footnotes[org.label] = org;
         return null;
       case 'paragraph':
+        // Implement ox-html behavior for lists: strip paragraph tag
+        // if it's inside a list item and is either:
+        // 1. The only child of the list item, or
+        // 2. Followed by a list
+        if (
+          parent?.type === 'list-item' &&
+          parent.children[0]?.type !== 'list-item-tag' &&
+          (parent.children.length === 1 ||
+            (parent.children.length === 2 &&
+              parent.children[0] === org &&
+              parent.children[1].type === 'plain-list'))
+        ) {
+          return toHast(org.children, org);
+        }
         return h(org, 'p', {}, toHast(org.children, org));
       case 'bold':
         return h(org, 'strong', {}, toHast(org.children, org));

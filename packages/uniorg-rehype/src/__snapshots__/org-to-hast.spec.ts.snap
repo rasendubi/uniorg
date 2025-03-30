@@ -375,9 +375,7 @@ exports[`org/org-to-hast link mixed with text 1`] = `
 exports[`org/org-to-hast list 1`] = `
 
 <ul>
-  <li>
-    <p>hello</p>
-  </li>
+  <li>hello</li>
 </ul>
 
 `;
@@ -394,20 +392,13 @@ exports[`org/org-to-hast multiple headlines 1`] = `
 exports[`org/org-to-hast nested list 1`] = `
 
 <ul>
-  <li>
-    <p>hello</p>
+  <li>hello
     <ul>
-      <li>
-        <p>world</p>
-      </li>
-      <li>
-        <p>blah</p>
-      </li>
+      <li>world</li>
+      <li>blah</li>
     </ul>
   </li>
-  <li>
-    <p>hi</p>
-  </li>
+  <li>hi</li>
 </ul>
 
 `;
@@ -415,9 +406,7 @@ exports[`org/org-to-hast nested list 1`] = `
 exports[`org/org-to-hast ordered list 1`] = `
 
 <ol>
-  <li>
-    <p>one</p>
-  </li>
+  <li>one</li>
 </ol>
 
 `;
@@ -425,6 +414,27 @@ exports[`org/org-to-hast ordered list 1`] = `
 exports[`org/org-to-hast paragraph 1`] = `
 
 <p>hello</p>
+
+`;
+
+exports[`org/org-to-hast paragraph stripping in list items 1`] = `
+
+<ul>
+  <li>item1</li>
+  <li>item2</li>
+  <li>
+    <p>
+      a longer item
+      spanning
+    </p>
+    <p>multiple lines has a p tag</p>
+  </li>
+  <li>a paragraph followed by a sublist
+    <ul>
+      <li>does not have a p tag</li>
+    </ul>
+  </li>
+</ul>
 
 `;
 
