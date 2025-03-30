@@ -33,6 +33,14 @@ export interface ParseOptions {
    * matching. Corresponds to `org-match-sexp-depth` in Emacs.
    */
   matchSexpDepth: number;
+  /**
+   * Track position information for each node according to the unist spec.
+   * When enabled, each node will have a `position` field with `start` and `end` points.
+   * This can add some processing overhead, so it's disabled by default.
+   *
+   * @default false
+   */
+  trackPosition: boolean;
 }
 
 export const defaultOptions: ParseOptions = {
@@ -181,4 +189,5 @@ export const defaultOptions: ParseOptions = {
     'do',
   ],
   matchSexpDepth: 3,
+  trackPosition: false,
 };

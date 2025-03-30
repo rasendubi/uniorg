@@ -1077,6 +1077,14 @@ more text
   // See https://github.com/rasendubi/uniorg/issues/57
   itParses('\\_<SPC>', '\\_ a');
 
+  describe('position tracking', () => {
+    itParses('adds position information when trackPosition is enabled', `* Headline
+Some paragraph text with *bold* and /italic/.`, { trackPosition: true });
+
+    itParses('does not add position information when trackPosition is disabled', `* Headline
+Some paragraph text.`, { trackPosition: false });
+  });
+
   describe('citations', () => {
     itParses('simple citation', '[cite:@hello]');
 
