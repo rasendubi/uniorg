@@ -1,7 +1,7 @@
 # ![uniorg](./logo.svg)
 
 [![build](https://github.com/rasendubi/uniorg/workflows/main/badge.svg)](https://github.com/rasendubi/uniorg/actions)
-[![codecov](https://codecov.io/gh/rasendubi/uniorg/branch/master/graph/badge.svg?token=dMHp3L9b6D)](https://codecov.io/gh/rasendubi/uniorg)
+[![codecov](https://codecov.io/gh/rasendubi/uniorg/branch/main/graph/badge.svg?token=dMHp3L9b6D)](https://codecov.io/gh/rasendubi/uniorg)
 [![uniorg npm](https://img.shields.io/npm/v/uniorg?label=uniorg)](https://www.npmjs.com/package/uniorg)
 [![uniorg-parse npm](https://img.shields.io/npm/v/uniorg-parse?label=uniorg-parse)](https://www.npmjs.com/package/uniorg-parse)
 [![uniorg-stringify npm](https://img.shields.io/npm/v/uniorg-stringify?label=uniorg-stringify)](https://www.npmjs.com/package/uniorg-stringify)
@@ -66,15 +66,15 @@ This repository contains the following packages:
 - [`orgast-util-to-string`][orgast-util-to-string] — Utility to get the plain text content of a node
 - [`orgast-util-visit-ids`][orgast-util-visit-ids] — Utility to visit all org nodes with ids
 
-[uniorg]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg
-[uniorg-parse]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-parse
-[uniorg-stringify]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-stringify
-[uniorg-rehype]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-rehype
-[uniorg-extract-keywords]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-extract-keywords
-[uniorg-attach]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-attach
-[uniorg-slug]: https://github.com/rasendubi/uniorg/tree/master/packages/uniorg-slug
-[orgast-util-to-string]: https://github.com/rasendubi/uniorg/tree/master/packages/orgast-util-to-string
-[orgast-util-visit-ids]: https://github.com/rasendubi/uniorg/tree/master/packages/orgast-util-visit-ids
+[uniorg]: https://github.com/rasendubi/uniorg/tree/main/packages/uniorg
+[uniorg-parse]: https://github.com/rasendubi/uniorg/tree/main/packages/uniorg-parse
+[uniorg-stringify]: https://github.com/rasendubi/uniorg/tree/main/packages/uniorg-stringify
+[uniorg-rehype]: https://github.com/rasendubi/uniorg/tree/main/packages/uniorg-rehype
+[uniorg-extract-keywords]: https://github.com/rasendubi/uniorg/tree/main/packages/uniorg-extract-keywords
+[uniorg-attach]: https://github.com/rasendubi/uniorg/tree/main/packages/uniorg-attach
+[uniorg-slug]: https://github.com/rasendubi/uniorg/tree/main/packages/uniorg-slug
+[orgast-util-to-string]: https://github.com/rasendubi/uniorg/tree/main/packages/orgast-util-to-string
+[orgast-util-visit-ids]: https://github.com/rasendubi/uniorg/tree/main/packages/orgast-util-visit-ids
 
 # unified
 

@@ -16,16 +16,16 @@ To create the blog posts we use [`uniorg`](https://github.com/rasendubi/uniorg) 
 
 Deploy the example using [Vercel](https://vercel.com):
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/rasendubi/uniorg/tree/master/examples/next-blog-starter&project-name=org-blog-starter&repository-name=org-blog-starter)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/rasendubi/uniorg/tree/main/examples/next-blog-starter&project-name=org-blog-starter&repository-name=org-blog-starter)
 
 ## How to use
 
 Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
 
 ```bash
-npx create-next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/next-blog-starter blog-starter-app
+npx create-next-app --example https://github.com/rasendubi/uniorg/tree/main/examples/next-blog-starter blog-starter-app
 # or
-yarn create next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/next-blog-starter blog-starter-app
+yarn create next-app --example https://github.com/rasendubi/uniorg/tree/main/examples/next-blog-starter blog-starter-app
 ```
 
 Your blog should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/rasendubi/uniorg/discussions).

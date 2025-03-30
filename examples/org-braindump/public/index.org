@@ -2,11 +2,11 @@
 
 This is an example braindump built with [[https://github.com/rasendubi/uniorg][uniorg]] and [[https://nextjs.org/][Next.js]].
 
-Source code is available [[https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump][at GitHub]].
+Source code is available [[https://github.com/rasendubi/uniorg/tree/main/examples/org-braindump][at GitHub]].
 
 You can use ~create-next-app~ to bootstrap the example for you:
 #+begin_src sh
-npx create-next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump
+npx create-next-app --example https://github.com/rasendubi/uniorg/tree/main/examples/org-braindump
 #+end_src
 
 * Learn about this template
