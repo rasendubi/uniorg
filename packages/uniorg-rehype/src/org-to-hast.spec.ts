@@ -211,16 +211,40 @@ printf("%d\\n", *a);
 #+end_src`
   );
 
-  hastTest(
-    'verse block',
-    `#+BEGIN_VERSE
+  describe('verse block', () => {
+    hastTest('simple', `#+begin_verse
+some text
+#+end_verse`)
+
+    hastTest(
+      'emacs example',
+      `#+BEGIN_VERSE
  Great clouds overhead
  Tiny black birds rise and fall
  Snow covers Emacs
 
     ---AlexSchroeder
 #+END_VERSE`
-  );
+    );
+
+    hastTest(
+      'line break inside bold',
+      `#+begin_verse
+    some text *and
+  bold* overflowing on the next line
+#+end_verse`
+    );
+
+    hastTest(
+      'varied indentation',
+      `#+begin_verse
+    first line
+  second line
+      third line with more indentation
+ fourth line with less indentation
+#+end_verse`
+    );
+  });
 
   hastTest(
     'center block',
