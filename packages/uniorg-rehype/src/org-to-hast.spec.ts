@@ -152,6 +152,20 @@ hello /there/
   );
 
   hastTest(
+    'paragraph stripping in list items',
+    `
+- item1
+- item2
+- a longer item
+  spanning
+
+  multiple lines has a p tag
+- a paragraph followed by a sublist
+  - does not have a p tag
+`
+  );
+
+  hastTest(
     'description list',
     `- term1 :: description 1
 - term 2 :: description 2`
