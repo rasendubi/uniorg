@@ -1,5 +1,12 @@
 # blog-starter
 
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`381b67c`](https://github.com/rasendubi/uniorg/commit/381b67cf0d64c5926754fce04b54aa0b86699b85), [`da9d596`](https://github.com/rasendubi/uniorg/commit/da9d596718fb3656833f5c3a3d2e0abd9667eaa1)]:
+  - uniorg-parse@3.1.0
+
 ## 1.0.4
 
 ### Patch Changes

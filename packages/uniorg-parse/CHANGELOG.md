@@ -1,5 +1,17 @@
 # uniorg-parse
 
+## 3.1.0
+
+### Minor Changes
+
+- [#130](https://github.com/rasendubi/uniorg/pull/130) [`381b67c`](https://github.com/rasendubi/uniorg/commit/381b67cf0d64c5926754fce04b54aa0b86699b85) Thanks [@rasendubi](https://github.com/rasendubi)! - Add position tracking to nodes according to the unist spec.
+
+  Each node will include a position field with start and end points containing line, column, and offset information when enabled. Position tracking is disabled by default to avoid processing overhead. You can enable it by setting `trackPosition: true` in parser options.
+
+- [#131](https://github.com/rasendubi/uniorg/pull/131) [`da9d596`](https://github.com/rasendubi/uniorg/commit/da9d596718fb3656833f5c3a3d2e0abd9667eaa1) Thanks [@rasendubi](https://github.com/rasendubi)! - Add support for passing parser options to the unified plugin.
+
+  Previously, you couldn't configure the parser through the unified plugin API. Now you can pass options when using the plugin: `unified().use(uniorgParse, { todoKeywords: ['TODO', 'DONE', 'WAITING'] })` and these options will be passed to the parser.
+
 ## 3.0.1
 
 ### Patch Changes
