@@ -1,6 +1,5 @@
 ---
 'uniorg-rehype': major
-'astro-org': major
 ---
 
 Fix list item paragraph handling to match ox-html's behavior: strip paragraphs from list items when they are the only child or followed by at most one sub-list.
