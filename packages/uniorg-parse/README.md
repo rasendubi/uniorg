@@ -27,12 +27,12 @@ process.stdin.pipe(createStream(processor)).pipe(process.stdout)
 ## API
 
 
-### `processor().use(uniorgParse)`
+### `processor().use(uniorgParse, [, options])`
 
 Configure the `processor` to read Org as input and process **[uniorg](https://github.com/rasendubi/uniorg)** syntax trees.
 
 
-### `parse(string)`
+### `parse(string[, options])`
 
 Parse string.
 
