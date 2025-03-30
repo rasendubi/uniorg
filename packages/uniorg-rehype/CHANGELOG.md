@@ -1,5 +1,13 @@
 # uniorg-rehype
 
+## 2.0.0
+
+### Major Changes
+
+- [#123](https://github.com/rasendubi/uniorg/pull/123) [`2cb1965`](https://github.com/rasendubi/uniorg/commit/2cb19652d0e527d996693a4aa44f42f5d7df1b24) Thanks [@rasendubi](https://github.com/rasendubi)! - Fix list item paragraph handling to match ox-html's behavior: strip paragraphs from list items when they are the only child or followed by at most one sub-list.
+
+  While this is technically a fix to match the expected behavior, it's marked as a major change to highlight that it alters the HTML output. If you depend on the previous HTML structure, you'll need to review and update any CSS or JavaScript that assumes the old output.
+
 ## 1.3.0
 
 ### Minor Changes

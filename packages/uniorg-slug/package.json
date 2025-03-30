@@ -50,7 +50,7 @@
     "unified": "^11.0.4",
     "uniorg": "workspace:^1.2.0",
     "uniorg-parse": "workspace:^3.0.0",
-    "uniorg-rehype": "workspace:^1.2.0",
+    "uniorg-rehype": "workspace:^2.0.0",
     "unist-util-find": "^3.0.0",
     "vfile": "^6.0.1"
   }
