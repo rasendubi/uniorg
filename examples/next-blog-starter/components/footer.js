@@ -17,7 +17,7 @@ export default function Footer() {
               Read Documentation
             </a>
             <a
-              href={`https://github.com/rasendubi/uniorg/tree/master/examples/${EXAMPLE_PATH}`}
+              href={`https://github.com/rasendubi/uniorg/tree/main/examples/${EXAMPLE_PATH}`}
               className="mx-3 font-bold hover:underline"
             >
               View on GitHub
