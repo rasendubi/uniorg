@@ -1,12 +1,18 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "globalDependencies": [
+    "./tsconfig.json",
+    "./tsconfig.build.json",
+    "./jest-base.mjs",
+    "./jest.config.js"
+  ],
+  "tasks": {
     "dev": {
       "persistent": true
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["lib/**", ".next/**"]
+      "outputs": ["lib/**", "dist/**", ".next/**"]
     },
     "@uniorgjs/orgx#build": {
       "dependsOn": ["^build"],
@@ -22,11 +28,5 @@
     "clean": {
       "cache": false
     }
-  },
-  "globalDependencies": [
-    "./tsconfig.json",
-    "./tsconfig.build.json",
-    "./jest-base.mjs",
-    "./jest.config.js"
-  ]
+  }
 }
