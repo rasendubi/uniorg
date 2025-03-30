@@ -14,7 +14,7 @@
     "rehype-stringify": "10.0.0",
     "unified": "11.0.4",
     "unified-stream": "3.0.0",
-    "uniorg-parse": "^3.0.0",
-    "uniorg-rehype": "^1.2.0"
+    "uniorg-parse": "workspace:*",
+    "uniorg-rehype": "workspace:*"
   }
 }

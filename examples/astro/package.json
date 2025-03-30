@@ -15,7 +15,7 @@
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.3.0",
     "astro": "^5.5.5",
-    "astro-org": "workspace:^",
+    "astro-org": "workspace:*",
     "typescript": "^5.4.5"
   }
 }
