@@ -16,8 +16,8 @@
     "rehype-stringify": "10.0.0",
     "to-vfile": "8.0.0",
     "unified": "11.0.4",
-    "uniorg-extract-keywords": "workspace:*",
-    "uniorg-parse": "workspace:*",
-    "uniorg-rehype": "workspace:*"
+    "uniorg-extract-keywords": "workspace:^",
+    "uniorg-parse": "workspace:^",
+    "uniorg-rehype": "workspace:^"
   }
 }

@@ -15,9 +15,9 @@
     "react-dom": "18.3.1",
     "rehype-stringify": "10.0.0",
     "unified": "11.0.4",
-    "uniorg-extract-keywords": "workspace:*",
-    "uniorg-parse": "workspace:*",
-    "uniorg-rehype": "workspace:*"
+    "uniorg-extract-keywords": "workspace:^",
+    "uniorg-parse": "workspace:^",
+    "uniorg-rehype": "workspace:^"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

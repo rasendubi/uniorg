@@ -48,11 +48,17 @@ importers:
         specifier: ^5.5.5
         version: 5.5.5(@types/node@20.17.28)(jiti@1.21.7)(rollup@4.38.0)(typescript@5.8.2)(yaml@2.7.1)
       astro-org:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/astro-org
       typescript:
         specifier: ^5.4.5
         version: 5.8.2
+      uniorg-parse:
+        specifier: workspace:^
+        version: link:../../packages/uniorg-parse
+      uniorg-rehype:
+        specifier: workspace:^
+        version: link:../../packages/uniorg-rehype
 
   examples/example:
     dependencies:
@@ -66,10 +72,10 @@ importers:
         specifier: 3.0.0
         version: 3.0.0
       uniorg-parse:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-rehype
 
   examples/extract-keywords-example:
@@ -87,13 +93,13 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg-extract-keywords:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-extract-keywords
       uniorg-parse:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-rehype
 
   examples/next-blog-starter:
@@ -120,13 +126,13 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg-extract-keywords:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-extract-keywords
       uniorg-parse:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-rehype
     devDependencies:
       autoprefixer:
@@ -151,7 +157,7 @@ importers:
         specifier: ^14.2.3
         version: 14.2.26(@babel/core@7.26.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       orgast-util-visit-ids:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/orgast-util-visit-ids
       react:
         specifier: 18.3.1
@@ -178,16 +184,16 @@ importers:
         specifier: 11.0.4
         version: 11.0.4
       uniorg-extract-keywords:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-extract-keywords
       uniorg-parse:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-parse
       uniorg-rehype:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-rehype
       uniorg-slug:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/uniorg-slug
       vfile-find-down:
         specifier: 7.1.0
