@@ -39,21 +39,21 @@
     "url": "https://github.com/rasendubi/uniorg/issues"
   },
   "devDependencies": {
-    "@types/hast": "^3.0.4",
-    "@types/jest": "29.5.12",
-    "@types/unist": "3.0.2",
-    "jest": "29.7.0",
-    "rehype-format": "5.0.0",
-    "rehype-raw": "7.0.0",
-    "rehype-stringify": "10.0.0",
+    "@types/jest": "^29.5.12",
+    "@types/unist": "^3.0.2",
+    "jest": "^29.7.0",
+    "rehype-format": "^5.0.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-stringify": "^10.0.0",
     "ts-jest": "^29.1.2",
-    "typescript": "5.4.5",
-    "unified": "11.0.4",
-    "uniorg": "workspace:^1.2.0",
+    "typescript": "^5.4.5",
     "uniorg-parse": "workspace:^3.0.0"
   },
   "dependencies": {
-    "hastscript": "9.0.0",
-    "unist-builder": "4.0.0"
+    "@types/hast": "^3.0.4",
+    "hastscript": "^9.0.0",
+    "unist-builder": "^4.0.0",
+    "unified": "^11.0.4",
+    "uniorg": "workspace:^1.2.0"
   }
 }

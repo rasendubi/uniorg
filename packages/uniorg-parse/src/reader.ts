@@ -1,5 +1,5 @@
-import type { Point, Position } from 'unist';
-import { VFile } from 'vfile';
+import type { Position } from 'unist';
+import type { VFile } from 'vfile';
 import { location } from 'vfile-location';
 
 type Location = ReturnType<typeof location>;

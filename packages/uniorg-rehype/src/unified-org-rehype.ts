@@ -9,8 +9,8 @@ export type Options = Partial<OrgToHastOptions>;
 const org2rehype: Plugin<[Options?], OrgData, Root> = function org2rehype(
   options: Options = {}
 ) {
-  return (node, _file) => {
-    return orgToHast(node, options) as Root;
+  return (node: OrgData, _file: unknown) => {
+    return orgToHast(node, options);
   };
 };
 

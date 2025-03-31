@@ -1,6 +1,6 @@
 import { VFile } from 'vfile';
 import { u } from 'unist-builder';
-import {
+import type {
   NodeProperty,
   Headline,
   List,

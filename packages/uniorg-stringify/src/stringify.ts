@@ -1,9 +1,7 @@
 import type {
   AffiliatedKeywords,
   OrgNode,
-  WithAffiliatedKeywords,
 } from 'uniorg';
-import type { Node } from 'unist';
 
 type Handler<T> = (org: T, options: StringifyOptions) => string | null;
 
@@ -37,7 +35,7 @@ function normalizeOptions(
 }
 
 export function stringify(
-  org: string | Node | Node[],
+  org: string | OrgNode | OrgNode[],
   options: Partial<StringifyOptions> = {}
 ): string {
   const fullOptions = normalizeOptions(options);
@@ -47,22 +45,20 @@ export function stringify(
   return result;
 }
 
-function stringifyOne(node: Node | string, options: StringifyOptions): string {
+function stringifyOne(node: OrgNode | string, options: StringifyOptions): string {
   if (typeof node === 'string') {
     return node;
   }
 
-  const org = node as OrgNode & Partial<WithAffiliatedKeywords>;
-
   const result: string[] = [];
 
-  if (org.affiliated) {
+  if ('affiliated' in node) {
     result.push(
-      stringifyAffiliated(org.affiliated as AffiliatedKeywords, options)
+      stringifyAffiliated(node.affiliated, options)
     );
   }
 
-  result.push(stringifyNode(org, options));
+  result.push(stringifyNode(node, options));
 
   return result.join('');
 }

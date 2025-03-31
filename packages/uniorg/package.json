@@ -34,8 +34,10 @@
   "bugs": {
     "url": "https://github.com/rasendubi/uniorg/issues"
   },
+  "dependencies": {
+    "@types/unist": "^3.0.0"
+  },
   "devDependencies": {
-    "@types/unist": "3.0.2",
-    "typescript": "5.4.5"
+    "typescript": "^5.4.5"
   }
 }
