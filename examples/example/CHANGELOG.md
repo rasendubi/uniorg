@@ -1,5 +1,13 @@
 # example
 
+## 1.0.6
+
+### Patch Changes
+
+- Updated dependencies [[`392ec12`](https://github.com/rasendubi/uniorg/commit/392ec12e3e2a019d40b2d6efea1456097b25e317), [`392ec12`](https://github.com/rasendubi/uniorg/commit/392ec12e3e2a019d40b2d6efea1456097b25e317)]:
+  - uniorg-parse@3.2.0
+  - uniorg-rehype@2.2.0
+
 ## 1.0.5
 
 ### Patch Changes

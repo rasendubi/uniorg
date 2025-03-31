@@ -1,5 +1,22 @@
 # uniorg-parse
 
+## 3.2.0
+
+### Minor Changes
+
+- [#134](https://github.com/rasendubi/uniorg/pull/134) [`392ec12`](https://github.com/rasendubi/uniorg/commit/392ec12e3e2a019d40b2d6efea1456097b25e317) Thanks [@rasendubi](https://github.com/rasendubi)! - Move public-facing type definitions from `devDependencies` to normal `dependencies` to ensure type safety for users without requiring manual installation of types.
+
+  TypeScript will now have more complete type information available, which may surface previously hidden type conflicts but leads to more accurate type checking overall.
+
+- [#134](https://github.com/rasendubi/uniorg/pull/134) [`392ec12`](https://github.com/rasendubi/uniorg/commit/392ec12e3e2a019d40b2d6efea1456097b25e317) Thanks [@rasendubi](https://github.com/rasendubi)! - Refine TypeScript definitions to match `unified`'s `Plugin` interface.
+
+  You shall get better type checking when composing unified pipelines, which may result in detecting new type errors.
+
+### Patch Changes
+
+- Updated dependencies [[`392ec12`](https://github.com/rasendubi/uniorg/commit/392ec12e3e2a019d40b2d6efea1456097b25e317)]:
+  - uniorg@1.3.0
+
 ## 3.1.0
 
 ### Minor Changes
