@@ -258,16 +258,16 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
       uniorg:
-        specifier: workspace:^1.2.0
+        specifier: workspace:^1.3.0
         version: link:../uniorg
       uniorg-parse:
-        specifier: workspace:^3.0.0
+        specifier: workspace:^3.2.0
         version: link:../uniorg-parse
 
   packages/orgast-util-visit-ids:
     dependencies:
       uniorg:
-        specifier: workspace:^1.2.0
+        specifier: workspace:^1.3.0
         version: link:../uniorg
       unist-util-visit-parents:
         specifier: ^6.0.1
@@ -286,7 +286,7 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
       uniorg-parse:
-        specifier: workspace:^3.0.0
+        specifier: workspace:^3.2.0
         version: link:../uniorg-parse
 
   packages/orgx:
@@ -373,7 +373,7 @@ importers:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg:
-        specifier: workspace:^1.2.0
+        specifier: workspace:^1.3.0
         version: link:../uniorg
       unist-util-visit-parents:
         specifier: ^6.0.1
@@ -395,7 +395,7 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
       uniorg-parse:
-        specifier: workspace:^3.0.0
+        specifier: workspace:^3.2.0
         version: link:../uniorg-parse
       yaml:
         specifier: ^2.4.2
@@ -407,7 +407,7 @@ importers:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg:
-        specifier: workspace:^1.2.0
+        specifier: workspace:^1.3.0
         version: link:../uniorg
       unist-util-visit:
         specifier: ^5.0.0
@@ -429,7 +429,7 @@ importers:
         specifier: ^5.4.5
         version: 5.8.2
       uniorg-parse:
-        specifier: workspace:^3.0.0
+        specifier: workspace:^3.2.0
         version: link:../uniorg-parse
 
   packages/uniorg-parse:
@@ -438,7 +438,7 @@ importers:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg:
-        specifier: workspace:^1.2.0
+        specifier: workspace:^1.3.0
         version: link:../uniorg
       unist-builder:
         specifier: ^4.0.0
@@ -484,7 +484,7 @@ importers:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg:
-        specifier: workspace:^1.2.0
+        specifier: workspace:^1.3.0
         version: link:../uniorg
       unist-builder:
         specifier: ^4.0.0
@@ -515,7 +515,7 @@ importers:
         specifier: ^5.4.5
         version: 5.8.2
       uniorg-parse:
-        specifier: workspace:^3.0.0
+        specifier: workspace:^3.2.0
         version: link:../uniorg-parse
 
   packages/uniorg-slug:
@@ -524,13 +524,13 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       orgast-util-to-string:
-        specifier: workspace:^1.0.1
+        specifier: workspace:^1.1.0
         version: link:../orgast-util-to-string
       unified:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg:
-        specifier: workspace:^1.2.0
+        specifier: workspace:^1.3.0
         version: link:../uniorg
       unist-util-visit:
         specifier: ^5.0.0
@@ -552,10 +552,10 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
       uniorg-parse:
-        specifier: workspace:^3.0.0
+        specifier: workspace:^3.2.0
         version: link:../uniorg-parse
       uniorg-rehype:
-        specifier: workspace:^2.0.0
+        specifier: workspace:^2.2.0
         version: link:../uniorg-rehype
       unist-util-find:
         specifier: ^3.0.0
@@ -570,7 +570,7 @@ importers:
         specifier: ^11.0.4
         version: 11.0.4
       uniorg:
-        specifier: workspace:^1.2.0
+        specifier: workspace:^1.3.0
         version: link:../uniorg
     devDependencies:
       '@types/jest':
@@ -586,7 +586,7 @@ importers:
         specifier: ^5.4.5
         version: 5.8.2
       uniorg-parse:
-        specifier: workspace:^3.0.0
+        specifier: workspace:^3.2.0
         version: link:../uniorg-parse
       vfile:
         specifier: 6.0.1
