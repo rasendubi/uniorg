@@ -1,9 +1,9 @@
 import { visit } from 'unist-util-visit';
 
-import { Keyword } from 'uniorg';
-import { Plugin } from 'unified';
-import { Node } from 'unist';
-import { VFile } from 'vfile';
+import type { Keyword } from 'uniorg';
+import type { Plugin } from 'unified';
+import type { Node } from 'unist';
+import type { VFile } from 'vfile';
 
 export interface Options {
   /**

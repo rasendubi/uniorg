@@ -1,7 +1,6 @@
 import { visit } from 'unist-util-visit';
-import { Plugin } from 'unified';
-import { Node } from 'unist';
-import { VFile } from 'vfile';
+import type { Plugin } from 'unified';
+import type { Node } from 'unist';
 import GithubSlugger from 'github-slugger';
 
 import { Headline, Section } from 'uniorg';
@@ -12,7 +11,7 @@ export interface Options {}
 export const uniorgSlug: Plugin<[Options?]> = (options: Options = {}) => {
   return transformer;
 
-  function transformer(tree: Node, _file: VFile) {
+  function transformer(tree: Node, _file: unknown) {
     const slugger = new GithubSlugger();
 
     visit(tree, 'section', (section: Section) => {

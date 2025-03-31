@@ -1,6 +1,6 @@
 import { u } from 'unist-builder';
 import { h as hast } from 'hastscript';
-import type { Properties, Node, Element, Root, Text } from 'hast';
+import type { Properties, Node, Element, Root, Text, RootContent } from 'hast';
 import type {
   OrgNode,
   OrgData,
@@ -123,7 +123,7 @@ const html5Elements = new Set([
 export function orgToHast(
   org: OrgData,
   opts: Partial<OrgToHastOptions> = {}
-): Hast | Root | null {
+): Root {
   return new OrgToHast(opts).toHast(org, null);
 }
 
@@ -142,33 +142,30 @@ class OrgToHast {
     this.handlers = { ...defaultHandlers, ...this.options.handlers };
   }
 
-  toHast(node: OrgNode | null, parent: OrgNode | null): Root | Hast | null;
-  toHast(node: (OrgNode | null)[], parent: OrgNode | null): (Hast | null)[];
+  toHast(node: OrgData, parent: null): Root;
+  toHast(node: OrgNode | null, parent: OrgNode | null): Hast | null;
+  toHast(node: (OrgNode | null)[], parent: OrgNode | null): Hast[];
   toHast(
-    node: OrgNode | null | (OrgNode | null)[],
+    node: OrgData | OrgNode | null | (OrgNode | null)[],
     parent: OrgNode | null
-  ): Hast | (Hast | null)[] | Root | null {
+  ): Hast | Hast[] | Root | null {
+    if (node === null) {
+      return null;
+    }
+
     const h = this.h.bind(this);
     const toHast = this.toHast.bind(this);
 
     if (Array.isArray(node)) {
-      return (
-        node
-          .map((node) => toHast(node, parent))
-          .filter((x) => x !== null && x !== undefined)
-          // toHast(section) returns an array, so without this flatMap
-          // `children: toHast(org.children)` could return an array of
-          // arrays which then fails to serialize by rehype-stringify.
-          .flatMap((x) => (Array.isArray(x) ? x : [x]) as Hast[])
-      );
+      return cleanup(node.map((node) => toHast(node, parent)));
     }
 
-    const org = node as OrgNode;
+    const org = node;
 
-    const handler = this.handlers[org.type];
+    const handler = this.handlers[org.type] as Handler<typeof org>;
     if (handler) {
-      const rendered = (handler as any).call(this, org as any);
-      if (rendered) return rendered;
+      const rendered = handler.call(this, org);
+      if (rendered) return cleanup(rendered);
     }
 
     switch (org.type) {
@@ -209,18 +206,19 @@ class OrgToHast {
               ),
             ]);
           })
-          .filter((x) => x !== null) as Hast[];
+          .filter((x: Element | null): x is Element => x !== null);
         if (footnotes.length !== 0) {
+          const footnoteChildren = cleanup(
+            this.options.footnotesSection(footnotes)
+          );
           if (this.options.useSections) {
-            children.push(
-              h(null, 'section', {}, this.options.footnotesSection(footnotes))
-            );
+            children.push(h(null, 'section', {}, footnoteChildren));
           } else {
-            children.push(...this.options.footnotesSection(footnotes));
+            children.push(...footnoteChildren);
           }
         }
 
-        return { type: 'root', children } as Root;
+        return { type: 'root', children } satisfies Root;
       case 'section': {
         const headline = org.children[0] as Headline;
         // TODO: support other options that prevent export:
@@ -291,7 +289,7 @@ class OrgToHast {
           `h${org.level}`,
           {},
           [todo, priority, ...toHast(org.children, org), tags].filter(
-            (x) => x
+            notNull
           ) as Hast[]
         );
       }
@@ -741,3 +739,29 @@ function stripCommonIndent(element: Element, commonIndent: number): Element {
 
   return handleElement(element);
 }
+
+const notNull = <T extends unknown>(x: T | null | undefined): x is T =>
+  x !== null && x !== undefined;
+
+const cleanup = (
+  xs:
+    | RootContent
+    | null
+    | undefined
+    | ReadonlyArray<
+        | RootContent
+        | ReadonlyArray<RootContent | null | undefined>
+        | null
+        | undefined
+      >
+): Array<RootContent> => {
+  const array = Array.isArray(xs) ? xs : [xs];
+  return (
+    array
+      // toHast(section) returns an array, so without this flatMap
+      // `children: toHast(org.children)` could return an array of
+      // arrays which then fails to serialize by rehype-stringify.
+      .flatMap((x) => (Array.isArray(x) ? x : [x]))
+      .filter(notNull)
+  );
+};
