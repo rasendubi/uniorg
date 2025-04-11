@@ -1,5 +1,13 @@
 # @uniorgjs/orgx
 
+## 2.0.1
+
+### Patch Changes
+
+- [#136](https://github.com/rasendubi/uniorg/pull/136) [`a31dda4`](https://github.com/rasendubi/uniorg/commit/a31dda4f4c099bcfaf63b0adc05c4e73e1f5e1b2) Thanks [@Sorixelle](https://github.com/Sorixelle)! - Include types in published package
+
+  @uniorgjs/orgx was missing its type declarations when publishing. Include them properly.
+
 ## 2.0.0
 
 ### Major Changes
