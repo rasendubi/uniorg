@@ -1,7 +1,4 @@
-import type {
-  AffiliatedKeywords,
-  OrgNode,
-} from 'uniorg';
+import type { AffiliatedKeywords, OrgNode } from 'uniorg';
 
 type Handler<T> = (org: T, options: StringifyOptions) => string | null;
 
@@ -45,7 +42,10 @@ export function stringify(
   return result;
 }
 
-function stringifyOne(node: OrgNode | string, options: StringifyOptions): string {
+function stringifyOne(
+  node: OrgNode | string,
+  options: StringifyOptions
+): string {
   if (typeof node === 'string') {
     return node;
   }
@@ -53,9 +53,7 @@ function stringifyOne(node: OrgNode | string, options: StringifyOptions): string
   const result: string[] = [];
 
   if ('affiliated' in node) {
-    result.push(
-      stringifyAffiliated(node.affiliated, options)
-    );
+    result.push(stringifyAffiliated(node.affiliated, options));
   }
 
   result.push(stringifyNode(node, options));
@@ -337,6 +335,11 @@ function stringifyNode(org: OrgNode, options: StringifyOptions): string {
       return '\\' + org.name;
     case 'text':
       return org.value;
+    case 'inline-src-block':
+      if (org.parameters) {
+        return `src_${org.language}[${org.parameters}]{${org.value}}`;
+      }
+      return `src_${org.language}{${org.value}}`;
     default:
       return '';
   }

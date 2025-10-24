@@ -1078,11 +1078,19 @@ more text
   itParses('\\_<SPC>', '\\_ a');
 
   describe('position tracking', () => {
-    itParses('adds position information when trackPosition is enabled', `* Headline
-Some paragraph text with *bold* and /italic/.`, { trackPosition: true });
+    itParses(
+      'adds position information when trackPosition is enabled',
+      `* Headline
+Some paragraph text with *bold* and /italic/.`,
+      { trackPosition: true }
+    );
 
-    itParses('does not add position information when trackPosition is disabled', `* Headline
-Some paragraph text.`, { trackPosition: false });
+    itParses(
+      'does not add position information when trackPosition is disabled',
+      `* Headline
+Some paragraph text.`,
+      { trackPosition: false }
+    );
   });
 
   describe('citations', () => {
@@ -1142,4 +1150,26 @@ not next line`
 
   // See https://github.com/rasendubi/uniorg/issues/98
   itParses('zero-width whitespace as emphasis separator', `~code~\u200bhello`);
+
+  describe('inline-src-block', () => {
+    itParses('no headers', 'src_elisp{(message "hello")}');
+    itParses('with headers', 'src_elisp[:noweb-ref test]{(message "hello")}');
+    itParses(
+      'header brackets balanced',
+      'src_elisp[:param balanced[]]{(message "hello")}'
+    );
+    itParses(
+      'header brackets unbalanced',
+      'src_elisp[:param unbalanced[[]]{(message "hello")}'
+    );
+    itParses('lang with dash', 'src_tsx-ts{a ? 1 : 2}');
+    itParses(
+      'body brackets balanced',
+      'src_tsx-ts[:param some]{if (a) { return 1; } else { return 2; }}'
+    );
+    itParses(
+      'body brackets unbalanced',
+      'src_tsx-ts[:param some]{if (a) { return 1; } else {}'
+    );
+  });
 });

@@ -78,7 +78,8 @@ export type ObjectType =
   | Entity
   | ExportSnippet
   | LineBreak
-  | TableCell;
+  | TableCell
+  | InlineSrcBlock;
 
 export type OrgNode = GreaterElementType | ElementType | ObjectType;
 
@@ -195,6 +196,13 @@ export interface Entity extends Node {
 export interface ExportSnippet extends Node {
   type: 'export-snippet';
   backEnd: string;
+  value: string;
+}
+
+export interface InlineSrcBlock extends Node {
+  type: 'inline-src-block';
+  language: string;
+  parameters?: string;
   value: string;
 }
 
