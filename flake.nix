@@ -1,7 +1,7 @@
 {
   description = "Uniorg development flake.";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils }:
@@ -11,8 +11,8 @@
       in {
         devShell = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
-            nodejs_22
-            nodejs_22.pkgs.pnpm
+            nodejs_24
+            nodejs_24.pkgs.pnpm
           ];
         };
       });
