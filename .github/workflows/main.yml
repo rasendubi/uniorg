@@ -2,7 +2,7 @@ name: main
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -10,13 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '22'
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 9
-    - run: pnpm install
-    - run: pnpm run ci
-    - uses: codecov/codecov-action@v3
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v5
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run ci
+      - uses: codecov/codecov-action@v3
