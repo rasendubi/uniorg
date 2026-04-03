@@ -140,7 +140,7 @@ export interface DiarySexp extends Node, WithAffiliatedKeywords {
   value: string;
 }
 
-export interface Paragraph extends Element {
+export interface Paragraph extends Element, WithAffiliatedKeywords {
   type: 'paragraph';
   contentsBegin: number;
   contentsEnd: number;
