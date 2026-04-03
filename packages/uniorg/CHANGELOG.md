@@ -1,5 +1,11 @@
 # uniorg
 
+## 1.4.0
+
+### Minor Changes
+
+- [#142](https://github.com/rasendubi/uniorg/pull/142) [`c2919da`](https://github.com/rasendubi/uniorg/commit/c2919da74811f879f0af9df4cd8a28d191d61d91) Thanks [@tcyrus](https://github.com/tcyrus)! - Add `WithAffiliatedKeywords` to `Paragraph`. No updates to `uniorg-parse`/`uniorg-stringify` needed as they already produce and consume affiliated keywords correctly.
+
 ## 1.3.0
 
 ### Minor Changes
