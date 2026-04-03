@@ -521,4 +521,6 @@ some text
 world!`
   );
   test('line-break with trailing whitespace', `hello\\\\  \nworld!`);
+
+  test('handle inline-src-block', `src_elisp[:some param]{(message "hello")}`);
 });

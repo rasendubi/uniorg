@@ -54,6 +54,7 @@ import type {
   CitationCommonSuffix,
   ExportSnippet,
   LineBreak,
+  InlineSrcBlock,
 } from 'uniorg';
 import type { Position } from 'unist';
 
@@ -721,6 +722,11 @@ class Parser {
           this.r.resetOffset(offset);
         }
 
+        break;
+      case 's':
+        if (restriction.has('inline-src-block')) {
+          return this.parseInlineSrcBlock();
+        }
         break;
       default:
         // This is probably a plain link.
@@ -1885,6 +1891,80 @@ class Parser {
       'export-snippet',
       this.addPosition({ backEnd, value }, start, end)
     );
+  }
+
+  private advanceBalancedEnd(
+    expr: RegExp,
+    start: string,
+    end: string
+  ): boolean {
+    let open = 0;
+    let close = 0;
+    while (open >= close) {
+      const m = this.r.advance(this.r.match(expr));
+      if (!m) return false;
+      if (m[0] === start) {
+        open++;
+      } else if (m[0] === end) {
+        close++;
+      }
+    }
+    return true;
+  }
+
+  private parseInlineSrcBlockContent(
+    start: number,
+    language: string,
+    parameters?: string
+  ): InlineSrcBlock | null {
+    const contentsBegin = this.r.offset();
+    const mend = this.advanceBalancedEnd(/[{}]/, '{', '}');
+    if (!mend) return null;
+
+    const end = this.r.offset();
+    const contentsEnd = end - 1; // exclude }
+
+    const value = this.r.substring(contentsBegin, contentsEnd);
+
+    return u(
+      'inline-src-block',
+      this.addPosition({ language, parameters, value }, start, end)
+    );
+  }
+
+  private parseInlineSrcBlockParameters(
+    start: number,
+    language: string
+  ): InlineSrcBlock | null {
+    const parametersBegin = this.r.offset();
+    const mend = this.advanceBalancedEnd(/[[\]]/, '[', ']');
+    if (!mend) return null;
+
+    const end = this.r.offset();
+    const parametersEnd = end - 1; // exclude ]
+
+    const curly = this.r.peek(1);
+    if (curly !== '{') return null;
+    this.r.advance(1);
+
+    const parameters = this.r.substring(parametersBegin, parametersEnd);
+    return this.parseInlineSrcBlockContent(start, language, parameters);
+  }
+
+  private parseInlineSrcBlock(): InlineSrcBlock | null {
+    const start = this.r.offset();
+    const m = this.r.advance(this.r.lookingAt(/src_([^[{\s]+)([[{])/));
+    if (!m) return null;
+
+    const language = m[1];
+    switch (m[2]) {
+      case '[':
+        return this.parseInlineSrcBlockParameters(start, language);
+      case '{':
+        return this.parseInlineSrcBlockContent(start, language);
+      default:
+        return null;
+    }
   }
 
   private parseLatexFragment(): LatexFragment | null {

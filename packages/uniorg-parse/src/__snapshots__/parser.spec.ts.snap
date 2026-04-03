@@ -2310,6 +2310,128 @@ children:
         value: "hello\\n:NONDRAWER:\\nhello"
 `;
 
+exports[`org/parser inline-src-block body brackets balanced 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 64
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 64
+    children:
+      - type: "inline-src-block"
+        language: "tsx-ts"
+        parameters: ":param some"
+        value: "if (a) { return 1; } else { return 2; }"
+`;
+
+exports[`org/parser inline-src-block body brackets unbalanced 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 52
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 52
+    children:
+      - type: "text"
+        value: "src"
+      - type: "subscript"
+        contentsBegin: 4
+        contentsEnd: 7
+        children:
+          - type: "text"
+            value: "tsx"
+      - type: "text"
+        value: "-ts[:param some]{if (a) { return 1; } else {}"
+`;
+
+exports[`org/parser inline-src-block header brackets balanced 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 47
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 47
+    children:
+      - type: "inline-src-block"
+        language: "elisp"
+        parameters: ":param balanced[]"
+        value: "(message \\"hello\\")"
+`;
+
+exports[`org/parser inline-src-block header brackets unbalanced 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 50
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 50
+    children:
+      - type: "text"
+        value: "src"
+      - type: "subscript"
+        contentsBegin: 4
+        contentsEnd: 9
+        children:
+          - type: "text"
+            value: "elisp"
+      - type: "text"
+        value: "[:param unbalanced[[]]{(message \\"hello\\")}"
+`;
+
+exports[`org/parser inline-src-block lang with dash 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 21
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 21
+    children:
+      - type: "inline-src-block"
+        language: "tsx-ts"
+        value: "a ? 1 : 2"
+`;
+
+exports[`org/parser inline-src-block no headers 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "inline-src-block"
+        language: "elisp"
+        value: "(message \\"hello\\")"
+`;
+
+exports[`org/parser inline-src-block with headers 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 45
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 45
+    children:
+      - type: "inline-src-block"
+        language: "elisp"
+        parameters: ":noweb-ref test"
+        value: "(message \\"hello\\")"
+`;
+
 exports[`org/parser keyword 1`] = `
 type: "org-data"
 contentsBegin: 0
