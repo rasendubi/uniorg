@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "ES2020",
+    "module": "node18",
     "noImplicitAny": true,
     "noLib": false,
     "target": "ES2020",
@@ -8,9 +8,10 @@
     "noEmitOnError": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
     "esModuleInterop": true,
     "declaration": true,
+    "declarationMap": true,
+    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "allowJs": true,
     "lib": ["ES2020", "dom"]

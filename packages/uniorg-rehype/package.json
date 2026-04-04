@@ -43,14 +43,14 @@
     "rehype-format": "^5.0.0",
     "rehype-raw": "^7.0.0",
     "rehype-stringify": "^10.0.0",
-    "typescript": "^5.4.5",
+    "typescript": "^6.0.2",
     "uniorg-parse": "workspace:^3.2.0"
   },
   "dependencies": {
     "@types/hast": "^3.0.4",
     "hastscript": "^9.0.0",
-    "unist-builder": "^4.0.0",
     "unified": "^11.0.4",
-    "uniorg": "workspace:^1.3.0"
+    "uniorg": "workspace:^1.3.0",
+    "unist-builder": "^4.0.0"
   }
 }

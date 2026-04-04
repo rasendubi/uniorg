@@ -1,4 +1,4 @@
-import { Parent, Node, Literal } from 'unist';
+import type { Parent, Node, Literal } from 'unist';
 
 // SPEC: The paragraph is the unit of measurement. An element defines
 // syntactical parts that are at the same level as a paragraph,
@@ -128,8 +128,7 @@ export interface HorizontalRule extends Node, WithAffiliatedKeywords {
 }
 
 export interface FootnoteDefinition
-  extends GreaterElement,
-    WithAffiliatedKeywords {
+  extends GreaterElement, WithAffiliatedKeywords {
   type: 'footnote-definition';
   label: string;
 }

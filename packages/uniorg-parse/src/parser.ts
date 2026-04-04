@@ -65,7 +65,7 @@ import {
   escapeRegExp,
   OrgRegexUtils,
 } from './utils.js';
-import { ParseOptions, defaultOptions } from './parse-options.js';
+import { type ParseOptions, defaultOptions } from './parse-options.js';
 import { Reader } from './reader.js';
 
 /*
