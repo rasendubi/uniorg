@@ -3,8 +3,8 @@
   "globalDependencies": [
     "./tsconfig.json",
     "./tsconfig.build.json",
-    "./jest-base.mjs",
-    "./jest.config.js"
+    "./vitest.config.ts",
+    "./vitest.config.base.ts"
   ],
   "tasks": {
     "dev": {

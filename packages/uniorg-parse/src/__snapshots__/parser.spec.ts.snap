@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`org/parser \\_<SPC> 1`] = `
+exports[`org/parser > \\_<SPC> 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 4
@@ -23,7 +23,7 @@ children:
         value: "a"
 `;
 
-exports[`org/parser affiliated keyword dual keywords 1`] = `
+exports[`org/parser > affiliated keyword > dual keywords 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 30
@@ -36,7 +36,7 @@ children:
     value: "Hello, world!"
 `;
 
-exports[`org/parser affiliated keyword keyword renaming 1`] = `
+exports[`org/parser > affiliated keyword > keyword renaming 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 36
@@ -49,7 +49,7 @@ children:
     value: ""
 `;
 
-exports[`org/parser affiliated keyword multiple keywords 1`] = `
+exports[`org/parser > affiliated keyword > multiple keywords 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 36
@@ -67,7 +67,7 @@ children:
         value: "paragraph"
 `;
 
-exports[`org/parser affiliated keyword multiple same keywords 1`] = `
+exports[`org/parser > affiliated keyword > multiple same keywords 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 78
@@ -87,7 +87,7 @@ children:
         value: "paragraph"
 `;
 
-exports[`org/parser affiliated keyword name 1`] = `
+exports[`org/parser > affiliated keyword > name 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 55
@@ -101,7 +101,7 @@ children:
     value: "some paragraph\\n"
 `;
 
-exports[`org/parser affiliated keyword parsed keywords 1`] = `
+exports[`org/parser > affiliated keyword > parsed keywords 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 34
@@ -124,7 +124,7 @@ children:
         value: "paragraph"
 `;
 
-exports[`org/parser blocks #+ escaper in src block 1`] = `
+exports[`org/parser > blocks > #+ escaper in src block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 37
@@ -137,7 +137,7 @@ children:
     value: "#+ escaped\\n"
 `;
 
-exports[`org/parser blocks center block 1`] = `
+exports[`org/parser > blocks > center block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 33
@@ -156,7 +156,7 @@ children:
             value: "hello\\n"
 `;
 
-exports[`org/parser blocks comma escaper in src block 1`] = `
+exports[`org/parser > blocks > comma escaper in src block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 49
@@ -169,7 +169,7 @@ children:
     value: ",,* two commas escaped\\n"
 `;
 
-exports[`org/parser blocks comment block 1`] = `
+exports[`org/parser > blocks > comment block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 35
@@ -179,7 +179,7 @@ children:
     value: "hello\\n"
 `;
 
-exports[`org/parser blocks escaper in src block 1`] = `
+exports[`org/parser > blocks > escaper in src block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 32
@@ -192,7 +192,7 @@ children:
     value: "*a = 0;\\n"
 `;
 
-exports[`org/parser blocks example block 1`] = `
+exports[`org/parser > blocks > example block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 32
@@ -202,7 +202,7 @@ children:
     value: "hi\\n"
 `;
 
-exports[`org/parser blocks export block 1`] = `
+exports[`org/parser > blocks > export block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 30
@@ -213,7 +213,7 @@ children:
     value: "hi\\n"
 `;
 
-exports[`org/parser blocks export block with backend 1`] = `
+exports[`org/parser > blocks > export block with backend 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 35
@@ -224,7 +224,7 @@ children:
     value: "hi\\n"
 `;
 
-exports[`org/parser blocks export block with incorrect header 1`] = `
+exports[`org/parser > blocks > export block with incorrect header 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 55
@@ -235,7 +235,7 @@ children:
     value: "Hi, there!\\n"
 `;
 
-exports[`org/parser blocks fake block 1`] = `
+exports[`org/parser > blocks > fake block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 42
@@ -262,7 +262,7 @@ children:
             value: "hello\\n"
 `;
 
-exports[`org/parser blocks fake block 2 1`] = `
+exports[`org/parser > blocks > fake block 2 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 34
@@ -290,7 +290,7 @@ children:
             value: "src"
 `;
 
-exports[`org/parser blocks fake escaper 1`] = `
+exports[`org/parser > blocks > fake escaper 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 41
@@ -303,7 +303,7 @@ children:
     value: ",# nont escaped\\n"
 `;
 
-exports[`org/parser blocks headline escaper in src block 1`] = `
+exports[`org/parser > blocks > headline escaper in src block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 44
@@ -316,7 +316,7 @@ children:
     value: "* not a headline;\\n"
 `;
 
-exports[`org/parser blocks incomplete block after paragraph 1`] = `
+exports[`org/parser > blocks > incomplete block after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 28
@@ -338,7 +338,7 @@ children:
         value: "\\nnot a code"
 `;
 
-exports[`org/parser blocks quote block 1`] = `
+exports[`org/parser > blocks > quote block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 31
@@ -357,7 +357,7 @@ children:
             value: "hello\\n"
 `;
 
-exports[`org/parser blocks special block 1`] = `
+exports[`org/parser > blocks > special block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 29
@@ -377,7 +377,7 @@ children:
             value: "hello\\n"
 `;
 
-exports[`org/parser blocks src block 1`] = `
+exports[`org/parser > blocks > src block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -389,7 +389,7 @@ children:
     value: "hello\\n"
 `;
 
-exports[`org/parser blocks src block with parameters 1`] = `
+exports[`org/parser > blocks > src block with parameters 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 52
@@ -402,7 +402,7 @@ children:
     value: "const t = 10\\n"
 `;
 
-exports[`org/parser blocks src block with switches 1`] = `
+exports[`org/parser > blocks > src block with switches 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 44
@@ -415,7 +415,7 @@ children:
     value: "const t = 10\\n"
 `;
 
-exports[`org/parser blocks src block with switches and parameters 1`] = `
+exports[`org/parser > blocks > src block with switches and parameters 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 58
@@ -428,7 +428,7 @@ children:
     value: "const t = 10\\n"
 `;
 
-exports[`org/parser blocks src in list 1`] = `
+exports[`org/parser > blocks > src in list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 44
@@ -462,7 +462,7 @@ children:
             value: "  blah\\n"
 `;
 
-exports[`org/parser blocks verse block 1`] = `
+exports[`org/parser > blocks > verse block 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 121
@@ -483,7 +483,7 @@ children:
           \\    ---AlexSchroeder\\n"
 `;
 
-exports[`org/parser citations common prefix 1`] = `
+exports[`org/parser > citations > common prefix 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -518,7 +518,7 @@ children:
                 key: "hello"
 `;
 
-exports[`org/parser citations common prefix with semicolon 1`] = `
+exports[`org/parser > citations > common prefix with semicolon 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 43
@@ -553,7 +553,7 @@ children:
                 key: "hello"
 `;
 
-exports[`org/parser citations common suffix 1`] = `
+exports[`org/parser > citations > common suffix 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 28
@@ -588,7 +588,7 @@ children:
                 value: " common suffix"
 `;
 
-exports[`org/parser citations multiple citation keys 1`] = `
+exports[`org/parser > citations > multiple citation keys 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 20
@@ -626,7 +626,7 @@ children:
                 key: "world"
 `;
 
-exports[`org/parser citations reference prefix 1`] = `
+exports[`org/parser > citations > reference prefix 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 19
@@ -661,7 +661,7 @@ children:
                 key: "hello"
 `;
 
-exports[`org/parser citations reference prefix with semicolon 1`] = `
+exports[`org/parser > citations > reference prefix with semicolon 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 39
@@ -705,7 +705,7 @@ children:
                 key: "world"
 `;
 
-exports[`org/parser citations reference suffix 1`] = `
+exports[`org/parser > citations > reference suffix 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -740,7 +740,7 @@ children:
                     value: " p.13"
 `;
 
-exports[`org/parser citations rich common prefix 1`] = `
+exports[`org/parser > citations > rich common prefix 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 20
@@ -779,7 +779,7 @@ children:
                 key: "hello"
 `;
 
-exports[`org/parser citations simple citation 1`] = `
+exports[`org/parser > citations > simple citation 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 13
@@ -808,7 +808,7 @@ children:
                 key: "hello"
 `;
 
-exports[`org/parser citations simple with style 1`] = `
+exports[`org/parser > citations > simple with style 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 15
@@ -838,7 +838,7 @@ children:
                 key: "hello"
 `;
 
-exports[`org/parser citations simple with style and variant 1`] = `
+exports[`org/parser > citations > simple with style and variant 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 17
@@ -868,7 +868,7 @@ children:
                 key: "hello"
 `;
 
-exports[`org/parser clock clock in progress 1`] = `
+exports[`org/parser > clock > clock in progress 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 29
@@ -889,7 +889,7 @@ children:
     status: "running"
 `;
 
-exports[`org/parser clock finished clock 1`] = `
+exports[`org/parser > clock > finished clock 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 62
@@ -915,7 +915,7 @@ children:
     status: "closed"
 `;
 
-exports[`org/parser comments does not eat keyword 1`] = `
+exports[`org/parser > comments > does not eat keyword 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 32
@@ -928,7 +928,7 @@ children:
     value: "hello"
 `;
 
-exports[`org/parser comments empty comment 1`] = `
+exports[`org/parser > comments > empty comment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 1
@@ -937,7 +937,7 @@ children:
     value: ""
 `;
 
-exports[`org/parser comments multi-line comment 1`] = `
+exports[`org/parser > comments > multi-line comment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 60
@@ -946,7 +946,7 @@ children:
     value: "first line\\nsecond\\nthird\\nfourth"
 `;
 
-exports[`org/parser comments no comments in list 1`] = `
+exports[`org/parser > comments > no comments in list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 30
@@ -977,7 +977,7 @@ children:
             value: "comment"
 `;
 
-exports[`org/parser comments single-line comment 1`] = `
+exports[`org/parser > comments > single-line comment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 17
@@ -986,7 +986,7 @@ children:
     value: "this is comment"
 `;
 
-exports[`org/parser complete drawer after paragraph 1`] = `
+exports[`org/parser > complete drawer after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -1013,7 +1013,7 @@ children:
             value: "hello\\n"
 `;
 
-exports[`org/parser complete lowercase drawer after paragraph 1`] = `
+exports[`org/parser > complete lowercase drawer after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -1040,7 +1040,7 @@ children:
             value: "hello\\n"
 `;
 
-exports[`org/parser custom drawer 1`] = `
+exports[`org/parser > custom drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 30
@@ -1066,7 +1066,7 @@ children:
                 value: "there"
 `;
 
-exports[`org/parser diary sexp 1`] = `
+exports[`org/parser > diary sexp 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 65
@@ -1076,7 +1076,7 @@ children:
     value: "%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)"
 `;
 
-exports[`org/parser diary sexp with newline following 1`] = `
+exports[`org/parser > diary sexp with newline following 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 24
@@ -1086,7 +1086,7 @@ children:
     value: "%%(diary-anniversaries)"
 `;
 
-exports[`org/parser dual keyword inside paragraph 1`] = `
+exports[`org/parser > dual keyword inside paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 33
@@ -1100,7 +1100,7 @@ children:
         value: "hello\\n#+RESULTS[hi]: hello\\nthere\\n"
 `;
 
-exports[`org/parser emphasis marks C++ accidental strike-through 1`] = `
+exports[`org/parser > emphasis marks > C++ accidental strike-through 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -1114,7 +1114,7 @@ children:
         value: "C++ blah C++"
 `;
 
-exports[`org/parser emphasis marks bold 1`] = `
+exports[`org/parser > emphasis marks > bold 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -1132,7 +1132,7 @@ children:
             value: "hello"
 `;
 
-exports[`org/parser emphasis marks emphasis 1`] = `
+exports[`org/parser > emphasis marks > emphasis 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 49
@@ -1176,7 +1176,7 @@ children:
             value: "strike"
 `;
 
-exports[`org/parser emphasis marks emphasis boundaries 1`] = `
+exports[`org/parser > emphasis marks > emphasis boundaries 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 29
@@ -1198,7 +1198,7 @@ children:
         value: "_"
 `;
 
-exports[`org/parser emphasis marks hanging / 1`] = `
+exports[`org/parser > emphasis marks > hanging / 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 13
@@ -1227,14 +1227,14 @@ children:
                 value: "hello/other"
 `;
 
-exports[`org/parser empty document 1`] = `
+exports[`org/parser > empty document 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 0
 children: []
 `;
 
-exports[`org/parser entity 1`] = `
+exports[`org/parser > entity 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -1255,7 +1255,7 @@ children:
         utf8: "À"
 `;
 
-exports[`org/parser entity in parentheses 1`] = `
+exports[`org/parser > entity in parentheses 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 6
@@ -1280,7 +1280,7 @@ children:
         value: ")"
 `;
 
-exports[`org/parser export-snippet fake export snippet, missing backend 1`] = `
+exports[`org/parser > export-snippet > fake export snippet, missing backend 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -1294,7 +1294,7 @@ children:
         value: "@@<b>@@"
 `;
 
-exports[`org/parser export-snippet html export snippet 1`] = `
+exports[`org/parser > export-snippet > html export snippet 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 38
@@ -1314,7 +1314,7 @@ children:
         value: "</b>"
 `;
 
-exports[`org/parser export-snippet incomplete export snippet 1`] = `
+exports[`org/parser > export-snippet > incomplete export snippet 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -1328,7 +1328,7 @@ children:
         value: "@@html:fake export snippet@"
 `;
 
-exports[`org/parser fake keyword 1`] = `
+exports[`org/parser > fake keyword 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -1342,7 +1342,7 @@ children:
         value: "#+ title: hi"
 `;
 
-exports[`org/parser fake multiline fragment 1`] = `
+exports[`org/parser > fake multiline fragment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 20
@@ -1356,7 +1356,7 @@ children:
         value: "hello $2\\n2\\n2\\n2 world"
 `;
 
-exports[`org/parser file property drawer 1`] = `
+exports[`org/parser > file property drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 66
@@ -1370,7 +1370,7 @@ children:
         value: "01c7615e-d792-4d06-995b-19a2c046c055"
 `;
 
-exports[`org/parser fixed-width empty fixed-width 1`] = `
+exports[`org/parser > fixed-width > empty fixed-width 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 1
@@ -1380,7 +1380,7 @@ children:
     value: ""
 `;
 
-exports[`org/parser fixed-width multi-line fixed-width 1`] = `
+exports[`org/parser > fixed-width > multi-line fixed-width 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 17
@@ -1390,7 +1390,7 @@ children:
     value: "hello\\n  world"
 `;
 
-exports[`org/parser fixed-width single-line fixed-width 1`] = `
+exports[`org/parser > fixed-width > single-line fixed-width 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -1400,7 +1400,7 @@ children:
     value: "hello"
 `;
 
-exports[`org/parser footnote definition footnote definition splits paragraph 1`] = `
+exports[`org/parser > footnote definition > footnote definition splits paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -1427,7 +1427,7 @@ children:
             value: "hello"
 `;
 
-exports[`org/parser footnote definition footnote definition with : following 1`] = `
+exports[`org/parser > footnote definition > footnote definition with : following 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 16
@@ -1447,7 +1447,7 @@ children:
             value: ": footnote"
 `;
 
-exports[`org/parser footnote definition paragraph split 1`] = `
+exports[`org/parser > footnote definition > paragraph split 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 34
@@ -1474,7 +1474,7 @@ children:
         value: "next paragraph"
 `;
 
-exports[`org/parser footnote definition sequential 1`] = `
+exports[`org/parser > footnote definition > sequential 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 39
@@ -1507,7 +1507,7 @@ children:
             value: "footnote2\\n"
 `;
 
-exports[`org/parser footnote definition sequential with affiliated keywords 1`] = `
+exports[`org/parser > footnote definition > sequential with affiliated keywords 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 61
@@ -1542,7 +1542,7 @@ children:
             value: "footnote2\\n"
 `;
 
-exports[`org/parser footnote definition simple 1`] = `
+exports[`org/parser > footnote definition > simple 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 40
@@ -1562,7 +1562,7 @@ children:
             value: "this is footnote definition\\n"
 `;
 
-exports[`org/parser footnote definition starting on next line 1`] = `
+exports[`org/parser > footnote definition > starting on next line 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 21
@@ -1582,7 +1582,7 @@ children:
             value: "footnote\\n"
 `;
 
-exports[`org/parser footnote-reference inline reference 1`] = `
+exports[`org/parser > footnote-reference > inline reference 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 48
@@ -1612,7 +1612,7 @@ children:
             value: " definition"
 `;
 
-exports[`org/parser footnote-reference named inline reference 1`] = `
+exports[`org/parser > footnote-reference > named inline reference 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 52
@@ -1642,7 +1642,7 @@ children:
             value: " definition"
 `;
 
-exports[`org/parser footnote-reference standard reference 1`] = `
+exports[`org/parser > footnote-reference > standard reference 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 11
@@ -1660,7 +1660,7 @@ children:
         children: []
 `;
 
-exports[`org/parser headline DONE from next line should not capture first headline 1`] = `
+exports[`org/parser > headline > DONE from next line should not capture first headline 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 31
@@ -1699,7 +1699,7 @@ children:
             value: "Headline 2"
 `;
 
-exports[`org/parser headline complex headline + newline 1`] = `
+exports[`org/parser > headline > complex headline + newline 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 56
@@ -1732,7 +1732,7 @@ children:
             value: " title"
 `;
 
-exports[`org/parser headline complex headline 1`] = `
+exports[`org/parser > headline > complex headline 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 55
@@ -1765,7 +1765,7 @@ children:
             value: " title"
 `;
 
-exports[`org/parser headline custom todo keywords 1`] = `
+exports[`org/parser > headline > custom todo keywords 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 29
@@ -1788,7 +1788,7 @@ children:
             value: "my custom todo keyword"
 `;
 
-exports[`org/parser headline multiple headlines 1`] = `
+exports[`org/parser > headline > multiple headlines 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 22
@@ -1843,7 +1843,7 @@ children:
             value: "blah"
 `;
 
-exports[`org/parser headline nested headlines 1`] = `
+exports[`org/parser > headline > nested headlines 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 36
@@ -1930,7 +1930,7 @@ children:
                 value: "you"
 `;
 
-exports[`org/parser headline single headline 1`] = `
+exports[`org/parser > headline > single headline 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -1953,7 +1953,7 @@ children:
             value: "Hello"
 `;
 
-exports[`org/parser headline statistics-cookie complex headline with defined fraction statistics-cookie 1`] = `
+exports[`org/parser > headline > statistics-cookie > complex headline with defined fraction statistics-cookie 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 61
@@ -1991,7 +1991,7 @@ children:
             value: " title"
 `;
 
-exports[`org/parser headline statistics-cookie complex headline with defined fraction statistics-cookie 2`] = `
+exports[`org/parser > headline > statistics-cookie > complex headline with defined fraction statistics-cookie 2`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 61
@@ -2027,7 +2027,7 @@ children:
             postBlank: 0
 `;
 
-exports[`org/parser headline statistics-cookie complex headline with defined percentage statistics-cookie 1`] = `
+exports[`org/parser > headline > statistics-cookie > complex headline with defined percentage statistics-cookie 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 61
@@ -2065,7 +2065,7 @@ children:
             value: " title"
 `;
 
-exports[`org/parser headline statistics-cookie complex headline with empty fraction statistics-cookie 1`] = `
+exports[`org/parser > headline > statistics-cookie > complex headline with empty fraction statistics-cookie 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 59
@@ -2103,7 +2103,7 @@ children:
             value: " title"
 `;
 
-exports[`org/parser headline statistics-cookie complex headline with empty percentage statistics-cookie 1`] = `
+exports[`org/parser > headline > statistics-cookie > complex headline with empty percentage statistics-cookie 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 59
@@ -2141,7 +2141,7 @@ children:
             value: " title"
 `;
 
-exports[`org/parser headline statistics-cookie headline starting with fraction statistics-cookie 1`] = `
+exports[`org/parser > headline > statistics-cookie > headline starting with fraction statistics-cookie 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 19
@@ -2169,7 +2169,7 @@ children:
             value: "Something"
 `;
 
-exports[`org/parser headline statistics-cookie non-ascii characters in headline tags 1`] = `
+exports[`org/parser > headline > statistics-cookie > non-ascii characters in headline tags 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 21
@@ -2194,7 +2194,7 @@ children:
             value: "headline"
 `;
 
-exports[`org/parser headline statistics-cookie statistics cookie with long trailing space 1`] = `
+exports[`org/parser > headline > statistics-cookie > statistics cookie with long trailing space 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 14
@@ -2222,7 +2222,7 @@ children:
             value: "hello"
 `;
 
-exports[`org/parser headline statistics-cookie statistics cookie without trailing space 1`] = `
+exports[`org/parser > headline > statistics-cookie > statistics cookie without trailing space 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 10
@@ -2250,7 +2250,7 @@ children:
             value: "hello"
 `;
 
-exports[`org/parser horizontal rule 1`] = `
+exports[`org/parser > horizontal rule 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -2259,7 +2259,7 @@ children:
     affiliated: {}
 `;
 
-exports[`org/parser horizontal rule between paragraphs (#11) 1`] = `
+exports[`org/parser > horizontal rule between paragraphs (#11) 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 19
@@ -2282,7 +2282,7 @@ children:
         value: "World"
 `;
 
-exports[`org/parser incomplete drawer 1`] = `
+exports[`org/parser > incomplete drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -2296,7 +2296,7 @@ children:
         value: ":NONDRAWER:\\nI have no :END:"
 `;
 
-exports[`org/parser incomplete drawer after paragraph 1`] = `
+exports[`org/parser > incomplete drawer after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 24
@@ -2310,7 +2310,7 @@ children:
         value: "hello\\n:NONDRAWER:\\nhello"
 `;
 
-exports[`org/parser keyword 1`] = `
+exports[`org/parser > keyword 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 11
@@ -2321,7 +2321,7 @@ children:
     value: "hi"
 `;
 
-exports[`org/parser latex environment environment with star 1`] = `
+exports[`org/parser > latex environment > environment with star 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 40
@@ -2335,7 +2335,7 @@ children:
       \\\\end{equation*}"
 `;
 
-exports[`org/parser latex environment incomplete latex environment after paragraph (two lines) 1`] = `
+exports[`org/parser > latex environment > incomplete latex environment after paragraph (two lines) 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 41
@@ -2354,7 +2354,7 @@ children:
         value: "\\nI am incomplete"
 `;
 
-exports[`org/parser latex environment incomplete latex environment after paragraph 1`] = `
+exports[`org/parser > latex environment > incomplete latex environment after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 35
@@ -2373,7 +2373,7 @@ children:
         value: "\\nI am incomplete"
 `;
 
-exports[`org/parser latex environment latex environment after paragraph 1`] = `
+exports[`org/parser > latex environment > latex environment after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 37
@@ -2390,7 +2390,7 @@ children:
     value: "\\\\begin{hello} there \\\\end{hello}"
 `;
 
-exports[`org/parser latex environment multi-line 1`] = `
+exports[`org/parser > latex environment > multi-line 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 35
@@ -2404,7 +2404,7 @@ children:
       \\\\end{hello}"
 `;
 
-exports[`org/parser latex-fragment 1`] = `
+exports[`org/parser > latex-fragment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 98
@@ -2438,7 +2438,7 @@ children:
         value: "."
 `;
 
-exports[`org/parser line-break fake line break (must be at end of line) 1`] = `
+exports[`org/parser > line-break > fake line break (must be at end of line) 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -2463,7 +2463,7 @@ children:
         value: " a line break"
 `;
 
-exports[`org/parser line-break fake line break (triple backslash) 1`] = `
+exports[`org/parser > line-break > fake line break (triple backslash) 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 26
@@ -2477,7 +2477,7 @@ children:
         value: "some text\\\\\\\\\\\\\\nnot next line"
 `;
 
-exports[`org/parser line-break valid line break 1`] = `
+exports[`org/parser > line-break > valid line break 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 22
@@ -2494,7 +2494,7 @@ children:
         value: "line break"
 `;
 
-exports[`org/parser line-break whitespace after \\\\ 1`] = `
+exports[`org/parser > line-break > whitespace after \\\\ 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 24
@@ -2511,7 +2511,7 @@ children:
         value: "line break"
 `;
 
-exports[`org/parser links ./ as start of file link 1`] = `
+exports[`org/parser > links > ./ as start of file link 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 14
@@ -2529,7 +2529,7 @@ children:
         children: []
 `;
 
-exports[`org/parser links angle link 1`] = `
+exports[`org/parser > links > angle link 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 20
@@ -2547,7 +2547,7 @@ children:
         children: []
 `;
 
-exports[`org/parser links file link with percents 1`] = `
+exports[`org/parser > links > file link with percents 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 30
@@ -2565,7 +2565,7 @@ children:
         children: []
 `;
 
-exports[`org/parser links file link with spaces 1`] = `
+exports[`org/parser > links > file link with spaces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 26
@@ -2583,7 +2583,7 @@ children:
         children: []
 `;
 
-exports[`org/parser links https link 1`] = `
+exports[`org/parser > links > https link 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 29
@@ -2601,7 +2601,7 @@ children:
         children: []
 `;
 
-exports[`org/parser links link 1`] = `
+exports[`org/parser > links > link 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -2619,7 +2619,7 @@ children:
         children: []
 `;
 
-exports[`org/parser links link after text 1`] = `
+exports[`org/parser > links > link after text 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 24
@@ -2643,7 +2643,7 @@ children:
             value: "text"
 `;
 
-exports[`org/parser links link mixed with text 1`] = `
+exports[`org/parser > links > link mixed with text 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 29
@@ -2665,7 +2665,7 @@ children:
         value: " blah"
 `;
 
-exports[`org/parser links link with no text 1`] = `
+exports[`org/parser > links > link with no text 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 8
@@ -2683,7 +2683,7 @@ children:
         children: []
 `;
 
-exports[`org/parser links multiline description 1`] = `
+exports[`org/parser > links > multiline description 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 34
@@ -2705,7 +2705,7 @@ children:
             value: "line1\\nline2"
 `;
 
-exports[`org/parser links plain link does not include trailing punctuation 1`] = `
+exports[`org/parser > links > plain link does not include trailing punctuation 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 28
@@ -2727,7 +2727,7 @@ children:
         value: "."
 `;
 
-exports[`org/parser links regular link 1`] = `
+exports[`org/parser > links > regular link 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 14
@@ -2749,7 +2749,7 @@ children:
             value: "text"
 `;
 
-exports[`org/parser links regular link with longer link slash 1`] = `
+exports[`org/parser > links > regular link with longer link slash 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -2771,7 +2771,7 @@ children:
             value: "text"
 `;
 
-exports[`org/parser links two links in one line 1`] = `
+exports[`org/parser > links > two links in one line 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 34
@@ -2805,7 +2805,7 @@ children:
             value: "text2"
 `;
 
-exports[`org/parser list checkbox item [ ] 1`] = `
+exports[`org/parser > list > checkbox item [ ] 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 14
@@ -2834,7 +2834,7 @@ children:
                 value: "not done"
 `;
 
-exports[`org/parser list checkbox item [-] 1`] = `
+exports[`org/parser > list > checkbox item [-] 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 15
@@ -2863,7 +2863,7 @@ children:
                 value: "half-done"
 `;
 
-exports[`org/parser list checkbox item [X] 1`] = `
+exports[`org/parser > list > checkbox item [X] 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 10
@@ -2892,7 +2892,7 @@ children:
                 value: "done"
 `;
 
-exports[`org/parser list checkbox item [x] 1`] = `
+exports[`org/parser > list > checkbox item [x] 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 10
@@ -2921,7 +2921,7 @@ children:
                 value: "done"
 `;
 
-exports[`org/parser list description list > skips trailing spaces after tag 1`] = `
+exports[`org/parser > list > description list > skips trailing spaces after tag 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 24
@@ -2954,7 +2954,7 @@ children:
                 value: "description"
 `;
 
-exports[`org/parser list description list 1`] = `
+exports[`org/parser > list > description list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 50
@@ -3006,7 +3006,7 @@ children:
                 value: "description 2"
 `;
 
-exports[`org/parser list empty line between list items 1`] = `
+exports[`org/parser > list > empty line between list items 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -3050,7 +3050,7 @@ children:
                 value: "item 2"
 `;
 
-exports[`org/parser list fake list numbers 1`] = `
+exports[`org/parser > list > fake list numbers 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 9
@@ -3079,7 +3079,7 @@ children:
                 value: "1. blah"
 `;
 
-exports[`org/parser list formatting in description list tags 1`] = `
+exports[`org/parser > list > formatting in description list tags 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 389
@@ -3256,7 +3256,7 @@ children:
                         value: "The ultimate Git solution for privacy-oriented individuals!"
 `;
 
-exports[`org/parser list list after paragraph 1`] = `
+exports[`org/parser > list > list after paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -3292,7 +3292,7 @@ children:
                 value: "list"
 `;
 
-exports[`org/parser list list inside quite inside list 1`] = `
+exports[`org/parser > list > list inside quite inside list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 50
@@ -3348,7 +3348,7 @@ children:
                             value: "list 2\\n"
 `;
 
-exports[`org/parser list long blocks in lists 1`] = `
+exports[`org/parser > list > long blocks in lists 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 46
@@ -3383,7 +3383,7 @@ children:
             value: "  x\\n\\n\\n  y\\n"
 `;
 
-exports[`org/parser list long drawer in list 1`] = `
+exports[`org/parser > list > long drawer in list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 37
@@ -3432,7 +3432,7 @@ children:
                     value: "  y\\n"
 `;
 
-exports[`org/parser list nested lists 1`] = `
+exports[`org/parser > list > nested lists 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 27
@@ -3498,7 +3498,7 @@ children:
                         value: "list"
 `;
 
-exports[`org/parser list ordered list 1`] = `
+exports[`org/parser > list > ordered list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 13
@@ -3542,7 +3542,7 @@ children:
                 value: "two"
 `;
 
-exports[`org/parser list single-item list 1`] = `
+exports[`org/parser > list > single-item list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 4
@@ -3571,7 +3571,7 @@ children:
                 value: "hi"
 `;
 
-exports[`org/parser list two empty lines breaking list 1`] = `
+exports[`org/parser > list > two empty lines breaking list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -3622,7 +3622,7 @@ children:
                 value: "list 2"
 `;
 
-exports[`org/parser list two-item list 1`] = `
+exports[`org/parser > list > two-item list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -3666,7 +3666,7 @@ children:
                 value: "there"
 `;
 
-exports[`org/parser lowercase custom drawer 1`] = `
+exports[`org/parser > lowercase custom drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 30
@@ -3692,7 +3692,7 @@ children:
                 value: "there"
 `;
 
-exports[`org/parser lowercase property drawer 1`] = `
+exports[`org/parser > lowercase property drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 62
@@ -3722,7 +3722,7 @@ children:
             value: "[2019-03-13 Wed 23:57]"
 `;
 
-exports[`org/parser multiline \\( \\) fragment 1`] = `
+exports[`org/parser > multiline \\( \\) fragment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 11
@@ -3737,7 +3737,7 @@ children:
         contents: "2\\n2\\n2\\n2"
 `;
 
-exports[`org/parser multiline \\[ \\] fragment 1`] = `
+exports[`org/parser > multiline \\[ \\] fragment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 11
@@ -3752,7 +3752,7 @@ children:
         contents: "2\\n2\\n2\\n2"
 `;
 
-exports[`org/parser multiline latex fragment (3 lines) 1`] = `
+exports[`org/parser > multiline latex fragment (3 lines) 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 9
@@ -3767,7 +3767,7 @@ children:
         contents: "2\\n2\\n2"
 `;
 
-exports[`org/parser multiline latex fragment (4 lines) 1`] = `
+exports[`org/parser > multiline latex fragment (4 lines) 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 11
@@ -3782,7 +3782,7 @@ children:
         contents: "2\\n2\\n2\\n2"
 `;
 
-exports[`org/parser multiline latex fragment 1`] = `
+exports[`org/parser > multiline latex fragment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 8
@@ -3797,7 +3797,7 @@ children:
         contents: "2+\\n2"
 `;
 
-exports[`org/parser multiline single-$ fragment 1`] = `
+exports[`org/parser > multiline single-$ fragment 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 21
@@ -3816,7 +3816,7 @@ children:
         value: " world"
 `;
 
-exports[`org/parser non-closing diary sexp 1`] = `
+exports[`org/parser > non-closing diary sexp 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 26
@@ -3826,7 +3826,7 @@ children:
     value: "%%(I am still a diary-sexp"
 `;
 
-exports[`org/parser non-dual keyword inside paragraph 1`] = `
+exports[`org/parser > non-dual keyword inside paragraph 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 25
@@ -3840,7 +3840,7 @@ children:
         value: "hello\\n#+BLAH[hi]: heh\\nhi\\n"
 `;
 
-exports[`org/parser options.useSubSuperscript = {} ignores subscript with number 1`] = `
+exports[`org/parser > options.useSubSuperscript > = {} > ignores subscript with number 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 3
@@ -3854,7 +3854,7 @@ children:
         value: "x_2"
 `;
 
-exports[`org/parser options.useSubSuperscript = {} ignores superscript with number 1`] = `
+exports[`org/parser > options.useSubSuperscript > = {} > ignores superscript with number 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 3
@@ -3868,7 +3868,7 @@ children:
         value: "x^2"
 `;
 
-exports[`org/parser options.useSubSuperscript = {} parses subscript with braces 1`] = `
+exports[`org/parser > options.useSubSuperscript > = {} > parses subscript with braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -3888,7 +3888,7 @@ children:
             value: "2"
 `;
 
-exports[`org/parser options.useSubSuperscript = {} parses superscript with braces 1`] = `
+exports[`org/parser > options.useSubSuperscript > = {} > parses superscript with braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -3908,7 +3908,7 @@ children:
             value: "2"
 `;
 
-exports[`org/parser options.useSubSuperscript = false ignores subscript with braces 1`] = `
+exports[`org/parser > options.useSubSuperscript > = false > ignores subscript with braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -3922,7 +3922,7 @@ children:
         value: "x_{2}"
 `;
 
-exports[`org/parser options.useSubSuperscript = false ignores subscript with number 1`] = `
+exports[`org/parser > options.useSubSuperscript > = false > ignores subscript with number 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 3
@@ -3936,7 +3936,7 @@ children:
         value: "x_2"
 `;
 
-exports[`org/parser options.useSubSuperscript = false ignores superscript with braces 1`] = `
+exports[`org/parser > options.useSubSuperscript > = false > ignores superscript with braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -3950,7 +3950,7 @@ children:
         value: "x^{2}"
 `;
 
-exports[`org/parser options.useSubSuperscript = false ignores superscript with number 1`] = `
+exports[`org/parser > options.useSubSuperscript > = false > ignores superscript with number 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 3
@@ -3964,7 +3964,7 @@ children:
         value: "x^2"
 `;
 
-exports[`org/parser options.useSubSuperscript = true parses subscript with braces 1`] = `
+exports[`org/parser > options.useSubSuperscript > = true > parses subscript with braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -3984,7 +3984,7 @@ children:
             value: "2"
 `;
 
-exports[`org/parser options.useSubSuperscript = true parses subscript with number 1`] = `
+exports[`org/parser > options.useSubSuperscript > = true > parses subscript with number 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 3
@@ -4004,7 +4004,7 @@ children:
             value: "2"
 `;
 
-exports[`org/parser options.useSubSuperscript = true parses superscript with braces 1`] = `
+exports[`org/parser > options.useSubSuperscript > = true > parses superscript with braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -4024,7 +4024,7 @@ children:
             value: "2"
 `;
 
-exports[`org/parser options.useSubSuperscript = true parses superscript with number 1`] = `
+exports[`org/parser > options.useSubSuperscript > = true > parses superscript with number 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 3
@@ -4044,7 +4044,7 @@ children:
             value: "2"
 `;
 
-exports[`org/parser paragraph split by empty line 1`] = `
+exports[`org/parser > paragraph split by empty line 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 8
@@ -4065,7 +4065,7 @@ children:
         value: "b"
 `;
 
-exports[`org/parser planning fake planning 1`] = `
+exports[`org/parser > planning > fake planning 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -4092,7 +4092,7 @@ children:
         closed: null
 `;
 
-exports[`org/parser planning fake planning after property drawer 1`] = `
+exports[`org/parser > planning > fake planning after property drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 72
@@ -4138,7 +4138,7 @@ children:
             value: "\\nthis is paragraph"
 `;
 
-exports[`org/parser planning fake planning over multiple lines 1`] = `
+exports[`org/parser > planning > fake planning over multiple lines 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 81
@@ -4194,7 +4194,7 @@ children:
             value: "\\nthis is paragraph"
 `;
 
-exports[`org/parser planning mixed good and fake planning 1`] = `
+exports[`org/parser > planning > mixed good and fake planning 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 47
@@ -4231,7 +4231,7 @@ children:
         closed: null
 `;
 
-exports[`org/parser planning normal planning 1`] = `
+exports[`org/parser > planning > normal planning 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 96
@@ -4288,7 +4288,7 @@ children:
           end: null
 `;
 
-exports[`org/parser planning paragraph after planning 1`] = `
+exports[`org/parser > planning > paragraph after planning 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 53
@@ -4332,7 +4332,7 @@ children:
             value: "this is paragraph"
 `;
 
-exports[`org/parser planning planning before property drawer 1`] = `
+exports[`org/parser > planning > planning before property drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 72
@@ -4380,7 +4380,7 @@ children:
             value: "this is paragraph"
 `;
 
-exports[`org/parser position tracking adds position information when trackPosition is enabled 1`] = `
+exports[`org/parser > position tracking > adds position information when trackPosition is enabled 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 56
@@ -4534,7 +4534,7 @@ children:
                 offset: 56
 `;
 
-exports[`org/parser position tracking does not add position information when trackPosition is disabled 1`] = `
+exports[`org/parser > position tracking > does not add position information when trackPosition is disabled 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 31
@@ -4564,7 +4564,7 @@ children:
             value: "Some paragraph text."
 `;
 
-exports[`org/parser property drawer + section 1`] = `
+exports[`org/parser > property drawer + section 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 68
@@ -4601,7 +4601,7 @@ children:
             value: "hello"
 `;
 
-exports[`org/parser property drawer 1`] = `
+exports[`org/parser > property drawer 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 62
@@ -4631,7 +4631,7 @@ children:
             value: "[2019-03-13 Wed 23:57]"
 `;
 
-exports[`org/parser section empty lines before first section 1`] = `
+exports[`org/parser > section > empty lines before first section 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 4
@@ -4645,7 +4645,7 @@ children:
         value: "hi"
 `;
 
-exports[`org/parser section first top-level headline after list 1`] = `
+exports[`org/parser > section > first top-level headline after list 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 17
@@ -4690,7 +4690,7 @@ children:
             value: "headline"
 `;
 
-exports[`org/parser section initial section 1`] = `
+exports[`org/parser > section > initial section 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 10
@@ -4720,7 +4720,7 @@ children:
             value: "hi"
 `;
 
-exports[`org/parser section section in headline 1`] = `
+exports[`org/parser > section > section in headline 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 23
@@ -4750,7 +4750,7 @@ children:
             value: "this is section"
 `;
 
-exports[`org/parser section single-line section 1`] = `
+exports[`org/parser > section > single-line section 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 2
@@ -4764,7 +4764,7 @@ children:
         value: "hi"
 `;
 
-exports[`org/parser single asterisk 1`] = `
+exports[`org/parser > single asterisk 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 18
@@ -4792,7 +4792,7 @@ children:
         value: "more text\\n"
 `;
 
-exports[`org/parser subscript after subscript 1`] = `
+exports[`org/parser > subscript > after subscript 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -4818,7 +4818,7 @@ children:
             value: "22"
 `;
 
-exports[`org/parser subscript after superscript 1`] = `
+exports[`org/parser > subscript > after superscript 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -4844,7 +4844,7 @@ children:
             value: "22"
 `;
 
-exports[`org/parser subscript after zero-width space 1`] = `
+exports[`org/parser > subscript > after zero-width space 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 13
@@ -4864,7 +4864,7 @@ children:
             value: "subscript"
 `;
 
-exports[`org/parser subscript braces 1`] = `
+exports[`org/parser > subscript > braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -4884,7 +4884,7 @@ children:
             value: "+"
 `;
 
-exports[`org/parser subscript multiple nesting groups 1`] = `
+exports[`org/parser > subscript > multiple nesting groups 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 26
@@ -4904,7 +4904,7 @@ children:
             value: "hello{there}and{there}"
 `;
 
-exports[`org/parser subscript nested braces 1`] = `
+exports[`org/parser > subscript > nested braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -4924,7 +4924,7 @@ children:
             value: "{x}"
 `;
 
-exports[`org/parser subscript nested braces, 3 levels 1`] = `
+exports[`org/parser > subscript > nested braces, 3 levels 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 20
@@ -4944,7 +4944,7 @@ children:
             value: "hello{hi{there}}"
 `;
 
-exports[`org/parser subscript no superscript begginning of line 1`] = `
+exports[`org/parser > subscript > no superscript > begginning of line 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 6
@@ -4958,7 +4958,7 @@ children:
         value: "_hello"
 `;
 
-exports[`org/parser subscript no superscript multiple 2-level nesting groups 1`] = `
+exports[`org/parser > subscript > no superscript > multiple 2-level nesting groups 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 28
@@ -4972,7 +4972,7 @@ children:
         value: "H_{hello{there{}}and{there}}"
 `;
 
-exports[`org/parser subscript no superscript post whitespace 1`] = `
+exports[`org/parser > subscript > no superscript > post whitespace 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -4986,7 +4986,7 @@ children:
         value: "hello_ there"
 `;
 
-exports[`org/parser subscript no superscript pre whitespace 1`] = `
+exports[`org/parser > subscript > no superscript > pre whitespace 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -5000,7 +5000,7 @@ children:
         value: "hello _there"
 `;
 
-exports[`org/parser subscript no superscript too many nested braces 1`] = `
+exports[`org/parser > subscript > no superscript > too many nested braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 28
@@ -5014,7 +5014,7 @@ children:
         value: "H_{hello{hi{there{hello?}}}}"
 `;
 
-exports[`org/parser subscript no superscript unbalanced braces 1`] = `
+exports[`org/parser > subscript > no superscript > unbalanced braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 6
@@ -5028,7 +5028,7 @@ children:
         value: "H_{{+}"
 `;
 
-exports[`org/parser subscript simple 1`] = `
+exports[`org/parser > subscript > simple 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 11
@@ -5048,7 +5048,7 @@ children:
             value: "world"
 `;
 
-exports[`org/parser subscript spaces in braces 1`] = `
+exports[`org/parser > subscript > spaces in braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 15
@@ -5068,7 +5068,7 @@ children:
             value: "hello world"
 `;
 
-exports[`org/parser subscript trailing _ 1`] = `
+exports[`org/parser > subscript > trailing _ 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 4
@@ -5090,7 +5090,7 @@ children:
         value: "_"
 `;
 
-exports[`org/parser superscript after zero-width space 1`] = `
+exports[`org/parser > superscript > after zero-width space 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 9
@@ -5110,7 +5110,7 @@ children:
             value: "super"
 `;
 
-exports[`org/parser superscript braces 1`] = `
+exports[`org/parser > superscript > braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 5
@@ -5130,7 +5130,7 @@ children:
             value: "+"
 `;
 
-exports[`org/parser superscript multiple nesting groups 1`] = `
+exports[`org/parser > superscript > multiple nesting groups 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 26
@@ -5150,7 +5150,7 @@ children:
             value: "hello{there}and{there}"
 `;
 
-exports[`org/parser superscript nested braces 1`] = `
+exports[`org/parser > superscript > nested braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 7
@@ -5170,7 +5170,7 @@ children:
             value: "{x}"
 `;
 
-exports[`org/parser superscript nested braces, 3 levels 1`] = `
+exports[`org/parser > superscript > nested braces, 3 levels 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 20
@@ -5190,7 +5190,7 @@ children:
             value: "hello{hi{there}}"
 `;
 
-exports[`org/parser superscript no superscript begginning of line 1`] = `
+exports[`org/parser > superscript > no superscript > begginning of line 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 6
@@ -5204,7 +5204,7 @@ children:
         value: "^hello"
 `;
 
-exports[`org/parser superscript no superscript multiple 2-level nesting groups 1`] = `
+exports[`org/parser > superscript > no superscript > multiple 2-level nesting groups 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 28
@@ -5218,7 +5218,7 @@ children:
         value: "H^{hello{there{}}and{there}}"
 `;
 
-exports[`org/parser superscript no superscript post whitespace 1`] = `
+exports[`org/parser > superscript > no superscript > post whitespace 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -5232,7 +5232,7 @@ children:
         value: "hello^ there"
 `;
 
-exports[`org/parser superscript no superscript pre whitespace 1`] = `
+exports[`org/parser > superscript > no superscript > pre whitespace 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12
@@ -5246,7 +5246,7 @@ children:
         value: "hello ^there"
 `;
 
-exports[`org/parser superscript no superscript too many nested braces 1`] = `
+exports[`org/parser > superscript > no superscript > too many nested braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 28
@@ -5260,7 +5260,7 @@ children:
         value: "H^{hello{hi{there{hello?}}}}"
 `;
 
-exports[`org/parser superscript no superscript unbalanced braces 1`] = `
+exports[`org/parser > superscript > no superscript > unbalanced braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 6
@@ -5274,7 +5274,7 @@ children:
         value: "H^{{+}"
 `;
 
-exports[`org/parser superscript simple 1`] = `
+exports[`org/parser > superscript > simple 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 11
@@ -5294,7 +5294,7 @@ children:
             value: "world"
 `;
 
-exports[`org/parser superscript spaces in braces 1`] = `
+exports[`org/parser > superscript > spaces in braces 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 15
@@ -5314,7 +5314,7 @@ children:
             value: "hello world"
 `;
 
-exports[`org/parser table 1`] = `
+exports[`org/parser > table 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 59
@@ -5366,7 +5366,7 @@ children:
                 value: "value2"
 `;
 
-exports[`org/parser table with format 1`] = `
+exports[`org/parser > table with format 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 39
@@ -5401,7 +5401,7 @@ children:
                 value: "2"
 `;
 
-exports[`org/parser table.el table 1`] = `
+exports[`org/parser > table.el table 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 100
@@ -5421,7 +5421,7 @@ children:
       +--------+--------+"
 `;
 
-exports[`org/parser timestamps active 1`] = `
+exports[`org/parser > timestamps > active 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 16
@@ -5443,7 +5443,7 @@ children:
         end: null
 `;
 
-exports[`org/parser timestamps active-range 1`] = `
+exports[`org/parser > timestamps > active-range 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 34
@@ -5470,7 +5470,7 @@ children:
           minute: null
 `;
 
-exports[`org/parser timestamps inactive 1`] = `
+exports[`org/parser > timestamps > inactive 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 16
@@ -5492,7 +5492,7 @@ children:
         end: null
 `;
 
-exports[`org/parser timestamps inactive-range 1`] = `
+exports[`org/parser > timestamps > inactive-range 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 34
@@ -5519,7 +5519,7 @@ children:
           minute: null
 `;
 
-exports[`org/parser timestamps time range 1`] = `
+exports[`org/parser > timestamps > time range 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 28
@@ -5546,7 +5546,7 @@ children:
           minute: 38
 `;
 
-exports[`org/parser timestamps with time 1`] = `
+exports[`org/parser > timestamps > with time 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 22
@@ -5568,7 +5568,7 @@ children:
         end: null
 `;
 
-exports[`org/parser zero-width whitespace as emphasis separator 1`] = `
+exports[`org/parser > zero-width whitespace as emphasis separator 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 12

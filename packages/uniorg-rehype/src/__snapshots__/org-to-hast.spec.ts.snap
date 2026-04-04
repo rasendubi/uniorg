@@ -1,24 +1,24 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`org/org-to-hast #+ATTR_HTML Multiple links in a paragraph -> attrs are attached to paragraph and first link 1`] = `
+exports[`org/org-to-hast > #+ATTR_HTML > Multiple links in a paragraph -> attrs are attached to paragraph and first link 1`] = `
 
 <p alt="Link A alt">Some text <a alt="Link A alt" href="./a-link.org">./a-link.org</a> <a href="./b-link.org">./b-link.org</a></p>
 
 `;
 
-exports[`org/org-to-hast #+ATTR_HTML Non-image link -> attrs are attached to both paragraph and link 1`] = `
+exports[`org/org-to-hast > #+ATTR_HTML > Non-image link -> attrs are attached to both paragraph and link 1`] = `
 
 <p alt="Link alt"><a alt="Link alt" href="./a-link.org">./a-link.org</a></p>
 
 `;
 
-exports[`org/org-to-hast #+ATTR_HTML On results block 1`] = `
+exports[`org/org-to-hast > #+ATTR_HTML > On results block 1`] = `
 
 <pre class="fixed-width" width="300px">sample output</pre>
 
 `;
 
-exports[`org/org-to-hast #+ATTR_HTML Simple image -> attrs are attached to image only 1`] = `
+exports[`org/org-to-hast > #+ATTR_HTML > Simple image -> attrs are attached to image only 1`] = `
 
 <p>
   <img alt="Image alt" style="width:320px;" x="y" src="./image.png">
@@ -26,13 +26,13 @@ exports[`org/org-to-hast #+ATTR_HTML Simple image -> attrs are attached to image
 
 `;
 
-exports[`org/org-to-hast #+ATTR_HTML Simple paragraph -> attrs are attached to paragraph 1`] = `
+exports[`org/org-to-hast > #+ATTR_HTML > Simple paragraph -> attrs are attached to paragraph 1`] = `
 
 <p style="color:red;">This is red paragraph.</p>
 
 `;
 
-exports[`org/org-to-hast blockquote 1`] = `
+exports[`org/org-to-hast > blockquote 1`] = `
 
 <blockquote>
   <p>hello, world!</p>
@@ -40,7 +40,7 @@ exports[`org/org-to-hast blockquote 1`] = `
 
 `;
 
-exports[`org/org-to-hast center block 1`] = `
+exports[`org/org-to-hast > center block 1`] = `
 
 <div class="center">
   <p>hello</p>
@@ -48,32 +48,32 @@ exports[`org/org-to-hast center block 1`] = `
 
 `;
 
-exports[`org/org-to-hast citation 1`] = `
+exports[`org/org-to-hast > citation 1`] = `
 
 <p>common prefix prefix <a href="cite:key">cite:key</a> suffix<a href="cite:key2">cite:key2</a> common suffix</p>
 
 `;
 
-exports[`org/org-to-hast clock 1`] = ``;
+exports[`org/org-to-hast > clock 1`] = ``;
 
-exports[`org/org-to-hast comment block 1`] = ``;
+exports[`org/org-to-hast > comment block 1`] = ``;
 
-exports[`org/org-to-hast comments 1`] = `
+exports[`org/org-to-hast > comments 1`] = `
 
 <p>hello</p>
 <p>there</p>
 
 `;
 
-exports[`org/org-to-hast complex headline 1`] = `
+exports[`org/org-to-hast > complex headline 1`] = `
 
 <h1><span class="todo-keyword TODO">TODO</span> <span class="priority priority-A">[A]</span> headline <em>italic</em> title   <span class="tags"><span class="tag tag-some">some</span> <span class="tag tag-tags">tags</span></span></h1>
 
 `;
 
-exports[`org/org-to-hast custom drawer 1`] = ``;
+exports[`org/org-to-hast > custom drawer 1`] = ``;
 
-exports[`org/org-to-hast description list 1`] = `
+exports[`org/org-to-hast > description list 1`] = `
 
 <dl>
   <dt>term1</dt>
@@ -88,7 +88,7 @@ exports[`org/org-to-hast description list 1`] = `
 
 `;
 
-exports[`org/org-to-hast description list with complex tags 1`] = `
+exports[`org/org-to-hast > description list with complex tags 1`] = `
 
 <dl>
   <dt><a href="https://example.com">Example</a></dt>
@@ -119,83 +119,83 @@ exports[`org/org-to-hast description list with complex tags 1`] = `
 
 `;
 
-exports[`org/org-to-hast diary sexp 1`] = ``;
+exports[`org/org-to-hast > diary sexp 1`] = ``;
 
-exports[`org/org-to-hast do not double-escape urls 1`] = `
+exports[`org/org-to-hast > do not double-escape urls 1`] = `
 
 <p><a href="http://localhost:3000/path%2Bwith%2Bpercents">path with percents</a></p>
 
 `;
 
-exports[`org/org-to-hast does not export :noexport: headline 1`] = `
+exports[`org/org-to-hast > does not export :noexport: headline 1`] = `
 
 <h1>hello</h1>
 <p>some text</p>
 
 `;
 
-exports[`org/org-to-hast does not export link as image 1`] = `
+exports[`org/org-to-hast > does not export link as image 1`] = `
 
 <p><a href="./image.png">this is a link</a></p>
 
 `;
 
-exports[`org/org-to-hast emphasis 1`] = `
+exports[`org/org-to-hast > emphasis 1`] = `
 
 <p><em>Consider</em> <code class="inline-code">t*h*e</code> <strong>following</strong> <code class="inline-verbatim">example</code> <del>strike</del> <span class="underline" style="text-decoration: underline;">under</span></p>
 
 `;
 
-exports[`org/org-to-hast empty 1`] = ``;
+exports[`org/org-to-hast > empty 1`] = ``;
 
-exports[`org/org-to-hast entity 1`] = `
+exports[`org/org-to-hast > entity 1`] = `
 
 <p>À</p>
 
 `;
 
-exports[`org/org-to-hast escape local link 1`] = `
+exports[`org/org-to-hast > escape local link 1`] = `
 
 <p><a href="./path%20with%20%22spaces%22.org">path with "spaces"</a></p>
 
 `;
 
-exports[`org/org-to-hast escape local link with percent 1`] = `
+exports[`org/org-to-hast > escape local link with percent 1`] = `
 
 <p><a href="file:local%252Bpath%252Bwith%252Bpercents.org">local path with percents</a></p>
 
 `;
 
-exports[`org/org-to-hast example block 1`] = `
+exports[`org/org-to-hast > example block 1`] = `
 
 <div class="example">example</div>
 
 `;
 
-exports[`org/org-to-hast export block 1`] = ``;
+exports[`org/org-to-hast > export block 1`] = ``;
 
-exports[`org/org-to-hast export html block 1`] = `<abbr title="World Health Organization">WHO</abbr> was founded in 1948.`;
+exports[`org/org-to-hast > export html block 1`] = `<abbr title="World Health Organization">WHO</abbr> was founded in 1948.`;
 
-exports[`org/org-to-hast export html keyword 1`] = `
+exports[`org/org-to-hast > export html keyword 1`] = `
 
 <p>hello</p>
 <h1>html tag</h1>
 
 `;
 
-exports[`org/org-to-hast export snippet 1`] = `
+exports[`org/org-to-hast > export snippet 1`] = `
 
 <p><b>Hello, world!</b></p>
 
 `;
 
-exports[`org/org-to-hast fixed-width 1`] = `
+exports[`org/org-to-hast > fixed-width 1`] = `
 
 <pre class="fixed-width">hello</pre>
 
 `;
 
-exports[`org/org-to-hast footnotes anonymous inline footnote 1`] = `
+exports[`org/org-to-hast > footnotes > anonymous inline footnote 1`] = `
 
 <p>footnotes<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
 <h1>Footnotes:</h1>
@@ -205,7 +205,7 @@ exports[`org/org-to-hast footnotes anonymous inline footnote 1`] = `
 
 `;
 
-exports[`org/org-to-hast footnotes does not emit unreferenced footnotes 1`] = `
+exports[`org/org-to-hast > footnotes > does not emit unreferenced footnotes 1`] = `
 
 <p>footnote<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
 <h1>Footnotes:</h1>
@@ -217,7 +217,7 @@ exports[`org/org-to-hast footnotes does not emit unreferenced footnotes 1`] = `
 
 `;
 
-exports[`org/org-to-hast footnotes footnote-definition 1`] = `
+exports[`org/org-to-hast > footnotes > footnote-definition 1`] = `
 
 <p>
   Some text with a footnote.<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup>
@@ -237,7 +237,7 @@ exports[`org/org-to-hast footnotes footnote-definition 1`] = `
 
 `;
 
-exports[`org/org-to-hast footnotes footnote-reference 1`] = `
+exports[`org/org-to-hast > footnotes > footnote-reference 1`] = `
 
 <p>Some text with a footnote.<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
 <h1>Footnotes:</h1>
@@ -249,13 +249,13 @@ exports[`org/org-to-hast footnotes footnote-reference 1`] = `
 
 `;
 
-exports[`org/org-to-hast footnotes handles missing footnotes 1`] = `
+exports[`org/org-to-hast > footnotes > handles missing footnotes 1`] = `
 
 <p>footnote<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
 
 `;
 
-exports[`org/org-to-hast footnotes inline footnote 1`] = `
+exports[`org/org-to-hast > footnotes > inline footnote 1`] = `
 
 <p>some text<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
 <h1>Footnotes:</h1>
@@ -265,7 +265,7 @@ exports[`org/org-to-hast footnotes inline footnote 1`] = `
 
 `;
 
-exports[`org/org-to-hast footnotes inline footnote 2`] = `
+exports[`org/org-to-hast > footnotes > inline footnote 2`] = `
 
 <p>footnotes<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup></p>
 <h1>Footnotes:</h1>
@@ -275,7 +275,7 @@ exports[`org/org-to-hast footnotes inline footnote 2`] = `
 
 `;
 
-exports[`org/org-to-hast footnotes maintains footnotes order 1`] = `
+exports[`org/org-to-hast > footnotes > maintains footnotes order 1`] = `
 
 <p>
   footnote 2<sup><a href="#fn.1" class="footref" id="fnr.1" role="doc-backlink">1</a></sup>
@@ -295,13 +295,13 @@ exports[`org/org-to-hast footnotes maintains footnotes order 1`] = `
 
 `;
 
-exports[`org/org-to-hast headline 1`] = `
+exports[`org/org-to-hast > headline 1`] = `
 
 <h1>hi</h1>
 
 `;
 
-exports[`org/org-to-hast headline with sections 1`] = `
+exports[`org/org-to-hast > headline with sections 1`] = `
 
 <p>hello</p>
 <h1>hi</h1>
@@ -311,13 +311,13 @@ exports[`org/org-to-hast headline with sections 1`] = `
 
 `;
 
-exports[`org/org-to-hast horizontal rule 1`] = `
+exports[`org/org-to-hast > horizontal rule 1`] = `
 
 <hr>
 
 `;
 
-exports[`org/org-to-hast html5 fancy block 1`] = `
+exports[`org/org-to-hast > html5 fancy block 1`] = `
 
 <aside>
   <p>hello</p>
@@ -325,7 +325,7 @@ exports[`org/org-to-hast html5 fancy block 1`] = `
 
 `;
 
-exports[`org/org-to-hast images 1`] = `
+exports[`org/org-to-hast > images 1`] = `
 
 <p>
   <img src="./image.png">
@@ -333,9 +333,9 @@ exports[`org/org-to-hast images 1`] = `
 
 `;
 
-exports[`org/org-to-hast keywords 1`] = ``;
+exports[`org/org-to-hast > keywords 1`] = ``;
 
-exports[`org/org-to-hast latex environment 1`] = `
+exports[`org/org-to-hast > latex environment 1`] = `
 
 <div class="math math-display">
   \\begin{hello}
@@ -345,7 +345,7 @@ exports[`org/org-to-hast latex environment 1`] = `
 
 `;
 
-exports[`org/org-to-hast latex-fragment 1`] = `
+exports[`org/org-to-hast > latex-fragment 1`] = `
 
 <p>
   If <span class="math math-inline">a^2=b</span> and <span class="math math-inline">b=2</span>, then the solution must be
@@ -354,25 +354,25 @@ exports[`org/org-to-hast latex-fragment 1`] = `
 
 `;
 
-exports[`org/org-to-hast line-break 1`] = `
+exports[`org/org-to-hast > line-break 1`] = `
 
 <p>hello<br>world</p>
 
 `;
 
-exports[`org/org-to-hast link 1`] = `
+exports[`org/org-to-hast > link 1`] = `
 
 <p><a href="https://example.com">https://example.com</a></p>
 
 `;
 
-exports[`org/org-to-hast link mixed with text 1`] = `
+exports[`org/org-to-hast > link mixed with text 1`] = `
 
 <p>hello <a href="http://example.com">http://example.com</a> blah</p>
 
 `;
 
-exports[`org/org-to-hast list 1`] = `
+exports[`org/org-to-hast > list 1`] = `
 
 <ul>
   <li>hello</li>
@@ -380,7 +380,7 @@ exports[`org/org-to-hast list 1`] = `
 
 `;
 
-exports[`org/org-to-hast multiple headlines 1`] = `
+exports[`org/org-to-hast > multiple headlines 1`] = `
 
 <h1>hi</h1>
 <h2>there</h2>
@@ -389,7 +389,7 @@ exports[`org/org-to-hast multiple headlines 1`] = `
 
 `;
 
-exports[`org/org-to-hast nested list 1`] = `
+exports[`org/org-to-hast > nested list 1`] = `
 
 <ul>
   <li>hello
@@ -403,7 +403,7 @@ exports[`org/org-to-hast nested list 1`] = `
 
 `;
 
-exports[`org/org-to-hast ordered list 1`] = `
+exports[`org/org-to-hast > ordered list 1`] = `
 
 <ol>
   <li>one</li>
@@ -411,13 +411,13 @@ exports[`org/org-to-hast ordered list 1`] = `
 
 `;
 
-exports[`org/org-to-hast paragraph 1`] = `
+exports[`org/org-to-hast > paragraph 1`] = `
 
 <p>hello</p>
 
 `;
 
-exports[`org/org-to-hast paragraph stripping in list items 1`] = `
+exports[`org/org-to-hast > paragraph stripping in list items 1`] = `
 
 <ul>
   <li>item1</li>
@@ -438,19 +438,19 @@ exports[`org/org-to-hast paragraph stripping in list items 1`] = `
 
 `;
 
-exports[`org/org-to-hast planning 1`] = `
+exports[`org/org-to-hast > planning 1`] = `
 
 <h1>headline</h1>
 
 `;
 
-exports[`org/org-to-hast property drawer 1`] = `
+exports[`org/org-to-hast > property drawer 1`] = `
 
 <h1>headline</h1>
 
 `;
 
-exports[`org/org-to-hast remove common src block offset 1`] = `
+exports[`org/org-to-hast > remove common src block offset 1`] = `
 
 <pre class="src-block"><code>hello
   world
@@ -458,7 +458,7 @@ exports[`org/org-to-hast remove common src block offset 1`] = `
 
 `;
 
-exports[`org/org-to-hast special block 1`] = `
+exports[`org/org-to-hast > special block 1`] = `
 
 <div class="special-block block-blah">
   <p>hello</p>
@@ -466,7 +466,7 @@ exports[`org/org-to-hast special block 1`] = `
 
 `;
 
-exports[`org/org-to-hast src block 1`] = `
+exports[`org/org-to-hast > src block 1`] = `
 
 <pre class="src-block"><code class="language-c">*a = b;
 printf("%d\\n", *a);
@@ -474,25 +474,25 @@ printf("%d\\n", *a);
 
 `;
 
-exports[`org/org-to-hast statistics cookie 1`] = `
+exports[`org/org-to-hast > statistics cookie 1`] = `
 
 <h1>hello <span class="statistics-cookie">[2/3]</span></h1>
 
 `;
 
-exports[`org/org-to-hast subscript 1`] = `
+exports[`org/org-to-hast > subscript 1`] = `
 
 <p>hello<sub>there</sub></p>
 
 `;
 
-exports[`org/org-to-hast superscript 1`] = `
+exports[`org/org-to-hast > superscript 1`] = `
 
 <p>hello<sup>there</sup></p>
 
 `;
 
-exports[`org/org-to-hast table 1`] = `
+exports[`org/org-to-hast > table 1`] = `
 
 <table>
   <thead>
@@ -511,7 +511,7 @@ exports[`org/org-to-hast table 1`] = `
 
 `;
 
-exports[`org/org-to-hast table without header 1`] = `
+exports[`org/org-to-hast > table without header 1`] = `
 
 <table>
   <tbody>
@@ -528,7 +528,7 @@ exports[`org/org-to-hast table without header 1`] = `
 
 `;
 
-exports[`org/org-to-hast table, multiple body 1`] = `
+exports[`org/org-to-hast > table, multiple body 1`] = `
 
 <table>
   <thead>
@@ -557,7 +557,7 @@ exports[`org/org-to-hast table, multiple body 1`] = `
 
 `;
 
-exports[`org/org-to-hast table.el table 1`] = `
+exports[`org/org-to-hast > table.el table 1`] = `
 
 <pre class="table-el">+------+
 | blah |
@@ -566,43 +566,43 @@ exports[`org/org-to-hast table.el table 1`] = `
 
 `;
 
-exports[`org/org-to-hast timestamps active 1`] = `
+exports[`org/org-to-hast > timestamps > active 1`] = `
 
 <p><span class="timestamp">&#x3C;2021-01-07 Thu></span></p>
 
 `;
 
-exports[`org/org-to-hast timestamps active-range 1`] = `
+exports[`org/org-to-hast > timestamps > active-range 1`] = `
 
 <p><span class="timestamp">&#x3C;2021-01-07 Thu>--&#x3C;2021-01-09 Sat></span></p>
 
 `;
 
-exports[`org/org-to-hast timestamps inactive 1`] = `
+exports[`org/org-to-hast > timestamps > inactive 1`] = `
 
 <p><span class="timestamp">[2021-01-07 Thu]</span></p>
 
 `;
 
-exports[`org/org-to-hast timestamps inactive-range 1`] = `
+exports[`org/org-to-hast > timestamps > inactive-range 1`] = `
 
 <p><span class="timestamp">[2021-01-07 Thu]--[2021-01-08 Fri]</span></p>
 
 `;
 
-exports[`org/org-to-hast timestamps time range 1`] = `
+exports[`org/org-to-hast > timestamps > time range 1`] = `
 
 <p><span class="timestamp">[2021-01-07 Thu 19:36-20:38]</span></p>
 
 `;
 
-exports[`org/org-to-hast timestamps with time 1`] = `
+exports[`org/org-to-hast > timestamps > with time 1`] = `
 
 <p><span class="timestamp">[2021-01-07 Thu 19:36]</span></p>
 
 `;
 
-exports[`org/org-to-hast useSections 1`] = `
+exports[`org/org-to-hast > useSections 1`] = `
 
 <p>hello</p>
 <section class="section-level-1">
@@ -619,7 +619,7 @@ exports[`org/org-to-hast useSections 1`] = `
 
 `;
 
-exports[`org/org-to-hast verse block emacs example 1`] = `
+exports[`org/org-to-hast > verse block > emacs example 1`] = `
 
 <pre class="verse">Great clouds overhead
 Tiny black birds rise and fall
@@ -630,7 +630,7 @@ Snow covers Emacs
 
 `;
 
-exports[`org/org-to-hast verse block line break inside bold 1`] = `
+exports[`org/org-to-hast > verse block > line break inside bold 1`] = `
 
 <pre class="verse">  some text <strong>and
 bold</strong> overflowing on the next line
@@ -638,14 +638,14 @@ bold</strong> overflowing on the next line
 
 `;
 
-exports[`org/org-to-hast verse block simple 1`] = `
+exports[`org/org-to-hast > verse block > simple 1`] = `
 
 <pre class="verse">some text
 </pre>
 
 `;
 
-exports[`org/org-to-hast verse block varied indentation 1`] = `
+exports[`org/org-to-hast > verse block > varied indentation 1`] = `
 
 <pre class="verse">   first line
  second line

@@ -1,3 +1,4 @@
+import { describe, test, expect, vi } from 'vitest';
 import { visitIds } from './';
 
 import { parse } from 'uniorg-parse/lib/parser';
@@ -6,10 +7,10 @@ describe('orgast-util-to-string', () => {
   test('empty', () => {
     const tree = parse(``);
 
-    const f = jest.fn();
+    const f = vi.fn();
     visitIds(tree, f);
 
-    expect(f).not.toBeCalled();
+    expect(f).not.toHaveBeenCalled();
   });
 
   test('top-level id', () => {
@@ -19,10 +20,10 @@ describe('orgast-util-to-string', () => {
 
 hi there`);
 
-    const f = jest.fn();
+    const f = vi.fn();
     visitIds(tree, f);
 
-    expect(f).toBeCalledTimes(1);
+    expect(f).toHaveBeenCalledTimes(1);
     const [id, node] = f.mock.calls[0];
     expect(id).toBe('hello-page');
     expect(node.type).toBe('org-data');
@@ -37,10 +38,10 @@ hi there`);
 
 hi there`);
 
-    const f = jest.fn();
+    const f = vi.fn();
     visitIds(tree, f);
 
-    expect(f).toBeCalledTimes(1);
+    expect(f).toHaveBeenCalledTimes(1);
     const [id, node] = f.mock.calls[0];
     expect(id).toBe('hi-there');
     expect(node.type).toBe('section');
@@ -60,10 +61,10 @@ hi there`);
 :CUSTOM_ID: headline
 :END:`);
 
-    const f = jest.fn();
+    const f = vi.fn();
     visitIds(tree, f);
 
-    expect(f).not.toBeCalled();
+    expect(f).not.toHaveBeenCalled();
   });
 
   test('multiple and nested', () => {
@@ -81,10 +82,10 @@ hi there`);
 :ID: id-headline-2
 :END:`);
 
-    const f = jest.fn();
+    const f = vi.fn();
     visitIds(tree, f);
 
-    expect(f).toBeCalledTimes(3);
+    expect(f).toHaveBeenCalledTimes(3);
 
     const [id1, node1] = f.mock.calls[0];
     expect(id1).toBe('id-org-data');

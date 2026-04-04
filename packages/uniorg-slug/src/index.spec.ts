@@ -79,7 +79,7 @@ describe('uniorg-slug', () => {
       .toString();
 
     expect(s).toMatchInlineSnapshot(
-      `"<h1 id=\\"headline\\">headline</h1><h2 id=\\"blah\\">nested headline</h2><h2 id=\\"headline-1\\">headline</h2><p><code class=\\"inline-code\\">id</code> property is ignored.</p>"`
+      `"<h1 id="headline">headline</h1><h2 id="blah">nested headline</h2><h2 id="headline-1">headline</h2><p><code class="inline-code">id</code> property is ignored.</p>"`
     );
   });
 
@@ -99,7 +99,7 @@ describe('uniorg-slug', () => {
     const s = String(processor.processSync(document));
 
     expect(s).toMatchInlineSnapshot(
-      `"<h1 id=\\"my-custom-id\\">some headline</h1>"`
+      `"<h1 id="my-custom-id">some headline</h1>"`
     );
   });
 });

@@ -1,97 +1,97 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stringify blocks #+ escaper in src block 1`] = `
+exports[`stringify > blocks > #+ escaper in src block 1`] = `
 "#+begin_src org
 ,#+ escaped
 #+end_src
 "
 `;
 
-exports[`stringify blocks center block 1`] = `
+exports[`stringify > blocks > center block 1`] = `
 "#+begin_center
 hello
 #+end_center
 "
 `;
 
-exports[`stringify blocks comma escaper in src block 1`] = `
+exports[`stringify > blocks > comma escaper in src block 1`] = `
 "#+begin_src org
 ,,,* two commas escaped
 #+end_src
 "
 `;
 
-exports[`stringify blocks comment block 1`] = `
+exports[`stringify > blocks > comment block 1`] = `
 "#+begin_comment
 hello
 #+end_comment
 "
 `;
 
-exports[`stringify blocks escaper in src block 1`] = `
+exports[`stringify > blocks > escaper in src block 1`] = `
 "#+begin_src c
 ,*a = 0;
 #+end_src
 "
 `;
 
-exports[`stringify blocks example block 1`] = `
+exports[`stringify > blocks > example block 1`] = `
 "#+begin_example
 hi
 #+end_example
 "
 `;
 
-exports[`stringify blocks export block 1`] = `
+exports[`stringify > blocks > export block 1`] = `
 "#+begin_export
 hi
 #+end_export
 "
 `;
 
-exports[`stringify blocks export block with backend 1`] = `
+exports[`stringify > blocks > export block with backend 1`] = `
 "#+begin_export html
 hi
 #+end_export
 "
 `;
 
-exports[`stringify blocks fake escaper 1`] = `
+exports[`stringify > blocks > fake escaper 1`] = `
 "#+begin_src org
 ,# nont escaped
 #+end_src
 "
 `;
 
-exports[`stringify blocks headline escaper in src block 1`] = `
+exports[`stringify > blocks > headline escaper in src block 1`] = `
 "#+begin_src org
 ,* not a headline;
 #+end_src
 "
 `;
 
-exports[`stringify blocks quote block 1`] = `
+exports[`stringify > blocks > quote block 1`] = `
 "#+begin_quote
 hello
 #+end_quote
 "
 `;
 
-exports[`stringify blocks special block 1`] = `
+exports[`stringify > blocks > special block 1`] = `
 "#+begin_blah
 hello
 #+end_blah
 "
 `;
 
-exports[`stringify blocks src block 1`] = `
+exports[`stringify > blocks > src block 1`] = `
 "#+begin_src
 hello
 #+end_src
 "
 `;
 
-exports[`stringify blocks src in list 1`] = `
+exports[`stringify > blocks > src in list 1`] = `
 "- example:
   
   #+begin_src
@@ -100,7 +100,7 @@ exports[`stringify blocks src in list 1`] = `
 "
 `;
 
-exports[`stringify blocks verse block 1`] = `
+exports[`stringify > blocks > verse block 1`] = `
 "#+begin_verse
  Great clouds overhead
  Tiny black birds rise and fall
@@ -111,127 +111,122 @@ exports[`stringify blocks verse block 1`] = `
 "
 `;
 
-exports[`stringify citation 1`] = `
+exports[`stringify > citation 1`] = `
 "[cite/style:common prefix; prefix @key suffix;@key2; common suffix]
 "
 `;
 
-exports[`stringify clock clock in progress 1`] = `
+exports[`stringify > clock > clock in progress 1`] = `
 "CLOCK: [2021-01-10 Sun 14:36]
 "
 `;
 
-exports[`stringify clock finished clock 1`] = `
+exports[`stringify > clock > finished clock 1`] = `
 "CLOCK: [2020-12-22 Tue 09:07]--[2020-12-22 Tue 11:10] =>  2:03
 "
 `;
 
-exports[`stringify custom drawer 1`] = `
+exports[`stringify > custom drawer 1`] = `
 ":MYDRAWER:
 hello /there/
 :END:
 "
 `;
 
-exports[`stringify diary sexp 1`] = `
+exports[`stringify > diary sexp 1`] = `
 "%%(diary-anniversary 10 31 1948) Arthur's birthday (%d years old)
 "
 `;
 
-exports[`stringify emphasis marks bold 1`] = `
+exports[`stringify > emphasis marks > bold 1`] = `
 "*hello*
 "
 `;
 
-exports[`stringify emphasis marks bold with custom char 1`] = `
+exports[`stringify > emphasis marks > bold with custom char 1`] = `
 "$hello$
 "
 `;
 
-exports[`stringify emphasis marks emphasis 1`] = `
+exports[`stringify > emphasis marks > emphasis 1`] = `
 "/Consider/ ~t*h*e~ *following* =example= +strike+
 "
 `;
 
-exports[`stringify emphasis marks underline 1`] = `
+exports[`stringify > emphasis marks > underline 1`] = `
 "_hello_
 "
 `;
 
-exports[`stringify empty input 1`] = `
+exports[`stringify > empty input 1`] = `
 "
 "
 `;
 
-exports[`stringify entity 1`] = `
-"\\\\Aggrave
+exports[`stringify > entity 1`] = `
+"\\Aggrave
 "
 `;
 
-exports[`stringify file property drawer 1`] = `
+exports[`stringify > file property drawer 1`] = `
 ":PROPERTIES:
 :ID: 01c7615e-d792-4d06-995b-19a2c046c055
 :END:
 "
 `;
 
-exports[`stringify footnotes footnote definition 1`] = `
+exports[`stringify > footnotes > footnote definition 1`] = `
 "[fn:hello] this is footnote definition
 "
 `;
 
-exports[`stringify footnotes footnote definition with : following 1`] = `
+exports[`stringify > footnotes > footnote definition with : following 1`] = `
 "[fn:1] : footnote
 "
 `;
 
-exports[`stringify footnotes inline reference 1`] = `
+exports[`stringify > footnotes > inline reference 1`] = `
 "hello[fn:: this is inline /footnote/ definition]
 "
 `;
 
-exports[`stringify footnotes named inline reference 1`] = `
+exports[`stringify > footnotes > named inline reference 1`] = `
 "hello[fn:name: this is inline /footnote/ definition]
 "
 `;
 
-exports[`stringify footnotes sequential 1`] = `
+exports[`stringify > footnotes > sequential 1`] = `
 "[fn:hello] footnote1
 [fn:2] footnote2
 "
 `;
 
-exports[`stringify footnotes standard reference 1`] = `
+exports[`stringify > footnotes > standard reference 1`] = `
 "hello[fn:1]
 "
 `;
 
-exports[`stringify footnotes starting on next line 1`] = `
+exports[`stringify > footnotes > starting on next line 1`] = `
 "[fn:hello] footnote
 "
 `;
 
-exports[`stringify handle export-snippet 1`] = `
+exports[`stringify > handle export-snippet 1`] = `
 "@@backend:custom value@@
 "
 `;
 
-exports[`stringify handlers allow handlers to return empty string to suppress output 1`] = `
+exports[`stringify > handlers > allow handlers to return empty string to suppress output 1`] = `
 "hello,  world
 "
 `;
 
-exports[`stringify handlers allow handlers to return null to fallback to default processing 1`] = `
-"hello, +Dave+ world
-"
-`;
-
-exports[`stringify headline complex headline 1`] = `
+exports[`stringify > headline > complex headline 1`] = `
 "* TODO [#A] COMMENT headline /italic/ title :some:tags:
 "
 `;
 
-exports[`stringify headline nested headline 1`] = `
+exports[`stringify > headline > nested headline 1`] = `
 "* level 1
 ** level 2
 * level 1
@@ -239,7 +234,7 @@ exports[`stringify headline nested headline 1`] = `
 "
 `;
 
-exports[`stringify headline nested simple headlines separated by new-lines 1`] = `
+exports[`stringify > headline > nested simple headlines separated by new-lines 1`] = `
 "* level 1
 
 ** level 2
@@ -250,116 +245,116 @@ exports[`stringify headline nested simple headlines separated by new-lines 1`] =
 "
 `;
 
-exports[`stringify headline simple headline 1`] = `
+exports[`stringify > headline > simple headline 1`] = `
 "* Hello
 "
 `;
 
-exports[`stringify headline statistics cookie 1`] = `
+exports[`stringify > headline > statistics cookie 1`] = `
 "* [115%]  headline
 "
 `;
 
-exports[`stringify horizontal rule 1`] = `
+exports[`stringify > horizontal rule 1`] = `
 "-----
 "
 `;
 
-exports[`stringify keyword dual keyword 1`] = `
+exports[`stringify > keyword > dual keyword 1`] = `
 "#+RESULTS[hi]: hello
 there
 "
 `;
 
-exports[`stringify keyword keyword 1`] = `
+exports[`stringify > keyword > keyword 1`] = `
 "#+TITLE: hi
 "
 `;
 
-exports[`stringify keyword multiple affiliated keywords 1`] = `
+exports[`stringify > keyword > multiple affiliated keywords 1`] = `
 "#+NAME: name
 #+CAPTION: caption
 paragraph
 "
 `;
 
-exports[`stringify keyword multiple keywords 1`] = `
+exports[`stringify > keyword > multiple keywords 1`] = `
 "#+TITLE: hi
 #+AUTHOR: me
 "
 `;
 
-exports[`stringify latex-fragment 1`] = `
-"If $a^2=b$ and \\\\( b=2 \\\\), then the solution must be
-either $$ a=+\\\\sqrt{2} $$ or \\\\[ a=-\\\\sqrt{2} \\\\].
+exports[`stringify > latex-fragment 1`] = `
+"If $a^2=b$ and \\( b=2 \\), then the solution must be
+either $$ a=+\\sqrt{2} $$ or \\[ a=-\\sqrt{2} \\].
 "
 `;
 
-exports[`stringify line-break 1`] = `
-"hello\\\\\\\\
+exports[`stringify > line-break 1`] = `
+"hello\\\\
 world!
 "
 `;
 
-exports[`stringify line-break with trailing whitespace 1`] = `
-"hello\\\\\\\\
+exports[`stringify > line-break with trailing whitespace 1`] = `
+"hello\\\\
 world!
 "
 `;
 
-exports[`stringify links angle link 1`] = `
+exports[`stringify > links > angle link 1`] = `
 "<http://example.com>
 "
 `;
 
-exports[`stringify links file link with percents 1`] = `
+exports[`stringify > links > file link with percents 1`] = `
 "[[./file%2Bwith%2Bspaces.org]]
 "
 `;
 
-exports[`stringify links file link with spaces 1`] = `
+exports[`stringify > links > file link with spaces 1`] = `
 "[[./file with spaces.org]]
 "
 `;
 
-exports[`stringify links https link 1`] = `
+exports[`stringify > links > https link 1`] = `
 "[[https://example.com/hello]]
 "
 `;
 
-exports[`stringify links link 1`] = `
+exports[`stringify > links > link 1`] = `
 "http://example.com
 "
 `;
 
-exports[`stringify links link with no text 1`] = `
+exports[`stringify > links > link with no text 1`] = `
 "[[link]]
 "
 `;
 
-exports[`stringify links multiline description 1`] = `
+exports[`stringify > links > multiline description 1`] = `
 "[[www.something.com][line1
 line2]]
 "
 `;
 
-exports[`stringify links regular link 1`] = `
+exports[`stringify > links > regular link 1`] = `
 "[[link][text]]
 "
 `;
 
-exports[`stringify list checkbox list 1`] = `
+exports[`stringify > list > checkbox list 1`] = `
 "- [ ] hello
 "
 `;
 
-exports[`stringify list description list 1`] = `
+exports[`stringify > list > description list 1`] = `
 "- term1 :: description 1
 - term 2 :: description 2
 "
 `;
 
-exports[`stringify list maintains indentation in list 1`] = `
+exports[`stringify > list > maintains indentation in list 1`] = `
 "- list item 1
   more nesting
   
@@ -375,7 +370,7 @@ exports[`stringify list maintains indentation in list 1`] = `
 "
 `;
 
-exports[`stringify list nested lists 1`] = `
+exports[`stringify > list > nested lists 1`] = `
 "- there
   
   - nested
@@ -383,24 +378,24 @@ exports[`stringify list nested lists 1`] = `
 "
 `;
 
-exports[`stringify list ordered list 1`] = `
+exports[`stringify > list > ordered list 1`] = `
 "1. one
 2. two
 "
 `;
 
-exports[`stringify list single-item list 1`] = `
+exports[`stringify > list > single-item list 1`] = `
 "- hi
 "
 `;
 
-exports[`stringify mixed good and fake planning 1`] = `
+exports[`stringify > mixed good and fake planning 1`] = `
 "* headline
 SCHEDULED: [2021-05-31 Mon]
 "
 `;
 
-exports[`stringify multi-line comment 1`] = `
+exports[`stringify > multi-line comment 1`] = `
 "# first line
 # second
 # third
@@ -408,31 +403,31 @@ exports[`stringify multi-line comment 1`] = `
 "
 `;
 
-exports[`stringify multi-line fixed-width 1`] = `
+exports[`stringify > multi-line fixed-width 1`] = `
 ": hello
 :   world
 "
 `;
 
-exports[`stringify multi-line latex environment 1`] = `
-"\\\\begin{hello}
+exports[`stringify > multi-line latex environment 1`] = `
+"\\begin{hello}
 some text
-\\\\end{hello}
+\\end{hello}
 "
 `;
 
-exports[`stringify paragraph 1`] = `
+exports[`stringify > paragraph 1`] = `
 "hello, world!
 "
 `;
 
-exports[`stringify planning 1`] = `
+exports[`stringify > planning 1`] = `
 "* headline
 CLOSED: [2019-03-13 Wed 23:48] SCHEDULED: [2019-03-13 Wed] DEADLINE: [2019-03-14 Thu]
 "
 `;
 
-exports[`stringify property drawer 1`] = `
+exports[`stringify > property drawer 1`] = `
 "* headline
 :PROPERTIES:
 :CREATED: [2019-03-13 Wed 23:57]
@@ -440,7 +435,7 @@ exports[`stringify property drawer 1`] = `
 "
 `;
 
-exports[`stringify property drawer forced to lower-case 1`] = `
+exports[`stringify > property drawer forced to lower-case 1`] = `
 "* headline
 :properties:
 :created: [2019-03-13 Wed 23:57]
@@ -448,56 +443,56 @@ exports[`stringify property drawer forced to lower-case 1`] = `
 "
 `;
 
-exports[`stringify single-line comment 1`] = `
+exports[`stringify > single-line comment 1`] = `
 "# this is comment
 "
 `;
 
-exports[`stringify subscript nested braces 1`] = `
+exports[`stringify > subscript > nested braces 1`] = `
 "H_{{x}}
 "
 `;
 
-exports[`stringify subscript simple 1`] = `
+exports[`stringify > subscript > simple 1`] = `
 "hello_{world}
 "
 `;
 
-exports[`stringify subscript with braces 1`] = `
+exports[`stringify > subscript > with braces 1`] = `
 "H_{+}
 "
 `;
 
-exports[`stringify superscript nested braces 1`] = `
+exports[`stringify > superscript > nested braces 1`] = `
 "H^{{x}}
 "
 `;
 
-exports[`stringify superscript simple 1`] = `
+exports[`stringify > superscript > simple 1`] = `
 "hello^{world}
 "
 `;
 
-exports[`stringify superscript with braces 1`] = `
+exports[`stringify > superscript > with braces 1`] = `
 "H^{+}
 "
 `;
 
-exports[`stringify table 1`] = `
+exports[`stringify > table 1`] = `
 "| head1 | head2 |
 |-|
 | value1 | value2 |
 "
 `;
 
-exports[`stringify table with format 1`] = `
+exports[`stringify > table with format 1`] = `
 "| 1 |
 | 2 |
 #+TBLFM: $2=$1^2::$3=$1^3
 "
 `;
 
-exports[`stringify table.el table 1`] = `
+exports[`stringify > table.el table 1`] = `
 "+--------+--------+
 | head1  | head2  |
 +--------+--------+
@@ -506,37 +501,37 @@ exports[`stringify table.el table 1`] = `
 "
 `;
 
-exports[`stringify timestamps active 1`] = `
+exports[`stringify > timestamps > active 1`] = `
 "<2021-01-07 Thu>
 "
 `;
 
-exports[`stringify timestamps active-range 1`] = `
+exports[`stringify > timestamps > active-range 1`] = `
 "<2021-01-07 Thu>--<2021-01-09 Sat>
 "
 `;
 
-exports[`stringify timestamps inactive 1`] = `
+exports[`stringify > timestamps > inactive 1`] = `
 "[2021-01-07 Thu]
 "
 `;
 
-exports[`stringify timestamps inactive-range 1`] = `
+exports[`stringify > timestamps > inactive-range 1`] = `
 "[2021-01-07 Thu]--[2021-01-08 Fri]
 "
 `;
 
-exports[`stringify timestamps time range 1`] = `
+exports[`stringify > timestamps > time range 1`] = `
 "[2021-01-07 Thu 19:36-20:38]
 "
 `;
 
-exports[`stringify timestamps with time 1`] = `
+exports[`stringify > timestamps > with time 1`] = `
 "[2021-01-07 Thu 19:36]
 "
 `;
 
-exports[`stringify two paragraphs 1`] = `
+exports[`stringify > two paragraphs 1`] = `
 "first paragraph
 
 second paragraph
