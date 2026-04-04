@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`uniorg-attach leaves non-attachment links as is 1`] = `
+exports[`uniorg-attach > leaves non-attachment links as is 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 51
@@ -30,7 +30,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach options idDir idDir as absolute directory 1`] = `
+exports[`uniorg-attach > options > idDir > idDir as absolute directory 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 84
@@ -55,7 +55,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach options idDir idDir overrides default id directory 1`] = `
+exports[`uniorg-attach > options > idDir > idDir overrides default id directory 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 84
@@ -80,7 +80,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach options idToPath idTsFolderFormat is better suited for timestamp ids 1`] = `
+exports[`uniorg-attach > options > idToPath > idTsFolderFormat is better suited for timestamp ids 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 68
@@ -105,7 +105,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach options useInheritance DIR takes precedence even it it’s defined higher up 1`] = `
+exports[`uniorg-attach > options > useInheritance > DIR takes precedence even it it’s defined higher up 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 127
@@ -153,7 +153,7 @@ children:
             children: []
 `;
 
-exports[`uniorg-attach options useInheritance useInheritance allows looking up DIR 1`] = `
+exports[`uniorg-attach > options > useInheritance > useInheritance allows looking up DIR 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 64
@@ -194,7 +194,7 @@ children:
             children: []
 `;
 
-exports[`uniorg-attach options useInheritance useInheritance allows looking up ID 1`] = `
+exports[`uniorg-attach > options > useInheritance > useInheritance allows looking up ID 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 94
@@ -235,7 +235,7 @@ children:
             children: []
 `;
 
-exports[`uniorg-attach with DIR set DIR has higher precedence than ID 1`] = `
+exports[`uniorg-attach > with DIR set > DIR has higher precedence than ID 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 73
@@ -263,7 +263,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach with DIR set on top level (absolute link) 1`] = `
+exports[`uniorg-attach > with DIR set > on top level (absolute link) 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 84
@@ -288,7 +288,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach with DIR set on top level (absolute path) 1`] = `
+exports[`uniorg-attach > with DIR set > on top level (absolute path) 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 72
@@ -313,7 +313,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach with DIR set on top level 1`] = `
+exports[`uniorg-attach > with DIR set > on top level 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 60
@@ -338,7 +338,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach with ID set on top level 1`] = `
+exports[`uniorg-attach > with ID set > on top level 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 84
@@ -363,7 +363,7 @@ children:
         children: []
 `;
 
-exports[`uniorg-attach without ID or DIR set inside headline 1`] = `
+exports[`uniorg-attach > without ID or DIR set > inside headline 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 35
@@ -397,7 +397,7 @@ children:
             children: []
 `;
 
-exports[`uniorg-attach without ID or DIR set inside headline even if document has an id 1`] = `
+exports[`uniorg-attach > without ID or DIR set > inside headline even if document has an id 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 65
@@ -438,7 +438,7 @@ children:
             children: []
 `;
 
-exports[`uniorg-attach without ID or DIR set inside headline even if parent headline has an id 1`] = `
+exports[`uniorg-attach > without ID or DIR set > inside headline even if parent headline has an id 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 84
@@ -495,7 +495,7 @@ children:
                 children: []
 `;
 
-exports[`uniorg-attach without ID or DIR set top-level 1`] = `
+exports[`uniorg-attach > without ID or DIR set > top-level 1`] = `
 type: "org-data"
 contentsBegin: 0
 contentsEnd: 24

@@ -31,15 +31,13 @@
     "clean": "rm -rf ./lib",
     "compile": "tsc -p tsconfig.build.json",
     "prepublishOnly": "npm run build",
-    "test": "jest"
+    "test": "vitest"
   },
   "bugs": {
     "url": "https://github.com/rasendubi/uniorg/issues"
   },
   "devDependencies": {
-    "@types/jest": "29.5.12",
     "@types/node": "^20.12.12",
-    "jest": "29.7.0",
     "typescript": "5.4.5",
     "uniorg-parse": "workspace:^3.2.0",
     "yaml": "^2.4.2"
