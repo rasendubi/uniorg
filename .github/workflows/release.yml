@@ -12,23 +12,22 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    # fetch all tags, so changeset tag does not create extra tags
-    - run: git fetch --tags origin
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '22'
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 9
-    - run: pnpm install
-    - uses: changesets/action@v1
-      with:
-        title: 'chore: release'
-        commit: 'chore: bump version'
-        version: pnpm run version
-        publish: pnpm run publish
-        createGithubReleases: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/checkout@v6
+      # fetch all tags, so changeset tag does not create extra tags
+      - run: git fetch --tags origin
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: pnpm/action-setup@v5
+      - run: pnpm install --frozen-lockfile
+      - uses: changesets/action@v1
+        with:
+          title: 'chore: release'
+          commit: 'chore: bump version'
+          version: pnpm run version
+          publish: pnpm run publish
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
