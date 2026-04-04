@@ -1,4 +1,4 @@
-import { ParseOptions } from './parse-options.js';
+import type { ParseOptions } from './parse-options.js';
 
 export class OrgRegexUtils {
   private options: ParseOptions;

@@ -18,7 +18,7 @@
     "eslint": "^9.23.0",
     "prettier": "^3.5.3",
     "turbo": "^2.4.4",
-    "typescript": "5.8.2",
+    "typescript": "6.0.2",
     "vitest": "^4.1.2"
   },
   "packageManager": "pnpm@10.28.0"

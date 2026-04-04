@@ -43,7 +43,7 @@
   "devDependencies": {
     "@types/node": "^20.12.12",
     "astro": "^5.0.0",
-    "typescript": "^5.4.5",
+    "typescript": "^6.0.2",
     "uniorg-parse": "workspace:*",
     "uniorg-rehype": "workspace:*"
   },

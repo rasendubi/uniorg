@@ -3,7 +3,7 @@ import type { Plugin } from 'unified';
 import type { Node } from 'unist';
 import GithubSlugger from 'github-slugger';
 
-import { Headline, Section } from 'uniorg';
+import type { Headline, Section } from 'uniorg';
 import { toString } from 'orgast-util-to-string';
 
 export interface Options {}

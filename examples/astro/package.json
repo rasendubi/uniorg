@@ -16,8 +16,8 @@
     "@astrojs/sitemap": "^3.3.0",
     "astro": "^5.5.5",
     "astro-org": "workspace:^",
+    "typescript": "^6.0.2",
     "uniorg-parse": "workspace:^",
-    "uniorg-rehype": "workspace:^",
-    "typescript": "^5.4.5"
+    "uniorg-rehype": "workspace:^"
   }
 }

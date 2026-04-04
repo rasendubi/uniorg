@@ -2,7 +2,7 @@ import { stringify } from './stringify.js';
 import type { StringifyOptions } from './stringify.js';
 import type { OrgData } from 'uniorg';
 import type { Plugin } from 'unified';
-import { Node } from 'unist';
+import type { Node } from 'unist';
 
 export const uniorgStringify: Plugin<[Partial<StringifyOptions>?], OrgData, string> = function (
   options: Partial<StringifyOptions> = {}

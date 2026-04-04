@@ -1,11 +1,12 @@
 {
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
+    "rootDir": ".",
     "declaration": true,
     "emitDeclarationOnly": true,
     "skipLibCheck": true,
     "outDir": "./types"
   },
-  "include": ["./"],
-  "exclude": ["./node_modules", "./types"]
+  "include": ["index.js"],
+  "exclude": ["./node_modules"]
 }

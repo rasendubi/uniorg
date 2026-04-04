@@ -1,4 +1,4 @@
-import { OrgNode, OrgData, Section, NodeProperty } from 'uniorg';
+import type { OrgNode, OrgData, Section, NodeProperty } from 'uniorg';
 import { visitParents } from 'unist-util-visit-parents';
 
 export function visitIds(
