@@ -212,9 +212,12 @@ printf("%d\\n", *a);
   );
 
   describe('verse block', () => {
-    hastTest('simple', `#+begin_verse
+    hastTest(
+      'simple',
+      `#+begin_verse
 some text
-#+end_verse`)
+#+end_verse`
+    );
 
     hastTest(
       'emacs example',

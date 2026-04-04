@@ -823,15 +823,7 @@ const orgEntities: [string, string, boolean, string, string, string, string][] =
     ['clubs', '\\clubsuit', true, '&clubs;', '[clubs]', '[clubs]', '♣'],
     ['clubsuit', '\\clubsuit', true, '&clubs;', '[clubs]', '[clubs]', '♣'],
     ['spades', '\\spadesuit', true, '&spades;', '[spades]', '[spades]', '♠'],
-    [
-      'spadesuit',
-      '\\spadesuit',
-      true,
-      '&spades;',
-      '[spades]',
-      '[spades]',
-      '♠',
-    ],
+    ['spadesuit', '\\spadesuit', true, '&spades;', '[spades]', '[spades]', '♠'],
     ['hearts', '\\heartsuit', true, '&hearts;', '[hearts]', '[hearts]', '♥'],
     [
       'heartsuit',

@@ -1,7 +1,12 @@
 import fs from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
-import type { AstroIntegration, ContainerRenderer, ContentEntryType, HookParameters } from 'astro';
+import type {
+  AstroIntegration,
+  ContainerRenderer,
+  ContentEntryType,
+  HookParameters,
+} from 'astro';
 
 import { unified, type PluggableList } from 'unified';
 import { VFile } from 'vfile';
@@ -68,7 +73,10 @@ export default function org(options: OrgPluginOptions = {}): AstroIntegration {
           async getEntryInfo({ fileUrl, contents }) {
             const processor = unified().use(uniorg).use(uniorgPlugins);
 
-            const f = new VFile({ path: fileURLToPath(fileUrl), value: contents });
+            const f = new VFile({
+              path: fileURLToPath(fileUrl),
+              value: contents,
+            });
             await processor.run(processor.parse(f), f);
 
             const frontmatter = f.data.astro!.frontmatter;

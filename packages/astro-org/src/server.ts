@@ -3,13 +3,14 @@ import { AstroError } from 'astro/errors';
 import { AstroJSX, jsx } from 'astro/jsx-runtime';
 import { renderJSX } from 'astro/runtime/server/index.js';
 
-const slotName = (str: string) => str.trim().replace(/[-_]([a-z])/g, (_, w) => w.toUpperCase());
+const slotName = (str: string) =>
+  str.trim().replace(/[-_]([a-z])/g, (_, w) => w.toUpperCase());
 
 // This check function is used to determine if the component is rendered by this renderer
 export async function check(
   Component: any,
   props: any,
-  { default: children = null, ...slotted } = {},
+  { default: children = null, ...slotted } = {}
 ) {
   if (typeof Component !== 'function') return false;
   const slots: Record<string, any> = {};
@@ -30,7 +31,7 @@ export async function renderToStaticMarkup(
   this: any,
   Component: any,
   props = {},
-  { default: children = null, ...slotted } = {},
+  { default: children = null, ...slotted } = {}
 ) {
   const slots: Record<string, any> = {};
   for (const [key, value] of Object.entries(slotted)) {
@@ -40,7 +41,10 @@ export async function renderToStaticMarkup(
 
   const { result } = this;
   try {
-    const html = await renderJSX(result, jsx(Component, { ...props, ...slots, children }));
+    const html = await renderJSX(
+      result,
+      jsx(Component, { ...props, ...slots, children })
+    );
     return { html };
   } catch (e) {
     throwEnhancedErrorIfOrgComponent(e as Error, Component);
@@ -68,4 +72,4 @@ const renderer: NamedSSRLoadedRendererValue = {
   renderToStaticMarkup,
 };
 
-export default renderer; 
+export default renderer;
