@@ -492,7 +492,8 @@ class Parser {
     // handle text after the last object
     const text = this.r.rest();
     this.r.advance(text.length);
-    if (text.trim().length) {
+    // skip whitespace-only text
+    if (!text.match(/^[ \t]*$/)) {
       objects.push(
         u('text', this.addPosition({ value: text }, prevEnd, this.r.offset()))
       );
@@ -1110,7 +1111,10 @@ class Parser {
       const isParsed = parsedKeywords.has(keyword);
 
       this.r.advance(keywordM);
-      this.r.narrow(this.r.offset(), this.r.offset() + this.r.line().length);
+      this.r.narrow(
+        this.r.offset(),
+        this.r.offset() + this.r.line().length - 1 /* don't include newline */
+      );
       const mainValue = isParsed
         ? this.parseObjects(restrictionFor('keyword'))
         : this.r.rest().trim();
