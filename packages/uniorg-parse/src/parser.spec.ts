@@ -172,6 +172,13 @@ a2
 b`
   );
 
+  itParses(
+    'paragraph end after link (#148)',
+    `[[link]]
+
+next paragraph`
+  );
+
   itParses('keyword', `#+title: hi`);
 
   itParses('fake keyword', `#+ title: hi`);

@@ -53,6 +53,8 @@ children:
         rawLink: "file:/home/user/data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
         path: "/home/user/data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
         children: []
+      - type: "text"
+        value: "\\n"
 `;
 
 exports[`uniorg-attach > options > idDir > idDir overrides default id directory 1`] = `
@@ -78,6 +80,8 @@ children:
         rawLink: "file:attachments/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
         path: "attachments/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
         children: []
+      - type: "text"
+        value: "\\n"
 `;
 
 exports[`uniorg-attach > options > idToPath > idTsFolderFormat is better suited for timestamp ids 1`] = `
@@ -103,6 +107,8 @@ children:
         rawLink: "file:data/202109/22T144052.487159/file.txt"
         path: "data/202109/22T144052.487159/file.txt"
         children: []
+      - type: "text"
+        value: "\\n"
 `;
 
 exports[`uniorg-attach > options > useInheritance > DIR takes precedence even it it’s defined higher up 1`] = `
@@ -151,6 +157,8 @@ children:
             rawLink: "file:attach/text.txt"
             path: "attach/text.txt"
             children: []
+          - type: "text"
+            value: "\\n"
 `;
 
 exports[`uniorg-attach > options > useInheritance > useInheritance allows looking up DIR 1`] = `
@@ -192,6 +200,8 @@ children:
             rawLink: "file:attach/text.txt"
             path: "attach/text.txt"
             children: []
+          - type: "text"
+            value: "\\n"
 `;
 
 exports[`uniorg-attach > options > useInheritance > useInheritance allows looking up ID 1`] = `
@@ -233,6 +243,8 @@ children:
             rawLink: "file:data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/text.txt"
             path: "data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/text.txt"
             children: []
+          - type: "text"
+            value: "\\n"
 `;
 
 exports[`uniorg-attach > with DIR set > DIR has higher precedence than ID 1`] = `
@@ -361,6 +373,8 @@ children:
         rawLink: "file:data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
         path: "data/ea/d7b7db-8aac-4b1f-893f-9e7f5ca6ea2c/hello.txt"
         children: []
+      - type: "text"
+        value: "\\n"
 `;
 
 exports[`uniorg-attach > without ID or DIR set > inside headline 1`] = `

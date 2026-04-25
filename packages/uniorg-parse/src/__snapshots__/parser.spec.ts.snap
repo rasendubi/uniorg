@@ -59,7 +59,7 @@ children:
       NAME: "name"
       CAPTION:
         - - type: "text"
-            value: "hi\\n"
+            value: "hi"
     contentsBegin: 27
     contentsEnd: 36
     children:
@@ -77,9 +77,9 @@ children:
       NAME: "name2"
       CAPTION:
         - - type: "text"
-            value: "caption1\\n"
+            value: "caption1"
         - - type: "text"
-            value: "caption2\\n"
+            value: "caption2"
     contentsBegin: 69
     contentsEnd: 78
     children:
@@ -1064,6 +1064,8 @@ children:
             children:
               - type: "text"
                 value: "there"
+          - type: "text"
+            value: "\\n"
 `;
 
 exports[`org/parser > diary sexp 1`] = `
@@ -3219,6 +3221,8 @@ children:
                 children:
                   - type: "text"
                     value: "ANOTHER ALTERNATIVE"
+              - type: "text"
+                value: "\\n"
       - type: "list-item"
         indent: 0
         bullet: "- "
@@ -3254,6 +3258,8 @@ children:
                     children:
                       - type: "text"
                         value: "The ultimate Git solution for privacy-oriented individuals!"
+              - type: "text"
+                value: "\\n"
 `;
 
 exports[`org/parser > list > list after paragraph 1`] = `
@@ -3690,6 +3696,8 @@ children:
             children:
               - type: "text"
                 value: "there"
+          - type: "text"
+            value: "\\n"
 `;
 
 exports[`org/parser > lowercase property drawer 1`] = `
@@ -4042,6 +4050,33 @@ children:
         children:
           - type: "text"
             value: "2"
+`;
+
+exports[`org/parser > paragraph end after link (#148) 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 9
+    children:
+      - type: "link"
+        format: "bracket"
+        linkType: "fuzzy"
+        rawLink: "link"
+        path: "link"
+        children: []
+      - type: "text"
+        value: "\\n"
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 10
+    contentsEnd: 24
+    children:
+      - type: "text"
+        value: "next paragraph"
 `;
 
 exports[`org/parser > paragraph split by empty line 1`] = `
