@@ -1,5 +1,13 @@
 # uniorg-parse
 
+## 3.2.1
+
+### Patch Changes
+
+- [#149](https://github.com/rasendubi/uniorg/pull/149) [`12c989f`](https://github.com/rasendubi/uniorg/commit/12c989f95acadc7980e2b7f1dac675d6fbc074f9) Thanks [@rasendubi](https://github.com/rasendubi)! - Fix parser erroneously adding newlines to affiliated keywords
+
+- [#149](https://github.com/rasendubi/uniorg/pull/149) [`12c989f`](https://github.com/rasendubi/uniorg/commit/12c989f95acadc7980e2b7f1dac675d6fbc074f9) Thanks [@rasendubi](https://github.com/rasendubi)! - Fix parser skipping final newlines in paragraphs after other objects.
+
 ## 3.2.0
 
 ### Minor Changes
