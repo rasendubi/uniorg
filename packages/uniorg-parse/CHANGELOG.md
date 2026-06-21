@@ -1,5 +1,13 @@
 # uniorg-parse
 
+## 3.2.2
+
+### Patch Changes
+
+- [#153](https://github.com/rasendubi/uniorg/pull/153) [`8c7fe7b`](https://github.com/rasendubi/uniorg/commit/8c7fe7bc77a6372748c249cb070cbbe225a3fbe3) Thanks [@toyboot4e](https://github.com/toyboot4e)! - Fix link type detection in `[[ ]]` links when protocol name occurs in the middle of the URL.
+
+  Previously, `[[my-link:https://blah]]` was incorrectly detected as `https` link type. Now it's correctly recognized as `fuzzy` link type.
+
 ## 3.2.1
 
 ### Patch Changes
