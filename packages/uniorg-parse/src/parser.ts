@@ -2351,7 +2351,7 @@ class Parser {
       return { linkType: 'file', path: link };
     }
     // Explicit type (http, irc, bbdb...).
-    const m = link.match(new RegExp(this.re.linkTypesRe()));
+    const m = link.match(new RegExp(`^${this.re.linkTypesRe()}`));
     if (m) {
       return { linkType: m[1], path: link.slice(m[0].length) };
     }

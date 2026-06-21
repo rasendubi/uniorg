@@ -480,6 +480,10 @@ I have no :END:`
 
     itParses('https link', `[[https://example.com/hello]]`);
 
+    itParses('custom type wrapping a url', `[[card:https://example.com]]`);
+
+    itParses('leading whitespace is not a link type', `[[ https://example.com]]`);
+
     itParses(
       'multiline description',
       `[[www.something.com][line1

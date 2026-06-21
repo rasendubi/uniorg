@@ -2549,6 +2549,24 @@ children:
         children: []
 `;
 
+exports[`org/parser > links > custom type wrapping a url 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 28
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 28
+    children:
+      - type: "link"
+        format: "bracket"
+        linkType: "fuzzy"
+        rawLink: "card:https://example.com"
+        path: "card:https://example.com"
+        children: []
+`;
+
 exports[`org/parser > links > file link with percents 1`] = `
 type: "org-data"
 contentsBegin: 0
@@ -2600,6 +2618,24 @@ children:
         linkType: "https"
         rawLink: "https://example.com/hello"
         path: "//example.com/hello"
+        children: []
+`;
+
+exports[`org/parser > links > leading whitespace is not a link type 1`] = `
+type: "org-data"
+contentsBegin: 0
+contentsEnd: 24
+children:
+  - type: "paragraph"
+    affiliated: {}
+    contentsBegin: 0
+    contentsEnd: 24
+    children:
+      - type: "link"
+        format: "bracket"
+        linkType: "fuzzy"
+        rawLink: " https://example.com"
+        path: " https://example.com"
         children: []
 `;
 
